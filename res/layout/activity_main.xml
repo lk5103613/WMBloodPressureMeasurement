@@ -5,21 +5,31 @@
     android:orientation="vertical" >
 
    <android.support.v7.widget.Toolbar
-	    android:id="@+id/index_toolbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="65dp"
-	    android:background="@color/colorPrimary" > 
+	   android:id="@+id/index_toolbar"
+	   android:layout_width="match_parent"
+	   android:layout_height="65dp"
+	   android:background="@color/colorPrimary" > 
 	    
-   </android.support.v7.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
    
-   <com.astuetz.PagerSlidingTabStrip
-	    android:id="@+id/main_tabs"
-	    android:layout_width="match_parent"
-	    android:layout_height="48dip" />
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        
+        <com.wm.wmbloodpressuremeasurement.MyViewPager
+		   android:id="@+id/main_pager"
+		   android:layout_width="match_parent"
+		   android:layout_height="0dp"
+		   android:layout_weight="8" />
+	
+		<com.astuetz.PagerSlidingTabStrip
+		   android:id="@+id/main_tabs"
+		   android:layout_width="match_parent"
+		   android:layout_height="0dp"
+		   android:layout_weight="1" />
+        
+    </LinearLayout>
    
-	<android.support.v4.view.ViewPager 
-	    android:id="@+id/main_pager"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" />
+	
 	
 </LinearLayout> 

@@ -9,7 +9,7 @@ import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.IndexFragment;
 import com.wm.fragments.SettingFragment;
 
-public class IndexPagerAdapter extends FragmentStatePagerAdapter  {
+public class IndexPagerAdapter extends FragmentStatePagerAdapter implements IconTabProvider  {
 
 	public IndexPagerAdapter(FragmentManager fm) {
 		super(fm);
@@ -17,7 +17,7 @@ public class IndexPagerAdapter extends FragmentStatePagerAdapter  {
 	
 	private Fragment[] mFragments = new Fragment[]{new IndexFragment(), new DeviceFragment(), new SettingFragment()};
 	private String[] mTitles = new String[]{"首页", "设备", "设置"};
-	private int[] mIcons = new int[]{R.drawable.ic_action_favorite, R.drawable.ic_action_phone, R.drawable.ic_action_settings};
+	private int[] mIcons = new int[]{R.drawable.home_tab_selector, R.drawable.device_tab_selector, R.drawable.setting_tab_selector};
 
 	@Override
 	public Fragment getItem(int index) {
@@ -34,6 +34,9 @@ public class IndexPagerAdapter extends FragmentStatePagerAdapter  {
 		return 3;
 	}
 
-	
+	@Override
+	public int getPageIconResId(int position) {
+		return mIcons[position];
+	}
 
 }

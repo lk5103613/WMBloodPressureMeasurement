@@ -2,13 +2,13 @@ package com.wm.wmbloodpressuremeasurement;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
 import com.astuetz.PagerSlidingTabStrip;
 
 public class MainActivity extends ActionBarActivity {
@@ -16,7 +16,7 @@ public class MainActivity extends ActionBarActivity {
 	@InjectView(R.id.index_toolbar)
 	Toolbar mToolbar;
 	@InjectView(R.id.main_pager)
-	ViewPager mPager;
+	MyViewPager mPager;
 	@InjectView(R.id.main_tabs)
 	PagerSlidingTabStrip mTabs;
 	
