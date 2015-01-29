@@ -15,10 +15,16 @@ import com.wm.wmbloodpressuremeasurement.R;
 
 public class SettingListAdapter extends RecyclerView.Adapter<SettingListAdapter.ViewHolder> {
 	
+	private static SettingItemClickCallback callback;
 	private List<SettingData> mItems;
 	
-	public SettingListAdapter(List<SettingData> items) {
+	public SettingListAdapter(SettingItemClickCallback callback, List<SettingData> items) {
+		SettingListAdapter.callback = callback;
 		this.mItems = items;
+	}
+	
+	public interface SettingItemClickCallback {
+		void clickCallback(int position);
 	}
 	
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -40,10 +46,7 @@ public class SettingListAdapter extends RecyclerView.Adapter<SettingListAdapter.
 
 		@Override
 		public void onClick(View v) {
-			SettingData data = items.get(getPosition());
-			if(data.hasMoreContent) {
-				data.context.startActivity(data.targetIntent);
-			}
+			callback.clickCallback(getPosition());
 		}
 		
 	}

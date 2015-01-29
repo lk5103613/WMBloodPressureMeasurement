@@ -1,6 +1,8 @@
 package com.wm.wmbloodpressuremeasurement;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +16,10 @@ import com.wm.adapter.IndexPagerAdapter;
 
 public class MainActivity extends ActionBarActivity {
 	
-	public static String PREVIOUS_PAGE = "previous_page";
+	public static String PREVIOUS_TAB_PAGE = "previous_page";
+	public static int PAGE_SETTING = 3;
+	public static int PAGE_DEVICE = 2;
+	public static int PAGE_HOME = 1;
 	
 	@InjectView(R.id.index_toolbar)
 	Toolbar mToolbar;
@@ -37,6 +42,15 @@ public class MainActivity extends ActionBarActivity {
 		mTabs.setViewPager(mPager);
 		mTabs.setIndicatorColorResource(R.color.colorPrimary);
 		mTabs.setTextColorResource(R.color.colorPrimary);
+		
+		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+		int currentPage = sharedPref.getInt(PREVIOUS_TAB_PAGE, -1);
+		if(currentPage != -1) {
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putInt(PREVIOUS_TAB_PAGE, -1);
+			editor.commit();
+			mPager.setCurrentItem(currentPage);
+		}
 	}
 	
 	@Override
