@@ -30,6 +30,7 @@
 	    android:padding="0dp"
 	    android:textColor="@color/white"
 	    android:background="@drawable/btn_bg"
+	    android:src="@drawable/btn_delete_selector"
 	    />
 	<ImageButton 
 	    android:id="@+id/btn_update"
@@ -39,6 +40,6 @@
 	    android:visibility="gone"
 	    android:textColor="@color/white"
 	    android:background="@drawable/btn_bg"
-	    android:src="@drawable/ic_action_edit"
+	    android:src="@drawable/btn_update_selector"
 	    />
 </LinearLayout>
