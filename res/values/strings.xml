@@ -11,5 +11,7 @@
     
     <string name="btn_delete">删除</string>
     <string name="btn_update">修改</string>
+    
+    <string name="setting_more">更多内容</string>
 
 </resources>
