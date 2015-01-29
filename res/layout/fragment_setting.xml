@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-		
+	<android.support.v7.widget.RecyclerView
+        android:id="@+id/setting_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:scrollbars="vertical" />	
     
 </LinearLayout>
