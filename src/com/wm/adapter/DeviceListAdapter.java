@@ -1,12 +1,10 @@
 package com.wm.adapter;
 
 import android.content.Context;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,11 +16,13 @@ import com.wm.wmbloodpressuremeasurement.R;
 public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder> {
 	 // 数据集
 	 private DeviceDataSet deviceDataSet;
+	 DeviceListCallBack callBack;
 	 Context context;
 	
-	 public DeviceListAdapter(DeviceDataSet dataset) {
+	 public DeviceListAdapter(DeviceDataSet dataset, DeviceListCallBack callBack) {
 		 super();
 		 this.deviceDataSet = dataset;
+		 this.callBack = callBack;
 	 }
 	
 	 @Override
@@ -30,7 +30,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		 // 创建一个View，简单起见直接使用系统提供的布局，就是一个TextView
 		 View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.device_item, viewGroup, false);
 		 // 创建一个ViewHolder
-		 ViewHolder holder = new ViewHolder(viewGroup.getContext(),view);
+		 ViewHolder holder = new ViewHolder(viewGroup.getContext(),view,callBack, i);
 		 
 		 return holder;
 	 }
@@ -73,10 +73,18 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		 public TextView deviceName;
 		 public ImageButton btnDelete;
 		 public ImageButton btnUpdate;
+		 
+		 Context context;
+		 DeviceListCallBack callBack;
+		 int position;
 		
-		 public ViewHolder(Context context,final View itemView) {
+		 public ViewHolder(Context context,final View itemView, DeviceListCallBack callBack, int position) {
 			 super(itemView);
 			 
+			 this.context = context;
+			 this.callBack = callBack;
+			 this.position = position;
+					 
 			 deviceImg = (ImageView) itemView.findViewById(R.id.device_img);
 			 deviceName = (TextView) itemView.findViewById(R.id.device_namge);
 			 btnUpdate = (ImageButton) itemView.findViewById(R.id.btn_update);
@@ -97,10 +105,10 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_delete:
-				
+				callBack.delete(position);
 				break;
 			case R.id.btn_update:
-				update();
+				callBack.update(position);
 				break;
 			default:
 				break;
@@ -108,11 +116,13 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 			
 		}
 		
-		private void update(){
-			
-		}
+		
 	 }
 	 
-	
+	 public interface DeviceListCallBack{
+		 public void update(int i);
+		 
+		 public void delete(int i);
+	 }
 	 
 }

@@ -11,5 +11,8 @@
     
     <string name="btn_delete">删除</string>
     <string name="btn_update">修改</string>
-
+	<string name="device_type">设备类型</string>
+	<string name="turgoscope">血压计</string>
+	<string name="btn_match">配对</string>
+	<string name="add_new_device">增加新设备</string>
 </resources>

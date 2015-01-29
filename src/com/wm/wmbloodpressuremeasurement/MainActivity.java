@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 		ButterKnife.inject(this);
 		mToolbar.setTitle("ÖÇ»ÛÒ½ÁÆÑªÑ¹ÒÇ");
+		
 		setSupportActionBar(mToolbar);
 		mPager.setAdapter(new IndexPagerAdapter(getSupportFragmentManager()));
 		mTabs.setShouldExpand(true);
