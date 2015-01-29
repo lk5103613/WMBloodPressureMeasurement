@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		 View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.device_item, viewGroup, false);
 		 // 创建一个ViewHolder
 		 ViewHolder holder = new ViewHolder(viewGroup.getContext(),view);
+		 
 		 return holder;
 	 }
 	
@@ -65,20 +67,20 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		 return deviceDataSet.deviceInfos.size();
 	 }
 	
-	 public static class ViewHolder extends RecyclerView.ViewHolder{
+	 public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 	
 		 public ImageView deviceImg;
 		 public TextView deviceName;
-		 public Button btnDelete;
-		 public Button btnUpdate;
+		 public ImageButton btnDelete;
+		 public ImageButton btnUpdate;
 		
 		 public ViewHolder(Context context,final View itemView) {
 			 super(itemView);
 			 
 			 deviceImg = (ImageView) itemView.findViewById(R.id.device_img);
 			 deviceName = (TextView) itemView.findViewById(R.id.device_namge);
-			 btnUpdate = (Button) itemView.findViewById(R.id.btn_update);
-			 btnDelete = (Button) itemView.findViewById(R.id.btn_delete);
+			 btnUpdate = (ImageButton) itemView.findViewById(R.id.btn_update);
+			 btnDelete = (ImageButton) itemView.findViewById(R.id.btn_delete);
 			 
 			 btnUpdate.setOnClickListener(this);
 			 btnDelete.setOnClickListener(this);
@@ -90,20 +92,27 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 //			 inforTxt.setTypeface(typeface);
 			
 		 }
-	 }
 
-	 private class 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btn_delete:
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.btn_delete:
+				
+				break;
+			case R.id.btn_update:
+				update();
+				break;
+			default:
+				break;
+			}
 			
-			break;
-		case R.id.btn_update:
-			break;
-		default:
-			break;
 		}
 		
-	}
+		private void update(){
+			
+		}
+	 }
+	 
+	
+	 
 }
