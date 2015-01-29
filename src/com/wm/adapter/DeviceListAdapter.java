@@ -1,7 +1,6 @@
 package com.wm.adapter;
 
 import android.content.Context;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import com.wm.entity.DeviceDataSet;
 import com.wm.entity.OptionEnum;
 import com.wm.wmbloodpressuremeasurement.R;
 
-public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder> {
+public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder>{
 	 // Êý¾Ý¼¯
 	 private DeviceDataSet deviceDataSet;
 	 Context context;
@@ -80,8 +79,6 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 			 btnUpdate = (Button) itemView.findViewById(R.id.btn_update);
 			 btnDelete = (Button) itemView.findViewById(R.id.btn_delete);
 			 
-			 btnUpdate.setOnClickListener(this);
-			 btnDelete.setOnClickListener(this);
 			 
 //			 Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
 //			 
@@ -91,19 +88,4 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 			
 		 }
 	 }
-
-	 private class 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btn_delete:
-			
-			break;
-		case R.id.btn_update:
-			break;
-		default:
-			break;
-		}
-		
-	}
 }
