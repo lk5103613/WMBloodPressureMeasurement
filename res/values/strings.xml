@@ -4,14 +4,12 @@
     <string name="app_name">WMBloodPressureMeasurement</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    
     <string name="lbl_index">This is index</string>
     <string name="lbl_device">This is device</string>
     <string name="lbl_setting">This is setting</string>
-    
     <string name="btn_delete">删除</string>
     <string name="btn_update">修改</string>
-    
     <string name="setting_more">更多内容</string>
+    <string name="title_activity_about">AboutActivity</string>
 
 </resources>

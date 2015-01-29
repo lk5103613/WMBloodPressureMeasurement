@@ -9,16 +9,19 @@ import android.view.MenuItem;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import com.astuetz.PagerSlidingTabStrip;
+import com.astuetz.PagerSlidingTitleIconTabStrip;
+import com.wm.adapter.IndexPagerAdapter;
 
 public class MainActivity extends ActionBarActivity {
+	
+	public static String PREVIOUS_PAGE = "previous_page";
 	
 	@InjectView(R.id.index_toolbar)
 	Toolbar mToolbar;
 	@InjectView(R.id.main_pager)
 	MyViewPager mPager;
 	@InjectView(R.id.main_tabs)
-	PagerSlidingTabStrip mTabs;
+	PagerSlidingTitleIconTabStrip mTabs;
 	
 	@SuppressLint("ResourceAsColor")
 	@Override
@@ -33,9 +36,7 @@ public class MainActivity extends ActionBarActivity {
 		mTabs.setViewPager(mPager);
 		mTabs.setIndicatorColorResource(R.color.colorPrimary);
 		mTabs.setTextColorResource(R.color.colorPrimary);
-		
 	}
-
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

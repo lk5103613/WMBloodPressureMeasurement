@@ -1,15 +1,16 @@
-package com.wm.wmbloodpressuremeasurement;
+package com.wm.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.astuetz.PagerSlidingTabStrip.IconTabProvider;
+import com.astuetz.PagerSlidingTitleIconTabStrip.TitleIconTabProvider;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.IndexFragment;
 import com.wm.fragments.SettingFragment;
+import com.wm.wmbloodpressuremeasurement.R;
 
-public class IndexPagerAdapter extends FragmentStatePagerAdapter implements IconTabProvider  {
+public class IndexPagerAdapter extends FragmentStatePagerAdapter implements TitleIconTabProvider  {
 
 	public IndexPagerAdapter(FragmentManager fm) {
 		super(fm);

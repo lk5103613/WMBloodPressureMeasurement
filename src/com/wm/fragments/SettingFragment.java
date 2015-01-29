@@ -16,6 +16,7 @@ import butterknife.InjectView;
 
 import com.wm.adapter.SettingListAdapter;
 import com.wm.entity.SettingData;
+import com.wm.wmbloodpressuremeasurement.AboutActivity;
 import com.wm.wmbloodpressuremeasurement.R;
 
 public class SettingFragment extends Fragment {
@@ -29,7 +30,6 @@ public class SettingFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_setting, container, false);
-		initItems();
 		ButterKnife.inject(this, view);
 		return view;
 	}
@@ -37,7 +37,7 @@ public class SettingFragment extends Fragment {
 	private void initItems() {
 		// 版本信息应从服务器获取
 		items.add(new SettingData("版本信息", "Demo版"));
-		items.add(new SettingData("关于我们", new Intent(), getActivity()));
+		items.add(new SettingData("关于我们", new Intent(getActivity(), AboutActivity.class), getActivity()));
 		items.add(new SettingData("使用帮助", new Intent(), getActivity()));
 	}
 	
@@ -47,7 +47,9 @@ public class SettingFragment extends Fragment {
 		mSettingList.setLayoutManager(new LinearLayoutManager(getActivity()));
 		SettingListAdapter adapter = new SettingListAdapter(items);
 		mSettingList.setAdapter(adapter);
+		if(items.size() == 0) {
+			initItems();
+		}
 	}
-	
 	
 }
