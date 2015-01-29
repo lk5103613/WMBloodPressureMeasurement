@@ -28,6 +28,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wm.wmbloodpressuremeasurement.MainActivity" />
         </activity>
-    </application>
 
+        <activity android:name=".AddDeviceActivity" 
+            android:parentActivityName=".MainActivity"
+            >
+        </activity>
+        <activity android:name=".BloodHistoryActivity" 
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity android:name=".BloodCheckActivity" 
+            android:parentActivityName=".BloodHistoryActivity">
+        </activity>
+    </application>
 </manifest>
