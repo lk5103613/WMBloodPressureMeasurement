@@ -8,5 +8,8 @@
     <string name="lbl_index">This is index</string>
     <string name="lbl_device">This is device</string>
     <string name="lbl_setting">This is setting</string>
+    
+    <string name="btn_delete">删除</string>
+    <string name="btn_update">修改</string>
 
 </resources>

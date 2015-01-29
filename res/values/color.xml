@@ -15,5 +15,7 @@
     <color name="red">#e51c23</color>
     <color name="green">#259b24</color>
     <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="device_item">#ffffff</color>
+    
 
 </resources>

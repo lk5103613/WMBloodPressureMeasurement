@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:background="@color/device_item"
+     >
+    
+	<ImageView 
+	    android:id="@+id/device_img"
+	    android:layout_width="48dp"
+	    android:layout_height="48dp"
+	    android:src="@drawable/ic_launcher"
+	    />
+	<TextView 
+	    android:id="@+id/device_namge"
+	    android:layout_width="0dp"
+	    android:layout_height="match_parent"
+	    android:layout_weight="6"
+	    android:gravity="center_vertical"
+	    android:text="血压计"/>
+
+
+	<Button 
+	    android:id="@+id/btn_delete"
+	     style="?android:attr/buttonStyleSmall"
+	    android:layout_width="wrap_content"
+	    android:layout_height="48dp"
+	    android:padding="0dp"
+	    android:text="@string/btn_delete"/>
+	<Button 
+	    android:id="@+id/btn_update"
+	    style="?android:attr/buttonStyleSmall"
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:text="@string/btn_update"
+	    android:visibility="gone"/>
+</LinearLayout>
