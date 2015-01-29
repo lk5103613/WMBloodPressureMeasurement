@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/blood_check_bar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/colorPrimary" >
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/s_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal" 
+        android:layout_below="@id/blood_check_bar"
+        android:layout_marginTop="30dp"
+        android:background="@color/recycle_item"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/systolic_blood_pressure" 
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/item_text_color" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="96" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/b_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal" 
+        android:layout_below="@id/s_container"
+        android:background="@color/recycle_item"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/diastolic_blood_pressure"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/item_text_color" 
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="96" />
+    </LinearLayout>
+
+    <TextView 
+        android:id="@+id/suggest_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:text="@string/result_suggest"
+        android:layout_below="@id/b_container"
+        android:textColor="@color/item_text_color"
+        android:layout_marginStart="30dp"/>
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:text="@string/blood_check_result"
+        android:layout_below="@id/suggest_title"
+        android:layout_marginStart="30dp"/>
+    <Button
+        android:id="@+id/btn_match"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="8dp"
+        android:background="@drawable/btn_match_bg"
+        android:text="@string/btn_match"
+        android:textColor="@color/white"
+        android:textSize="16sp" 
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -4,8 +4,9 @@
     style="?android:attr/spinnerItemStyle"
     android:singleLine="true"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:ellipsize="marquee"
-    android:textColor="@color/dark_gray">
+    android:textColor="@color/item_text_color"
+    android:layout_gravity="center_vertical">
     
 </TextView>

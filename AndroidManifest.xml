@@ -23,10 +23,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddDeviceActivity" 
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            >
         </activity>
         <activity android:name=".BloodHistoryActivity" 
             android:parentActivityName=".MainActivity">
+        </activity>
+        <activity android:name=".BloodCheckActivity" 
+            android:parentActivityName=".BloodHistoryActivity">
         </activity>
     </application>
 

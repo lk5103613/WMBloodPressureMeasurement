@@ -26,10 +26,13 @@ public class AddDeviceActivity extends ActionBarActivity{
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		String[] type = new String[]{
-			getResources().getString(R.string.turgoscope)
+			getResources().getString(R.string.turgoscope)+"-1",
+			getResources().getString(R.string.turgoscope)+"-2",
+			getResources().getString(R.string.turgoscope)+"-3"
 		};
 		
 		 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.type_item, type); 
+		 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		 mTypeSpinner.setAdapter(arrayAdapter);
 	}
 	

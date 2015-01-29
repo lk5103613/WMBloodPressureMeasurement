@@ -1,5 +1,6 @@
 package com.wm.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.OptionEnum;
 import com.wm.wmbloodpressuremeasurement.R;
@@ -90,17 +90,14 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 			 btnUpdate = (ImageButton) itemView.findViewById(R.id.btn_update);
 			 btnDelete = (ImageButton) itemView.findViewById(R.id.btn_delete);
 			 
+			 deviceImg.setOnClickListener(this);
+			 deviceName.setOnClickListener(this);
 			 btnUpdate.setOnClickListener(this);
 			 btnDelete.setOnClickListener(this);
-			 
-//			 Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
-//			 
-//			 titleTxt.setTypeface(typeface);
-//			 desTxt.setTypeface(typeface);
-//			 inforTxt.setTypeface(typeface);
 			
 		 }
 
+		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -110,19 +107,26 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 			case R.id.btn_update:
 				callBack.update(position);
 				break;
+			case R.id.device_namge:
+				callBack.checkHistory(position);
+				itemView.setBackgroundColor(R.color.colorPrimary);
+				break;
+			case R.id.device_img:
+				callBack.checkHistory(position);
+				break;
 			default:
 				break;
 			}
-			
 		}
-		
 		
 	 }
 	 
 	 public interface DeviceListCallBack{
 		 public void update(int i);
-		 
 		 public void delete(int i);
+		 public void checkHistory(int i);
 	 }
+	 
+	
 	 
 }
