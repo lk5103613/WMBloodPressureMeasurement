@@ -18,26 +18,33 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about" >
-             <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wm.wmbloodpressuremeasurement.MainActivity" />
         </activity>
-
-        <activity android:name=".AddDeviceActivity" 
-            android:parentActivityName=".MainActivity"
-            >
+        <activity
+            android:name=".AddDeviceActivity"
+            android:parentActivityName=".MainActivity" >
         </activity>
-        <activity android:name=".BloodHistoryActivity" 
-            android:parentActivityName=".MainActivity">
+        <activity
+            android:name=".BloodHistoryActivity"
+            android:parentActivityName=".MainActivity" >
         </activity>
-        <activity android:name=".BloodCheckActivity" 
-            android:parentActivityName=".BloodHistoryActivity">
+        <activity
+            android:name=".BloodCheckActivity"
+            android:parentActivityName=".BloodHistoryActivity" >
+        </activity>
+        <activity
+            android:name=".GuideViewActivity"
+            android:label="@string/title_activity_guide_view" >
         </activity>
     </application>
+
 </manifest>
