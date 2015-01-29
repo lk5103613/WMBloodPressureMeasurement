@@ -26,6 +26,7 @@ public class BloodHistoryActivity extends ActionBarActivity {
 		mToolbar.setTitle(getResources().getString(R.string.turgoscope));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		
 		btnBegin.setOnClickListener(new View.OnClickListener() {
 			

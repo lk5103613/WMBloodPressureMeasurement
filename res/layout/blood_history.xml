@@ -7,10 +7,11 @@
     <android.support.v7.widget.Toolbar
 	   android:id="@+id/blood_history_bar"
 	   android:layout_width="match_parent"
-	   android:layout_height="65dp"
+	   android:layout_height="wrap_content"
 	   android:background="@color/colorPrimary" > 
 	    
     </android.support.v7.widget.Toolbar>
+    
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +32,6 @@
 	    android:layout_height="wrap_content"
 	    android:text="@string/begin_check"
 	    android:layout_gravity="center_vertical"
-	    android:layout_margin="8dp"
 	    android:background="@drawable/btn_match_bg"
 	    android:textColor="@color/white"
 	    android:textSize="16sp"/>

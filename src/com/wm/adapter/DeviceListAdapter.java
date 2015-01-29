@@ -109,7 +109,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 				break;
 			case R.id.device_namge:
 				callBack.checkHistory(position);
-				itemView.setBackgroundColor(R.color.colorPrimary);
+//				itemView.setBackgroundColor(R.color.colorPrimary);
 				break;
 			case R.id.device_img:
 				callBack.checkHistory(position);

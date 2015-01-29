@@ -24,6 +24,7 @@ public class AddDeviceActivity extends ActionBarActivity{
 		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		
 		String[] type = new String[]{
 			getResources().getString(R.string.turgoscope)+"-1",

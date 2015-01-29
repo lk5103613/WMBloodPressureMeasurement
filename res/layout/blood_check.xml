@@ -7,7 +7,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/blood_check_bar"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary" >
     </android.support.v7.widget.Toolbar>
 
@@ -15,19 +15,19 @@
         android:id="@+id/s_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal" 
         android:layout_below="@id/blood_check_bar"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:background="@color/recycle_item"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:orientation="horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/systolic_blood_pressure" 
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
+            android:text="@string/systolic_blood_pressure"
             android:textColor="@color/item_text_color" />
 
         <TextView
@@ -35,65 +35,84 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="30dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="96" />
+            android:text="96"
+            android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/b_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal" 
         android:layout_below="@id/s_container"
-        android:background="@color/recycle_item"
+        android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:background="@color/recycle_item"
+        android:orientation="horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/diastolic_blood_pressure"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/item_text_color" 
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            android:text="@string/diastolic_blood_pressure"
+            android:textColor="@color/item_text_color" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="30dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="96" />
+            android:text="96"
+            android:textColor="@color/colorPrimaryDark" />
+
+
     </LinearLayout>
 
-    <TextView 
+    <TextView
         android:id="@+id/suggest_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
-        android:text="@string/result_suggest"
         android:layout_below="@id/b_container"
-        android:textColor="@color/item_text_color"
-        android:layout_marginStart="30dp"/>
-    
-    <TextView 
+        android:layout_marginBottom="18dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/result_suggest"
+        android:textColor="@color/item_text_color" />
+
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="18dp"
-        android:text="@string/blood_check_result"
         android:layout_below="@id/suggest_title"
-        android:layout_marginStart="30dp"/>
-    <Button
-        android:id="@+id/btn_match"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/blood_check_result" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="8dp"
-        android:background="@drawable/btn_match_bg"
-        android:text="@string/btn_match"
-        android:textColor="@color/white"
-        android:textSize="16sp" 
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:id="@+id/btn_record"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_match_bg"
+            android:text="@string/btn_record"
+            android:textColor="@color/white"
+            android:textSize="16sp" 
+            android:gravity="center"/>
+
+        <!-- <ProgressBar
+            android:id="@+id/record_progress"
+            android:layout_width="78dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            style="?android:attr/progressBarStyleLarge" /> -->
+        
+    </FrameLayout>
 
 </RelativeLayout>
