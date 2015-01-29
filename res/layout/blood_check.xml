@@ -97,7 +97,7 @@
         <Button
             android:id="@+id/btn_record"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/btn_match_bg"
             android:text="@string/btn_record"
