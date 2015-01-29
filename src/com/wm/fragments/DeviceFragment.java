@@ -24,11 +24,10 @@ import com.wm.wmbloodpressuremeasurement.R;
 public class DeviceFragment extends Fragment {
 	@InjectView(R.id.recyclerView)
 	RecyclerView mRecyclerView;
-	
+
 	@InjectView(R.id.btn_change)
 	Button mBtnUpdate;
 	DeviceDataSet deviceDataSet;
-	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,10 +55,17 @@ public class DeviceFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				deviceDataSet.option= OptionEnum.ITEM_UPDATE;
-				adapter.notifyDataSetChanged();
+				if (mBtnUpdate.getText().equals("É¾³ý")){
+					deviceDataSet.option= OptionEnum.ITEM_UPDATE;
+					adapter.notifyDataSetChanged();
+					mBtnUpdate.setText("ÐÞ¸Ä");
+				}else {
+					deviceDataSet.option= OptionEnum.ITEM_DELETE;
+					adapter.notifyDataSetChanged();
+					mBtnUpdate.setText("É¾³ý");
+				}
 				
-			}
+			} 
 		});
 	}
 
