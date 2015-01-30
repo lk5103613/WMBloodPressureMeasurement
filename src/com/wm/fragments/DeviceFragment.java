@@ -162,6 +162,7 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 	}
 	
 	private void savePosition(){
+		System.out.println("position");
 		SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sp.edit();
 		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_DEVICE);

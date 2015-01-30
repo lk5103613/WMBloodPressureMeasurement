@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -16,9 +15,9 @@ import com.wm.adapter.IndexPagerAdapter;
 public class MainActivity extends ActionBarActivity {
 	
 	public static String PREVIOUS_TAB_PAGE = "previous_page";
-	public static int PAGE_SETTING = 3;
-	public static int PAGE_DEVICE = 2;
-	public static int PAGE_HOME = 1;
+	public static int PAGE_SETTING = 2;
+	public static int PAGE_DEVICE = 1;
+	public static int PAGE_HOME = 0;
 	
 	@InjectView(R.id.index_toolbar)
 	Toolbar mToolbar;
