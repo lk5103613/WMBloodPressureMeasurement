@@ -13,9 +13,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,8 +36,6 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 	@InjectView(R.id.recyclerView)
 	RecyclerView mRecyclerView;
 
-//	@InjectView(R.id.btn_change)
-//	Button mBtnUpdate;
 	DeviceDataSet deviceDataSet;
 
 	EditText mNameEditText;
@@ -51,6 +51,7 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 		ButterKnife.inject(this, view);
 
 		context = getActivity();
+		setHasOptionsMenu(true);//显示fragment的menu
 		return view;
 	}
 
@@ -58,6 +59,7 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initData();
+		
 		// 创建一个线性布局管理器
 		LinearLayoutManager layoutManager = new LinearLayoutManager(
 				getActivity());
@@ -67,25 +69,42 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 		mRecyclerView.setAdapter(adapter);
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-//		mBtnUpdate.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//
-//				Intent intent = new Intent(getActivity(),
-//						AddDeviceActivity.class);
-//				startActivity(intent);
-//
-//			}
-//		});
-
-		mNameEditText = new EditText(getActivity());
-		mNameEditText.setTextColor(getResources().getColor(R.color.dark_gray));
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		getActivity().getMenuInflater().inflate(R.menu.device, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_add_device:
+//			savePosition();
+			deviceDataSet.option = OptionEnum.ITEM_ADD;
+			adapter.notifyDataSetChanged();
+			Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
+			startActivity(intent);
+			getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
+			
+			break;
+		case R.id.action_delete_device:
+			deviceDataSet.option = OptionEnum.ITEM_DELETE;
+			adapter.notifyDataSetChanged();
+			break;
+		case R.id.action_change_name:
+			deviceDataSet.option = OptionEnum.ITEM_UPDATE;
+			adapter.notifyDataSetChanged();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private void initData() {
 		deviceDataSet = new DeviceDataSet();
-		deviceDataSet.option = OptionEnum.ITEM_DELETE;
+		deviceDataSet.option = OptionEnum.ITEM_ADD;
 		ArrayList<DeviceInfo> deviceInfos = new ArrayList<>();
 
 		DeviceInfo deviceInfo = null;
@@ -99,6 +118,8 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 	@Override
 	public void update(int i) {
 		String name = deviceDataSet.deviceInfos.get(i).getName();
+		mNameEditText = new EditText(getActivity());
+		mNameEditText.setTextColor(getResources().getColor(R.color.dark_gray));
 		mNameEditText.setText(name);
 		new AlertDialog.Builder(context).setTitle("设备名称")
 				.setIcon(R.drawable.ic_action_edit).setView(mNameEditText)
@@ -110,7 +131,6 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 	public void delete(int i) {
 		deviceDataSet.deviceInfos.remove(i);
 		adapter.notifyDataSetChanged();
-
 	}
 
 	class DialogClickListener implements OnClickListener {
@@ -132,11 +152,19 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 
 	@Override
 	public void checkHistory(int i) {
+//		savePosition();
 		Intent intent = new Intent(getActivity(), BloodHistoryActivity.class);
 		startActivity(intent);
-		
-	}
+		getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
 
+	}
+//	
+//	private void savePosition(){
+//		SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+//		SharedPreferences.Editor editor = sp.edit();
+//		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_DEVICE);
+//		editor.commit();
+//	}
 
 
 }

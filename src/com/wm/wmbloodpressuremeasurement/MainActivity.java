@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -45,19 +44,23 @@ public class MainActivity extends ActionBarActivity {
 		
 		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 		int currentPage = sharedPref.getInt(PREVIOUS_TAB_PAGE, -1);
+		System.out.println("current page " + currentPage);
+		
 		if(currentPage != -1) {
 			SharedPreferences.Editor editor = sharedPref.edit();
 			editor.putInt(PREVIOUS_TAB_PAGE, -1);
 			editor.commit();
 			mPager.setCurrentItem(currentPage);
 		}
+		
+		System.out.println("oncreate");
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		getMenuInflater().inflate(R.menu.main, menu);
+//		return true;
+//	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

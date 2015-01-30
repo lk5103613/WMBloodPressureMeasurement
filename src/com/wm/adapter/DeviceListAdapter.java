@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.OptionEnum;
 import com.wm.wmbloodpressuremeasurement.R;
@@ -30,7 +31,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		 // 创建一个View，简单起见直接使用系统提供的布局，就是一个TextView
 		 View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.device_item, viewGroup, false);
 		 // 创建一个ViewHolder
-		 ViewHolder holder = new ViewHolder(viewGroup.getContext(),view,callBack, i);
+		 ViewHolder holder = new ViewHolder(viewGroup.getContext(),view,callBack);
 		 
 		 return holder;
 	 }
@@ -76,14 +77,12 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		 
 		 Context context;
 		 DeviceListCallBack callBack;
-		 int position;
 		
-		 public ViewHolder(Context context,final View itemView, DeviceListCallBack callBack, int position) {
+		 public ViewHolder(Context context,final View itemView, DeviceListCallBack callBack) {
 			 super(itemView);
 			 
 			 this.context = context;
 			 this.callBack = callBack;
-			 this.position = position;
 					 
 			 deviceImg = (ImageView) itemView.findViewById(R.id.device_img);
 			 deviceName = (TextView) itemView.findViewById(R.id.device_namge);
@@ -94,6 +93,26 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 			 deviceName.setOnClickListener(this);
 			 btnUpdate.setOnClickListener(this);
 			 btnDelete.setOnClickListener(this);
+			 
+//			 deviceName.setOnTouchListener(new View.OnTouchListener() {
+//				
+//				@SuppressLint("ResourceAsColor")
+//				@Override
+//				public boolean onTouch(View v, MotionEvent event) {
+//					switch (event.getAction()) {
+//					case MotionEvent.ACTION_DOWN:
+//						System.out.println("touch down");
+//						deviceName.setBackgroundColor(R.color.item_text_color);
+//						break;
+//					case MotionEvent.ACTION_UP:
+//						itemView.setBackgroundColor(R.color.recycle_item);
+//					default:
+//						break;
+//					}
+//					return false;
+//				}
+//				
+//			});
 			
 		 }
 
@@ -102,17 +121,16 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_delete:
-				callBack.delete(position);
+				callBack.delete(getPosition());
 				break;
 			case R.id.btn_update:
-				callBack.update(position);
+				callBack.update(getPosition());
 				break;
 			case R.id.device_namge:
-				callBack.checkHistory(position);
-//				itemView.setBackgroundColor(R.color.colorPrimary);
+				callBack.checkHistory(getPosition());
 				break;
 			case R.id.device_img:
-				callBack.checkHistory(position);
+				callBack.checkHistory(getPosition());
 				break;
 			default:
 				break;
@@ -126,7 +144,5 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 		 public void delete(int i);
 		 public void checkHistory(int i);
 	 }
-	 
-	
 	 
 }

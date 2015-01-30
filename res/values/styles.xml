@@ -5,5 +5,16 @@
         <item name="windowActionBar">false</item>
         <item name="android:textColorPrimary">@color/toolbarTextColor</item>
     </style>
-
+<!--     
+    
+     <style name="AnimationActivity" >
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item> 
+		<item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item> 
+		<item name="android:activityCloseEnterAnimation">@anim/slide_in_from_right</item> 
+		<item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item> 
+    </style>
+    
+	<style  name="AppTheme.Anim" >
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item> 
+    </style> -->
 </resources>
