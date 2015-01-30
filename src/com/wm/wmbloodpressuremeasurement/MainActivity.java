@@ -53,7 +53,6 @@ public class MainActivity extends ActionBarActivity {
 			mPager.setCurrentItem(currentPage);
 		}
 		
-		System.out.println("oncreate");
 	}
 	
 //	@Override
@@ -62,12 +61,12 @@ public class MainActivity extends ActionBarActivity {
 //		return true;
 //	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		int id = item.getItemId();
+//		if (id == R.id.action_settings) {
+//			return true;
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
 }

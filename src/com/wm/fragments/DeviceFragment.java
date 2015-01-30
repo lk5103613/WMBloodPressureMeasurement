@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,6 +31,7 @@ import com.wm.entity.OptionEnum;
 import com.wm.entity.TypeEnum;
 import com.wm.wmbloodpressuremeasurement.AddDeviceActivity;
 import com.wm.wmbloodpressuremeasurement.BloodHistoryActivity;
+import com.wm.wmbloodpressuremeasurement.MainActivity;
 import com.wm.wmbloodpressuremeasurement.R;
 
 public class DeviceFragment extends Fragment implements DeviceListCallBack {
@@ -80,7 +82,7 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_add_device:
-//			savePosition();
+			savePosition();
 			deviceDataSet.option = OptionEnum.ITEM_ADD;
 			adapter.notifyDataSetChanged();
 			Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
@@ -152,19 +154,19 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 
 	@Override
 	public void checkHistory(int i) {
-//		savePosition();
+		savePosition();
 		Intent intent = new Intent(getActivity(), BloodHistoryActivity.class);
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
 
 	}
-//	
-//	private void savePosition(){
-//		SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
-//		SharedPreferences.Editor editor = sp.edit();
-//		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_DEVICE);
-//		editor.commit();
-//	}
+	
+	private void savePosition(){
+		SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sp.edit();
+		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_DEVICE);
+		editor.commit();
+	}
 
 
 }
