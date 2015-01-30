@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -16,9 +15,9 @@ import com.wm.adapter.IndexPagerAdapter;
 public class MainActivity extends ActionBarActivity {
 	
 	public static String PREVIOUS_TAB_PAGE = "previous_page";
-	public static int PAGE_SETTING = 3;
-	public static int PAGE_DEVICE = 2;
-	public static int PAGE_HOME = 1;
+	public static int PAGE_SETTING = 2;
+	public static int PAGE_DEVICE = 1;
+	public static int PAGE_HOME = 0;
 	
 	@InjectView(R.id.index_toolbar)
 	Toolbar mToolbar;
@@ -48,30 +47,12 @@ public class MainActivity extends ActionBarActivity {
 		super.onResume();
 		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 		int currentPage = sharedPref.getInt(PREVIOUS_TAB_PAGE, -1);
-		System.out.println("current page " + currentPage);
-		
 		if(currentPage != -1) {
 			SharedPreferences.Editor editor = sharedPref.edit();
 			editor.putInt(PREVIOUS_TAB_PAGE, -1);
 			editor.commit();
 			mPager.setCurrentItem(currentPage);
 		}
-		
-		System.out.println("oncreate");
 	}
 	
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		getMenuInflater().inflate(R.menu.main, menu);
-//		return true;
-//	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 }
