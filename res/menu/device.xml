@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.wm.wmbloodpressuremeasurement.AboutActivity" >
+
+    <item
+        android:id="@+id/action_add_device"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_add_device"/>
+    <item
+        android:id="@+id/action_change_name"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_change_name"/>
+    <item
+        android:id="@+id/action_delete_device"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_delete_deivce"/>
+
+</menu>

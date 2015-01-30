@@ -24,6 +24,7 @@ public class AddDeviceActivity extends ActionBarActivity{
 		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		
 		String[] type = new String[]{
 			getResources().getString(R.string.turgoscope)+"-1",
@@ -39,7 +40,15 @@ public class AddDeviceActivity extends ActionBarActivity{
 	@Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(0, R.anim.slide_out_to_right);
+//        overridePendingTransition(0, R.anim.slide_out_to_right);
     }
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in, R.anim.slide_out_to_right);
+		}
+	}
 	
 }

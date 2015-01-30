@@ -22,5 +22,13 @@ public class AboutActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in, R.anim.slide_out_to_right);
+		}
+	}
 
 }
