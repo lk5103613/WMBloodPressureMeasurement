@@ -20,8 +20,7 @@ import com.wm.adapter.SettingListAdapter;
 import com.wm.adapter.SettingListAdapter.SettingItemClickCallback;
 import com.wm.entity.SettingData;
 import com.wm.wmbloodpressuremeasurement.AboutActivity;
-import com.wm.wmbloodpressuremeasurement.BloodCheckActivity;
-import com.wm.wmbloodpressuremeasurement.BloodHistoryActivity;
+import com.wm.wmbloodpressuremeasurement.GuideViewActivity;
 import com.wm.wmbloodpressuremeasurement.MainActivity;
 import com.wm.wmbloodpressuremeasurement.R;
 
@@ -44,7 +43,7 @@ public class SettingFragment extends Fragment implements SettingItemClickCallbac
 		// 版本信息应从服务器获取
 		items.add(new SettingData("版本信息", "Demo版"));
 		items.add(new SettingData("关于我们", new Intent(getActivity(), AboutActivity.class)));
-		items.add(new SettingData("使用帮助", new Intent()));
+		items.add(new SettingData("使用帮助", new Intent(getActivity(), GuideViewActivity.class)));
 	}
 	
 	@Override

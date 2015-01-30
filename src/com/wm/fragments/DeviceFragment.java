@@ -80,6 +80,7 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 		switch (item.getItemId()) {
 		case R.id.action_add_device:
 			savePosition();
@@ -162,7 +163,6 @@ public class DeviceFragment extends Fragment implements DeviceListCallBack {
 	}
 	
 	private void savePosition(){
-		System.out.println("position");
 		SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sp.edit();
 		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_DEVICE);
