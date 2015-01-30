@@ -41,7 +41,11 @@ public class MainActivity extends ActionBarActivity {
 		mTabs.setViewPager(mPager);
 		mTabs.setIndicatorColorResource(R.color.colorPrimary);
 		mTabs.setTextColorResource(R.color.colorPrimary);
-		
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 		int currentPage = sharedPref.getInt(PREVIOUS_TAB_PAGE, -1);
 		System.out.println("current page " + currentPage);

@@ -39,5 +39,10 @@
         <activity android:name=".BloodCheckActivity" 
             android:parentActivityName=".BloodHistoryActivity">
         </activity>
+        <activity
+            android:name=".GuideViewActivity"
+            android:label="@string/title_activity_guide_view" >
+        </activity>
     </application>
+
 </manifest>
