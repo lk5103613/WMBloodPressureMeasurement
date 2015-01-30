@@ -29,14 +29,15 @@
 	        android:textColor="@color/item_text_color"
 	        android:layout_gravity="center_vertical"
 	        android:textStyle="bold"
-	        android:textSize="18sp"/>
+	        android:textSize="18sp"
+	        android:layout_marginStart="18dp"/>
 	    
 	    <Spinner 
 	        android:id="@+id/type_spinner"
 	        android:layout_width="0dp"
 	        android:layout_weight="1"
 	        android:layout_height="match_parent"
-	        android:layout_margin="5dp"
+	        android:layout_margin="15dp"
 	        />
 	</LinearLayout>
 	

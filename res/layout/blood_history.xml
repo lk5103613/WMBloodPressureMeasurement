@@ -22,7 +22,7 @@
         android:textColor="@color/item_text_color"/>
     
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart1"
+        android:id="@+id/blood_history_chart"
         android:layout_width="wrap_content"
         android:layout_height="0dp" 
         android:layout_weight="1"/>

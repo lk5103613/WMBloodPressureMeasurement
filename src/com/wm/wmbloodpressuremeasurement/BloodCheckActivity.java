@@ -30,7 +30,7 @@ public class BloodCheckActivity extends ActionBarActivity{
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		
-		mDialog = ProgressDialog.show(this, null, "Sending...", true);
+		mDialog = ProgressDialog.show(this, null, "«Î…‘∫Û...", true);
 		mDialog.dismiss();
 		
 		btnRecord.setOnClickListener(new View.OnClickListener() {
