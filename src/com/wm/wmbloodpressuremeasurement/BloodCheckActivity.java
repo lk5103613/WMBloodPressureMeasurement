@@ -37,8 +37,29 @@ public class BloodCheckActivity extends ActionBarActivity{
 			
 			@Override
 			public void onClick(View v) {
-//				recordProgress.setVisibility(View.VISIBLE);
 				mDialog.show();
+				
+				//test
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+						runOnUiThread(new Runnable() {
+							
+							@Override
+							public void run() {
+								mDialog.dismiss();
+							}
+						});
+						
+					}
+				}).start();
 			}
 		});
 	}
@@ -46,6 +67,7 @@ public class BloodCheckActivity extends ActionBarActivity{
 	@Override
     public void onBackPressed() {
         super.onBackPressed();
+        
         overridePendingTransition(0, R.anim.slide_out_to_right);
     }
 	
