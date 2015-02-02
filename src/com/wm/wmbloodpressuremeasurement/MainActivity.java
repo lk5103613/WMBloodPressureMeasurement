@@ -26,14 +26,18 @@ public class MainActivity extends ActionBarActivity {
 	@InjectView(R.id.main_tabs)
 	PagerSlidingTitleIconTabStrip mTabs;
 	
+	private SharedPreferences mSharePref;
+	
 	@SuppressLint("ResourceAsColor")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.inject(this);
-		mToolbar.setTitle("ÖÇ»ÛÒ½ÁÆÑªÑ¹ÒÇ");
 		
+		mSharePref = getPreferences(Context.MODE_PRIVATE);
+		
+		mToolbar.setTitle("ÖÇ»ÛÒ½ÁÆÑªÑ¹ÒÇ");
 		setSupportActionBar(mToolbar);
 		mPager.setAdapter(new IndexPagerAdapter(getSupportFragmentManager()));
 		mTabs.setShouldExpand(true);
@@ -45,14 +49,17 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-		int currentPage = sharedPref.getInt(PREVIOUS_TAB_PAGE, -1);
+		int currentPage = mSharePref.getInt(PREVIOUS_TAB_PAGE, -1);
 		if(currentPage != -1) {
-			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putInt(PREVIOUS_TAB_PAGE, -1);
-			editor.commit();
+			clearPageInfo(mSharePref);
 			mPager.setCurrentItem(currentPage);
 		}
+	}
+	
+	private void clearPageInfo(SharedPreferences sharedPref) {
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt(PREVIOUS_TAB_PAGE, -1);
+		editor.commit();
 	}
 	
 }
