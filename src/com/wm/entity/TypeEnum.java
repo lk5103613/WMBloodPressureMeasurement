@@ -1,5 +1,6 @@
 package com.wm.entity;
 
 public enum TypeEnum {
-	TURGOSCOPE
+	TURGOSCOPE,//ÑªÑ¹¼Æ
+	GLUCOMETER//ÑªÌÇÒÇ
 }

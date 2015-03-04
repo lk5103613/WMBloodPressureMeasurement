@@ -79,4 +79,5 @@ public class BloodCheckActivity extends ActionBarActivity{
 		}
 	}
 	
+	
 }

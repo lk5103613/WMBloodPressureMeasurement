@@ -4,11 +4,11 @@
     <color name="windowBackground">#1A1A1A</color>
     <color name="colorPrimary">#8bc34a</color>
     <color name="colorPrimaryDark">#259b24</color>
-    <color name="toolbarTextColor">#c6e9ce</color>
+    <color name="toolbarTextColor">@color/dark_green</color>
     
-    <color name="primaryTextColor">#CCCCCC</color>
+    <!-- <color name="primaryTextColor">#CCCCCC</color> -->
     <color name="indigo_dark">#303f9f</color>
-    <color name="text_primary_color">#d9dcf0</color>
+    <!-- <color name="text_primary_color">#d9dcf0</color> -->
     <color name="list_text_primary_color">#6d6d6d</color>
     <color name="list_text_second_color">#999999</color>
     <color name="high_light">#EEFF41</color>
@@ -23,5 +23,6 @@
     <color name="item_text_color">#4c4c4c</color>
     <color name="item_sub_text_color">#b1b1b1</color>
     
+    <color name="dark_green">#008B00</color>
 
 </resources>

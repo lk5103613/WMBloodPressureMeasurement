@@ -48,8 +48,7 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.blood_history);
 		ButterKnife.inject(this);
-
-
+		
 		mToolbar.setTitle(getResources().getString(R.string.turgoscope));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
