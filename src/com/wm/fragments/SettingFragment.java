@@ -2,7 +2,7 @@ package com.wm.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,16 +11,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
-
 import com.wm.entity.SettingData;
 import com.wm.wmbloodpressuremeasurement.AboutActivity;
 import com.wm.wmbloodpressuremeasurement.GuideViewActivity;
@@ -99,6 +96,7 @@ public class SettingFragment extends Fragment  {
 			return position;
 		}
 
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder mViewHolder;

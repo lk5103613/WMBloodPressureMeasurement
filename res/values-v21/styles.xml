@@ -6,7 +6,7 @@
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:colorControlHighlight">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/toolbarTextColor</item>
+        <!-- <item name="android:textColorPrimary">@color/toolbarTextColor</item> -->
         <item name="windowActionBar">false</item>
         
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_left</item>

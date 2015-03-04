@@ -2,6 +2,7 @@ package com.wm.fragments;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -96,7 +97,7 @@ public class DeviceFragment extends Fragment{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	private void initData() {
 		deviceDataSet = new DeviceDataSet();
 		deviceDataSet.option = OptionEnum.ITEM_ADD;
@@ -137,9 +138,7 @@ public class DeviceFragment extends Fragment{
 		// Êý¾Ý¼¯
 		private DeviceDataSet mDeviceDataSet;
 		private LayoutInflater mInflater;
-		private Context mContext;
 		public DeviceListAdapter(Context context, DeviceDataSet deviceDataSet) {
-			this.mContext = context;
 			this.mDeviceDataSet = deviceDataSet;
 			this.mInflater = LayoutInflater.from(context);
 		}
@@ -159,6 +158,7 @@ public class DeviceFragment extends Fragment{
 			return position;
 		}
 
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder mHolder;
