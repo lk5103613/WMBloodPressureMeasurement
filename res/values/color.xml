@@ -2,17 +2,12 @@
 <resources>
 
     <color name="windowBackground">#1A1A1A</color>
-<<<<<<< HEAD
-    <color name="colorPrimary">#8bc34a</color>
-    <color name="colorPrimaryDark">#259b24</color>
-    <color name="toolbarTextColor">@color/dark_green</color>
-=======
+
     <!-- <color name="colorPrimary">#8bc34a</color> -->
     <color name="colorPrimary">#009688</color>
     <!-- <color name="colorPrimaryDark">#259b24</color> -->
     <color name="colorPrimaryDark">#004d40</color>
     <color name="toolbarTextColor">#c6e9ce</color>
->>>>>>> 1d0b6f0cd2bb35adc5b8df51c35a1e3ca1886ae7
     
     <!-- <color name="primaryTextColor">#CCCCCC</color> -->
     <color name="indigo_dark">#303f9f</color>
@@ -30,10 +25,7 @@
     <color name="dark_gray">#CDC9C9</color>
     <color name="item_text_color">#4c4c4c</color>
     <color name="item_sub_text_color">#b1b1b1</color>
-<<<<<<< HEAD
     
     <color name="dark_green">#008B00</color>
-=======
->>>>>>> 1d0b6f0cd2bb35adc5b8df51c35a1e3ca1886ae7
 
 </resources>
