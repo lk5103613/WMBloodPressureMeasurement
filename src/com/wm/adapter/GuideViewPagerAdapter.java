@@ -16,7 +16,7 @@ public class GuideViewPagerAdapter extends PagerAdapter{
         this.views = views;
     }
 
-    //销毁arg1位置的界面
+    //销毁position位置的界面
     @Override
     public void destroyItem(View view, int position, Object arg2) {
         ((ViewPager) view).removeView(views.get(position));        
