@@ -44,6 +44,8 @@ public class DeviceFragment extends Fragment{
 	EditText mNameEditText;
 	DeviceListAdapter adapter;
 	Context context;
+	private boolean isDelete = false;
+	private boolean isEdit = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +70,27 @@ public class DeviceFragment extends Fragment{
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 	      getActivity().getMenuInflater().inflate(R.menu.device, menu);
+	     
+	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		 if (!isDelete) {
+	            menu.findItem(R.id.action_delete_device).setVisible(true);
+	            menu.findItem(R.id.action_cancel_delete).setVisible(false);
+        } else {
+        	menu.findItem(R.id.action_delete_device).setVisible(false);
+            menu.findItem(R.id.action_cancel_delete).setVisible(true);
+        }
+		 
+		 if (!isEdit) {
+			 menu.findItem(R.id.action_change_name).setVisible(true);
+	         menu.findItem(R.id.action_cancel_change).setVisible(false);
+		 } else {
+			 menu.findItem(R.id.action_change_name).setVisible(false);
+	         menu.findItem(R.id.action_cancel_change).setVisible(true);
+		 }
+		super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
@@ -84,11 +107,23 @@ public class DeviceFragment extends Fragment{
 			
 			break;
 		case R.id.action_delete_device:
+			isDelete= true;
 			deviceDataSet.option = OptionEnum.ITEM_DELETE;
 			adapter.notifyDataSetChanged();
 			break;
+		case R.id.action_cancel_delete:
+			isDelete= false;
+			deviceDataSet.option = null;
+			adapter.notifyDataSetChanged();
+			break;
 		case R.id.action_change_name:
+			isEdit = true;
 			deviceDataSet.option = OptionEnum.ITEM_UPDATE;
+			adapter.notifyDataSetChanged();
+			break;
+		case R.id.action_cancel_change:
+			isEdit = false;
+			deviceDataSet.option = null;
 			adapter.notifyDataSetChanged();
 			break;
 		default:
@@ -176,10 +211,10 @@ public class DeviceFragment extends Fragment{
 				mHolder = (ViewHolder)convertView.getTag();//取出viewholder对象
 			}
 			
-			if (mDeviceDataSet.option.equals(OptionEnum.ITEM_DELETE)) {
+			if (OptionEnum.ITEM_DELETE.equals(mDeviceDataSet.option)) {
 				mHolder.mBtnDelete.setVisibility(View.VISIBLE);
 				mHolder.mBtnUpdate.setVisibility(View.GONE);
-			} else if (mDeviceDataSet.option.equals(OptionEnum.ITEM_UPDATE)) {
+			} else if (OptionEnum.ITEM_UPDATE.equals(mDeviceDataSet.option)) {
 				mHolder.mBtnDelete.setVisibility(View.GONE);
 				mHolder.mBtnUpdate.setVisibility(View.VISIBLE);
 			} else {

@@ -28,6 +28,8 @@
 
 	<string name="action_add_device">新增设备</string>
 	<string name="action_change_name">修改名称</string>
+	<string name="action_cancel_change">取消修改</string>
 	<string name="action_delete_deivce">删除设备</string>
+	<string name="action_cancel_delete">取消删除</string>
 	<string name="btn_record">记                  录</string>
 </resources>
