@@ -10,8 +10,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import com.wm.fragments.BPResultFragment;
-import com.wm.fragments.BSResultFragment;
+import com.wm.entity.DeviceInfo;
+import com.wm.fragments.TypeFactory;
 
 public class ResultActivity extends ActionBarActivity{
 
@@ -19,8 +19,7 @@ public class ResultActivity extends ActionBarActivity{
 	Toolbar mToolbar;
 	
 	private ProgressDialog mDialog;
-	private Fragment mBPResultFragment;
-	private Fragment mBSResultFragment;
+	private Fragment mFragment;
 	
 	
 	@Override
@@ -29,8 +28,7 @@ public class ResultActivity extends ActionBarActivity{
 		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
 		
-		mBPResultFragment = new BPResultFragment();
-		mBSResultFragment = new BSResultFragment();
+		mFragment = TypeFactory.getResultFragment(DeviceInfo.TYPE_TURGOSCOPE);
 
 		mToolbar.setTitle(getResources().getString(R.string.turgoscope));
 		setSupportActionBar(mToolbar);
@@ -40,7 +38,7 @@ public class ResultActivity extends ActionBarActivity{
 		mDialog = ProgressDialog.show(this, null, "«Î…‘∫Û...", true);
 		mDialog.dismiss();
 		
-		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mBSResultFragment).commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mFragment).commit();
 		
 	}
 	
