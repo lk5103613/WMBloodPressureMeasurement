@@ -35,7 +35,7 @@ public class BPHistoryActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.bp_history);
+		setContentView(R.layout.activity_bp_history);
 		ButterKnife.inject(this);
 
 		mToolbar.setTitle(getResources().getString(R.string.bp_text));

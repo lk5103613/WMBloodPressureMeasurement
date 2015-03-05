@@ -18,7 +18,7 @@ public class AddDeviceActivity extends ActionBarActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_device);
+		setContentView(R.layout.activity_add_device);
 		ButterKnife.inject(this);
 		
 		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
