@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/blood_check_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary" >
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_below="@id/blood_check_bar"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/blood_pressure_suggest_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_container"
+        android:layout_marginBottom="18dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/result_suggest"
+        android:textColor="@color/item_text_color" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/blood_pressure_suggest_title"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/blood_check_result" />
+
+    <Button
+        android:id="@+id/btn_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="56dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/btn_match_bg"
+        android:text="@string/btn_record"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>

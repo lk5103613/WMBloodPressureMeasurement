@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.astuetz;
+package com.wm.customview;
 
 import java.util.Locale;
 
@@ -38,20 +38,14 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wm.wmbloodpressuremeasurement.R;
 
-public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
+public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	public interface IconTabProvider {
-		public int getPageIconResId(int position);
-	}
-	
-	public interface TitleIconTabProvider{
-		public final static int NONE_ICON = -1;
 		public int getPageIconResId(int position);
 	}
 
@@ -89,15 +83,13 @@ public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 	private boolean textAllCaps = true;
 
 	private int scrollOffset = 52;
-//	private int indicatorHeight = 8;
-	private int indicatorHeight = 3;
+	private int indicatorHeight = 8;
 	private int underlineHeight = 2;
 	private int dividerPadding = 12;
 	private int tabPadding = 24;
 	private int dividerWidth = 1;
 
-//	private int tabTextSize = 12;
-	private int tabTextSize = 16;
+	private int tabTextSize = 12;
 	private int tabTextColor = 0xFF666666;
 	private Typeface tabTypeface = null;
 	private int tabTypefaceStyle = Typeface.BOLD;
@@ -108,15 +100,15 @@ public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 
 	private Locale locale;
 
-	public PagerSlidingTitleIconTabStrip(Context context) {
+	public PagerSlidingTabStrip(Context context) {
 		this(context, null);
 	}
 
-	public PagerSlidingTitleIconTabStrip(Context context, AttributeSet attrs) {
+	public PagerSlidingTabStrip(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public PagerSlidingTitleIconTabStrip(Context context, AttributeSet attrs, int defStyle) {
+	public PagerSlidingTabStrip(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
 		setFillViewport(true);
@@ -190,7 +182,6 @@ public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 		pager.setOnPageChangeListener(pageListener);
 
 		notifyDataSetChanged();
-		
 		currentPosition = pager.getCurrentItem();
 		tabsContainer.getChildAt(currentPosition).setSelected(true); //ADDED THESE
 		scrollToChild(currentPosition, 0);
@@ -201,18 +192,14 @@ public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 	}
 
 	public void notifyDataSetChanged() {
-
+		
 		tabsContainer.removeAllViews();
 
 		tabCount = pager.getAdapter().getCount();
 
 		for (int i = 0; i < tabCount; i++) {
 
-			if(pager.getAdapter() instanceof TitleIconTabProvider){
-				addTextIconTab(i, pager.getAdapter().getPageTitle(i).toString(),
-						((TitleIconTabProvider) pager.getAdapter()).getPageIconResId(i));
-			}
-			else if (pager.getAdapter() instanceof IconTabProvider) {
+			if (pager.getAdapter() instanceof IconTabProvider) {
 				addIconTab(i, ((IconTabProvider) pager.getAdapter()).getPageIconResId(i));
 			} else {
 				addTextTab(i, pager.getAdapter().getPageTitle(i).toString());
@@ -242,38 +229,13 @@ public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 
 	}
 
-	private void addTextIconTab(final int position, String title, int resId) {
-
-		if(resId == TitleIconTabProvider.NONE_ICON){
-			addTextTab(position,title);
-			return;
-		}
-		
-		TextView tab = new TextView(getContext());
-		tab.setText(title);
-		tab.setGravity(Gravity.CENTER);
-		tab.setSingleLine();
-
-		ImageView icon = new ImageView(getContext());  
-		icon.setImageResource(resId);
-		
-		LinearLayout linearLayout = new LinearLayout(getContext());
-		linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-		
-		linearLayout.addView(icon, defaultTabLayoutParams);
-		linearLayout.addView(tab, defaultTabLayoutParams);
-		
-		
-		addTab(position, linearLayout);
-	}
-	
 	private void addTextTab(final int position, String title) {
+
 		TextView tab = new TextView(getContext());
 		tab.setText(title);
 		tab.setGravity(Gravity.CENTER);
 		tab.setSingleLine();
-		
+
 		addTab(position, tab);
 	}
 
@@ -307,21 +269,12 @@ public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 
 			v.setBackgroundResource(tabBackgroundResId);
 
-			if(v instanceof LinearLayout){
-				if(((LinearLayout)v).getChildCount() > 1) {
-					v = ((LinearLayout) v).getChildAt(1);
-				} else {
-					v = ((LinearLayout) v).getChildAt(0);
-				}
-			}
-			
 			if (v instanceof TextView) {
+
 				TextView tab = (TextView) v;
 				tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize);
 				tab.setTypeface(tabTypeface, tabTypefaceStyle);
-				if(i == currentPageSelected) {
-					tab.setTextColor(tabTextColor);
-				}
+				tab.setTextColor(tabTextColor);
 
 				// setAllCaps() is only available from API 14, so the upper case is made manually if we are on a
 				// pre-ICS-build
@@ -386,14 +339,12 @@ public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 			lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
 		}
 
-//		canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
-		canvas.drawRect(lineLeft, 0, lineRight, indicatorHeight, rectPaint);
+		canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
 
 		// draw underline
 
 		rectPaint.setColor(underlineColor);
-//		canvas.drawRect(0, height - underlineHeight, tabsContainer.getWidth(), height, rectPaint);
-		canvas.drawRect(0, 0, tabsContainer.getWidth(), underlineHeight, rectPaint);
+		canvas.drawRect(0, height - underlineHeight, tabsContainer.getWidth(), height, rectPaint);
 
 		// draw divider
 
@@ -435,20 +386,8 @@ public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 		@Override
 		public void onPageSelected(int position) {
 			tabsContainer.getChildAt(currentPageSelected).setSelected(false);
-			LinearLayout l = (LinearLayout)tabsContainer.getChildAt(currentPageSelected);
-			for(int i=0; i<l.getChildCount(); i++ ) {
-				if(l.getChildAt(i) instanceof TextView) {
-					((TextView)l.getChildAt(i)).setTextColor(0xFF666666);
-				}
-			}
 			currentPageSelected = position;
 			tabsContainer.getChildAt(position).setSelected(true);
-			LinearLayout v = (LinearLayout)tabsContainer.getChildAt(position);
-			for(int i=0; i<v.getChildCount(); i++ ) {
-				if(v.getChildAt(i) instanceof TextView) {
-					((TextView)v.getChildAt(i)).setTextColor(tabTextColor);
-				}
-			}
 			if (delegatePageListener != null) {
 				delegatePageListener.onPageSelected(position);
 			}

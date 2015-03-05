@@ -6,11 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import com.astuetz.PagerSlidingTitleIconTabStrip;
 import com.wm.adapter.IndexPagerAdapter;
+import com.wm.customview.PagerSlidingTitleIconTabStrip;
 
 public class MainActivity extends ActionBarActivity {
 	
@@ -27,6 +28,8 @@ public class MainActivity extends ActionBarActivity {
 	PagerSlidingTitleIconTabStrip mTabs;
 	
 	private SharedPreferences mSharePref;
+	private int mBackClickTimes = 0;
+	private Context mContext;
 	
 	@SuppressLint("ResourceAsColor")
 	@Override
@@ -36,6 +39,8 @@ public class MainActivity extends ActionBarActivity {
 		ButterKnife.inject(this);
 		
 		mSharePref = getPreferences(Context.MODE_PRIVATE);
+		mContext = MainActivity.this;
+		mBackClickTimes = 0;
 		
 		mToolbar.setTitle("智慧医疗血压仪");
 		setSupportActionBar(mToolbar);
@@ -60,6 +65,32 @@ public class MainActivity extends ActionBarActivity {
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putInt(PREVIOUS_TAB_PAGE, -1);
 		editor.commit();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// 连续点击两次返回键，退出程序
+		if (mBackClickTimes == 0) {
+			String str = getResources().getString(R.string.ask_when_exit);
+			Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
+			mBackClickTimes = 1;
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} finally {
+						mBackClickTimes = 0;
+					}
+				}
+			}.start();
+			return;
+		} else {
+			finish();
+			System.exit(0);
+		}
 	}
 	
 }

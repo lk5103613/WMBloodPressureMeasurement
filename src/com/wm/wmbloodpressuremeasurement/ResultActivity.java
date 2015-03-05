@@ -2,28 +2,35 @@ package com.wm.wmbloodpressuremeasurement;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
-public class BloodCheckActivity extends ActionBarActivity{
+import com.wm.fragments.BPResultFragment;
+import com.wm.fragments.BSResultFragment;
+
+public class ResultActivity extends ActionBarActivity{
 
 	@InjectView(R.id.blood_check_bar)
 	Toolbar mToolbar;
 	
-	@InjectView(R.id.btn_record)
-	Button btnRecord;
-	
 	private ProgressDialog mDialog;
+	private Fragment mBPResultFragment;
+	private Fragment mBSResultFragment;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.blood_check);
+		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
+		
+		mBPResultFragment = new BPResultFragment();
+		mBSResultFragment = new BSResultFragment();
 
 		mToolbar.setTitle(getResources().getString(R.string.turgoscope));
 		setSupportActionBar(mToolbar);
@@ -33,41 +40,36 @@ public class BloodCheckActivity extends ActionBarActivity{
 		mDialog = ProgressDialog.show(this, null, "«Î…‘∫Û...", true);
 		mDialog.dismiss();
 		
-		btnRecord.setOnClickListener(new View.OnClickListener() {
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mBSResultFragment).commit();
+		
+	}
+	
+	@OnClick(R.id.btn_record)
+	public void record(View v) {
+		mDialog.show();
+		//test
+		new Thread(new Runnable() {
 			
 			@Override
-			public void onClick(View v) {
-				mDialog.show();
-				
-				//test
-				new Thread(new Runnable() {
-					
+			public void run() {
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						try {
-							Thread.sleep(2000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						
-						runOnUiThread(new Runnable() {
-							
-							@Override
-							public void run() {
-								mDialog.dismiss();
-							}
-						});
-						
+						mDialog.dismiss();
 					}
-				}).start();
+				});
 			}
-		});
+		}).start();
 	}
 	
 	@Override
     public void onBackPressed() {
         super.onBackPressed();
-        
         overridePendingTransition(0, R.anim.slide_out_to_right);
     }
 	
