@@ -1,6 +1,7 @@
 package com.wm.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,19 +18,20 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wm.entity.DeviceInfo;
 
-public class BPHistoryActivity extends ActionBarActivity implements OnChartValueSelectedListener{
+public class BPHistoryActivity extends ActionBarActivity implements
+		OnChartValueSelectedListener {
 
 	@InjectView(R.id.blood_history_bar)
 	Toolbar mToolbar;
 
 	@InjectView(R.id.blood_history_chart)
 	LineChart mChart;
-	
-	int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
-	
+
+	int[] mColors = new int[]{R.color.dark_green, R.color.sky_blue};
+	int[] mName = new int[]{R.string.systolic, R.string.diastolic};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,24 +43,18 @@ public class BPHistoryActivity extends ActionBarActivity implements OnChartValue
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 
-		//chart
-		mChart.setOnChartValueSelectedListener(this);
-        mChart.setDrawYValues(false);
-        mChart.setDrawGridBackground(false);
-        mChart.setDescription("");
-        mChart.setGridColor(getResources().getColor(R.color.light_black));
-        mChart.setBorderColor(getResources().getColor(R.color.light_black));
-        addEmptyData();
-        mChart.invalidate();
-        
+		// chart
+		initLineChart();
+		addEmptyData();
+		mChart.invalidate();
+
 		addDataSet(0);
 		addDataSet(1);
 	}
-	
+
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(View v) {
-		Intent intent = new Intent(BPHistoryActivity.this,
-				ResultActivity.class);
+		Intent intent = new Intent(BPHistoryActivity.this, ResultActivity.class);
 		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_BP);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_from_right,
@@ -79,60 +75,74 @@ public class BPHistoryActivity extends ActionBarActivity implements OnChartValue
 					R.anim.slide_out_to_right);
 		}
 	}
+
+	public void initLineChart(){
+		mChart.setOnChartValueSelectedListener(this);
+		mChart.setDrawYValues(false);
+		mChart.setDrawGridBackground(false);
+		mChart.setDescription("");
+		mChart.setGridColor(getResources().getColor(R.color.light_black));
+		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+	}
 	
-	 private void addEmptyData() {
-	        
-	        // create 30 x-vals
-	        String[] xVals = new String[30];
+	/**
+	 * 添加X轴
+	 */
+	private void addEmptyData() {
+		ArrayList<String> xVals = new ArrayList<String>();
+		
+		// 创建 x值
+		for (int i = 1; i < 8; i++) {
+			Calendar nowss = Calendar.getInstance();
+			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
+					+ (nowss.get(Calendar.DAY_OF_MONTH)+i);
+			xVals.add(datestr);
+		}
+		
+		LineData data = new LineData(xVals);
+		mChart.setData(data);
+		mChart.invalidate();
+	}
 
-	        for (int i = 0; i < 30; i++)
-	            xVals[i] = "" + i;
-
-	        // create a chartdata object that contains only the x-axis labels (no entries or datasets)
-	        LineData data = new LineData(xVals);
-	        mChart.setData(data);
-	        mChart.invalidate();
-	    }
-	 
 	private void addDataSet(int colorPosition) {
 
-        LineData data = mChart.getData();
-        
-        if(data != null) {
+		LineData data = mChart.getData();
 
-            int count = (data.getDataSetCount() + 1);
+		if (data != null) {
 
-            // create 10 y-vals
-            ArrayList<Entry> yVals = new ArrayList<Entry>();
+			int count = (data.getDataSetCount() + 1);
 
-            for (int i = 0; i < data.getXValCount(); i++)
-                yVals.add(new Entry((float) (Math.random() * 50f) + 50f * count, i));
+			// create 10 y-vals
+			ArrayList<Entry> yVals = new ArrayList<Entry>();
 
-            LineDataSet set = new LineDataSet(yVals, "DataSet " + count);
-            set.setLineWidth(2.5f);
-            set.setCircleSize(3f);
-            
+			for (int i = 0; i < data.getXValCount(); i++)
+				yVals.add(new Entry(
+						(float) (Math.random() * 50f) + 50f * count, i));
 
-            int color = mColors[count % mColors.length];
+			LineDataSet set = new LineDataSet(yVals, getResources().getString(mName[colorPosition]));
+			set.setLineWidth(2.5f);
+			set.setCircleSize(3f);
 
-            set.setColor(color);
-            set.setCircleColor(color);
-            set.setHighLightColor(color);
+			int color = mColors[colorPosition];
 
-            data.addDataSet(set);
-            mChart.notifyDataSetChanged();
-            mChart.invalidate();   
-        }
-    }
+			set.setColor(getResources().getColor(color));
+			set.setCircleColor(getResources().getColor(color));
+			set.setHighLightColor(getResources().getColor(color));
+
+			data.addDataSet(set);
+			mChart.notifyDataSetChanged();
+			mChart.invalidate();
+		}
+	}
 
 	@Override
-    public void onValueSelected(Entry e, int dataSetIndex) {
-        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-    }
+	public void onValueSelected(Entry e, int dataSetIndex) {
+		Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+	}
 
-    @Override
-    public void onNothingSelected() {
+	@Override
+	public void onNothingSelected() {
 
-    }
+	}
 
 }

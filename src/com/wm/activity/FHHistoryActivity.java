@@ -47,13 +47,7 @@ public class FHHistoryActivity extends ActionBarActivity implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 
-		// chart
-		mChart.setOnChartValueSelectedListener(this);
-		mChart.setDrawYValues(false);
-		mChart.setDrawGridBackground(false);
-		mChart.setDescription("");
-		mChart.setGridColor(getResources().getColor(R.color.light_black));
-		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+		initLineChart();
 		addEmptyData();
 		mChart.invalidate();
 
@@ -68,6 +62,16 @@ public class FHHistoryActivity extends ActionBarActivity implements
 		startActivity(intent);
 	}
 
+	private void initLineChart(){
+		// chart
+		mChart.setOnChartValueSelectedListener(this);
+		mChart.setDrawYValues(false);
+		mChart.setDrawGridBackground(false);
+		mChart.setDescription("");
+		mChart.setGridColor(getResources().getColor(R.color.light_black));
+		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+		
+	}
 	private void addEmptyData() {
 
 		// create 30 x-vals
@@ -125,5 +129,19 @@ public class FHHistoryActivity extends ActionBarActivity implements
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(0, R.anim.slide_out_to_right);
+	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in,
+					R.anim.slide_out_to_right);
+		}
+	}
 }

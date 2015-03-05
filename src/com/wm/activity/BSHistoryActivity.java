@@ -31,6 +31,7 @@ public class BSHistoryActivity extends ActionBarActivity{
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
+		mChart.setNoDataTextDescription("ÔÝÎÞÊý¾Ý");
 	}
 	
 	@OnClick(R.id.btn_begin_check)
