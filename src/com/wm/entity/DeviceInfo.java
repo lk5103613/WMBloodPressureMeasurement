@@ -2,6 +2,7 @@ package com.wm.entity;
 
 public class DeviceInfo {
 	
+	public static String INTENT_TYPE = "type";
 	public static String TYPE_TURGOSCOPE = "TURGOSCOPE";
 	public static String TYPE_GLUCOMETER = "GLUCOM_ETER";
 	
