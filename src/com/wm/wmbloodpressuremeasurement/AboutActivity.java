@@ -21,6 +21,7 @@ public class AboutActivity extends ActionBarActivity {
 		mToolbar.setNavigationContentDescription("关于我们");
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
+		
 	}
 	
 	@Override
