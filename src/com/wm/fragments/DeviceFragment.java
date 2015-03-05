@@ -34,6 +34,7 @@ import com.wm.entity.TypeEnum;
 import com.wm.utils.DialogUtils;
 import com.wm.wmbloodpressuremeasurement.AddDeviceActivity;
 import com.wm.wmbloodpressuremeasurement.BloodHistoryActivity;
+import com.wm.wmbloodpressuremeasurement.EmbryoHistoryActivity;
 import com.wm.wmbloodpressuremeasurement.MainActivity;
 import com.wm.wmbloodpressuremeasurement.R;
 
@@ -147,6 +148,10 @@ public class DeviceFragment extends Fragment{
 			deviceInfo = new DeviceInfo(TypeEnum.GLUCOMETER, "ÑªÌÇÒÇ" + i);
 			deviceInfos.add(deviceInfo);
 		}
+		for (int i = 0; i < 2; i++) {
+			deviceInfo = new DeviceInfo(TypeEnum.EMBRYO, "Ì¥ÐÄÒÇ" + i);
+			deviceInfos.add(deviceInfo);
+		}
 		deviceDataSet.deviceInfos = deviceInfos;
 	}
 
@@ -155,7 +160,20 @@ public class DeviceFragment extends Fragment{
 	public void checkHistory(int i) {
 		System.out.println("device item click " + i);
 		savePosition();
-		Intent intent = new Intent(getActivity(), BloodHistoryActivity.class);
+		Intent intent = null;
+		switch (deviceDataSet.deviceInfos.get(i).getType()) {
+		case GLUCOMETER://ÑªÌÇÒÇ
+			intent = new Intent(getActivity(), BloodHistoryActivity.class);
+			break;
+		case TURGOSCOPE://ÑªÑ¹¼Æ
+			intent = new Intent(getActivity(), BloodHistoryActivity.class);
+			break;
+		case EMBRYO://Ì¥ÐÄÒÇ
+			intent = new Intent(getActivity(), EmbryoHistoryActivity.class);
+			break;
+		default:
+			break;
+		}
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
 	}

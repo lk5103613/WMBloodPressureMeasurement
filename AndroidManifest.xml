@@ -43,6 +43,9 @@
             android:name=".GuideViewActivity"
             android:label="@string/title_activity_guide_view" >
         </activity>
+        <activity android:name=".EmbryoHistoryActivity" 
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

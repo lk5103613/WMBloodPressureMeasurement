@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/embryo_history_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary" >
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="@string/check_history"
+        android:textColor="@color/item_text_color"
+        android:textStyle="bold" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/embryo_history_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/text_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:text="暂无数据"
+        android:visibility="gone"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:background="@color/white"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/btn_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:background="@null"
+            android:src="@drawable/ic_action_previous_item" />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_toEndOf="@id/btn_previous"
+            android:layout_toStartOf="@+id/btn_next"
+            android:text="2013-1-1" 
+            android:background="@color/white"/>
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@null"
+            android:src="@drawable/ic_action_next_item" />
+    </RelativeLayout>
+    
+    <!-- 占位 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+        
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_begin_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="56dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_match_bg"
+        android:text="@string/begin_check"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

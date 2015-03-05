@@ -32,4 +32,6 @@
 	<string name="action_delete_deivce">删除设备</string>
 	<string name="action_cancel_delete">取消删除</string>
 	<string name="btn_record">记                  录</string>
+	
+	<string name="embryo">胎心仪</string>
 </resources>

@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.wm.entity.TypeEnum;
 
 public class BloodHistoryActivity extends ActionBarActivity implements OnChartValueSelectedListener{
 
@@ -30,16 +31,6 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
 	@InjectView(R.id.blood_history_chart)
 	LineChart mChart;
 	
-	//text data
-	protected String[] mMonths = new String[] { "Jan", "Feb", "Mar", "Apr",
-			"May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec" };
-
-	protected String[] mParties = new String[] { "Party A", "Party B",
-			"Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-			"Party I", "Party J", "Party K", "Party L", "Party M", "Party N",
-			"Party O", "Party P", "Party Q", "Party R", "Party S", "Party T",
-			"Party U", "Party V", "Party W", "Party X", "Party Y", "Party Z" };
-	
 	int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
 	
 	@Override
@@ -47,7 +38,6 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.blood_history);
 		ButterKnife.inject(this);
-
 
 		mToolbar.setTitle(getResources().getString(R.string.turgoscope));
 		setSupportActionBar(mToolbar);
