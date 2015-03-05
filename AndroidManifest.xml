@@ -16,11 +16,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AboutActivity"
@@ -46,15 +41,25 @@
             android:parentActivityName=".BPHistoryActivity" >
         </activity>
         <activity
-            android:name="com.wm.activity.GuideViewActivity"
+            android:name=".GuideViewActivity"
             android:label="@string/title_activity_guide_view" >
         </activity>
-        <activity android:name=".FHHistoryActivity" 
-            android:parentActivityName=".MainActivity">
+        <activity
+            android:name=".FHHistoryActivity"
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".BloodSugarCheckActivity"
             android:label="@string/title_activity_blood_sugar_check" >
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
