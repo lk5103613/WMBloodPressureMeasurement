@@ -24,7 +24,7 @@ public class EmbryoResultFragment extends BaseResultFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_embryo_result, container, false);
+		View view = inflater.inflate(R.layout.fragment_fh_result, container, false);
 		ButterKnife.inject(this, view);
 		return view;
 	}
