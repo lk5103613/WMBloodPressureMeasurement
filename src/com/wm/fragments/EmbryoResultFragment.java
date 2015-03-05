@@ -13,7 +13,7 @@ import butterknife.InjectView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.wm.wmbloodpressuremeasurement.R;
 
-public class EmbryoResultFragment extends Fragment {
+public class EmbryoResultFragment extends BaseResultFragment {
 	@InjectView(R.id.embryo_result_chart)
 	LineChart mChart;
 	@InjectView(R.id.result_container)
@@ -28,8 +28,10 @@ public class EmbryoResultFragment extends Fragment {
 		ButterKnife.inject(this, view);
 		return view;
 	}
-	
-	public void saveData() {
+
+	@Override
+	public void record() {
+		// TODO Auto-generated method stub
 		
 	}
 
