@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.wm.adapter.IndexPagerAdapter;
+import com.wm.customview.MyViewPager;
 import com.wm.customview.PagerSlidingTitleIconTabStrip;
 
 public class MainActivity extends ActionBarActivity {

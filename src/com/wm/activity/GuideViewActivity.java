@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.wm.adapter.GuideViewPagerAdapter;
+import com.wm.customview.MyViewPager;
 
 public class GuideViewActivity extends Activity implements View.OnClickListener, OnPageChangeListener{
 	
