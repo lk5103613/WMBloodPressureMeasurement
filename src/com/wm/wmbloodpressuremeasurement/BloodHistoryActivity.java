@@ -71,7 +71,8 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
         mChart.setDrawYValues(false);
         mChart.setDrawGridBackground(false);
         mChart.setDescription("");
-        
+        mChart.setGridColor(getResources().getColor(R.color.light_black));
+        mChart.setBorderColor(getResources().getColor(R.color.light_black));
         addEmptyData();
         mChart.invalidate();
         
@@ -104,7 +105,6 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
 
 	        // create a chartdata object that contains only the x-axis labels (no entries or datasets)
 	        LineData data = new LineData(xVals);
-
 	        mChart.setData(data);
 	        mChart.invalidate();
 	    }
@@ -126,6 +126,7 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
             LineDataSet set = new LineDataSet(yVals, "DataSet " + count);
             set.setLineWidth(2.5f);
             set.setCircleSize(3f);
+            
 
             int color = mColors[count % mColors.length];
 

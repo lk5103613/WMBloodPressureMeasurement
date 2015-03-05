@@ -27,5 +27,8 @@
     <color name="item_sub_text_color">#b1b1b1</color>
     
     <color name="dark_green">#008B00</color>
-
+    <color name="light_green">#B7DDC8</color>
+	<color name="black">#20251F</color>
+	<color name="light_black">#333A33</color>
+	<color name="light_yellow">#F7F8EB</color>
 </resources>

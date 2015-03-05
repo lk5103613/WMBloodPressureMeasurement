@@ -153,11 +153,11 @@ public class DeviceFragment extends Fragment{
 
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
+		System.out.println("device item click " + i);
 		savePosition();
 		Intent intent = new Intent(getActivity(), BloodHistoryActivity.class);
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
-
 	}
 	
 	private void savePosition(){
@@ -166,7 +166,6 @@ public class DeviceFragment extends Fragment{
 		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_DEVICE);
 		editor.commit();
 	}
-	
 	
 	class DeviceListAdapter extends BaseAdapter{
 
