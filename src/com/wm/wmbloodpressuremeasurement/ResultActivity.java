@@ -28,7 +28,7 @@ public class ResultActivity extends ActionBarActivity{
 		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
 		
-		mFragment = TypeFactory.getResultFragment(DeviceInfo.TYPE_TURGOSCOPE);
+		mFragment = TypeFactory.getResultFragment(getIntent().getExtras().getString("type"));
 
 		mToolbar.setTitle(getResources().getString(R.string.turgoscope));
 		setSupportActionBar(mToolbar);

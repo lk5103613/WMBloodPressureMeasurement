@@ -2,13 +2,16 @@ package com.wm.wmbloodpressuremeasurement;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -16,15 +19,19 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.wm.entity.DeviceInfo;
 
 public class EmbryoHistoryActivity extends ActionBarActivity implements
 		OnChartValueSelectedListener {
 
 	@InjectView(R.id.embryo_history_bar)
 	Toolbar mToolbar;
-
 	@InjectView(R.id.btn_begin_check)
 	Button btnBegin;
+	@InjectView(R.id.btn_next)
+	ImageButton btnNext;
+	@InjectView(R.id.btn_previous)
+	ImageButton btnPrevious;
 
 	@InjectView(R.id.embryo_history_chart)
 	LineChart mChart;
@@ -52,6 +59,13 @@ public class EmbryoHistoryActivity extends ActionBarActivity implements
 
 		addDataSet(0);
 
+	}
+	
+	@OnClick(R.id.btn_begin_check)
+	public void beginCheck(){
+		Intent intent = new Intent(this, ResultActivity.class);
+		intent.putExtra("type", DeviceInfo.TYPE_EMBRYO);
+		startActivity(intent);
 	}
 
 	private void addEmptyData() {

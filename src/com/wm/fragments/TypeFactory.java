@@ -8,12 +8,15 @@ public class TypeFactory {
 	
 	private static Fragment mBPResultFragment = new BPResultFragment();
 	private static Fragment mBSRFragment = new BSResultFragment();
+	private static Fragment mEmbryoFragment = new EmbryoResultFragment();
 	
 	public static Fragment getResultFragment(String type) {
 		if(type.equals(DeviceInfo.TYPE_GLUCOMETER)) {
 			return mBSRFragment;
 		} else if(type.equals(DeviceInfo.TYPE_TURGOSCOPE)) {
 			return mBPResultFragment;
+		} else if (DeviceInfo.TYPE_EMBRYO.equals(type)) {
+			return mEmbryoFragment;
 		}
 		return null;
 	}
