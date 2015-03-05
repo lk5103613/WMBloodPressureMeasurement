@@ -9,7 +9,7 @@
 	<com.wm.customview.DeviceIcon 
 	    android:id="@+id/device_icon"
 	    android:layout_width="48dp"
-	    android:layout_height="match_parent"
+	    android:layout_height="48dp"
 	    android:src="@drawable/ic_launcher"/>
 	
 	<TextView 
