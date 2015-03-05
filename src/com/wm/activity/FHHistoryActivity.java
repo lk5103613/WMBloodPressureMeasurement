@@ -39,7 +39,7 @@ public class FHHistoryActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fh_history);
+		setContentView(R.layout.activity_fh_history);
 		ButterKnife.inject(this);
 
 		mToolbar.setTitle(getResources().getString(R.string.fh_text));

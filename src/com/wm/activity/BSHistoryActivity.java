@@ -24,7 +24,7 @@ public class BSHistoryActivity extends ActionBarActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.bs_history);
+		setContentView(R.layout.activity_bs_history);
 		ButterKnife.inject(this);
 		
 		mToolbar.setTitle(getResources().getString(R.string.bs_text));
