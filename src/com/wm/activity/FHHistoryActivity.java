@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,7 +20,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wm.entity.DeviceInfo;
 
-public class FHHistoryActivity extends ActionBarActivity implements
+public class FHHistoryActivity extends BaseActivity implements
 		OnChartValueSelectedListener {
 
 	@InjectView(R.id.embryo_history_bar)
@@ -80,8 +79,6 @@ public class FHHistoryActivity extends ActionBarActivity implements
 		for (int i = 0; i < 30; i++)
 			xVals[i] = "" + i;
 
-		// create a chartdata object that contains only the x-axis labels (no
-		// entries or datasets)
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
 		mChart.invalidate();
@@ -102,12 +99,10 @@ public class FHHistoryActivity extends ActionBarActivity implements
 				yVals.add(new Entry(
 						(float) (Math.random() * 50f) + 50f * count, i));
 
-			LineDataSet set = new LineDataSet(yVals, "DataSet " + count);
+			LineDataSet set = new LineDataSet(yVals, getString(R.string.fh_value));
 			set.setLineWidth(2.5f);
 			set.setCircleSize(3f);
-
-			int color = mColors[count % mColors.length];
-
+			int color = getResources().getColor(R.color.red);
 			set.setColor(color);
 			set.setCircleColor(color);
 			set.setHighLightColor(color);
@@ -130,18 +125,4 @@ public class FHHistoryActivity extends ActionBarActivity implements
 
 	}
 	
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		overridePendingTransition(0, R.anim.slide_out_to_right);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (isFinishing()) {
-			overridePendingTransition(R.anim.scale_fade_in,
-					R.anim.slide_out_to_right);
-		}
-	}
 }

@@ -2,7 +2,6 @@ package com.wm.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import butterknife.ButterKnife;
@@ -12,7 +11,7 @@ import butterknife.OnClick;
 import com.github.mikephil.charting.charts.LineChart;
 import com.wm.entity.DeviceInfo;
 
-public class BSHistoryActivity extends ActionBarActivity{
+public class BSHistoryActivity extends BaseActivity{
 	@InjectView(R.id.bs_history_bar)
 	Toolbar mToolbar;
 	
@@ -31,7 +30,7 @@ public class BSHistoryActivity extends ActionBarActivity{
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
-		mChart.setNoDataTextDescription("ÔÝÎÞÊý¾Ý");
+		mChart.setNoDataTextDescription(getString(R.string.nodata));
 	}
 	
 	@OnClick(R.id.btn_begin_check)
@@ -39,5 +38,9 @@ public class BSHistoryActivity extends ActionBarActivity{
 		Intent intent = new Intent(this, ResultActivity.class);
 		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_BS);
 		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_from_right,
+				R.anim.scale_fade_out);
 	}
+	
+	
 }

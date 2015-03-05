@@ -64,7 +64,10 @@
             android:layout_toEndOf="@id/btn_previous"
             android:layout_toStartOf="@+id/btn_next"
             android:text="2013-1-1" 
-            android:background="@color/white"/>
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:paddingTop="3dp"/>
 
         <ImageButton
             android:id="@+id/btn_next"
