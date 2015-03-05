@@ -29,9 +29,11 @@ public class DeviceIcon extends ImageView {
 
 	public void setType(String type) {
 		if(type.equals(DeviceInfo.TYPE_BS)) {
-			setImageResource(R.drawable.glucometer_icon);
+			setImageResource(R.drawable.bs_icon);
 		} else if(type.equals(DeviceInfo.TYPE_BP)) {
-			setImageResource(R.drawable.turgoscope_icon);
+			setImageResource(R.drawable.bp_icon);
+		} else {
+			setImageResource(R.drawable.fh_icon);
 		}
 	}
 

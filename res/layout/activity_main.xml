@@ -18,11 +18,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         
-        <com.wm.activity.MyViewPager
+        <com.wm.customview.MyViewPager
 		   android:id="@+id/main_pager"
 		   android:layout_width="match_parent"
 		   android:layout_height="0dp"
-		   android:layout_weight="7" />
+		   android:layout_weight="6" />
 	
 		<com.wm.customview.PagerSlidingTitleIconTabStrip
 		   android:id="@+id/main_tabs"

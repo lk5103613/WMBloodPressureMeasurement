@@ -1,4 +1,4 @@
-package com.wm.activity;
+package com.wm.customview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

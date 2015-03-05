@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -15,10 +13,10 @@ import com.wm.activity.R;
 public class EmbryoResultFragment extends BaseResultFragment {
 	@InjectView(R.id.embryo_result_chart)
 	LineChart mChart;
-	@InjectView(R.id.result_container)
-	LinearLayout mResultContainer;
-	@InjectView(R.id.text_result)
-	TextView mResultTextView;
+//	@InjectView(R.id.result_container)
+//	LinearLayout mResultContainer;
+//	@InjectView(R.id.text_result)
+//	TextView mResultTextView;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
