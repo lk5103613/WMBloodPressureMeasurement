@@ -149,7 +149,7 @@ public class DeviceFragment extends Fragment {
 			deviceInfos.add(deviceInfo);
 		}
 		for (int i = 0; i < 2; i++) {
-			deviceInfo = new DeviceInfo(TypeEnum.EMBRYO, "Ì¥ÐÄÒÇ" + i);
+			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_EMBRYO, "Ì¥ÐÄÒÇ" + i);
 			deviceInfos.add(deviceInfo);
 		}
 		deviceDataSet.deviceInfos = deviceInfos;
@@ -160,18 +160,13 @@ public class DeviceFragment extends Fragment {
 		System.out.println("device item click " + i);
 		savePosition();
 		Intent intent = null;
-		switch (deviceDataSet.deviceInfos.get(i).getType()) {
-		case GLUCOMETER://ÑªÌÇÒÇ
+		String type = deviceDataSet.deviceInfos.get(i).type;
+		if(DeviceInfo.TYPE_GLUCOMETER.equals(type)){
 			intent = new Intent(getActivity(), BloodHistoryActivity.class);
-			break;
-		case TURGOSCOPE://ÑªÑ¹¼Æ
+		} else if (DeviceInfo.TYPE_TURGOSCOPE.equals(type)){
 			intent = new Intent(getActivity(), BloodHistoryActivity.class);
-			break;
-		case EMBRYO://Ì¥ÐÄÒÇ
+		} else {
 			intent = new Intent(getActivity(), EmbryoHistoryActivity.class);
-			break;
-		default:
-			break;
 		}
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right,

@@ -18,7 +18,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.wm.entity.TypeEnum;
 
 public class BloodHistoryActivity extends ActionBarActivity implements OnChartValueSelectedListener{
 
