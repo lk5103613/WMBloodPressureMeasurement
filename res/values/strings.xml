@@ -38,4 +38,10 @@
 	
 	<string name="fh_text">胎心仪</string>
 	<string name="bs_text">血糖仪</string>
+	
+	<string name="systolic">收缩压</string>
+    <string name="systolic_value">0/mmHg</string>
+    <string name="diastolic">舒张压</string>
+    <string name="diastolic_value">0/mmhg</string>
+    <string name="nodata">暂无数据</string>
 </resources>
