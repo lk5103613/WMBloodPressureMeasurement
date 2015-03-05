@@ -9,6 +9,7 @@ public class DeviceInfo {
 	
 	public String type;
 	public String name;
+	public String address;
 	
 	public DeviceInfo(String type, String name) {
 		super();
