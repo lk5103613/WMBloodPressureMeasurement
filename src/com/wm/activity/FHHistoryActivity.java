@@ -79,8 +79,6 @@ public class FHHistoryActivity extends BaseActivity implements
 		for (int i = 0; i < 30; i++)
 			xVals[i] = "" + i;
 
-		// create a chartdata object that contains only the x-axis labels (no
-		// entries or datasets)
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
 		mChart.invalidate();
@@ -104,7 +102,7 @@ public class FHHistoryActivity extends BaseActivity implements
 			LineDataSet set = new LineDataSet(yVals, getString(R.string.fh_value));
 			set.setLineWidth(2.5f);
 			set.setCircleSize(3f);
-			int color = getResources().getColor(R.color.sky_blue);
+			int color = getResources().getColor(R.color.red);
 			set.setColor(color);
 			set.setCircleColor(color);
 			set.setHighLightColor(color);

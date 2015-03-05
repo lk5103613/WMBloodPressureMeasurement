@@ -6,7 +6,7 @@ public class TypeFactory {
 	
 	private static BaseResultFragment mBPResultFragment = new BPResultFragment();
 	private static BaseResultFragment mBSRFragment = new BSResultFragment();
-	private static BaseResultFragment mEmbryoFragment = new EmbryoResultFragment();
+	private static BaseResultFragment mEmbryoFragment = new FHResultFragment();
 	
 	public static BaseResultFragment getResultFragment(String type) {
 		if(type.equals(DeviceInfo.TYPE_BS)) {

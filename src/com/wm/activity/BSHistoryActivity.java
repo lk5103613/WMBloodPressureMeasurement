@@ -30,7 +30,7 @@ public class BSHistoryActivity extends BaseActivity{
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
-		mChart.setNoDataTextDescription("ÔÝÎÞÊý¾Ý");
+		mChart.setNoDataTextDescription(getString(R.string.nodata));
 	}
 	
 	@OnClick(R.id.btn_begin_check)
@@ -38,6 +38,8 @@ public class BSHistoryActivity extends BaseActivity{
 		Intent intent = new Intent(this, ResultActivity.class);
 		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_BS);
 		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_from_right,
+				R.anim.scale_fade_out);
 	}
 	
 	
