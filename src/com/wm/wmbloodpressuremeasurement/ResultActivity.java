@@ -2,7 +2,6 @@ package com.wm.wmbloodpressuremeasurement;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,6 +10,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.wm.entity.DeviceInfo;
+import com.wm.fragments.BaseResultFragment;
 import com.wm.fragments.TypeFactory;
 
 public class ResultActivity extends ActionBarActivity{
@@ -19,7 +19,7 @@ public class ResultActivity extends ActionBarActivity{
 	Toolbar mToolbar;
 	
 	private ProgressDialog mDialog;
-	private Fragment mFragment;
+	private BaseResultFragment mFragment;
 	
 	
 	@Override
@@ -28,7 +28,9 @@ public class ResultActivity extends ActionBarActivity{
 		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
 		
-		mFragment = TypeFactory.getResultFragment(getIntent().getExtras().getString("type"));
+		String type = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
+		
+		mFragment = TypeFactory.getResultFragment(type);
 
 		mToolbar.setTitle(getResources().getString(R.string.turgoscope));
 		setSupportActionBar(mToolbar);
@@ -63,6 +65,7 @@ public class ResultActivity extends ActionBarActivity{
 				});
 			}
 		}).start();
+		mFragment.record();
 	}
 	
 	@Override

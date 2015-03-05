@@ -1,14 +1,13 @@
 package com.wm.fragments;
 
-import com.wm.wmbloodpressuremeasurement.R;
-
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class BSResultFragment extends Fragment {
+import com.wm.wmbloodpressuremeasurement.R;
+
+public class BSResultFragment extends BaseResultFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -17,6 +16,11 @@ public class BSResultFragment extends Fragment {
 	}
 	
 	public void saveData() {
+		
+	}
+
+	@Override
+	public void record() {
 		
 	}
 
