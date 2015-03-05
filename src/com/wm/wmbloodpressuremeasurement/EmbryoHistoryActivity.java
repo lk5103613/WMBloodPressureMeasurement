@@ -42,7 +42,7 @@ public class EmbryoHistoryActivity extends ActionBarActivity implements
 		setContentView(R.layout.embryo_history);
 		ButterKnife.inject(this);
 
-		mToolbar.setTitle(getResources().getString(R.string.embryo));
+		mToolbar.setTitle(getResources().getString(R.string.fh_text));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
@@ -64,7 +64,7 @@ public class EmbryoHistoryActivity extends ActionBarActivity implements
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(){
 		Intent intent = new Intent(this, ResultActivity.class);
-		intent.putExtra("type", DeviceInfo.TYPE_EMBRYO);
+		intent.putExtra("type", DeviceInfo.TYPE_FH);
 		startActivity(intent);
 	}
 

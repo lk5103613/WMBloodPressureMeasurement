@@ -27,9 +27,9 @@ public class AddDeviceActivity extends ActionBarActivity{
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		
 		String[] type = new String[]{
-			getResources().getString(R.string.turgoscope)+"-1",
-			getResources().getString(R.string.turgoscope)+"-2",
-			getResources().getString(R.string.turgoscope)+"-3"
+			getResources().getString(R.string.bp_text),
+			getResources().getString(R.string.bs_text),
+			getResources().getString(R.string.fh_text)
 		};
 		
 		 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.type_item, type); 

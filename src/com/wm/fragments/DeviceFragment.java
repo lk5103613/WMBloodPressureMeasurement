@@ -32,7 +32,8 @@ import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
 import com.wm.utils.DialogUtils;
 import com.wm.wmbloodpressuremeasurement.AddDeviceActivity;
-import com.wm.wmbloodpressuremeasurement.BloodHistoryActivity;
+import com.wm.wmbloodpressuremeasurement.BSHistoryActivity;
+import com.wm.wmbloodpressuremeasurement.BPHistoryActivity;
 import com.wm.wmbloodpressuremeasurement.EmbryoHistoryActivity;
 import com.wm.wmbloodpressuremeasurement.MainActivity;
 import com.wm.wmbloodpressuremeasurement.R;
@@ -141,15 +142,15 @@ public class DeviceFragment extends Fragment {
 
 		DeviceInfo deviceInfo = null;
 		for (int i = 0; i < 2; i++) {
-			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_TURGOSCOPE, "ÑªÑ¹¼Æ -" + i);
+			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_BP, "ÑªÑ¹¼Æ -" + i);
 			deviceInfos.add(deviceInfo);
 		}
 		for (int i = 0; i < 2; i++) {
-			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_GLUCOMETER, "ÑªÌÇÒÇ" + i);
+			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_BS, "ÑªÌÇÒÇ" + i);
 			deviceInfos.add(deviceInfo);
 		}
 		for (int i = 0; i < 2; i++) {
-			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_EMBRYO, "Ì¥ÐÄÒÇ" + i);
+			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_FH, "Ì¥ÐÄÒÇ" + i);
 			deviceInfos.add(deviceInfo);
 		}
 		deviceDataSet.deviceInfos = deviceInfos;
@@ -157,15 +158,14 @@ public class DeviceFragment extends Fragment {
 
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
-		System.out.println("device item click " + i);
 		savePosition();
 		Intent intent = null;
 		String type = deviceDataSet.deviceInfos.get(i).type;
-		if(DeviceInfo.TYPE_GLUCOMETER.equals(type)){
-			intent = new Intent(getActivity(), BloodHistoryActivity.class);
-		} else if (DeviceInfo.TYPE_TURGOSCOPE.equals(type)){
-			intent = new Intent(getActivity(), BloodHistoryActivity.class);
-		} else {
+		if(DeviceInfo.TYPE_BS.equals(type)){//ÑªÌÇ
+			intent = new Intent(getActivity(), BSHistoryActivity.class);
+		} else if (DeviceInfo.TYPE_BP.equals(type)){//ÑªÑ¹
+			intent = new Intent(getActivity(), BPHistoryActivity.class);
+		} else {//Ì¥ÐÄÒÇ
 			intent = new Intent(getActivity(), EmbryoHistoryActivity.class);
 		}
 		startActivity(intent);

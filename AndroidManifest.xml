@@ -34,12 +34,16 @@
             android:parentActivityName=".MainActivity" >
         </activity>
         <activity
-            android:name=".BloodHistoryActivity"
+            android:name=".BPHistoryActivity"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".BSHistoryActivity"
             android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".ResultActivity"
-            android:parentActivityName=".BloodHistoryActivity" >
+            android:parentActivityName=".BPHistoryActivity" >
         </activity>
         <activity
             android:name=".GuideViewActivity"
