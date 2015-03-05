@@ -2,7 +2,6 @@ package com.wm.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import butterknife.ButterKnife;
@@ -12,7 +11,7 @@ import butterknife.OnClick;
 import com.github.mikephil.charting.charts.LineChart;
 import com.wm.entity.DeviceInfo;
 
-public class BSHistoryActivity extends ActionBarActivity{
+public class BSHistoryActivity extends BaseActivity{
 	@InjectView(R.id.bs_history_bar)
 	Toolbar mToolbar;
 	
@@ -40,4 +39,6 @@ public class BSHistoryActivity extends ActionBarActivity{
 		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_BS);
 		startActivity(intent);
 	}
+	
+	
 }
