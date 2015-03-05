@@ -1,4 +1,4 @@
-package com.wm.wmbloodpressuremeasurement;
+package com.wm.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

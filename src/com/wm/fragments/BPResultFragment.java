@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wm.wmbloodpressuremeasurement.R;
+import com.wm.activity.R;
 
 public class BPResultFragment extends BaseResultFragment  {
 	

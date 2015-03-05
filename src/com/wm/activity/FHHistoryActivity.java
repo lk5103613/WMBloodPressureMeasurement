@@ -1,4 +1,4 @@
-package com.wm.wmbloodpressuremeasurement;
+package com.wm.activity;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wm.entity.DeviceInfo;
 
-public class EmbryoHistoryActivity extends ActionBarActivity implements
+public class FHHistoryActivity extends ActionBarActivity implements
 		OnChartValueSelectedListener {
 
 	@InjectView(R.id.embryo_history_bar)
@@ -39,7 +39,7 @@ public class EmbryoHistoryActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.embryo_history);
+		setContentView(R.layout.fh_history);
 		ButterKnife.inject(this);
 
 		mToolbar.setTitle(getResources().getString(R.string.fh_text));

@@ -2,6 +2,7 @@ package com.wm.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -18,11 +19,12 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
+
+import com.wm.activity.AboutActivity;
+import com.wm.activity.GuideViewActivity;
+import com.wm.activity.MainActivity;
+import com.wm.activity.R;
 import com.wm.entity.SettingData;
-import com.wm.wmbloodpressuremeasurement.AboutActivity;
-import com.wm.wmbloodpressuremeasurement.GuideViewActivity;
-import com.wm.wmbloodpressuremeasurement.MainActivity;
-import com.wm.wmbloodpressuremeasurement.R;
 
 public class SettingFragment extends Fragment  {
 	

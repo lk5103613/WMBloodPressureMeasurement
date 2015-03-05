@@ -1,7 +1,6 @@
 package com.wm.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.wm.wmbloodpressuremeasurement.R;
+import com.wm.activity.R;
 
 public class EmbryoResultFragment extends BaseResultFragment {
 	@InjectView(R.id.embryo_result_chart)
@@ -24,7 +23,7 @@ public class EmbryoResultFragment extends BaseResultFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_embryo_result, container, false);
+		View view = inflater.inflate(R.layout.fragment_fh_result, container, false);
 		ButterKnife.inject(this, view);
 		return view;
 	}

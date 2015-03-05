@@ -1,4 +1,4 @@
-package com.wm.wmbloodpressuremeasurement;
+package com.wm.activity;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class BPHistoryActivity extends ActionBarActivity implements OnChartValue
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.blood_history);
+		setContentView(R.layout.bp_history);
 		ButterKnife.inject(this);
 
 		mToolbar.setTitle(getResources().getString(R.string.bp_text));

@@ -2,7 +2,7 @@ package com.wm.entity;
 
 import android.content.Intent;
 
-import com.wm.wmbloodpressuremeasurement.R;
+import com.wm.activity.R;
 
 public class SettingData {
 	public String settingName;

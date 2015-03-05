@@ -4,11 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.wm.activity.R;
 import com.wm.customview.PagerSlidingTitleIconTabStrip.TitleIconTabProvider;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.IndexFragment;
 import com.wm.fragments.SettingFragment;
-import com.wm.wmbloodpressuremeasurement.R;
 
 public class IndexPagerAdapter extends FragmentStatePagerAdapter implements TitleIconTabProvider  {
 

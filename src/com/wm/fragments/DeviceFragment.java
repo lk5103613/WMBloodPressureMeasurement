@@ -26,17 +26,17 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 
+import com.wm.activity.AddDeviceActivity;
+import com.wm.activity.BPHistoryActivity;
+import com.wm.activity.BSHistoryActivity;
+import com.wm.activity.FHHistoryActivity;
+import com.wm.activity.MainActivity;
+import com.wm.activity.R;
 import com.wm.customview.DeviceIcon;
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
 import com.wm.utils.DialogUtils;
-import com.wm.wmbloodpressuremeasurement.AddDeviceActivity;
-import com.wm.wmbloodpressuremeasurement.BSHistoryActivity;
-import com.wm.wmbloodpressuremeasurement.BPHistoryActivity;
-import com.wm.wmbloodpressuremeasurement.EmbryoHistoryActivity;
-import com.wm.wmbloodpressuremeasurement.MainActivity;
-import com.wm.wmbloodpressuremeasurement.R;
 
 public class DeviceFragment extends Fragment {
 	@InjectView(R.id.device_listview)
@@ -166,7 +166,7 @@ public class DeviceFragment extends Fragment {
 		} else if (DeviceInfo.TYPE_BP.equals(type)){//ÑªÑ¹
 			intent = new Intent(getActivity(), BPHistoryActivity.class);
 		} else {//Ì¥ÐÄÒÇ
-			intent = new Intent(getActivity(), EmbryoHistoryActivity.class);
+			intent = new Intent(getActivity(), FHHistoryActivity.class);
 		}
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right,
