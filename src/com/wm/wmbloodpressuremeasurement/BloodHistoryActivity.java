@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -25,9 +25,6 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
 	@InjectView(R.id.blood_history_bar)
 	Toolbar mToolbar;
 
-	@InjectView(R.id.btn_begin_check)
-	Button btnBegin;
-	
 	@InjectView(R.id.blood_history_chart)
 	LineChart mChart;
 	
@@ -44,18 +41,6 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 
-		btnBegin.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(BloodHistoryActivity.this,
-						BloodCheckActivity.class);
-				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in_from_right,
-						R.anim.scale_fade_out);
-			}
-		});
-		
 		//chart
 		mChart.setOnChartValueSelectedListener(this);
         mChart.setDrawYValues(false);
@@ -68,6 +53,15 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
         
 		addDataSet(0);
 		addDataSet(1);
+	}
+	
+	@OnClick(R.id.btn_begin_check)
+	public void beginCheck(View v) {
+		Intent intent = new Intent(BloodHistoryActivity.this,
+				ResultActivity.class);
+		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_from_right,
+				R.anim.scale_fade_out);
 	}
 
 	@Override

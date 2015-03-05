@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.astuetz.PagerSlidingTitleIconTabStrip.TitleIconTabProvider;
+import com.wm.customview.PagerSlidingTitleIconTabStrip.TitleIconTabProvider;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.IndexFragment;
 import com.wm.fragments.SettingFragment;

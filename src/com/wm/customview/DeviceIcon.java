@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.wm.entity.TypeEnum;
+import com.wm.entity.DeviceInfo;
 import com.wm.wmbloodpressuremeasurement.R;
 
 public class DeviceIcon extends ImageView {
@@ -27,16 +27,11 @@ public class DeviceIcon extends ImageView {
 		super.onDraw(canvas);
 	}
 
-	public void setType(TypeEnum type) {
-		switch (type) {
-		case TURGOSCOPE:
-			setImageResource(R.drawable.turgoscope_icon);
-			break;
-		case GLUCOMETER:
+	public void setType(String type) {
+		if(type.equals(DeviceInfo.TYPE_GLUCOMETER)) {
 			setImageResource(R.drawable.glucometer_icon);
-			break;
-		default:
-			break;
+		} else if(type.equals(DeviceInfo.TYPE_TURGOSCOPE)) {
+			setImageResource(R.drawable.turgoscope_icon);
 		}
 	}
 
