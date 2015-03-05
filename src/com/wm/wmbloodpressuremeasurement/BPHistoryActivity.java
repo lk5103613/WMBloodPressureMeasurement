@@ -20,7 +20,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wm.entity.DeviceInfo;
 
-public class BloodHistoryActivity extends ActionBarActivity implements OnChartValueSelectedListener{
+public class BPHistoryActivity extends ActionBarActivity implements OnChartValueSelectedListener{
 
 	@InjectView(R.id.blood_history_bar)
 	Toolbar mToolbar;
@@ -36,7 +36,7 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
 		setContentView(R.layout.blood_history);
 		ButterKnife.inject(this);
 
-		mToolbar.setTitle(getResources().getString(R.string.turgoscope));
+		mToolbar.setTitle(getResources().getString(R.string.bp_text));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
@@ -57,9 +57,9 @@ public class BloodHistoryActivity extends ActionBarActivity implements OnChartVa
 	
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(View v) {
-		Intent intent = new Intent(BloodHistoryActivity.this,
+		Intent intent = new Intent(BPHistoryActivity.this,
 				ResultActivity.class);
-		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_GLUCOMETER);
+		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_BP);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_from_right,
 				R.anim.scale_fade_out);

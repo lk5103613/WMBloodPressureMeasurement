@@ -12,7 +12,7 @@
     <string name="device_type">设备类型</string>
     <string name="setting_more">更多内容</string>
     <string name="title_activity_about">AboutActivity</string>
-    <string name="turgoscope">血压计</string>
+    <string name="bp_text">血压计</string>
     <string name="btn_match">配对</string>
     <string name="add_new_device">增加新设备</string>
     <string name="check_history">检测历史</string>
@@ -36,5 +36,6 @@
     <string name="title_activity_blood_sugar_check">BloodSugarCheckActivity</string>
 
 	
-	<string name="embryo">胎心仪</string>
+	<string name="fh_text">胎心仪</string>
+	<string name="bs_text">血糖仪</string>
 </resources>
