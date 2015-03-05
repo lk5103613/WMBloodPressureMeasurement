@@ -2,18 +2,19 @@ package com.wm.fragments;
 
 import com.wm.entity.DeviceInfo;
 
-import android.support.v4.app.Fragment;
-
 public class TypeFactory {
 	
-	private static Fragment mBPResultFragment = new BPResultFragment();
-	private static Fragment mBSRFragment = new BSResultFragment();
+	private static BaseResultFragment mBPResultFragment = new BPResultFragment();
+	private static BaseResultFragment mBSResultFragment = new BSResultFragment();
+	private static BaseResultFragment mEOResultFragment = new EOResultFragment();
 	
-	public static Fragment getResultFragment(String type) {
+	public static BaseResultFragment getResultFragment(String type) {
 		if(type.equals(DeviceInfo.TYPE_GLUCOMETER)) {
-			return mBSRFragment;
+			return mBSResultFragment;
 		} else if(type.equals(DeviceInfo.TYPE_TURGOSCOPE)) {
 			return mBPResultFragment;
+		} else if(type.equals(DeviceInfo.TYPE_EMBRYO)) {
+			return mEOResultFragment;
 		}
 		return null;
 	}
