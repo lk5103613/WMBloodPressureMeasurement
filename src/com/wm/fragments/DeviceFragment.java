@@ -34,7 +34,7 @@ import com.wm.utils.DialogUtils;
 import com.wm.wmbloodpressuremeasurement.AddDeviceActivity;
 import com.wm.wmbloodpressuremeasurement.BSHistoryActivity;
 import com.wm.wmbloodpressuremeasurement.BPHistoryActivity;
-import com.wm.wmbloodpressuremeasurement.EmbryoHistoryActivity;
+import com.wm.wmbloodpressuremeasurement.FHHistoryActivity;
 import com.wm.wmbloodpressuremeasurement.MainActivity;
 import com.wm.wmbloodpressuremeasurement.R;
 
@@ -166,7 +166,7 @@ public class DeviceFragment extends Fragment {
 		} else if (DeviceInfo.TYPE_BP.equals(type)){//ÑªÑ¹
 			intent = new Intent(getActivity(), BPHistoryActivity.class);
 		} else {//Ì¥ÐÄÒÇ
-			intent = new Intent(getActivity(), EmbryoHistoryActivity.class);
+			intent = new Intent(getActivity(), FHHistoryActivity.class);
 		}
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right,

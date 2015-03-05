@@ -49,7 +49,7 @@
             android:name=".GuideViewActivity"
             android:label="@string/title_activity_guide_view" >
         </activity>
-        <activity android:name=".EmbryoHistoryActivity" 
+        <activity android:name=".FHHistoryActivity" 
             android:parentActivityName=".MainActivity">
         </activity>
         <activity

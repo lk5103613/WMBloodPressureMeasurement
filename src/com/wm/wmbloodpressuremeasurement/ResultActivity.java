@@ -59,7 +59,7 @@ public class ResultActivity extends ActionBarActivity{
 				intent = new Intent(this, BSHistoryActivity.class);
 				break;
 			case DeviceInfo.TYPE_FH://Ì¥ÐÄ¼Æ
-				intent = new Intent(this, EmbryoHistoryActivity.class);
+				intent = new Intent(this, FHHistoryActivity.class);
 				break;
 			}
 	        intent.putExtra("type", type);

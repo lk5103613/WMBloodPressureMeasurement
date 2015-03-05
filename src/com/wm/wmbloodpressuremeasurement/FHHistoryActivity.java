@@ -21,7 +21,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wm.entity.DeviceInfo;
 
-public class EmbryoHistoryActivity extends ActionBarActivity implements
+public class FHHistoryActivity extends ActionBarActivity implements
 		OnChartValueSelectedListener {
 
 	@InjectView(R.id.embryo_history_bar)
