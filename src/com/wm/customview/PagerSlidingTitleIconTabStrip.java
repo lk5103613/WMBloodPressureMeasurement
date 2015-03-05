@@ -42,7 +42,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.wm.wmbloodpressuremeasurement.R;
+import com.wm.activity.R;
 
 public class PagerSlidingTitleIconTabStrip extends HorizontalScrollView {
 

@@ -5,8 +5,8 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.wm.activity.R;
 import com.wm.entity.DeviceInfo;
-import com.wm.wmbloodpressuremeasurement.R;
 
 public class DeviceIcon extends ImageView {
 

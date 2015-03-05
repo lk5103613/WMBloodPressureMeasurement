@@ -26,17 +26,17 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 
+import com.wm.activity.AddDeviceActivity;
+import com.wm.activity.BPHistoryActivity;
+import com.wm.activity.BSHistoryActivity;
+import com.wm.activity.FHHistoryActivity;
+import com.wm.activity.MainActivity;
+import com.wm.activity.R;
 import com.wm.customview.DeviceIcon;
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
 import com.wm.utils.DialogUtils;
-import com.wm.wmbloodpressuremeasurement.AddDeviceActivity;
-import com.wm.wmbloodpressuremeasurement.BSHistoryActivity;
-import com.wm.wmbloodpressuremeasurement.BPHistoryActivity;
-import com.wm.wmbloodpressuremeasurement.FHHistoryActivity;
-import com.wm.wmbloodpressuremeasurement.MainActivity;
-import com.wm.wmbloodpressuremeasurement.R;
 
 public class DeviceFragment extends Fragment {
 	@InjectView(R.id.device_listview)

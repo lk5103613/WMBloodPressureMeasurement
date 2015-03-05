@@ -1,4 +1,4 @@
-package com.wm.wmbloodpressuremeasurement;
+package com.wm.activity;
 
 import java.util.ArrayList;
 
