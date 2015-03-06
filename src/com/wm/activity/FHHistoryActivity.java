@@ -1,6 +1,7 @@
 package com.wm.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -20,6 +22,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wm.entity.DeviceInfo;
+import com.wm.entity.FHResult;
 
 public class FHHistoryActivity extends BaseActivity implements
 		OnChartValueSelectedListener {
@@ -32,11 +35,13 @@ public class FHHistoryActivity extends BaseActivity implements
 	ImageButton btnNext;
 	@InjectView(R.id.btn_previous)
 	ImageButton btnPrevious;
-
+	@InjectView(R.id.text_date)
+	TextView dateText;
 	@InjectView(R.id.embryo_history_chart)
 	LineChart mChart;
 	int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
-	List<List<Float>> fhResults;
+	List<FHResult> fhResults;
+	int index = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +57,10 @@ public class FHHistoryActivity extends BaseActivity implements
 		initLineChart();
 		addEmptyData();
 		mChart.invalidate();
-
-		addDataSet(0);
+		
+		initData();
+		addDataSet(index);
+		dateText.setText(fhResults.get(index).getDate());
 
 	}
 	
@@ -79,32 +86,29 @@ public class FHHistoryActivity extends BaseActivity implements
 	private void addEmptyData() {
 
 		// create 30 x-vals
-		String[] xVals = new String[30];
+		ArrayList<String> xVals = new ArrayList<>();
 
-		for (int i = 0; i < 30; i++)
-			xVals[i] = "" + i;
+		for (int i = 1; i <= 10; i++)
+			xVals.add(i+"");
 
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
 		mChart.invalidate();
 	}
 
-	private void addDataSet(int colorPosition) {
+	private void addDataSet(int position) {
 
 		LineData data = mChart.getData();
 
 		if (data != null) {
-
-			int count = (data.getDataSetCount() + 1);
-
 			// create 10 y-vals
-			ArrayList<Entry> yVals = new ArrayList<Entry>();
+			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
+			List<Float> fhValues = fhResults.get(position).getFhValues();
+			for (int i = 0 ; i < fhValues.size(); i++) {
+				yValsFh.add(new Entry(fhValues.get(i),i));
+			}
 
-			for (int i = 0; i < data.getXValCount(); i++)
-				yVals.add(new Entry(
-						(float) (Math.random() * 50f) + 50f * count, i));
-
-			LineDataSet set = new LineDataSet(yVals, getString(R.string.fh_value));
+			LineDataSet set = new LineDataSet(yValsFh, getString(R.string.fh_value));
 			set.setLineWidth(2.5f);
 			set.setCircleSize(3f);
 			int color = getResources().getColor(R.color.red);
@@ -114,7 +118,7 @@ public class FHHistoryActivity extends BaseActivity implements
 
 			data.addDataSet(set);
 			mChart.notifyDataSetChanged();
-			mChart.invalidate();
+			mChart.animateY(1500);
 		}
 	}
 
@@ -122,12 +126,25 @@ public class FHHistoryActivity extends BaseActivity implements
 		fhResults = new ArrayList<>();
 		for (int i = 0; i < 3; i ++) {
 			ArrayList<Float> fhValues = new ArrayList<>();
-//			for (int i = 0; i < 10)
+			for (int j = 0; j < 10; j++){
+				float fh = (float) (Math.random() * 50f + 50f * 2);
+				
+				fhValues.add(fh);
+				System.out.println("value--" + fh);
+			}
+			Calendar calendar =Calendar.getInstance();
+			String date = calendar.get(Calendar.YEAR)+
+					"."+(calendar.get(Calendar.MONTH))+"."+(calendar.get(Calendar.DATE)+i);
+			
+			FHResult fhResult = new FHResult(fhValues, date);
+			
+			fhResults.add(fhResult);
 		}
 	}
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
-		Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+		float fh = fhResults.get(0).getFhValues().get(e.getXIndex());
+		Toast.makeText(this, "胎心值： " +(int)fh , Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -136,5 +153,26 @@ public class FHHistoryActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 
 	}
+	@OnClick(R.id.btn_next)
+	public void nextClick(){
+		mChart.clear();
+		if (index>= fhResults.size()) {
+			Toast.makeText(this, "已经是最后一条数据", Toast.LENGTH_LONG).show();
+			return;
+		}
+		addDataSet(++index);
+	}
+	
+	@OnClick(R.id.btn_previous)
+	public void previousClick(){
+		mChart.clear();
+		if (index<=0) {
+			Toast.makeText(this, "已经是第一条数据", Toast.LENGTH_LONG).show();
+			return;
+		}
+		addDataSet(--index);
+	}
+	
+	
 	
 }
