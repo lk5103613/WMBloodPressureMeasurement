@@ -50,5 +50,9 @@
 	    android:layout_alignParentBottom="true"
 	    android:background="@drawable/btn_match_bg"
 	    android:textColor="@color/white"
+	    android:layout_marginBottom="56dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+	    android:layout_marginTop="20dp"
 	    android:textSize="16sp"/>
 </RelativeLayout>
