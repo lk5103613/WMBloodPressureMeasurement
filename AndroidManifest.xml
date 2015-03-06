@@ -22,7 +22,7 @@
             android:label="@string/title_activity_about" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.wm.wmbloodpressuremeasurement.MainActivity" />
+                android:value="com.wm.activity.MainActivity" />
         </activity>
         <activity
             android:name=".AddDeviceActivity"
