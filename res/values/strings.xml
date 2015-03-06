@@ -50,5 +50,6 @@
     <string name="btn_login">登陆</string>
     <string name="msg_fist_data">已经是第一条数据</string>
     <string name="msg_last_data">已经是最后一条数据</string>
+    <string name="current_version">当前版本为： </string>
 
 </resources>

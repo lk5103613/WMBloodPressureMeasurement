@@ -37,6 +37,7 @@ import com.wm.customview.DeviceIcon;
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
+import com.wm.utils.BtnCallback;
 import com.wm.utils.DialogUtils;
 
 public class DeviceFragment extends Fragment {
@@ -160,7 +161,7 @@ public class DeviceFragment extends Fragment {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	public void resetList() {
 		mDeviceDataSet.option = null;
 		mAdapter.notifyDataSetChanged();
@@ -287,15 +288,23 @@ public class DeviceFragment extends Fragment {
 
 	}
 
-	public void update(int i) {
+	public void update(final int i) {
 		String name = mDeviceDataSet.deviceInfos.get(i).name;
-		mNameEditText = new EditText(getActivity());
-		mNameEditText.setTextColor(getResources().getColor(R.color.dark_gray));
-		mNameEditText.setText(name);
-		new AlertDialog.Builder(mContext).setTitle("设备名称")
-				.setIcon(R.drawable.ic_action_edit).setView(mNameEditText)
-				.setPositiveButton("确定", new DialogClickListener(i))
-				.setNegativeButton("取消", null).show();
+		LayoutInflater factory = LayoutInflater.from(getActivity());
+		View mainView = factory.inflate(R.layout.change_device_name, null);
+		final TextView txtDeviceName = ButterKnife.findById(mainView,
+				R.id.txt_device_name);
+		txtDeviceName.setText(name);
+		DialogUtils.showViewDialog(getActivity(), R.drawable.ic_action_edit,
+				"设备名称", mainView, "确定", "取消", new BtnCallback() {
+					@Override
+					public void click(final DialogInterface dialog,
+							final int which) {
+						String deviceName = txtDeviceName.getText().toString();
+						mDeviceDataSet.deviceInfos.get(i).name = deviceName;
+						mAdapter.notifyDataSetChanged();
+					}
+				}, null);
 	}
 
 	class BtnClickListener implements View.OnClickListener {

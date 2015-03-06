@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
@@ -61,13 +62,14 @@ public class SettingFragment extends Fragment  {
 	
 	@OnItemClick(R.id.setting_list)
 	public void clickCallback(int position) {
-		System.out.println("position " + position);
 		SettingData data = this.items.get(position);
-		if(data.hasMoreContent) {
+		if(data.hasSubContent && data.settingName.equals("∞Ê±æ–≈œ¢")) {
+			String rmdStr = getResources().getString(R.string.current_version);
+			Toast.makeText(getActivity(), rmdStr + data.subContent, Toast.LENGTH_SHORT).show();
+		} else if(data.hasMoreContent) {
 			getActivity().startActivity(data.targetIntent);
 			getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
 		}
-		
 		SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sp.edit();
 		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_SETTING);
