@@ -142,11 +142,11 @@ public class FHHistoryActivity extends BaseActivity implements
 			fhResults.add(fhResult);
 		}
 	}
+	
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
 		float fh = fhResults.get(0).fhValues.get(e.getXIndex());
 		Toast.makeText(this, "Ì¥ÐÄÖµ£º " +(int)fh , Toast.LENGTH_SHORT).show();
-
 	}
 
 	@Override
