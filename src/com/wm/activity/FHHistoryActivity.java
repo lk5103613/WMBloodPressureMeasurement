@@ -1,6 +1,7 @@
 package com.wm.activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ public class FHHistoryActivity extends BaseActivity implements
 	@InjectView(R.id.embryo_history_chart)
 	LineChart mChart;
 	int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
+	List<List<Float>> fhResults;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -115,6 +118,13 @@ public class FHHistoryActivity extends BaseActivity implements
 		}
 	}
 
+	private void initData(){
+		fhResults = new ArrayList<>();
+		for (int i = 0; i < 3; i ++) {
+			ArrayList<Float> fhValues = new ArrayList<>();
+//			for (int i = 0; i < 10)
+		}
+	}
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
 		Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();

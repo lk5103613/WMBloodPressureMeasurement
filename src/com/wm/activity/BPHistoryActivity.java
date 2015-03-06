@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -27,12 +26,8 @@ public class BPHistoryActivity extends BaseActivity implements
 
 	@InjectView(R.id.blood_history_bar)
 	Toolbar mToolbar;
-
 	@InjectView(R.id.blood_history_chart)
 	LineChart mChart;
-
-	int[] mColors = new int[]{R.color.dark_green, R.color.sky_blue};
-	int[] mName = new int[]{R.string.systolic, R.string.diastolic};
 	List<BPResult> bpResults;
 
 	@Override
@@ -97,7 +92,6 @@ public class BPHistoryActivity extends BaseActivity implements
 		LineData data = mChart.getData();
 
 		if (data != null) {
-
 			// Ê’≈
 			ArrayList<Entry> yValsSz = new ArrayList<Entry>();
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();
@@ -128,7 +122,7 @@ public class BPHistoryActivity extends BaseActivity implements
 			data.addDataSet(ssSet);
 			
 			mChart.notifyDataSetChanged();
-			mChart.invalidate();
+			mChart.animateY(1500);//…Ë÷√Y÷·∂Øª≠ ∫¡√Î;
 		}
 	}
 	
