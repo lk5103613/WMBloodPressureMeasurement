@@ -63,6 +63,7 @@ public class ResultActivity extends ActionBarActivity{
 			}
 	        intent.putExtra("type", type);
 	        startActivity(intent);
+	        overridePendingTransition(R.anim.scale_fade_in, R.anim.slide_out_to_right);
 	    }
 	    return super.onOptionsItemSelected(item);
 	}
