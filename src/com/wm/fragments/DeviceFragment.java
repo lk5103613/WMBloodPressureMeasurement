@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -124,7 +125,7 @@ public class DeviceFragment extends Fragment {
 			savePosition();
 			mDeviceDataSet.option = OptionEnum.ITEM_ADD;
 			mAdapter.notifyDataSetChanged();
-			Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
+			Intent intent = new Intent(mContext, AddDeviceActivity.class);
 			startActivity(intent);
 			getActivity().overridePendingTransition(R.anim.slide_in_from_right,
 					R.anim.scale_fade_out);
@@ -196,11 +197,11 @@ public class DeviceFragment extends Fragment {
 		Intent intent = null;
 		String type = mDeviceDataSet.deviceInfos.get(i).type;
 		if (DeviceInfo.TYPE_BS.equals(type)) {// 血糖
-			intent = new Intent(getActivity(), BSHistoryActivity.class);
+			intent = new Intent(mContext, BSHistoryActivity.class);
 		} else if (DeviceInfo.TYPE_BP.equals(type)) {// 血压
-			intent = new Intent(getActivity(), BPHistoryActivity.class);
+			intent = new Intent(mContext, BPHistoryActivity.class);
 		} else {// 胎心仪
-			intent = new Intent(getActivity(), FHHistoryActivity.class);
+			intent = new Intent(mContext, FHHistoryActivity.class);
 		}
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right,
@@ -289,12 +290,13 @@ public class DeviceFragment extends Fragment {
 
 	public void update(final int i) {
 		String name = mDeviceDataSet.deviceInfos.get(i).name;
-		LayoutInflater factory = LayoutInflater.from(getActivity());
-		View mainView = factory.inflate(R.layout.change_device_name, null);
-		final TextView txtDeviceName = ButterKnife.findById(mainView,
+		LayoutInflater factory = LayoutInflater.from(mContext);
+		View mainView = factory.inflate(R.layout.change_device_name, new LinearLayout(mContext), false);
+		final EditText txtDeviceName = ButterKnife.findById(mainView,
 				R.id.txt_device_name);
 		txtDeviceName.setText(name);
-		DialogUtils.showViewDialog(getActivity(), R.drawable.ic_action_edit,
+		txtDeviceName.setSelection(name.length());
+		DialogUtils.showViewDialog(mContext, R.drawable.ic_action_edit,
 				"设备名称", mainView, "确定", "取消", new BtnCallback() {
 					@Override
 					public void click(final DialogInterface dialog,
@@ -317,7 +319,7 @@ public class DeviceFragment extends Fragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_delete:
-				DialogUtils.dialogTwoButton(getActivity(), "删除设备？", "删除", "删除",
+				DialogUtils.dialogTwoButton(mContext, "删除设备？", "删除", "删除",
 						"取消", new OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -335,23 +337,6 @@ public class DeviceFragment extends Fragment {
 				break;
 			}
 		}
-	}
-
-	class DialogClickListener implements OnClickListener {
-		private int position;
-
-		public DialogClickListener(int position) {
-			this.position = position;
-		}
-
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-
-			mDeviceDataSet.deviceInfos.get(position).name = mNameEditText
-					.getText().toString().trim();
-			mAdapter.notifyDataSetChanged();
-		}
-
 	}
 
 	/**
