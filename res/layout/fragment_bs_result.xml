@@ -4,7 +4,7 @@
     android:layout_height="48dp"
     android:layout_marginEnd="10dp"
     android:layout_marginStart="10dp"
-    android:background="@color/recycle_item"
+    android:background="@color/white"
     android:layout_marginTop="30dp"
     android:layout_marginBottom="30dp"
     android:orientation="horizontal" >
