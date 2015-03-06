@@ -4,10 +4,10 @@ import java.util.List;
 
 public class FHResult {
 	private List<Float> fhValues;
-	private String date;
+	private Long date;
 	
 	public FHResult(){}
-	public FHResult(List<Float> fhValues, String date){
+	public FHResult(List<Float> fhValues, Long date){
 		this.fhValues = fhValues;
 		this.date = date;
 	}
@@ -17,10 +17,10 @@ public class FHResult {
 	public void setFhValues(List<Float> fhValues) {
 		this.fhValues = fhValues;
 	}
-	public String getDate() {
+	public Long getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Long date) {
 		this.date = date;
 	}
 	

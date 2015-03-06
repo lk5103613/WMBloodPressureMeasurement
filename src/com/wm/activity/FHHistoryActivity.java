@@ -2,6 +2,7 @@ package com.wm.activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
@@ -60,7 +61,6 @@ public class FHHistoryActivity extends BaseActivity implements
 		
 		initData();
 		addDataSet(index);
-		dateText.setText(fhResults.get(index).getDate());
 
 	}
 	
@@ -97,6 +97,10 @@ public class FHHistoryActivity extends BaseActivity implements
 	}
 
 	private void addDataSet(int position) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(fhResults.get(position).getDate());
+		dateText.setText(calendar.get(Calendar.YEAR)+"."+
+		(calendar.get(Calendar.MONTH)+1)+"."+(calendar.get(Calendar.DATE)+position));
 
 		LineData data = mChart.getData();
 
@@ -130,13 +134,8 @@ public class FHHistoryActivity extends BaseActivity implements
 				float fh = (float) (Math.random() * 50f + 50f * 2);
 				
 				fhValues.add(fh);
-				System.out.println("value--" + fh);
 			}
-			Calendar calendar =Calendar.getInstance();
-			String date = calendar.get(Calendar.YEAR)+
-					"."+(calendar.get(Calendar.MONTH))+"."+(calendar.get(Calendar.DATE)+i);
-			
-			FHResult fhResult = new FHResult(fhValues, date);
+			FHResult fhResult = new FHResult(fhValues, new Date().getTime());
 			
 			fhResults.add(fhResult);
 		}
@@ -155,21 +154,23 @@ public class FHHistoryActivity extends BaseActivity implements
 	}
 	@OnClick(R.id.btn_next)
 	public void nextClick(){
-		mChart.clear();
-		if (index>= fhResults.size()) {
-			Toast.makeText(this, "已经是最后一条数据", Toast.LENGTH_LONG).show();
+		
+		if (index>= (fhResults.size()-1)) {
+			Toast.makeText(this, getString(R.string.msg_last_data), Toast.LENGTH_LONG).show();
 			return;
 		}
+		mChart.getData().removeDataSet(0);
 		addDataSet(++index);
 	}
 	
 	@OnClick(R.id.btn_previous)
 	public void previousClick(){
-		mChart.clear();
+		
 		if (index<=0) {
-			Toast.makeText(this, "已经是第一条数据", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, getString(R.string.msg_fist_data), Toast.LENGTH_LONG).show();
 			return;
 		}
+		mChart.getData().removeDataSet(0);
 		addDataSet(--index);
 	}
 	
