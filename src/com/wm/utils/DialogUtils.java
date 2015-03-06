@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
 
 public class DialogUtils {
+	
 	/**
 	 * show dialog with the positive and negative button
 	 * 
@@ -27,8 +28,6 @@ public class DialogUtils {
 		builder.setNegativeButton(negative, null);
 		builder.setCancelable(true);
 		builder.create().show();
-		
-		
-		
 	}
+	
 }

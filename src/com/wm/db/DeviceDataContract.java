@@ -15,11 +15,29 @@ public class DeviceDataContract {
 		public static final String COLUMN_NAME_NULLABLE = "null";
 	}
 	
-	public static abstract class DataEntry implements BaseColumns {
-		public static final String TABLE_NAME = "data";
-		public static final String COLUMN_NAME_ID = "data_id";
+	public static abstract class BPDataEntry implements BaseColumns {
+		public static final String TABLE_NAME = "bp_data";
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_SZVALUE = "sz_value";
+		public static final String COLUMN_NAME_SSVALUE = "ss_value";
+		public static final String COLUMN_NAME_DATE = "date";
 		public static final String COLUMN_NAME_NULLABLE = "null";
 	}
 	
+	public static abstract class BSDataEntry implements BaseColumns {
+		public static final String TABLE_NAME = "bs_data";
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_BSVALUE = "bs_value";
+		public static final String COLUMN_NAME_DATE = "date";
+		public static final String COLUMN_NAME_NULLABLE = "null";
+	}
+	
+	public static abstract class FHDataEntry implements BaseColumns {
+		public static final String TABLE_NAME = "fh_data";
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_FHVALUES = "fh_values";
+		public static final String COLUMN_NAME_DATE = "date";
+		public static final String COLUMN_NAME_NULLABLE = "null";
+	}
 	
 }

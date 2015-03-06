@@ -1,8 +1,11 @@
 package com.wm.entity;
 
 public class BPResult {
-	private float szValue;
-	private float ssValue;
+	
+	public int id;
+	public float szValue;
+	public float ssValue;
+	public long date;
 	
 	public BPResult() {
 	}
@@ -12,17 +15,14 @@ public class BPResult {
 		this.ssValue = ssValue;
 	}
 	
-	public float getSzValue() {
-		return szValue;
+	public BPResult(float szValue, float ssValue, long date) {
+		this(szValue, ssValue);
+		this.date = date;
 	}
-	public void setSzValue(float szValue) {
-		this.szValue = szValue;
-	}
-	public float getSsValue() {
-		return ssValue;
-	}
-	public void setSsValue(float ssValue) {
-		this.ssValue = ssValue;
+	
+	public BPResult(int id, float szValue, float ssValue, long date) {
+		this(szValue, ssValue, date);
+		this.id = id;
 	}
 
 }

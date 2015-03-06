@@ -96,8 +96,8 @@ public class BPHistoryActivity extends BaseActivity implements
 			ArrayList<Entry> yValsSz = new ArrayList<Entry>();
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();
 			for (int i = 0; i < bpResults.size(); i++) {
-				yValsSz.add(new Entry(bpResults.get(i).getSzValue(),i));
-				yValsSs.add(new Entry(bpResults.get(i).getSsValue(),i));
+				yValsSz.add(new Entry(bpResults.get(i).szValue,i));
+				yValsSs.add(new Entry(bpResults.get(i).ssValue,i));
 			}
 
 			
@@ -137,8 +137,8 @@ public class BPHistoryActivity extends BaseActivity implements
 
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
-		float sz = bpResults.get(e.getXIndex()).getSzValue();
-		float ss = bpResults.get(e.getXIndex()).getSsValue();
+		float sz = bpResults.get(e.getXIndex()).szValue;
+		float ss = bpResults.get(e.getXIndex()).ssValue;
 		Toast.makeText(this, "ÊæÕÅÑ¹£º " + (int)sz + "  ÊÕËõÑ¹£º " + (int)ss, Toast.LENGTH_SHORT).show();
 	}
 

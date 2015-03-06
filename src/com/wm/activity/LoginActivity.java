@@ -28,7 +28,7 @@ public class LoginActivity extends Activity {
 		ButterKnife.inject(this);
 
 		mContext = LoginActivity.this;
-
+		
 	}
 
 	@OnClick(R.id.btn_login)
