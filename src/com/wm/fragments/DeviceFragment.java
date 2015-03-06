@@ -209,8 +209,7 @@ public class DeviceFragment extends Fragment {
 	}
 
 	private void savePosition() {
-		SharedPreferences sp = getActivity().getPreferences(
-				Context.MODE_PRIVATE);
+		SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.SP_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sp.edit();
 		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_DEVICE);
 		editor.commit();
