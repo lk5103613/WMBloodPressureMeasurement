@@ -25,6 +25,7 @@ public class LoginActivity extends Activity {
 	public void login(View v) {
 		Intent intent = new Intent(mContext, MainActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 }

@@ -94,4 +94,9 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 	
+	@Override
+	protected void onDestroy() {
+		System.out.println("main activity destory");
+		super.onDestroy();
+	}
 }
