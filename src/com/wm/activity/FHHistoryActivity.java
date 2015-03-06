@@ -124,7 +124,7 @@ public class FHHistoryActivity extends BaseActivity implements
 
 			data.addDataSet(set);
 			mChart.notifyDataSetChanged();
-			mChart.animateY(1500);
+			mChart.animateY(1000);
 		}
 	}
 
