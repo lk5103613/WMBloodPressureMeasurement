@@ -20,6 +20,7 @@ import com.wm.fragments.DeviceFragment.OnStateChangeListener;
 public class MainActivity extends ActionBarActivity implements OnStateChangeListener, OnPageChangeListener {
 	
 	public static String PREVIOUS_TAB_PAGE = "previous_page";
+	public static String SP_NAME = "prefs_page";
 	public static int PAGE_SETTING = 2;
 	public static int PAGE_DEVICE = 1;
 	public static int PAGE_HOME = 0;
@@ -44,7 +45,7 @@ public class MainActivity extends ActionBarActivity implements OnStateChangeList
 		setContentView(R.layout.activity_main);
 		ButterKnife.inject(this);
 		
-		mSharePref = getPreferences(Context.MODE_PRIVATE);
+		mSharePref = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
 		mContext = MainActivity.this;
 		mBackClickTimes = 0;
 		
@@ -132,9 +133,4 @@ public class MainActivity extends ActionBarActivity implements OnStateChangeList
 		}
 	}
 	
-	@Override
-	protected void onDestroy() {
-		System.out.println("main activity destory");
-		super.onDestroy();
-	}
 }

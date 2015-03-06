@@ -70,7 +70,7 @@ public class SettingFragment extends Fragment  {
 			getActivity().startActivity(data.targetIntent);
 			getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
 		}
-		SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.SP_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sp.edit();
 		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_SETTING);
 		editor.commit();
