@@ -131,6 +131,7 @@ public class DeviceFragment extends Fragment {
 			break;
 		case R.id.action_delete_device:
 			isDelete = true;
+			isEdit = false;
 			mCallback.onStateChange(STATE_DELETE);
 			mDeviceDataSet.option = OptionEnum.ITEM_DELETE;
 			mAdapter.notifyDataSetChanged();
@@ -143,6 +144,7 @@ public class DeviceFragment extends Fragment {
 			break;
 		case R.id.action_change_name:
 			isEdit = true;
+			isDelete = false;
 			mCallback.onStateChange(STATE_EDIT);
 			mDeviceDataSet.option = OptionEnum.ITEM_UPDATE;
 			mAdapter.notifyDataSetChanged();
