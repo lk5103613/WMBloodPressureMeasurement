@@ -175,7 +175,4 @@ public class FHHistoryActivity extends BaseActivity implements
 		mChart.getData().removeDataSet(0);
 		addDataSet(--index);
 	}
-	
-	
-	
 }
