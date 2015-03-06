@@ -128,7 +128,6 @@ public class DeviceFragment extends Fragment {
 			startActivity(intent);
 			getActivity().overridePendingTransition(R.anim.slide_in_from_right,
 					R.anim.scale_fade_out);
-
 			break;
 		case R.id.action_delete_device:
 			isDelete = true;

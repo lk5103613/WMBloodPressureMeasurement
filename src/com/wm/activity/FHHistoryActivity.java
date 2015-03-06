@@ -57,8 +57,10 @@ public class FHHistoryActivity extends BaseActivity implements
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(){
 		Intent intent = new Intent(this, ResultActivity.class);
-		intent.putExtra("type", DeviceInfo.TYPE_FH);
+		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_FH);
 		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_from_right,
+				R.anim.scale_fade_out);
 	}
 
 	private void initLineChart(){

@@ -132,4 +132,9 @@ public class MainActivity extends ActionBarActivity implements OnStateChangeList
 		}
 	}
 	
+	@Override
+	protected void onDestroy() {
+		System.out.println("main activity destory");
+		super.onDestroy();
+	}
 }

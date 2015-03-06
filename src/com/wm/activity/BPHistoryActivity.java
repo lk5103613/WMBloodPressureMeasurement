@@ -2,12 +2,13 @@ package com.wm.activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -18,9 +19,10 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.wm.entity.BPResult;
 import com.wm.entity.DeviceInfo;
 
-public class BPHistoryActivity extends ActionBarActivity implements
+public class BPHistoryActivity extends BaseActivity implements
 		OnChartValueSelectedListener {
 
 	@InjectView(R.id.blood_history_bar)
@@ -31,6 +33,7 @@ public class BPHistoryActivity extends ActionBarActivity implements
 
 	int[] mColors = new int[]{R.color.dark_green, R.color.sky_blue};
 	int[] mName = new int[]{R.string.systolic, R.string.diastolic};
+	List<BPResult> bpResults;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +51,8 @@ public class BPHistoryActivity extends ActionBarActivity implements
 		addEmptyData();
 		mChart.invalidate();
 
-		addDataSet(0);
-		addDataSet(1);
+		initData();
+		addDataSet();
 	}
 
 	@OnClick(R.id.btn_begin_check)
@@ -59,21 +62,6 @@ public class BPHistoryActivity extends ActionBarActivity implements
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_from_right,
 				R.anim.scale_fade_out);
-	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		overridePendingTransition(0, R.anim.slide_out_to_right);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (isFinishing()) {
-			overridePendingTransition(R.anim.scale_fade_in,
-					R.anim.slide_out_to_right);
-		}
 	}
 
 	public void initLineChart(){
@@ -104,40 +92,60 @@ public class BPHistoryActivity extends ActionBarActivity implements
 		mChart.invalidate();
 	}
 
-	private void addDataSet(int colorPosition) {
+	private void addDataSet() {
 
 		LineData data = mChart.getData();
 
 		if (data != null) {
 
-			int count = (data.getDataSetCount() + 1);
+			// Ê’≈
+			ArrayList<Entry> yValsSz = new ArrayList<Entry>();
+			ArrayList<Entry> yValsSs = new ArrayList<Entry>();
+			for (int i = 0; i < bpResults.size(); i++) {
+				yValsSz.add(new Entry(bpResults.get(i).getSzValue(),i));
+				yValsSs.add(new Entry(bpResults.get(i).getSsValue(),i));
+			}
 
-			// create 10 y-vals
-			ArrayList<Entry> yVals = new ArrayList<Entry>();
+			
+			LineDataSet szSet = new LineDataSet(yValsSz, getString(R.string.diastolic));
+			szSet.setLineWidth(2.5f);
+			szSet.setCircleSize(3f);
 
-			for (int i = 0; i < data.getXValCount(); i++)
-				yVals.add(new Entry(
-						(float) (Math.random() * 50f) + 50f * count, i));
+			szSet.setColor(getResources().getColor(R.color.dark_green));
+			szSet.setCircleColor(getResources().getColor(R.color.dark_green));
+			szSet.setHighLightColor(getResources().getColor(R.color.dark_green));
 
-			LineDataSet set = new LineDataSet(yVals, getResources().getString(mName[colorPosition]));
-			set.setLineWidth(2.5f);
-			set.setCircleSize(3f);
+			data.addDataSet(szSet);
+			
+			LineDataSet ssSet = new LineDataSet(yValsSs, getString(R.string.systolic));
+			ssSet.setLineWidth(2.5f);
+			ssSet.setCircleSize(3f);
 
-			int color = mColors[colorPosition];
+			ssSet.setColor(getResources().getColor(R.color.sky_blue));
+			ssSet.setCircleColor(getResources().getColor(R.color.sky_blue));
+			ssSet.setHighLightColor(getResources().getColor(R.color.sky_blue));
 
-			set.setColor(getResources().getColor(color));
-			set.setCircleColor(getResources().getColor(color));
-			set.setHighLightColor(getResources().getColor(color));
-
-			data.addDataSet(set);
+			data.addDataSet(ssSet);
+			
 			mChart.notifyDataSetChanged();
 			mChart.invalidate();
+		}
+	}
+	
+	public void initData(){
+		bpResults = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			float szValue = (float)Math.random() * 50f + 50f * 2;
+			float ssValue = (float)Math.random() * 50f + 50f * 2;
+			bpResults.add(new BPResult(szValue, ssValue));
 		}
 	}
 
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
-		Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+		float sz = bpResults.get(e.getXIndex()).getSzValue();
+		float ss = bpResults.get(e.getXIndex()).getSsValue();
+		Toast.makeText(this, " Ê’≈—π£∫ " + (int)sz + "   ’Àı—π£∫ " + (int)ss, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
