@@ -9,6 +9,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.LineData;
 import com.wm.entity.DeviceInfo;
 
 public class BSHistoryActivity extends BaseActivity{
@@ -31,6 +32,9 @@ public class BSHistoryActivity extends BaseActivity{
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		mChart.setNoDataTextDescription(getString(R.string.nodata));
+		
+		initLineChart();
+		addEmptyData();
 	}
 	
 	@OnClick(R.id.btn_begin_check)
@@ -41,6 +45,29 @@ public class BSHistoryActivity extends BaseActivity{
 		overridePendingTransition(R.anim.slide_in_from_right,
 				R.anim.scale_fade_out);
 	}
+	
+	private void initLineChart(){
+		// chart
+		mChart.setDrawYValues(false);
+		mChart.setDrawGridBackground(false);
+		mChart.setDescription("");
+		mChart.setGridColor(getResources().getColor(R.color.light_black));
+		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+		
+	}
+	private void addEmptyData() {
+
+		// create 30 x-vals
+		String[] xVals = new String[30];
+
+		for (int i = 0; i < 30; i++)
+			xVals[i] = "" + i;
+
+		LineData data = new LineData(xVals);
+		mChart.setData(data);
+		mChart.invalidate();
+	}
+
 	
 	
 }

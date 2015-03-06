@@ -26,17 +26,16 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp" 
         android:layout_weight="3"
-        android:background="@color/white"/>
+        android:background="@color/chart_bg"/>
     <TextView
         android:id="@+id/text_nodata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="暂无数据"
+        android:text="@string/nodata"
         android:textColor="@color/dark_gray"
         android:textSize="18sp"
         android:gravity="center"
         android:paddingTop="10dp"
-        android:visibility="gone"
         />
     <LinearLayout 
         android:layout_width="match_parent"
