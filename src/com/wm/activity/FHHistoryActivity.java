@@ -17,14 +17,11 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.BarLineChartBase.BorderPosition;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.XLabels;
-import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.FHResult;
 
@@ -103,7 +100,7 @@ public class FHHistoryActivity extends BaseActivity implements
 
 	private void addDataSet(int position) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(fhResults.get(position).getDate());
+		calendar.setTimeInMillis(fhResults.get(position).date);
 		dateText.setText(calendar.get(Calendar.YEAR)+"."+
 		(calendar.get(Calendar.MONTH)+1)+"."+(calendar.get(Calendar.DATE)+position));
 
@@ -112,7 +109,7 @@ public class FHHistoryActivity extends BaseActivity implements
 		if (data != null) {
 			// create 10 y-vals
 			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
-			List<Float> fhValues = fhResults.get(position).getFhValues();
+			List<Float> fhValues = fhResults.get(position).fhValues;
 			for (int i = 0 ; i < fhValues.size(); i++) {
 				yValsFh.add(new Entry(fhValues.get(i),i));
 			}
@@ -147,7 +144,7 @@ public class FHHistoryActivity extends BaseActivity implements
 	}
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
-		float fh = fhResults.get(0).getFhValues().get(e.getXIndex());
+		float fh = fhResults.get(0).fhValues.get(e.getXIndex());
 		Toast.makeText(this, "Ì¥ÐÄÖµ£º " +(int)fh , Toast.LENGTH_SHORT).show();
 
 	}
