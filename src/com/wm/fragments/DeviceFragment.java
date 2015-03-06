@@ -3,6 +3,7 @@ package com.wm.fragments;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,15 +40,36 @@ import com.wm.entity.OptionEnum;
 import com.wm.utils.DialogUtils;
 
 public class DeviceFragment extends Fragment {
+
+	public static int STATE_EDIT = 0;
+	public static int STATE_DELETE = 1;
+	public static int STATE_NORMAL = 2;
+
 	@InjectView(R.id.device_listview)
 	ListView mDeviceListView;
 
-	DeviceDataSet deviceDataSet;
+	OnStateChangeListener mCallback;
+	DeviceDataSet mDeviceDataSet;
 	EditText mNameEditText;
-	DeviceListAdapter adapter;
-	Context context;
+	DeviceListAdapter mAdapter;
+	Context mContext;
 	private boolean isDelete = false;
 	private boolean isEdit = false;
+
+	public interface OnStateChangeListener {
+		public void onStateChange(int state);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mCallback = (OnStateChangeListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnHeadlineSelectedListener");
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +77,7 @@ public class DeviceFragment extends Fragment {
 		View view = inflater
 				.inflate(R.layout.fragment_device, container, false);
 		ButterKnife.inject(this, view);
-		context = getActivity();
+		mContext = getActivity();
 		setHasOptionsMenu(true);// 显示fragment的menu
 
 		return view;
@@ -65,14 +87,13 @@ public class DeviceFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initData();
-		adapter = new DeviceListAdapter(context, deviceDataSet);
-		mDeviceListView.setAdapter(adapter);
+		mAdapter = new DeviceListAdapter(mContext, mDeviceDataSet);
+		mDeviceListView.setAdapter(mAdapter);
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		getActivity().getMenuInflater().inflate(R.menu.device, menu);
-
 	}
 
 	@Override
@@ -101,8 +122,8 @@ public class DeviceFragment extends Fragment {
 		switch (item.getItemId()) {
 		case R.id.action_add_device:
 			savePosition();
-			deviceDataSet.option = OptionEnum.ITEM_ADD;
-			adapter.notifyDataSetChanged();
+			mDeviceDataSet.option = OptionEnum.ITEM_ADD;
+			mAdapter.notifyDataSetChanged();
 			Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
 			startActivity(intent);
 			getActivity().overridePendingTransition(R.anim.slide_in_from_right,
@@ -111,33 +132,45 @@ public class DeviceFragment extends Fragment {
 			break;
 		case R.id.action_delete_device:
 			isDelete = true;
-			deviceDataSet.option = OptionEnum.ITEM_DELETE;
-			adapter.notifyDataSetChanged();
+			mCallback.onStateChange(STATE_DELETE);
+			mDeviceDataSet.option = OptionEnum.ITEM_DELETE;
+			mAdapter.notifyDataSetChanged();
 			break;
 		case R.id.action_cancel_delete:
 			isDelete = false;
-			deviceDataSet.option = null;
-			adapter.notifyDataSetChanged();
+			mCallback.onStateChange(STATE_NORMAL);
+			mDeviceDataSet.option = null;
+			mAdapter.notifyDataSetChanged();
 			break;
 		case R.id.action_change_name:
 			isEdit = true;
-			deviceDataSet.option = OptionEnum.ITEM_UPDATE;
-			adapter.notifyDataSetChanged();
+			mCallback.onStateChange(STATE_EDIT);
+			mDeviceDataSet.option = OptionEnum.ITEM_UPDATE;
+			mAdapter.notifyDataSetChanged();
 			break;
 		case R.id.action_cancel_change:
 			isEdit = false;
-			deviceDataSet.option = null;
-			adapter.notifyDataSetChanged();
+			mCallback.onStateChange(STATE_NORMAL);
+			mDeviceDataSet.option = null;
+			mAdapter.notifyDataSetChanged();
 			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	public void resetList() {
+		mDeviceDataSet.option = null;
+		mAdapter.notifyDataSetChanged();
+		this.isDelete = false;
+		this.isEdit = false;
+		mCallback.onStateChange(STATE_NORMAL);
+	}
 
 	private void initData() {
-		deviceDataSet = new DeviceDataSet();
-		deviceDataSet.option = OptionEnum.ITEM_ADD;
+		mDeviceDataSet = new DeviceDataSet();
+		mDeviceDataSet.option = OptionEnum.ITEM_ADD;
 		ArrayList<DeviceInfo> deviceInfos = new ArrayList<>();
 
 		DeviceInfo deviceInfo = null;
@@ -153,19 +186,19 @@ public class DeviceFragment extends Fragment {
 			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_FH, "胎心仪" + i);
 			deviceInfos.add(deviceInfo);
 		}
-		deviceDataSet.deviceInfos = deviceInfos;
+		mDeviceDataSet.deviceInfos = deviceInfos;
 	}
 
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
 		savePosition();
 		Intent intent = null;
-		String type = deviceDataSet.deviceInfos.get(i).type;
-		if(DeviceInfo.TYPE_BS.equals(type)){//血糖
+		String type = mDeviceDataSet.deviceInfos.get(i).type;
+		if (DeviceInfo.TYPE_BS.equals(type)) {// 血糖
 			intent = new Intent(getActivity(), BSHistoryActivity.class);
-		} else if (DeviceInfo.TYPE_BP.equals(type)){//血压
+		} else if (DeviceInfo.TYPE_BP.equals(type)) {// 血压
 			intent = new Intent(getActivity(), BPHistoryActivity.class);
-		} else {//胎心仪
+		} else {// 胎心仪
 			intent = new Intent(getActivity(), FHHistoryActivity.class);
 		}
 		startActivity(intent);
@@ -254,11 +287,11 @@ public class DeviceFragment extends Fragment {
 	}
 
 	public void update(int i) {
-		String name = deviceDataSet.deviceInfos.get(i).name;
+		String name = mDeviceDataSet.deviceInfos.get(i).name;
 		mNameEditText = new EditText(getActivity());
 		mNameEditText.setTextColor(getResources().getColor(R.color.dark_gray));
 		mNameEditText.setText(name);
-		new AlertDialog.Builder(context).setTitle("设备名称")
+		new AlertDialog.Builder(mContext).setTitle("设备名称")
 				.setIcon(R.drawable.ic_action_edit).setView(mNameEditText)
 				.setPositiveButton("确定", new DialogClickListener(i))
 				.setNegativeButton("取消", null).show();
@@ -280,8 +313,8 @@ public class DeviceFragment extends Fragment {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								deviceDataSet.deviceInfos.remove(mPosition);
-								adapter.notifyDataSetChanged();
+								mDeviceDataSet.deviceInfos.remove(mPosition);
+								mAdapter.notifyDataSetChanged();
 							}
 						});
 
@@ -305,9 +338,9 @@ public class DeviceFragment extends Fragment {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 
-			deviceDataSet.deviceInfos.get(position).name = mNameEditText
+			mDeviceDataSet.deviceInfos.get(position).name = mNameEditText
 					.getText().toString().trim();
-			adapter.notifyDataSetChanged();
+			mAdapter.notifyDataSetChanged();
 		}
 
 	}

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -13,8 +14,10 @@ import butterknife.InjectView;
 import com.wm.adapter.IndexPagerAdapter;
 import com.wm.customview.MyViewPager;
 import com.wm.customview.PagerSlidingTitleIconTabStrip;
+import com.wm.fragments.DeviceFragment;
+import com.wm.fragments.DeviceFragment.OnStateChangeListener;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements OnStateChangeListener, OnPageChangeListener {
 	
 	public static String PREVIOUS_TAB_PAGE = "previous_page";
 	public static int PAGE_SETTING = 2;
@@ -31,6 +34,8 @@ public class MainActivity extends ActionBarActivity {
 	private SharedPreferences mSharePref;
 	private int mBackClickTimes = 0;
 	private Context mContext;
+	private boolean mDeviceEdit = false;
+	private IndexPagerAdapter mIndexPagerAdapter;
 	
 	@SuppressLint("ResourceAsColor")
 	@Override
@@ -43,9 +48,11 @@ public class MainActivity extends ActionBarActivity {
 		mContext = MainActivity.this;
 		mBackClickTimes = 0;
 		
+		mIndexPagerAdapter = new IndexPagerAdapter(getSupportFragmentManager());
 		mToolbar.setTitle("智慧医疗血压仪");
 		setSupportActionBar(mToolbar);
-		mPager.setAdapter(new IndexPagerAdapter(getSupportFragmentManager()));
+		mPager.setAdapter(mIndexPagerAdapter);
+		mTabs.setOnPageChangeListener(this);
 		mTabs.setShouldExpand(true);
 		mTabs.setViewPager(mPager);
 		mTabs.setIndicatorColorResource(R.color.colorPrimary);
@@ -70,10 +77,15 @@ public class MainActivity extends ActionBarActivity {
 	
 	@Override
 	public void onBackPressed() {
+		if(mDeviceEdit) {
+			DeviceFragment deviceFragment = mIndexPagerAdapter.getDeviceFragment();
+			deviceFragment.resetList();
+			return;
+		}
 		// 连续点击两次返回键，退出程序
 		if (mBackClickTimes == 0) {
 			String str = getResources().getString(R.string.ask_when_exit);
-			Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
+			Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
 			mBackClickTimes = 1;
 			new Thread() {
 				@Override
@@ -91,6 +103,32 @@ public class MainActivity extends ActionBarActivity {
 		} else {
 			finish();
 			System.exit(0);
+		}
+	}
+
+	@Override
+	public void onStateChange(int state) {
+		if(state == DeviceFragment.STATE_NORMAL) {
+			this.mDeviceEdit = false;
+		} else {
+			this.mDeviceEdit = true;
+		}
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int state) {
+		
+	}
+
+	@Override
+	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+		
+	}
+
+	@Override
+	public void onPageSelected(int position) {
+		if(mDeviceEdit && position != 1) {
+			mIndexPagerAdapter.getDeviceFragment().resetList();
 		}
 	}
 	
