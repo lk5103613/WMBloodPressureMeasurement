@@ -11,12 +11,16 @@ import com.wm.fragments.IndexFragment;
 import com.wm.fragments.SettingFragment;
 
 public class IndexPagerAdapter extends FragmentStatePagerAdapter implements TitleIconTabProvider  {
+	
+	private IndexFragment mIndexFragment = new IndexFragment();
+	private DeviceFragment mDeviceFragment = new DeviceFragment();
+	private SettingFragment mSettingFragment = new SettingFragment();
 
 	public IndexPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
 	
-	private Fragment[] mFragments = new Fragment[]{new IndexFragment(), new DeviceFragment(), new SettingFragment()};
+	private Fragment[] mFragments = new Fragment[]{mIndexFragment, mDeviceFragment, mSettingFragment};
 	private String[] mTitles = new String[]{"首页", "设备", "设置"};
 	private int[] mIcons = new int[]{R.drawable.home_tab_selector, R.drawable.device_tab_selector, R.drawable.setting_tab_selector};
 
@@ -38,6 +42,18 @@ public class IndexPagerAdapter extends FragmentStatePagerAdapter implements Titl
 	@Override
 	public int getPageIconResId(int position) {
 		return mIcons[position];
+	}
+	
+	public IndexFragment getIndexFragment() {
+		return mIndexFragment;
+	}
+	
+	public DeviceFragment getDeviceFragment() {
+		return mDeviceFragment;
+	}
+	
+	public SettingFragment getSettingFragment() {
+		return mSettingFragment;
 	}
 
 }

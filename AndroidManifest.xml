@@ -20,10 +20,7 @@
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="@string/title_activity_about" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.wm.activity.MainActivity" />
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".AddDeviceActivity"
@@ -54,8 +51,7 @@
             android:label="@string/title_activity_blood_sugar_check" >
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:name=".LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
