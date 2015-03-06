@@ -17,11 +17,14 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.BarLineChartBase.BorderPosition;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.XLabels;
+import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.FHResult;
 
@@ -57,10 +60,12 @@ public class FHHistoryActivity extends BaseActivity implements
 
 		initLineChart();
 		addEmptyData();
+//		XLabels xLabels = mChart.getXLabels();
+//		xLabels.setPosition(XLabelPosition.BOTTOM);
 		mChart.invalidate();
-		
 		initData();
 		addDataSet(index);
+		
 
 	}
 	
