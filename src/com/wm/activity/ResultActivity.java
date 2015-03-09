@@ -1,11 +1,12 @@
 package com.wm.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -18,8 +19,11 @@ public class ResultActivity extends BaseActivity{
 
 	@InjectView(R.id.blood_check_bar)
 	Toolbar mToolbar;
+	@InjectView(R.id.btn_record)
+	Button mBtnRecord;
+	@InjectView(R.id.waiting_record)
+	ProgressBar mProgressBar;
 	
-	private ProgressDialog mDialog;
 	private BaseResultFragment mFragment;
 	String type;
 	
@@ -36,9 +40,6 @@ public class ResultActivity extends BaseActivity{
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
-		
-		mDialog = ProgressDialog.show(this, null, "«Î…‘∫Û...", true);
-		mDialog.dismiss();
 		
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mFragment).commit();
 		
@@ -85,25 +86,8 @@ public class ResultActivity extends BaseActivity{
 	
 	@OnClick(R.id.btn_record)
 	public void record(View v) {
-		mDialog.show();
-		//test
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						mDialog.dismiss();
-					}
-				});
-			}
-		}).start();
+		mBtnRecord.setEnabled(false);
+		mProgressBar.setVisibility(View.VISIBLE);
 		mFragment.record();
 	}
 	
