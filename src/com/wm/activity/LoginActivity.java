@@ -13,6 +13,11 @@ import butterknife.OnFocusChange;
 
 import com.wm.utils.TabPager;
 
+/**
+ * 
+ * @author Like
+ *
+ */
 public class LoginActivity extends BaseActivity {
 
 	@InjectView(R.id.login_scroll)
