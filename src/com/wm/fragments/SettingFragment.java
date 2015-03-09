@@ -12,16 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 import com.wm.activity.AboutActivity;
 import com.wm.activity.GuideViewActivity;
+import com.wm.activity.LoginActivity;
+import com.wm.activity.MainActivity;
 import com.wm.activity.R;
 import com.wm.entity.SettingData;
 import com.wm.utils.TabPager;
@@ -30,6 +34,8 @@ public class SettingFragment extends Fragment  {
 	
 	@InjectView(R.id.setting_list)
 	ListView mSettingList;
+	@InjectView(R.id.btn_login)
+	Button mBtnLogin;
 	private SettingListAdapter adapter;
 	private List<SettingData> items = new ArrayList<SettingData>();
 	private Context mContext;
@@ -61,6 +67,12 @@ public class SettingFragment extends Fragment  {
 		}
 		adapter = new SettingListAdapter(mContext, items);
 		mSettingList.setAdapter(adapter);
+	}
+	
+	@OnClick(R.id.btn_login)
+	public void loginClick(){
+		Intent intent = new Intent(getActivity(), LoginActivity.class);
+		startActivity(intent);
 	}
 	
 	@OnItemClick(R.id.setting_list)
