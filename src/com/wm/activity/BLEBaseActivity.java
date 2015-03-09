@@ -12,6 +12,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author Like
+ *
+ */
 public class BLEBaseActivity extends ActionBarActivity {
 
 	// request code to open bluetooth
