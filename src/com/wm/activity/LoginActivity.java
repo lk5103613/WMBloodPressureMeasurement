@@ -1,9 +1,7 @@
 package com.wm.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -13,7 +11,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
-public class LoginActivity extends Activity {
+import com.wm.utils.TabPager;
+
+public class LoginActivity extends BaseActivity {
 
 	@InjectView(R.id.login_scroll)
 	ScrollView mScrollView;
@@ -21,6 +21,7 @@ public class LoginActivity extends Activity {
 	View mInner;
 
 	private Context mContext;
+	private TabPager mTabPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +30,13 @@ public class LoginActivity extends Activity {
 		ButterKnife.inject(this);
 
 		mContext = LoginActivity.this;
+		mTabPager = TabPager.getInstance(mContext);
 		
 	}
 
 	@OnClick(R.id.btn_login)
 	public void login(View v) {
-		SharedPreferences sharedPref = getSharedPreferences(MainActivity.SP_NAME, Context.MODE_PRIVATE);
-		clearPageInfo(sharedPref);
+		mTabPager.clear();
 		Intent intent = new Intent(mContext, MainActivity.class);
 		startActivity(intent);
 		finish();
@@ -73,10 +74,4 @@ public class LoginActivity extends Activity {
 		}, 100);
 	}
 	
-	private void clearPageInfo(SharedPreferences sharedPref) {
-		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, -1);
-		editor.commit();
-	}
-
 }

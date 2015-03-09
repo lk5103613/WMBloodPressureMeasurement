@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,7 +30,6 @@ import com.wm.activity.AddDeviceActivity;
 import com.wm.activity.BPHistoryActivity;
 import com.wm.activity.BSHistoryActivity;
 import com.wm.activity.FHHistoryActivity;
-import com.wm.activity.MainActivity;
 import com.wm.activity.R;
 import com.wm.customview.DeviceIcon;
 import com.wm.entity.DeviceDataSet;
@@ -39,6 +37,7 @@ import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
 import com.wm.utils.BtnCallback;
 import com.wm.utils.DialogUtils;
+import com.wm.utils.TabPager;
 
 public class DeviceFragment extends Fragment {
 
@@ -56,6 +55,7 @@ public class DeviceFragment extends Fragment {
 	Context mContext;
 	private boolean isDelete = false;
 	private boolean isEdit = false;
+	private TabPager mTabPager;
 
 	public interface OnStateChangeListener {
 		public void onStateChange(int state);
@@ -79,6 +79,7 @@ public class DeviceFragment extends Fragment {
 				.inflate(R.layout.fragment_device, container, false);
 		ButterKnife.inject(this, view);
 		mContext = getActivity();
+		mTabPager = TabPager.getInstance(mContext);
 		setHasOptionsMenu(true);// ÏÔÊ¾fragmentµÄmenu
 
 		return view;
@@ -122,7 +123,7 @@ public class DeviceFragment extends Fragment {
 
 		switch (item.getItemId()) {
 		case R.id.action_add_device:
-			savePosition();
+			mTabPager.savePosition(TabPager.PAGE_DEVICE);
 			mDeviceDataSet.option = OptionEnum.ITEM_ADD;
 			mAdapter.notifyDataSetChanged();
 			Intent intent = new Intent(mContext, AddDeviceActivity.class);
@@ -193,7 +194,7 @@ public class DeviceFragment extends Fragment {
 
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
-		savePosition();
+		mTabPager.savePosition(TabPager.PAGE_DEVICE);
 		Intent intent = null;
 		String type = mDeviceDataSet.deviceInfos.get(i).type;
 		if (DeviceInfo.TYPE_BS.equals(type)) {// ÑªÌÇ
@@ -206,13 +207,6 @@ public class DeviceFragment extends Fragment {
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right,
 				R.anim.scale_fade_out);
-	}
-
-	private void savePosition() {
-		SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.SP_NAME, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sp.edit();
-		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_DEVICE);
-		editor.commit();
 	}
 
 	class DeviceListAdapter extends BaseAdapter {

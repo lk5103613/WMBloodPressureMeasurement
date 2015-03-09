@@ -3,7 +3,6 @@ package com.wm.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,7 @@ import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
 import com.wm.fragments.TypeFactory;
 
-public class ResultActivity extends ActionBarActivity{
+public class ResultActivity extends BaseActivity{
 
 	@InjectView(R.id.blood_check_bar)
 	Toolbar mToolbar;

@@ -6,7 +6,6 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,9 +22,9 @@ import butterknife.OnItemClick;
 
 import com.wm.activity.AboutActivity;
 import com.wm.activity.GuideViewActivity;
-import com.wm.activity.MainActivity;
 import com.wm.activity.R;
 import com.wm.entity.SettingData;
+import com.wm.utils.TabPager;
 
 public class SettingFragment extends Fragment  {
 	
@@ -33,20 +32,24 @@ public class SettingFragment extends Fragment  {
 	ListView mSettingList;
 	private SettingListAdapter adapter;
 	private List<SettingData> items = new ArrayList<SettingData>();
+	private Context mContext;
+	private TabPager mTabPager;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_setting, container, false);
 		ButterKnife.inject(this, view);
+		mContext = getActivity();
+		mTabPager = TabPager.getInstance(mContext);
 		return view;
 	}
 	
 	private void initItems() {
 		// 版本信息应从服务器获取
 		items.add(new SettingData("版本信息", "Demo版"));
-		items.add(new SettingData("关于我们", new Intent(getActivity(), AboutActivity.class)));
-		items.add(new SettingData("使用帮助", new Intent(getActivity(), GuideViewActivity.class)));
+		items.add(new SettingData("关于我们", new Intent(mContext, AboutActivity.class)));
+		items.add(new SettingData("使用帮助", new Intent(mContext, GuideViewActivity.class)));
 	}
 	
 	@Override
@@ -56,7 +59,7 @@ public class SettingFragment extends Fragment  {
 		if(items.size() == 0) {
 			initItems();
 		}
-		adapter = new SettingListAdapter(getActivity(), items);
+		adapter = new SettingListAdapter(mContext, items);
 		mSettingList.setAdapter(adapter);
 	}
 	
@@ -65,15 +68,12 @@ public class SettingFragment extends Fragment  {
 		SettingData data = this.items.get(position);
 		if(data.hasSubContent && data.settingName.equals("版本信息")) {
 			String rmdStr = getResources().getString(R.string.current_version);
-			Toast.makeText(getActivity(), rmdStr + data.subContent, Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, rmdStr + data.subContent, Toast.LENGTH_SHORT).show();
 		} else if(data.hasMoreContent) {
-			getActivity().startActivity(data.targetIntent);
+			mContext.startActivity(data.targetIntent);
 			getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
 		}
-		SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.SP_NAME, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sp.edit();
-		editor.putInt(MainActivity.PREVIOUS_TAB_PAGE, MainActivity.PAGE_SETTING);
-		editor.commit();
+		mTabPager.savePosition(TabPager.PAGE_SETTING);
 	}
 	
 	class SettingListAdapter extends BaseAdapter{

@@ -1,8 +1,7 @@
 package com.wm.activity;
 
-import android.support.v7.app.ActionBarActivity;
 
-public class BaseActivity extends ActionBarActivity{
+public class BaseActivity extends BLEBaseActivity{
 	
 	@Override
 	public void onBackPressed() {

@@ -1,12 +1,11 @@
 package com.wm.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class AboutActivity extends ActionBarActivity {
+public class AboutActivity extends BaseActivity {
 	
 	@InjectView(R.id.about_toolbar)
 	Toolbar mToolbar;
