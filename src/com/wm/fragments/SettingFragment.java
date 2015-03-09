@@ -25,7 +25,6 @@ import butterknife.OnItemClick;
 import com.wm.activity.AboutActivity;
 import com.wm.activity.GuideViewActivity;
 import com.wm.activity.LoginActivity;
-import com.wm.activity.MainActivity;
 import com.wm.activity.R;
 import com.wm.entity.SettingData;
 import com.wm.utils.TabPager;
