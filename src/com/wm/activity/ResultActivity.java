@@ -22,6 +22,7 @@ import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
+import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
 public class ResultActivity extends BaseActivity{
@@ -66,12 +67,12 @@ public class ResultActivity extends BaseActivity{
 		mFragment = TypeFactory.getResultFragment(mType);
 		mHandler = new Handler();
 
-		mToolbar.setTitle(TypeFactory.getTitle(mContext, mType));
+		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
-		mDevice = new DeviceInfo(2, "BLOOD_PRESSURE", "BOLUTEK", "00:15:83:00:1D:1C");
-//		mDevice = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
+		mDevice = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
+		System.out.println(mDevice.address);
 		
 		getSupportFragmentManager().beginTransaction().add(R.id.result_container, mFragment).commit();
 		// °ó¶¨À¶ÑÀ·þÎñ

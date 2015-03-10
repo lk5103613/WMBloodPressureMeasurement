@@ -45,8 +45,8 @@ public class DeviceInfo implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(id);
-		dest.writeString(type);
 		dest.writeString(name);
+		dest.writeString(type);
 		dest.writeString(address);
 	}
 	
@@ -57,8 +57,8 @@ public class DeviceInfo implements Parcelable {
 			DeviceInfo deviceInfo = new DeviceInfo();
 			deviceInfo.id = source.readInt();
 			deviceInfo.name = source.readString();
-			deviceInfo.address = source.readString();
 			deviceInfo.type = source.readString();
+			deviceInfo.address = source.readString();
 			return deviceInfo;
 		}
 

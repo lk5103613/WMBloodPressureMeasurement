@@ -38,7 +38,7 @@ public class TypeFactory {
 		return null;
 	}
 	
-	public static String getTitle(Context context, String type) {
+	public static String getTitleByType(Context context, String type) {
 		String title = "";
 		switch (type) {
 		case DeviceInfo.TYPE_BP:
