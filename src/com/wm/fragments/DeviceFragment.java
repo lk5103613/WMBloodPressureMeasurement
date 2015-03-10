@@ -27,9 +27,7 @@ import butterknife.InjectView;
 import butterknife.OnItemClick;
 
 import com.wm.activity.AddDeviceActivity;
-import com.wm.activity.BPHistoryActivity;
-import com.wm.activity.BSHistoryActivity;
-import com.wm.activity.FHHistoryActivity;
+import com.wm.activity.HistoryActivity;
 import com.wm.activity.R;
 import com.wm.customview.DeviceIcon;
 import com.wm.entity.DeviceDataSet;
@@ -41,6 +39,7 @@ import com.wm.utils.TabPager;
 
 public class DeviceFragment extends Fragment {
 
+	public final static String KEY_DEVICE_INFO = "device_info";
 	public static int STATE_EDIT = 0;
 	public static int STATE_DELETE = 1;
 	public static int STATE_NORMAL = 2;
@@ -197,13 +196,8 @@ public class DeviceFragment extends Fragment {
 		mTabPager.savePosition(TabPager.PAGE_DEVICE);
 		Intent intent = null;
 		String type = mDeviceDataSet.deviceInfos.get(i).type;
-		if (DeviceInfo.TYPE_BS.equals(type)) {// ÑªÌÇ
-			intent = new Intent(mContext, BSHistoryActivity.class);
-		} else if (DeviceInfo.TYPE_BP.equals(type)) {// ÑªÑ¹
-			intent = new Intent(mContext, BPHistoryActivity.class);
-		} else {// Ì¥ÐÄÒÇ
-			intent = new Intent(mContext, FHHistoryActivity.class);
-		}
+		intent = new Intent(mContext, HistoryActivity.class);
+		intent.putExtra(DeviceInfo.INTENT_TYPE, type);
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right,
 				R.anim.scale_fade_out);

@@ -1,15 +1,25 @@
 package com.wm.activity;
 
-import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import com.wm.blecore.BluetoothLeService;
+import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
 import com.wm.fragments.TypeFactory;
@@ -18,10 +28,32 @@ public class ResultActivity extends BaseActivity{
 
 	@InjectView(R.id.blood_check_bar)
 	Toolbar mToolbar;
+	@InjectView(R.id.btn_record)
+	Button mBtnRecord;
+	@InjectView(R.id.waiting_record)
+	ProgressBar mProgressBar;
 	
-	private ProgressDialog mDialog;
+	private Context mContext;
 	private BaseResultFragment mFragment;
-	String type;
+	private String mType;
+	private BluetoothLeService mBluetoothLeService;
+	private DeviceInfo mDevice;
+	private Handler mHandler;
+	private ServiceConnection mServiceConnection = new ServiceConnection() {
+		
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			mBluetoothLeService = null;
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			mBluetoothLeService = ((LocalBinder)service).getService();
+			if (!mBluetoothLeService.initialize()) {
+				finish();
+			}
+		}
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,81 +61,52 @@ public class ResultActivity extends BaseActivity{
 		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
 		
-		type = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		mFragment = TypeFactory.getResultFragment(type);
+		mContext = ResultActivity.this;
+		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
+		mFragment = TypeFactory.getResultFragment(mType);
+		mHandler = new Handler();
 
-		mToolbar.setTitle(getTitle(type));
+		mToolbar.setTitle(TypeFactory.getTitle(mContext, mType));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
+		mDevice = new DeviceInfo(2, "BLOOD_PRESSURE", "BOLUTEK", "00:15:83:00:1D:1C");
+//		mDevice = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		
-		mDialog = ProgressDialog.show(this, null, "请稍后...", true);
-		mDialog.dismiss();
-		
-		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mFragment).commit();
-		
+		getSupportFragmentManager().beginTransaction().add(R.id.result_container, mFragment).commit();
+		// 绑定蓝牙服务
+		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+		mHandler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				mBluetoothLeService.connect(mDevice.address);
+			}
+		}, 500);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	    case android.R.id.home:
-	    	Intent intent = null;
-	    	switch (type) {
-			case DeviceInfo.TYPE_BP://血压计
-				intent = new Intent(this, BPHistoryActivity.class);
-				break;
-			case DeviceInfo.TYPE_BS://血糖仪
-				intent = new Intent(this, BSHistoryActivity.class);
-				break;
-			case DeviceInfo.TYPE_FH://胎心计
-				intent = new Intent(this, FHHistoryActivity.class);
-				break;
-			}
-	        intent.putExtra("type", type);
+	    	Intent intent = new Intent(mContext, HistoryActivity.class);
+	        intent.putExtra("type", mType);
 	        startActivity(intent);
 	        overridePendingTransition(R.anim.scale_fade_in, R.anim.slide_out_to_right);
 	    }
 	    return super.onOptionsItemSelected(item);
 	}
 
-	private String getTitle(String type) {
-		String title = "";
-		switch (type) {
-		case DeviceInfo.TYPE_BP:
-			title = getResources().getString(R.string.bp_text);
-			break;
-		case DeviceInfo.TYPE_BS:
-			title = getResources().getString(R.string.bs_text);
-			break;
-		case DeviceInfo.TYPE_FH:
-			title = getResources().getString(R.string.fh_text);
-			break;
-		}
-		return title;
-	}
-	
 	@OnClick(R.id.btn_record)
 	public void record(View v) {
-		mDialog.show();
-		//test
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						mDialog.dismiss();
-					}
-				});
-			}
-		}).start();
+		mBtnRecord.setEnabled(false);
+		mProgressBar.setVisibility(View.VISIBLE);
 		mFragment.record();
 	}
 	
@@ -119,6 +122,39 @@ public class ResultActivity extends BaseActivity{
 		if(isFinishing()) {
 			overridePendingTransition(R.anim.scale_fade_in, R.anim.slide_out_to_right);
 		}
+		unregisterReceiver(mGattUpdateReceiver);
+	}
+	
+	private BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			final String action = intent.getAction();			
+			if(BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+				System.out.println("connect success");
+			} else if(BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+				System.out.println("connect failed");
+			} else if(BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+				
+			} else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+				
+			}
+		}
+		
+	};
+	
+	/**
+	 * 为广播接收者创建意图过滤器
+	 * @return 
+	 */
+	private IntentFilter makeGattUpdateIntentFilter() {
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+		intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+		intentFilter
+				.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+		intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+		return intentFilter;
 	}
 	
 }

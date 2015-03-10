@@ -43,7 +43,6 @@
     <string name="diastolic_value">0/mmhg</string>
     <string name="nodata">暂无数据</string>
     <string name="title_activity_login">LoginActivity</string>
-    
     <string name="logo_name">领泰医疗</string>
     <string name="hint_username">用户名</string>
     <string name="hint_pwd">密码</string>
@@ -51,11 +50,11 @@
     <string name="msg_fist_data">已经是第一条数据</string>
     <string name="msg_last_data">已经是最后一条数据</string>
     <string name="current_version">当前版本为： </string>
-	<!-- remind -->    
-	<string name="remind_device_not_support">您的手机不支持BLE</string>
-	<string name="remind_ble_must_open">使用本软件必须开启蓝牙</string>
-	<string name="scan_failed">没有扫描到匹配的新设备，请确保设备已开启</string>
-	<string name="scan_success">匹配成功</string>
-    
+    <!-- remind -->
+    <string name="remind_device_not_support">您的手机不支持BLE</string>
+    <string name="remind_ble_must_open">使用本软件必须开启蓝牙</string>
+    <string name="scan_failed">没有扫描到匹配的新设备，请确保设备已开启</string>
+    <string name="scan_success">匹配成功</string>
+    <string name="title_activity_history">HistoryActivity</string>
 
 </resources>

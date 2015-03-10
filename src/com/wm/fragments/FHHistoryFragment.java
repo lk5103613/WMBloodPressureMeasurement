@@ -1,15 +1,16 @@
-package com.wm.activity;
+package com.wm.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
@@ -21,60 +22,38 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.wm.entity.DeviceInfo;
+import com.wm.activity.R;
 import com.wm.entity.FHResult;
 
-public class FHHistoryActivity extends BaseActivity implements
-		OnChartValueSelectedListener {
-
-	@InjectView(R.id.embryo_history_bar)
-	Toolbar mToolbar;
-	@InjectView(R.id.btn_begin_check)
-	Button btnBegin;
-	@InjectView(R.id.btn_next)
-	ImageButton btnNext;
-	@InjectView(R.id.btn_previous)
-	ImageButton btnPrevious;
-	@InjectView(R.id.text_date)
-	TextView dateText;
-	@InjectView(R.id.embryo_history_chart)
-	LineChart mChart;
-	int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
-	List<FHResult> fhResults;
-	int index = 0;
+public class FHHistoryFragment extends Fragment implements OnChartValueSelectedListener {
 	
+	@InjectView(R.id.fh_history_chart)
+	LineChart mChart;
+	@InjectView(R.id.text_date)
+	TextView mTxtDate;
+	
+	private Context mContext;
+	private List<FHResult> mFHResults;
+	private int mIndex = 0;
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_fh_history);
-		ButterKnife.inject(this);
-
-		mToolbar.setTitle(getResources().getString(R.string.fh_text));
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
-
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_fh_history, container, false);
+		ButterKnife.inject(this, view);
+		
+		mContext = getActivity();
+		
 		initLineChart();
 		addEmptyData();
-//		XLabels xLabels = mChart.getXLabels();
-//		xLabels.setPosition(XLabelPosition.BOTTOM);
 		mChart.invalidate();
 		initData();
-		addDataSet(index);
-		
+		addDataSet(mIndex);
 
+		
+		return view;
 	}
 	
-	@OnClick(R.id.btn_begin_check)
-	public void beginCheck(){
-		Intent intent = new Intent(this, ResultActivity.class);
-		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_FH);
-		startActivity(intent);
-		overridePendingTransition(R.anim.slide_in_from_right,
-				R.anim.scale_fade_out);
-	}
-
 	private void initLineChart(){
 		// chart
 		mChart.setOnChartValueSelectedListener(this);
@@ -100,8 +79,8 @@ public class FHHistoryActivity extends BaseActivity implements
 
 	private void addDataSet(int position) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(fhResults.get(position).date);
-		dateText.setText(calendar.get(Calendar.YEAR)+"."+
+		calendar.setTimeInMillis(mFHResults.get(position).date);
+		mTxtDate.setText(calendar.get(Calendar.YEAR)+"."+
 		(calendar.get(Calendar.MONTH)+1)+"."+(calendar.get(Calendar.DATE)+position));
 
 		LineData data = mChart.getData();
@@ -109,7 +88,7 @@ public class FHHistoryActivity extends BaseActivity implements
 		if (data != null) {
 			// create 10 y-vals
 			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
-			List<Float> fhValues = fhResults.get(position).fhValues;
+			List<Float> fhValues = mFHResults.get(position).fhValues;
 			for (int i = 0 ; i < fhValues.size(); i++) {
 				yValsFh.add(new Entry(fhValues.get(i),i));
 			}
@@ -129,7 +108,7 @@ public class FHHistoryActivity extends BaseActivity implements
 	}
 
 	private void initData(){
-		fhResults = new ArrayList<>();
+		mFHResults = new ArrayList<>();
 		for (int i = 0; i < 3; i ++) {
 			ArrayList<Float> fhValues = new ArrayList<>();
 			for (int j = 0; j < 10; j++){
@@ -139,14 +118,14 @@ public class FHHistoryActivity extends BaseActivity implements
 			}
 			FHResult fhResult = new FHResult(fhValues, new Date().getTime());
 			
-			fhResults.add(fhResult);
+			mFHResults.add(fhResult);
 		}
 	}
 	
 	@Override
-	public void onValueSelected(Entry e, int dataSetIndex) {
-		float fh = fhResults.get(0).fhValues.get(e.getXIndex());
-		Toast.makeText(this, "胎心值： " +(int)fh , Toast.LENGTH_SHORT).show();
+	public void onValueSelected(Entry e, int dataSetmIndex) {
+		float fh = mFHResults.get(0).fhValues.get(e.getXIndex());
+		Toast.makeText(mContext, "胎心值： " +(int)fh , Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -157,22 +136,24 @@ public class FHHistoryActivity extends BaseActivity implements
 	@OnClick(R.id.btn_next)
 	public void nextClick(){
 		
-		if (index>= (fhResults.size()-1)) {
-			Toast.makeText(this, getString(R.string.msg_last_data), Toast.LENGTH_LONG).show();
+		if (mIndex>= (mFHResults.size()-1)) {
+			Toast.makeText(mContext, getString(R.string.msg_last_data), Toast.LENGTH_LONG).show();
 			return;
 		}
 		mChart.getData().removeDataSet(0);
-		addDataSet(++index);
+		addDataSet(++mIndex);
 	}
 	
 	@OnClick(R.id.btn_previous)
 	public void previousClick(){
 		
-		if (index<=0) {
-			Toast.makeText(this, getString(R.string.msg_fist_data), Toast.LENGTH_LONG).show();
+		if (mIndex<=0) {
+			Toast.makeText(mContext, getString(R.string.msg_fist_data), Toast.LENGTH_LONG).show();
 			return;
 		}
 		mChart.getData().removeDataSet(0);
-		addDataSet(--index);
+		addDataSet(--mIndex);
 	}
+
+
 }

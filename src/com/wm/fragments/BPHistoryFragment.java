@@ -1,46 +1,44 @@
-package com.wm.activity;
+package com.wm.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.wm.activity.R;
 import com.wm.entity.BPResult;
-import com.wm.entity.DeviceInfo;
 
-public class BPHistoryActivity extends BaseActivity implements
-		OnChartValueSelectedListener {
+public class BPHistoryFragment extends Fragment implements OnChartValueSelectedListener {
 
-	@InjectView(R.id.blood_history_bar)
-	Toolbar mToolbar;
-	@InjectView(R.id.blood_history_chart)
+	@InjectView(R.id.bp_history_chart)
 	LineChart mChart;
-	List<BPResult> bpResults;
+	
+	private List<BPResult> mBPResults;
+	private Context mContext;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_bp_history);
-		ButterKnife.inject(this);
-
-		mToolbar.setTitle(getResources().getString(R.string.bp_text));
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
-
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_bp_history, container,
+				false);
+		ButterKnife.inject(this, view);
+		
+		mContext = getActivity();
+		
 		// chart
 		initLineChart();
 		addEmptyData();
@@ -48,17 +46,10 @@ public class BPHistoryActivity extends BaseActivity implements
 
 		initData();
 		addDataSet();
+		
+		return view;
 	}
-
-	@OnClick(R.id.btn_begin_check)
-	public void beginCheck(View v) {
-		Intent intent = new Intent(BPHistoryActivity.this, ResultActivity.class);
-		intent.putExtra(DeviceInfo.INTENT_TYPE, DeviceInfo.TYPE_BP);
-		startActivity(intent);
-		overridePendingTransition(R.anim.slide_in_from_right,
-				R.anim.scale_fade_out);
-	}
-
+	
 	public void initLineChart(){
 		mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
@@ -86,7 +77,7 @@ public class BPHistoryActivity extends BaseActivity implements
 		mChart.setData(data);
 		mChart.invalidate();
 	}
-
+	
 	private void addDataSet() {
 
 		LineData data = mChart.getData();
@@ -95,9 +86,9 @@ public class BPHistoryActivity extends BaseActivity implements
 			// Ê’≈
 			ArrayList<Entry> yValsSz = new ArrayList<Entry>();
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();
-			for (int i = 0; i < bpResults.size(); i++) {
-				yValsSz.add(new Entry(bpResults.get(i).szValue,i));
-				yValsSs.add(new Entry(bpResults.get(i).ssValue,i));
+			for (int i = 0; i < mBPResults.size(); i++) {
+				yValsSz.add(new Entry(mBPResults.get(i).szValue,i));
+				yValsSs.add(new Entry(mBPResults.get(i).ssValue,i));
 			}
 
 			
@@ -125,21 +116,22 @@ public class BPHistoryActivity extends BaseActivity implements
 			mChart.animateY(1500);//…Ë÷√Y÷·∂Øª≠ ∫¡√Î;
 		}
 	}
-	
-	public void initData(){
-		bpResults = new ArrayList<>();
+
+
+	public void initData() {
+		mBPResults = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
-			float szValue = (float)Math.random() * 50f + 50f * 2;
-			float ssValue = (float)Math.random() * 50f + 50f * 2;
-			bpResults.add(new BPResult(szValue, ssValue));
+			float szValue = (float) Math.random() * 50f + 50f * 2;
+			float ssValue = (float) Math.random() * 50f + 50f * 2;
+			mBPResults.add(new BPResult(szValue, ssValue));
 		}
 	}
-
+	
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
-		float sz = bpResults.get(e.getXIndex()).szValue;
-		float ss = bpResults.get(e.getXIndex()).ssValue;
-		Toast.makeText(this, " Ê’≈—π£∫ " + (int)sz + "   ’Àı—π£∫ " + (int)ss, Toast.LENGTH_SHORT).show();
+		float sz = mBPResults.get(e.getXIndex()).szValue;
+		float ss = mBPResults.get(e.getXIndex()).ssValue;
+		Toast.makeText(mContext, " Ê’≈—π£∫ " + (int)sz + "   ’Àı—π£∫ " + (int)ss, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
