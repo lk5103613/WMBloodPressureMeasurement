@@ -1,6 +1,9 @@
 package com.wm.entity;
 
-public class DeviceInfo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DeviceInfo implements Parcelable {
 	
 	public static final String INTENT_TYPE = "type";
 	public static final String TYPE_BP = "BLOOD_PRESSURE";//Ѫѹ
@@ -11,6 +14,8 @@ public class DeviceInfo {
 	public String type;
 	public String name;
 	public String address;
+	
+	public DeviceInfo(){}
 	
 	public DeviceInfo(String type, String name) {
 		super();
@@ -31,5 +36,36 @@ public class DeviceInfo {
 		this.name = name;
 		this.address = address;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeString(type);
+		dest.writeString(name);
+		dest.writeString(address);
+	}
+	
+	public static final Parcelable.Creator<DeviceInfo> CREATOR = new Creator<DeviceInfo>( ) {
+
+		@Override
+		public DeviceInfo createFromParcel(Parcel source) {
+			DeviceInfo deviceInfo = new DeviceInfo();
+			deviceInfo.id = source.readInt();
+			deviceInfo.name = source.readString();
+			deviceInfo.address = source.readString();
+			deviceInfo.type = source.readString();
+			return deviceInfo;
+		}
+
+		@Override
+		public DeviceInfo[] newArray(int size) {
+			return null;
+		}
+	};
 	
 }
