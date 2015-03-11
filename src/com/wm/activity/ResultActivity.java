@@ -108,6 +108,7 @@ public class ResultActivity extends BaseActivity {
 			startActivity(intent);
 			overridePendingTransition(R.anim.scale_fade_in,
 					R.anim.slide_out_to_right);
+			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 import butterknife.ButterKnife;
@@ -37,8 +38,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	private String mFHText;
 	private ProgressDialog mProgressDialog;
 	private List<String> mDBAddresses = new ArrayList<String>();
-	private Context mContext;
-			
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +61,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		 mTypeSpinner.setAdapter(arrayAdapter);
 		 
-		 mContext = this;
+		 
 	}
 	
 	@Override
@@ -88,6 +87,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	
 	@OnClick(R.id.btn_match)
 	public void match(View v) {
+		
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -97,13 +97,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				 }
 			}
 		}).start();
-		
 		mProgressDialog = DialogUtils.showProgressDialog(mContext, "", "正在扫描设备");
-		
-		System.out.println("thread " + Thread.currentThread().getName());
-		
-//		mProgressDialog.dismiss();
-		//mProgressDialog.show();
 		mScanner.scanLeDevice(true);
 	}
 
@@ -143,7 +137,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	@Override
 	public void onScanFailed() {
 		
-		System.out.println("scan failed");
+		System.out.println("scan failed " + Thread.currentThread().getName());
 		mProgressDialog.dismiss();
 		String rmdStr = getResources().getString(R.string.scan_failed);
 		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();

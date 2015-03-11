@@ -6,7 +6,7 @@ public class BaseActivity extends BLEBaseActivity{
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(0, R.anim.slide_out_to_right);
+		//overridePendingTransition(0, R.anim.slide_out_to_right);
 	}
 
 	@Override
