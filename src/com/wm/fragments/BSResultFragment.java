@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wm.activity.R;
+import com.wm.blecore.BluetoothLeService;
 
 public class BSResultFragment extends BaseResultFragment {
 	
@@ -21,6 +22,17 @@ public class BSResultFragment extends BaseResultFragment {
 
 	@Override
 	public void record() {
+		
+	}
+
+	@Override
+	public void setCharacteristicNotification(
+			BluetoothLeService bluetoothLeService) {
+		
+	}
+
+	@Override
+	public void handleData(String data) {
 		
 	}
 

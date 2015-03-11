@@ -37,12 +37,13 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	private ProgressDialog mProgressDialog;
 	private List<String> mDBAddresses = new ArrayList<String>();
 			
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_device);
 		ButterKnife.inject(this);
+		
+		System.out.println("onCreate");
 		
 		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
 		setSupportActionBar(mToolbar);
@@ -53,6 +54,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		mBPText = getResources().getString(R.string.bp_text);
 		mBSText = getResources().getString(R.string.bs_text);
 		mFHText = getResources().getString(R.string.fh_text);
+		mProgressDialog = DialogUtils.createProgressDialog(mContext, "", "正在扫描设备");
 		
 		String[] type = new String[]{mBPText, mBSText, mFHText};
 		
@@ -69,6 +71,13 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		}
 	}
 	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		hideProgress();
+		mProgressDialog = null;
+	}
+	
 	private String getDeviceType() {
 		String type = null;
 		String selectedType = mTypeSpinner.getSelectedItem().toString();
@@ -82,6 +91,15 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		return type;
 	}
 	
+	private void hideProgress() {
+		if(mProgressDialog == null) {
+			return;
+		}
+		if(mProgressDialog.isShowing()) {
+			mProgressDialog.dismiss();
+		}
+	}
+	
 	@OnClick(R.id.btn_match)
 	public void match(View v) {
 		new Thread(new Runnable() {
@@ -93,14 +111,14 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				 }
 			}
 		}).start();
-		mProgressDialog = DialogUtils.showProgressDialog(mContext, "", "正在扫描设备");
+		mProgressDialog.show();
 		mScanner.scanLeDevice(true);
 	}
 
 	@Override
 	public void onScanStateChange(int scanState) {
 		if(scanState == DeviceScanner.STATE_END_SCAN) {
-			mProgressDialog.dismiss();
+			hideProgress();
 		}
 	}
 
@@ -129,11 +147,18 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 			finish();
 		}
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		if(mScanner.isScanning())
+			mScanner.scanLeDevice(false);
+	}
 
 	@Override
 	public void onScanFailed() {
 		System.out.println("scan failed");
-		mProgressDialog.dismiss();
+		hideProgress();
 		String rmdStr = getResources().getString(R.string.scan_failed);
 		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
 	}

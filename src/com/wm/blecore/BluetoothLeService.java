@@ -56,12 +56,12 @@ public class BluetoothLeService extends Service {
 		};
 
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-//			for(BluetoothGattService service : gatt.getServices()) {
-//				System.out.println("service: " + service.getUuid());
-//				for(BluetoothGattCharacteristic cha : service.getCharacteristics()) {
-//					System.out.println("characteristics: " + cha.getUuid());
-//				}
-//			}
+			for(BluetoothGattService service : gatt.getServices()) {
+				System.out.println("service: " + service.getUuid());
+				for(BluetoothGattCharacteristic cha : service.getCharacteristics()) {
+					System.out.println("characteristics: " + cha.getUuid());
+				}
+			}
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
 			}

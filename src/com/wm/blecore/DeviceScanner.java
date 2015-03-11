@@ -28,18 +28,17 @@ public class DeviceScanner {
 	private boolean mScanning = false;
 	private ScanCallback mCallback = null;
 
-	private DeviceScanner(BluetoothAdapter bluetoothAdapter,
-			ScanCallback callback) {
+	private DeviceScanner(BluetoothAdapter bluetoothAdapter) {
 		this.mHandler = new Handler();
 		this.mBluetoothAdapter = bluetoothAdapter;
-		this.mCallback = callback;
 		this.mDevices = new ArrayList<BluetoothDevice>();
 	}
 
 	public static DeviceScanner getInstance(BluetoothAdapter bluetoothAdapter,
 			ScanCallback callback) {
 		if (mDeviceScanner == null)
-			mDeviceScanner = new DeviceScanner(bluetoothAdapter, callback);
+			mDeviceScanner = new DeviceScanner(bluetoothAdapter);
+		mDeviceScanner.mCallback = callback;
 		return mDeviceScanner;
 	}
 
@@ -70,7 +69,8 @@ public class DeviceScanner {
 			mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					scanLeDevice(false);
+					if(mScanning = true)
+						scanLeDevice(false);
 				}
 			}, SCAN_PERIOD);
 			mScanning = true;

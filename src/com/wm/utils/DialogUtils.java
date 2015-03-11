@@ -120,13 +120,12 @@ public class DialogUtils {
 	    }
 
 
-	    public static ProgressDialog showProgressDialog(Context context, String title, String message) {
+	    public static ProgressDialog createProgressDialog(Context context, String title, String message) {
 	        ProgressDialog progressDialog = new ProgressDialog(context);
 	        progressDialog.setCanceledOnTouchOutside(false);
 	        progressDialog.setTitle(title);
 	        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        progressDialog.setMessage(message);
-	        progressDialog.show();
 	        return progressDialog;
 	    }
 

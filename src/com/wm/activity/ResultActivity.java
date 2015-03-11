@@ -1,9 +1,5 @@
 package com.wm.activity;
 
-import java.util.UUID;
-
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -28,7 +24,6 @@ import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
-import com.wm.utils.UUIDS;
 
 public class ResultActivity extends BaseActivity {
 
@@ -45,7 +40,6 @@ public class ResultActivity extends BaseActivity {
 	private BluetoothLeService mBluetoothLeService;
 	private DeviceInfo mDevice;
 	private Handler mHandler;
-	private BluetoothGattCharacteristic mInforCharacteristic;
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
 		@Override
@@ -148,19 +142,10 @@ public class ResultActivity extends BaseActivity {
 			} else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
 				String extraData = intent
 						.getStringExtra(BluetoothLeService.EXTRA_DATA);
-				System.out.println(extraData);
+				mFragment.handleData(extraData);
 			} else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED
 					.equals(action)) {
-				BluetoothGattService service = mBluetoothLeService
-						.getServiceByUuid(UUIDS.BP_RESULT_SERVICE);
-				if (service == null) {
-					return;
-				}
-				mInforCharacteristic = service.getCharacteristic(UUID
-						.fromString(UUIDS.BP_RESULT_CHARAC));
-				if(mInforCharacteristic != null) {
-					mBluetoothLeService.setCharacteristicNotification(mInforCharacteristic, true);
-				}
+				mFragment.setCharacteristicNotification(mBluetoothLeService);
 			}
 		}
 
