@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -36,6 +37,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	private String mFHText;
 	private ProgressDialog mProgressDialog;
 	private List<String> mDBAddresses = new ArrayList<String>();
+	private Context mContext;
 			
 	
 	@Override
@@ -59,6 +61,8 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.type_item, type); 
 		 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		 mTypeSpinner.setAdapter(arrayAdapter);
+		 
+		 mContext = this;
 	}
 	
 	@Override
@@ -93,7 +97,13 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				 }
 			}
 		}).start();
+		
 		mProgressDialog = DialogUtils.showProgressDialog(mContext, "", "正在扫描设备");
+		
+		System.out.println("thread " + Thread.currentThread().getName());
+		
+//		mProgressDialog.dismiss();
+		//mProgressDialog.show();
 		mScanner.scanLeDevice(true);
 	}
 
@@ -132,14 +142,17 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 
 	@Override
 	public void onScanFailed() {
+		
 		System.out.println("scan failed");
 		mProgressDialog.dismiss();
 		String rmdStr = getResources().getString(R.string.scan_failed);
 		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+		
 	}
 	
 	private boolean isMatchedDevice(BluetoothDevice device) {
 		return true;
 	}
+	
 	
 }

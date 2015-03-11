@@ -126,6 +126,7 @@ public class DialogUtils {
 	        progressDialog.setTitle(title);
 	        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        progressDialog.setMessage(message);
+//	        progressDialog.setCancelable(false);
 	        progressDialog.show();
 	        return progressDialog;
 	    }
