@@ -1,6 +1,6 @@
 package com.wm.fragments;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +31,7 @@ import com.wm.activity.AddDeviceActivity;
 import com.wm.activity.HistoryActivity;
 import com.wm.activity.R;
 import com.wm.customview.DeviceIcon;
+import com.wm.db.DeviceDBManager;
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
@@ -47,14 +49,16 @@ public class DeviceFragment extends Fragment {
 	@InjectView(R.id.device_listview)
 	ListView mDeviceListView;
 
-	OnStateChangeListener mCallback;
-	DeviceDataSet mDeviceDataSet;
-	EditText mNameEditText;
-	DeviceListAdapter mAdapter;
-	Context mContext;
+	private OnStateChangeListener mCallback;
+	private DeviceDataSet mDeviceDataSet;
+	private DeviceListAdapter mAdapter;
+	private Context mContext;
 	private boolean isDelete = false;
 	private boolean isEdit = false;
 	private TabPager mTabPager;
+	private List<DeviceInfo> mDevices;
+	private DeviceDBManager mDeviceDBManager;
+	private Handler mHandler;
 
 	public interface OnStateChangeListener {
 		public void onStateChange(int state);
@@ -78,18 +82,43 @@ public class DeviceFragment extends Fragment {
 				.inflate(R.layout.fragment_device, container, false);
 		ButterKnife.inject(this, view);
 		mContext = getActivity();
+		mHandler = new Handler();
+		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
 		setHasOptionsMenu(true);// 显示fragment的menu
 
 		return view;
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		initData();
+	}
+
+	private void initData() {
+		mHandler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				mDevices = mDeviceDBManager.getAllDevices();
+				if(mDeviceDataSet == null) 
+					mDeviceDataSet = new DeviceDataSet();
+				mDeviceDataSet.option = OptionEnum.ITEM_ADD;
+				mDeviceDataSet.deviceInfos = mDevices;
+				if(mAdapter == null) {
+					mAdapter = new DeviceListAdapter(mContext, mDeviceDataSet);
+					mDeviceListView.setAdapter(mAdapter);
+				} else {
+					mAdapter.notifyDataSetChanged();
+				}
+			}
+		}, 500);
+	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		initData();
-		mAdapter = new DeviceListAdapter(mContext, mDeviceDataSet);
-		mDeviceListView.setAdapter(mAdapter);
+
 	}
 
 	@Override
@@ -170,34 +199,13 @@ public class DeviceFragment extends Fragment {
 		mCallback.onStateChange(STATE_NORMAL);
 	}
 
-	private void initData() {
-		mDeviceDataSet = new DeviceDataSet();
-		mDeviceDataSet.option = OptionEnum.ITEM_ADD;
-		ArrayList<DeviceInfo> deviceInfos = new ArrayList<>();
-
-		DeviceInfo deviceInfo = null;
-		for (int i = 0; i < 2; i++) {
-			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_BP, "血压计 -" + i);
-			deviceInfos.add(deviceInfo);
-		}
-		for (int i = 0; i < 2; i++) {
-			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_BS, "血糖仪" + i);
-			deviceInfos.add(deviceInfo);
-		}
-		for (int i = 0; i < 2; i++) {
-			deviceInfo = new DeviceInfo(DeviceInfo.TYPE_FH, "胎心仪" + i);
-			deviceInfos.add(deviceInfo);
-		}
-		mDeviceDataSet.deviceInfos = deviceInfos;
-	}
-
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
 		mTabPager.savePosition(TabPager.PAGE_DEVICE);
-		Intent intent = null;
 		String type = mDeviceDataSet.deviceInfos.get(i).type;
-		intent = new Intent(mContext, HistoryActivity.class);
+		Intent intent = new Intent(mContext, HistoryActivity.class);
 		intent.putExtra(DeviceInfo.INTENT_TYPE, type);
+		intent.putExtra(KEY_DEVICE_INFO, mDeviceDataSet.deviceInfos.get(i));
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_from_right,
 				R.anim.scale_fade_out);
@@ -278,18 +286,27 @@ public class DeviceFragment extends Fragment {
 	public void update(final int i) {
 		String name = mDeviceDataSet.deviceInfos.get(i).name;
 		LayoutInflater factory = LayoutInflater.from(mContext);
-		View mainView = factory.inflate(R.layout.change_device_name, new LinearLayout(mContext), false);
+		View mainView = factory.inflate(R.layout.change_device_name,
+				new LinearLayout(mContext), false);
 		final EditText txtDeviceName = ButterKnife.findById(mainView,
 				R.id.txt_device_name);
 		txtDeviceName.setText(name);
 		txtDeviceName.setSelection(name.length());
-		DialogUtils.showViewDialog(mContext, R.drawable.ic_action_edit,
-				"设备名称", mainView, "确定", "取消", new BtnCallback() {
+		DialogUtils.showViewDialog(mContext, R.drawable.ic_action_edit, "设备名称",
+				mainView, "确定", "取消", new BtnCallback() {
 					@Override
 					public void click(final DialogInterface dialog,
 							final int which) {
 						String deviceName = txtDeviceName.getText().toString();
 						mDeviceDataSet.deviceInfos.get(i).name = deviceName;
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								mDeviceDBManager
+										.updateDevice(mDeviceDataSet.deviceInfos
+												.get(i));
+							}
+						}).start();
 						mAdapter.notifyDataSetChanged();
 					}
 				}, null);
@@ -311,6 +328,15 @@ public class DeviceFragment extends Fragment {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
+								final DeviceInfo tmpDeviceInfo = mDeviceDataSet.deviceInfos
+										.get(mPosition);
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+										mDeviceDBManager
+												.removeDeviceById(tmpDeviceInfo.id);
+									}
+								}).start();
 								mDeviceDataSet.deviceInfos.remove(mPosition);
 								mAdapter.notifyDataSetChanged();
 							}

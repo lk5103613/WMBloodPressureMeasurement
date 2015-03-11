@@ -10,6 +10,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.wm.entity.DeviceInfo;
+import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
 public class HistoryActivity extends BaseActivity {
@@ -20,6 +21,7 @@ public class HistoryActivity extends BaseActivity {
 	private Context mContext;
 	private Fragment mFragment;
 	private String mType;
+	private DeviceInfo mDeviceInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,11 @@ public class HistoryActivity extends BaseActivity {
 		mContext = HistoryActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
 		mFragment = TypeFactory.getHistoryFragment(mType);
+		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		
 		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
 		
-		mToolbar.setTitle(TypeFactory.getTitle(mContext, mType));
+		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
@@ -43,6 +46,7 @@ public class HistoryActivity extends BaseActivity {
 	public void beginCheck(){
 		Intent intent = new Intent(this, ResultActivity.class);
 		intent.putExtra(DeviceInfo.INTENT_TYPE, mType);
+		intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDeviceInfo);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_from_right,
 				R.anim.scale_fade_out);

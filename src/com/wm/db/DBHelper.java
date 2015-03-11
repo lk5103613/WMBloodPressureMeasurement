@@ -23,12 +23,13 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ DeviceEntry.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP
 			+ DeviceEntry.COLUMN_NAME_ADDRESS + TEXT_TYPE + COMMA_SEP
 			+ DeviceEntry.COLUMN_NAME_TYPE + TEXT_TYPE + " )";
-
 	private static final String SQL_CREATE_BPDATE = "CREATE TABLE "
 			+ BPDataEntry.TABLE_NAME + " (" + BPDataEntry.COLUMN_NAME_ID
 			+ " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ BPDataEntry.COLUMN_NAME_SSVALUE + TEXT_TYPE + COMMA_SEP
 			+ BPDataEntry.COLUMN_NAME_SZVALUE + TEXT_TYPE + COMMA_SEP
+			+ BPDataEntry.COLUMN_NAME_HEART_RATE + TEXT_TYPE + COMMA_SEP
+			+ BPDataEntry.COLUMN_NAME_HEART_RATE_STATE + TEXT_TYPE + COMMA_SEP
 			+ BPDataEntry.COLUMN_NAME_DATE + INTEGER_TYPE + " )";
 	private static final String SQL_CREATE_BSDATE = "CREATE TABLE "
 			+ BSDataEntry.TABLE_NAME + " (" + BSDataEntry.COLUMN_NAME_ID

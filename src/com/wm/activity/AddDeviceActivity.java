@@ -1,6 +1,5 @@
 package com.wm.activity;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -107,21 +106,27 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 
 	@Override
 	public void onScanSuccess(List<BluetoothDevice> devices) {
-		System.out.println("scan success    " + devices.size());
+		final List<DeviceInfo> needSaveDevices = new ArrayList<DeviceInfo>();
 		for(BluetoothDevice device : devices) {
-			
 			final String address = device.getAddress().toUpperCase(Locale.getDefault()).trim();
 			if(mDBAddresses.contains(address) || !isMatchedDevice(device)) {
 				continue;
 			}
 			final String name = device.getName();
-			
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					mDeviceDBManager.addDevice(new DeviceInfo(getDeviceType(), name, address));
+			needSaveDevices.add(new DeviceInfo(getDeviceType(), name, address));
+		}
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				for(DeviceInfo deviceInfo : needSaveDevices) {
+					mDeviceDBManager.addDevice(deviceInfo);
 				}
-			}).start();
+			}
+		}).start();
+		if(needSaveDevices.size() != 0) {
+			String rmdStr = getResources().getString(R.string.scan_success);
+			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 

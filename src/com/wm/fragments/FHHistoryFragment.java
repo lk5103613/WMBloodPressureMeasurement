@@ -130,7 +130,6 @@ public class FHHistoryFragment extends Fragment implements OnChartValueSelectedL
 
 	@Override
 	public void onNothingSelected() {
-		// TODO Auto-generated method stub
 
 	}
 	@OnClick(R.id.btn_next)

@@ -1,8 +1,8 @@
 package com.wm.entity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeviceDataSet {
 	public OptionEnum option;
-	public ArrayList<DeviceInfo> deviceInfos;
+	public List<DeviceInfo> deviceInfos;
 }
