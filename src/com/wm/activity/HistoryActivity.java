@@ -25,16 +25,15 @@ import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.DeviceScanner.ScanCallback;
-import com.wm.db.HistoryDBManager;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseHistoryFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
 public class HistoryActivity extends BaseActivity implements ScanCallback {
-	
+
 	private final static int MAX_CONNECT_TIME = 3;
-	
+
 	@InjectView(R.id.history_bar)
 	Toolbar mToolbar;
 	@InjectView(R.id.btn_begin_check)
@@ -73,7 +72,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 		
 		mContext = HistoryActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		System.out.println("type " + mType);
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		mScanner = DeviceScanner.getInstance(mBluetoothAdapter, this);
@@ -93,7 +91,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 		resetUI();
 		mCurrentConnectTime = 0;
 	}
@@ -161,10 +158,20 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 				R.anim.scale_fade_out);
 	}
 	
+	private boolean needResponse() {
+		if(mWaitingConnect.getVisibility() == View.GONE) {
+			return false;
+		}
+		return true;
+	}
+	
 	private BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			if(!needResponse()) {
+				return;
+			}
 			final String action = intent.getAction();
 			if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
 				mCurrentConnectTime = 0;
