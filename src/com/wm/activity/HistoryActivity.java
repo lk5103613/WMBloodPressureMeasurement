@@ -1,6 +1,7 @@
 package com.wm.activity;
 
 import java.util.List;
+import java.util.Locale;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -144,7 +145,8 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	public void beginCheck(){
 		beginCheckUI();
 		System.out.println(mDeviceInfo.address);
-		mBluetoothLeService.connect(mDeviceInfo.address);
+		mCurrentConnectTime = 0;
+		connect();
 	}
 	
 	private void jumpToResult() {
@@ -181,15 +183,18 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 		System.out.println("confail " + mCurrentConnectTime);
 		mCurrentConnectTime++;
 		if(mCurrentConnectTime >= MAX_CONNECT_TIME) {
+			if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
+				mBluetoothLeService.disconnect();
+			}
 			connectFailUI();
 			String rmdStr = getResources().getString(R.string.con_failed);
 			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
 			return;
 		}
-		reconnect();
+		connect();
 	}
 	
-	private void reconnect() {
+	private void connect() {
 		mScanner.scanLeDevice(true);
 	}
 
@@ -199,8 +204,18 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	}
 
 	@Override
-	public void onScanSuccess(List<BluetoothDevice> mDevices) {
-		mBluetoothLeService.connect(mDeviceInfo.address);
+	public void onScanSuccess(List<BluetoothDevice> devices) {
+		boolean isCorrectDevice = false;
+		for(BluetoothDevice device : devices) {
+			if(device.getAddress().toUpperCase(Locale.getDefault()).equals(mDeviceInfo.address)) {
+				isCorrectDevice = true;
+				break;
+			}
+		}
+		if(isCorrectDevice)
+			mBluetoothLeService.connect(mDeviceInfo.address);
+		else
+			handleConFail();
 	}
 
 	@Override
