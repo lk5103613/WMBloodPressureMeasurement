@@ -25,7 +25,6 @@ import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.DeviceScanner.ScanCallback;
-import com.wm.db.HistoryDBManager;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseHistoryFragment;
 import com.wm.fragments.DeviceFragment;
@@ -73,7 +72,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 		
 		mContext = HistoryActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		System.out.println("type " + mType);
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		mScanner = DeviceScanner.getInstance(mBluetoothAdapter, this);
@@ -146,7 +144,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(){
 		beginCheckUI();
-		registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 		mCurrentConnectTime = 0;
 		connect();
 	}
@@ -196,7 +193,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 			if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
 				mBluetoothLeService.disconnect();
 			}
-			unregisterReceiver(mGattUpdateReceiver);
 			connectFailUI();
 			String rmdStr = getResources().getString(R.string.con_failed);
 			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
