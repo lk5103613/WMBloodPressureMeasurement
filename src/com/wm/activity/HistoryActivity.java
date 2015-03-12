@@ -105,6 +105,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		System.out.println("destory");
 		if(mServiceConnection != null) 
 			unbindService(mServiceConnection);
 	}
@@ -215,7 +216,8 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	public void onScanSuccess(List<BluetoothDevice> devices) {
 		boolean isCorrectDevice = false;
 		for(BluetoothDevice device : devices) {
-			if(device.getAddress().toUpperCase(Locale.getDefault()).equals(mDeviceInfo.address)) {
+			if(device.getAddress().toUpperCase(Locale.getDefault())
+					.equals(mDeviceInfo.address)) {
 				isCorrectDevice = true;
 				break;
 			}

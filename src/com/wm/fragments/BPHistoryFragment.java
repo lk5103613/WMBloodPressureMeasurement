@@ -2,6 +2,7 @@ package com.wm.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
+import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
 public class BPHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener {
@@ -33,9 +35,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	@InjectView(R.id.bp_history_chart)
 	LineChart mChart;
 	
-	private List<BPResult> mBPResults;
 	private Context mContext;
 	private HistoryDBManager mHistoryDBManager;
+	private List<BPResult> mBPResults = new ArrayList<>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,14 +48,14 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mContext = getActivity();
 		
 		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
-		
+		getBpHisory();
 		// chart
 		initLineChart();
+		
 		addEmptyData();
 		mChart.invalidate();
 
 //		initData();
-		getBpHisory();
 		addDataSet();
 		
 		return view;
@@ -63,9 +65,12 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
+		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+		mChart.setStartAtZero(false);
+		mChart.setScaleMinima(mBPResults.size() / 7, 1);// 设置缩放比例
 	}
 	
 	/**
@@ -75,12 +80,19 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		ArrayList<String> xVals = new ArrayList<String>();
 		
 		// 创建 x值
-		for (int i = 1; i < 8; i++) {
+		for (int i = 0; i < mBPResults.size(); i++) {
+			Date date = DateUtil.longToDate(mBPResults.get(i).date);
+			String datestr = DateUtil.getFormatDate("MM.dd",date);
+			xVals.add(datestr);
+		}
+		
+		for (int i = mBPResults.size(); i < 8; i++) {
 			Calendar nowss = Calendar.getInstance();
 			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
 					+ (nowss.get(Calendar.DAY_OF_MONTH)+i);
 			xVals.add(datestr);
 		}
+		System.out.println("size " + xVals.size());
 		
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
@@ -92,10 +104,12 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		LineData data = mChart.getData();
 
 		if (data != null) {
-			//舒张
-			ArrayList<Entry> yValsSz = new ArrayList<Entry>();
-			ArrayList<Entry> yValsSs = new ArrayList<Entry>();
+			
+			ArrayList<Entry> yValsSz = new ArrayList<Entry>();//舒张
+			ArrayList<Entry> yValsSs = new ArrayList<Entry>();//收缩
+			
 			for (int i = 0; i < mBPResults.size(); i++) {
+				System.out.println("收缩 " + mBPResults.get(i).ssValue + " 舒张 "  + mBPResults.get(i).szValue);
 				yValsSz.add(new Entry(mBPResults.get(i).szValue,i));
 				yValsSs.add(new Entry(mBPResults.get(i).ssValue,i));
 			}
@@ -128,6 +142,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 
 	public void getBpHisory(){
 		mBPResults = mHistoryDBManager.getAllBpResults();
+		System.out.println("size + " + mBPResults.size());
 	}
 
 	public void initData() {
@@ -165,5 +180,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			bluetoothLeService.setCharacteristicNotification(inforCharacteristic, true);
 		}
 	}
+	
 
 }

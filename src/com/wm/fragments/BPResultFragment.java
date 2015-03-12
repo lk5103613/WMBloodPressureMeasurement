@@ -16,6 +16,7 @@ import butterknife.InjectView;
 
 import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
+import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.entity.BPResultException;
 import com.wm.utils.DataConvertUtils;
@@ -51,7 +52,7 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public void record() {
-
+		HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
 	}
 
 	@Override
@@ -101,5 +102,6 @@ public class BPResultFragment extends BaseResultFragment {
 				.valueOf(DataConvertUtils.hexToDecimal(items[1]));
 		return pressureH * 256 + pressureL + "";
 	}
+
 
 }
