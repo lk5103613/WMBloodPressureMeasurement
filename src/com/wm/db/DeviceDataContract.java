@@ -24,6 +24,7 @@ public class DeviceDataContract {
 		public static final String COLUMN_NAME_HEART_RATE_STATE = "heart_rate_state";
 		public static final String COLUMN_NAME_DATE = "date";
 		public static final String COLUMN_NAME_NULLABLE = "null";
+		public static final String COLUMN_NAME_STATUS = "data_status";
 	}
 	
 	public static abstract class BSDataEntry implements BaseColumns {
@@ -32,6 +33,7 @@ public class DeviceDataContract {
 		public static final String COLUMN_NAME_BSVALUE = "bs_value";
 		public static final String COLUMN_NAME_DATE = "date";
 		public static final String COLUMN_NAME_NULLABLE = "null";
+		public static final String COLUMN_NAME_STATUS = "status";
 	}
 	
 	public static abstract class FHDataEntry implements BaseColumns {
@@ -40,6 +42,7 @@ public class DeviceDataContract {
 		public static final String COLUMN_NAME_FHVALUES = "fh_values";
 		public static final String COLUMN_NAME_DATE = "date";
 		public static final String COLUMN_NAME_NULLABLE = "null";
+		public static final String COLUMN_NAME_STATUS = "status";
 	}
 	
 }

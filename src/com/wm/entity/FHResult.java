@@ -7,6 +7,7 @@ public class FHResult {
 	public int id;
 	public List<Float> fhValues;
 	public long date;
+	public int status;
 	
 	public FHResult(){}
 	
