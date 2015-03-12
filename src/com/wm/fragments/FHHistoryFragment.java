@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +22,10 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
+import com.wm.blecore.BluetoothLeService;
 import com.wm.entity.FHResult;
 
-public class FHHistoryFragment extends Fragment implements OnChartValueSelectedListener {
+public class FHHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener {
 	
 	@InjectView(R.id.fh_history_chart)
 	LineChart mChart;
@@ -152,6 +152,12 @@ public class FHHistoryFragment extends Fragment implements OnChartValueSelectedL
 		}
 		mChart.getData().removeDataSet(0);
 		addDataSet(--mIndex);
+	}
+
+	@Override
+	public void setCharacteristicNotification(
+			BluetoothLeService bluetoothLeService) {
+		
 	}
 
 

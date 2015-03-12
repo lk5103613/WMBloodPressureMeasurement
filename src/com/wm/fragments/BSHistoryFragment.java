@@ -1,7 +1,6 @@
 package com.wm.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,9 @@ import butterknife.InjectView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.LineData;
 import com.wm.activity.R;
+import com.wm.blecore.BluetoothLeService;
 
-public class BSHistoryFragment extends Fragment {
+public class BSHistoryFragment extends BaseHistoryFragment {
 	
 	@InjectView(R.id.bs_history_chart)
 	LineChart mChart;
@@ -50,6 +50,12 @@ public class BSHistoryFragment extends Fragment {
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
 		mChart.invalidate();
+	}
+
+	@Override
+	public void setCharacteristicNotification(
+			BluetoothLeService bluetoothLeService) {
+		
 	}
 	
 }
