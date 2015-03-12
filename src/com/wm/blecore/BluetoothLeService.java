@@ -41,6 +41,7 @@ public class BluetoothLeService extends Service {
 		public void onConnectionStateChange(BluetoothGatt gatt, int status,
 				int newState) {
 			String intentAction;
+			System.out.println(status);
 			if (newState == BluetoothProfile.STATE_CONNECTED) {
 				// 如果连接成功，通过广播方式告知MainAcivity
 				intentAction = ACTION_GATT_CONNECTED;
