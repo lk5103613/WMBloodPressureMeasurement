@@ -1,5 +1,8 @@
 package com.wm.fragments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +17,14 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
+import com.wm.utils.DataConvertUtils;
 
 public class FHResultFragment extends BaseResultFragment {
 	@InjectView(R.id.embryo_result_chart)
 	LineChart mChart;
+	
+	private List<Float> mFHValues;
 
-	// @InjectView(R.id.result_container)
-	// LinearLayout mResultContainer;
-	// @InjectView(R.id.text_result)
-	// TextView mResultTextView;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,16 +35,13 @@ public class FHResultFragment extends BaseResultFragment {
 		initLineChart();
 		addEmptyData();
 		
-//		for (int i = 0; i < 10; i ++) {
-//			addEntry();
-//		}
+		mFHValues = new ArrayList<Float>();
 		
 		return view;
 	}
 
 	@Override
 	public void record() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -110,6 +109,10 @@ public class FHResultFragment extends BaseResultFragment {
 
 	@Override
 	public void handleData(String data, BluetoothLeService bluetoothLeService) {
+		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
+		System.out.println("Ì¥ÐÄÒÇ: " + fhValue);
+		if(!fhValue.trim().equals("0")) 
+			mFHValues.add(Float.valueOf(fhValue));
 		
 	}
 

@@ -1,5 +1,6 @@
 package com.wm.entity;
 
+import java.util.Date;
 import java.util.List;
 
 public class FHResult {
@@ -11,6 +12,11 @@ public class FHResult {
 	
 	public FHResult(){}
 	
+	public FHResult(List<Float> fhValues) {
+		this.fhValues = fhValues;
+		this.date = new Date().getTime();
+	}
+	
 	public FHResult(List<Float> fhValues, long date){
 		this.fhValues = fhValues;
 		this.date = date;
@@ -20,5 +26,6 @@ public class FHResult {
 		this(fhValues, date);
 		this.id = id;
 	}
+	
 	
 }
