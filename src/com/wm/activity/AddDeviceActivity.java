@@ -36,6 +36,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	private String mFHText;
 	private ProgressDialog mProgressDialog;
 	private List<String> mDBAddresses = new ArrayList<String>();
+	private int scanIndex=0; //scan number after failed
 			
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,12 +119,15 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	@Override
 	public void onScanStateChange(int scanState) {
 		if(scanState == DeviceScanner.STATE_END_SCAN) {
-			hideProgress();
+			System.out.println("end scan");
+//			hideProgress();
 		}
 	}
 
 	@Override
 	public void onScanSuccess(List<BluetoothDevice> devices) {
+		scanIndex = 0; // set scan number to 0
+		System.out.println("scan success");
 		final List<DeviceInfo> needSaveDevices = new ArrayList<DeviceInfo>();
 		for(BluetoothDevice device : devices) {
 			final String address = device.getAddress().toUpperCase(Locale.getDefault()).trim();
@@ -141,10 +145,14 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				}
 			}
 		}).start();
+		
+		hideProgress();
 		if(needSaveDevices.size() != 0) {
 			String rmdStr = getResources().getString(R.string.scan_success);
 			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
 			finish();
+		} else {
+			Toast.makeText(mContext, "已存在设备列表中", Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -158,9 +166,16 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	@Override
 	public void onScanFailed() {
 		System.out.println("scan failed");
-		hideProgress();
-		String rmdStr = getResources().getString(R.string.scan_failed);
-		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+		if (scanIndex<1) { //scan again
+			scanIndex ++;
+			System.out.println("scan again");
+			mScanner.scanLeDevice(true);
+		} else {
+			hideProgress();
+			String rmdStr = getResources().getString(R.string.scan_failed);
+			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+		}
+		
 	}
 	
 	private boolean isMatchedDevice(BluetoothDevice device) {
