@@ -69,13 +69,15 @@ public class DeviceScanner {
 			mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					if(mScanning = true)
+					if(mScanning)
 						scanLeDevice(false);
 				}
 			}, SCAN_PERIOD);
 			mScanning = true;
 			mBluetoothAdapter.startLeScan(mLeScanCallback);
 		} else {
+			if(!mScanning)
+				return;
 			mCallback.onScanStateChange(STATE_END_SCAN);
 			mScanning = false;
 			mBluetoothAdapter.stopLeScan(mLeScanCallback);
