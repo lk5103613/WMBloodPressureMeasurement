@@ -91,6 +91,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 		resetUI();
 		mCurrentConnectTime = 0;
 	}
