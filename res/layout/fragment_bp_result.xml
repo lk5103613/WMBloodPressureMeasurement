@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-    <LinearLayout
-        android:id="@+id/s_container"
+     <LinearLayout
+         android:id="@+id/p_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginEnd="10dp"
@@ -12,6 +12,35 @@
         android:layout_marginTop="30dp"
         android:background="@color/white"
         android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:text="@string/current_pressure"
+            android:textColor="@color/item_text_color" />
+
+        <TextView
+            android:id="@+id/lbl_pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="30dp"
+            android:textColor="@color/colorPrimaryDark" />
+    </LinearLayout>
+    
+     
+    
+    <LinearLayout
+        android:id="@+id/s_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_below="@id/p_container" >
 
         <TextView
             android:layout_width="wrap_content"

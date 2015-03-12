@@ -27,6 +27,8 @@ public class BPResultFragment extends BaseResultFragment {
 	TextView mLblSS;
 	@InjectView(R.id.lbl_sz)
 	TextView mLblSZ;
+	@InjectView(R.id.lbl_pressure)
+	TextView mLblP;
 
 	private boolean mNeedNewData = true;
 	private BPResult mBPResult;
@@ -80,6 +82,8 @@ public class BPResultFragment extends BaseResultFragment {
 			mNeedNewData = true;
 			String currentPressure = getPressureValue(data);
 			System.out.println(currentPressure);
+			mLblP.setText(currentPressure);
+			
 		}
 		if (!mNeedNewData) {
 			mBluetoothLeService.setCharacteristicNotification(

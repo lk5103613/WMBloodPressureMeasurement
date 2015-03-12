@@ -8,14 +8,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.wm.db.DeviceDataContract.BPDataEntry;
-import com.wm.db.DeviceDataContract.BSDataEntry;
 import com.wm.db.DeviceDataContract.DeviceEntry;
-import com.wm.db.DeviceDataContract.FHDataEntry;
-import com.wm.entity.BPResult;
-import com.wm.entity.BSResult;
 import com.wm.entity.DeviceInfo;
-import com.wm.entity.FHResult;
 
 public class DeviceDBManager {
 
@@ -121,75 +115,5 @@ public class DeviceDBManager {
 		db.delete(DeviceEntry.TABLE_NAME, selection, selectionArgs);
 		db.close();
 	}
-	
-	/**
-	 * 管理血压数据
-	 */
-	
-	
-	/**
-	 * 获得所有的血压计数据
-	 * @return
-	 */
-	public List<BPResult> getAllBpResults(){
-		List<BPResult> bpResults = new ArrayList<>();
-		SQLiteDatabase db = mDBHelper.getWritableDatabase();
-		String[] projection = { BPDataEntry.COLUMN_NAME_ID, BPDataEntry.COLUMN_NAME_SZVALUE, 
-				BPDataEntry.COLUMN_NAME_SSVALUE, BPDataEntry.COLUMN_NAME_DATE};
-		Cursor c = db.query(
-				BPDataEntry.TABLE_NAME, projection, null, null, null, null, null );
-		
-		while(c.moveToNext()) {
-			int id = c.getInt(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_ID));
-			float szValue = c.getFloat(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_SZVALUE));
-			float ssValue = c.getFloat(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_SSVALUE));
-			long date = c.getLong(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_DATE)); 
-			bpResults.add(new BPResult(id, szValue, ssValue, date));
-			
-		}
-		return bpResults;
-	}
-	
-	
-	/**
-	 * 获得所有血糖数据
-	 * 
-	 * @return
-	 */
-	public List<BSResult> getAllBsResults(){
-		List<BSResult> bsResults = new ArrayList<>();
-		SQLiteDatabase db = mDBHelper.getWritableDatabase();
-		String[] projection = {BSDataEntry.COLUMN_NAME_ID, BSDataEntry.COLUMN_NAME_BSVALUE, 
-				BSDataEntry.COLUMN_NAME_DATE};
-		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, null, null, null, null, null);
-		while (c.moveToNext()) {
-			int id = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_ID));
-			int bsValue = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_BSVALUE));
-			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
-			bsResults.add(new BSResult(id, bsValue, date));
-		}
-		return bsResults;
-	}
-	
-	public List<FHResult> getAllFhResults(){
-		List<FHResult> fhResults = new ArrayList<>();
-		SQLiteDatabase db = mDBHelper.getWritableDatabase();
-		String[] projection = {FHDataEntry.COLUMN_NAME_ID, FHDataEntry.COLUMN_NAME_FHVALUES, 
-				FHDataEntry.COLUMN_NAME_DATE};
-		Cursor c = db.query(FHDataEntry.TABLE_NAME, projection, null, null, null, null, null);
-		while (c.moveToNext()) {
-			int id = c.getInt(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_ID));
-			String fhValues = c.getString(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_FHVALUES));
-			long date = c.getLong(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_DATE));
-			
-		}
-		
-		return null;
-	}
-	
-	private List<Float> splitFhValues(String val){
-		return null;
-	}
-	
 	
 }

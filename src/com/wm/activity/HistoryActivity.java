@@ -25,6 +25,7 @@ import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.DeviceScanner.ScanCallback;
+import com.wm.db.HistoryDBManager;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseHistoryFragment;
 import com.wm.fragments.DeviceFragment;
@@ -86,6 +87,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 		// °ó¶¨À¶ÑÀ·þÎñ
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+		
 	}
 	
 	@Override

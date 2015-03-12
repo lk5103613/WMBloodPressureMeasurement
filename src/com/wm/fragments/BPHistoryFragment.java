@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import android.R.integer;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
+import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.utils.UUIDS;
 
@@ -33,6 +35,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	
 	private List<BPResult> mBPResults;
 	private Context mContext;
+	private HistoryDBManager mHistoryDBManager;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,15 +43,17 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		View view = inflater.inflate(R.layout.fragment_bp_history, container,
 				false);
 		ButterKnife.inject(this, view);
-		
 		mContext = getActivity();
+		
+		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
 		
 		// chart
 		initLineChart();
 		addEmptyData();
 		mChart.invalidate();
 
-		initData();
+//		initData();
+		getBpHisory();
 		addDataSet();
 		
 		return view;
@@ -121,6 +126,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		}
 	}
 
+	public void getBpHisory(){
+		mBPResults = mHistoryDBManager.getAllBpResults();
+	}
 
 	public void initData() {
 		mBPResults = new ArrayList<>();

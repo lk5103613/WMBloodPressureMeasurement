@@ -5,10 +5,13 @@ import java.util.Locale;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.wm.blecore.BluetoothLeService;
+import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.DeviceScanner.ScanCallback;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
@@ -41,6 +45,22 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	private BluetoothLeService mBluetoothLeService;
 	private DeviceInfo mDevice;
 	
+	private ServiceConnection mServiceConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			mBluetoothLeService = null;
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			mBluetoothLeService = ((LocalBinder) service).getService();
+			if (!mBluetoothLeService.initialize()) {
+				finish();
+			}
+		}
+	};
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +81,24 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.result_container, mFragment).commit();
+		// °ó¶¨À¶ÑÀ·þÎñ
+		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		
+		if(mServiceConnection != null) 
+			unbindService(mServiceConnection);
 	}
 
 	@Override
