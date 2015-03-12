@@ -5,6 +5,7 @@ public class BSResult {
 	public int id;
 	public int bsValue;
 	public long date;
+	public int status;
 	
 	public BSResult(int bsValue, long date) {
 		super();

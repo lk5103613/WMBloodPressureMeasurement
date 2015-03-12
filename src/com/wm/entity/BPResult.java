@@ -18,6 +18,7 @@ public class BPResult {
 	public float heartRate;
 	public int heartRateState = HEART_RATE_STATE_NORMAL;
 	public long date;
+	public int status;
 
 	public BPResult() {
 	}
