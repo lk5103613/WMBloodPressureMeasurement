@@ -19,7 +19,7 @@ public class DeviceScanner {
 	public final static int STATE_END_SCAN = 1;
 
 	// 扫描时间，超过这个时间没有扫描到设备，认定扫描失败
-	private final static int SCAN_PERIOD = 8000;
+	private final static int SCAN_PERIOD = 5000;
 	private static DeviceScanner mDeviceScanner = null;
 	// 存放扫描到的设备
 	private List<BluetoothDevice> mDevices = null;

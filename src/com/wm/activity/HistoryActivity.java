@@ -31,9 +31,9 @@ import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
 public class HistoryActivity extends BaseActivity implements ScanCallback {
-	
+
 	private final static int MAX_CONNECT_TIME = 3;
-	
+
 	@InjectView(R.id.history_bar)
 	Toolbar mToolbar;
 	@InjectView(R.id.btn_begin_check)
@@ -91,7 +91,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 		resetUI();
 		mCurrentConnectTime = 0;
 	}
@@ -145,6 +144,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(){
 		beginCheckUI();
+		registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 		mCurrentConnectTime = 0;
 		connect();
 	}
@@ -158,10 +158,20 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 				R.anim.scale_fade_out);
 	}
 	
+	private boolean needResponse() {
+		if(mWaitingConnect.getVisibility() == View.GONE) {
+			return false;
+		}
+		return true;
+	}
+	
 	private BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			if(!needResponse()) {
+				return;
+			}
 			final String action = intent.getAction();
 			if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
 				mCurrentConnectTime = 0;
@@ -184,6 +194,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 			if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
 				mBluetoothLeService.disconnect();
 			}
+			unregisterReceiver(mGattUpdateReceiver);
 			connectFailUI();
 			String rmdStr = getResources().getString(R.string.con_failed);
 			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
