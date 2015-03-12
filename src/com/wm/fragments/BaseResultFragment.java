@@ -10,5 +10,5 @@ public abstract class BaseResultFragment extends Fragment {
 
 	public abstract void handleData(String data,
 			BluetoothLeService bluetoothLeService);
-
+	
 }

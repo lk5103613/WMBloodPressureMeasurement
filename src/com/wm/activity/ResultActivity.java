@@ -107,6 +107,7 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 		case android.R.id.home:
 			Intent intent = new Intent(mContext, HistoryActivity.class);
 			intent.putExtra("type", mType);
+			intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDevice);
 			startActivity(intent);
 			overridePendingTransition(R.anim.scale_fade_in,
 					R.anim.slide_out_to_right);
@@ -216,7 +217,7 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	}
 	
 	private void handleConFail() {
-		Toast.makeText(mContext, "", Toast.LENGTH_LONG).show();
+		Toast.makeText(mContext, "Á´½ÓÒÑ¶Ï¿ª", Toast.LENGTH_LONG).show();
 	}
 
 }
