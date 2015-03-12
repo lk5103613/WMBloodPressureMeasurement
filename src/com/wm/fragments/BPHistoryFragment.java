@@ -3,10 +3,12 @@ package com.wm.fragments;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,11 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
+import com.wm.blecore.BluetoothLeService;
 import com.wm.entity.BPResult;
+import com.wm.utils.UUIDS;
 
-public class BPHistoryFragment extends Fragment implements OnChartValueSelectedListener {
+public class BPHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener {
 
 	@InjectView(R.id.bp_history_chart)
 	LineChart mChart;
@@ -137,6 +141,21 @@ public class BPHistoryFragment extends Fragment implements OnChartValueSelectedL
 	@Override
 	public void onNothingSelected() {
 
+	}
+
+	@Override
+	public void setCharacteristicNotification(
+			BluetoothLeService bluetoothLeService) {
+		BluetoothGattService service = bluetoothLeService
+				.getServiceByUuid(UUIDS.BP_RESULT_SERVICE);
+		if (service == null) {
+			return;
+		}
+		BluetoothGattCharacteristic inforCharacteristic = service.getCharacteristic(UUID
+				.fromString(UUIDS.BP_RESULT_CHARAC));
+		if(inforCharacteristic != null) {
+			bluetoothLeService.setCharacteristicNotification(inforCharacteristic, true);
+		}
 	}
 
 }

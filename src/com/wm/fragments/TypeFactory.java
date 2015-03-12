@@ -1,7 +1,6 @@
 package com.wm.fragments;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 
 import com.wm.activity.R;
 import com.wm.entity.DeviceInfo;
@@ -12,9 +11,9 @@ public class TypeFactory {
 	private static BaseResultFragment mBSResultFragment = new BSResultFragment();
 	private static BaseResultFragment mFHResultFragment = new FHResultFragment();
 	
-	private static Fragment mBPHistoryFragment = new BPHistoryFragment();
-	private static Fragment mBSHistoryFragment = new BSHistoryFragment();
-	private static Fragment mFHHistoryFragment = new FHHistoryFragment();
+	private static BaseHistoryFragment mBPHistoryFragment = new BPHistoryFragment();
+	private static BaseHistoryFragment mBSHistoryFragment = new BSHistoryFragment();
+	private static BaseHistoryFragment mFHHistoryFragment = new FHHistoryFragment();
 	
 	public static BaseResultFragment getResultFragment(String type) {
 		if(type.equals(DeviceInfo.TYPE_BS)) {
@@ -27,7 +26,7 @@ public class TypeFactory {
 		return null;
 	}
 	
-	public static Fragment getHistoryFragment(String type) {
+	public static BaseHistoryFragment getHistoryFragment(String type) {
 		if(type.equals(DeviceInfo.TYPE_BS)) {
 			return mBSHistoryFragment;
 		} else if(type.equals(DeviceInfo.TYPE_BP)) {

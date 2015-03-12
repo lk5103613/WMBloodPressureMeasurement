@@ -34,31 +34,40 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:orientation="vertical" >
-        
-	    <TextView
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:paddingTop="10dp"
-	        android:text="@string/nodata"
-	        android:textColor="@color/dark_gray"
-	        android:textSize="18sp" />
-	    
-    </LinearLayout>
-    
 
-    <Button
-        android:id="@+id/btn_begin_check"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="@string/nodata"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="56dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_match_bg"
-        android:text="@string/begin_check"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:layout_marginRight="30dp" >
+
+        <Button
+            android:id="@+id/btn_begin_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_match_bg"
+            android:text="@string/begin_check"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <ProgressBar
+            android:id="@+id/waiting_connect"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
 </LinearLayout>

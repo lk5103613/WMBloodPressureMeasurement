@@ -55,7 +55,6 @@
     <string name="remind_ble_must_open">使用本软件必须开启蓝牙</string>
     <string name="scan_failed">没有扫描到匹配的新设备，请确保设备已开启</string>
     <string name="scan_success">匹配成功</string>
-    <string name="title_activity_history">HistoryActivity</string>
-    <string name="title_activity_test">TestActivity</string>
+    <string name="con_failed">连接失败，确保对应设备已经开启</string>
 
 </resources>

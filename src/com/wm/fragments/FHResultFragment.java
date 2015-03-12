@@ -1,9 +1,5 @@
 package com.wm.fragments;
 
-import java.util.UUID;
-
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +14,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
-import com.wm.utils.UUIDS;
 
 public class FHResultFragment extends BaseResultFragment {
 	@InjectView(R.id.embryo_result_chart)
@@ -114,23 +109,8 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 
 	@Override
-	public void setCharacteristicNotification(
-			BluetoothLeService bluetoothLeService) {
-		BluetoothGattService service = bluetoothLeService
-				.getServiceByUuid(UUIDS.FH_RESULT_SERVICE);
-		if (service == null) {
-			return;
-		}
-		BluetoothGattCharacteristic inforCharacteristic = service.getCharacteristic(UUID
-				.fromString(UUIDS.FH_RESULT_CHARAC));
-		if(inforCharacteristic != null) {
-			bluetoothLeService.setCharacteristicNotification(inforCharacteristic, true);
-		}
-	}
-
-	@Override
-	public void handleData(String data) {
-		System.out.println(data);
+	public void handleData(String data, BluetoothLeService bluetoothLeService) {
+		
 	}
 
 }

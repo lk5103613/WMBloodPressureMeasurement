@@ -26,13 +26,7 @@ public class BSResultFragment extends BaseResultFragment {
 	}
 
 	@Override
-	public void setCharacteristicNotification(
-			BluetoothLeService bluetoothLeService) {
-		
-	}
-
-	@Override
-	public void handleData(String data) {
+	public void handleData(String data, BluetoothLeService bluetoothLeService) {
 		
 	}
 
