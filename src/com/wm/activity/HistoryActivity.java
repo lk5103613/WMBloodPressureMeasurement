@@ -72,6 +72,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 		
 		mContext = HistoryActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
+		System.out.println("type " + mType);
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		mScanner = DeviceScanner.getInstance(mBluetoothAdapter, this);

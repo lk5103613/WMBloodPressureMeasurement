@@ -89,6 +89,8 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		} else if(selectedType.equals(mFHText)) {
 			type = DeviceInfo.TYPE_FH;
 		}
+		
+		System.out.println("type " + type);
 		return type;
 	}
 	
