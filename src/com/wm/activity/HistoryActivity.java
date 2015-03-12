@@ -144,7 +144,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(){
 		beginCheckUI();
-		System.out.println(mDeviceInfo.address);
 		mCurrentConnectTime = 0;
 		connect();
 	}
@@ -164,7 +163,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 		public void onReceive(Context context, Intent intent) {
 			final String action = intent.getAction();
 			if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-				System.out.println("connect success");
 				mCurrentConnectTime = 0;
 			} else if (BluetoothLeService.ACTION_GATT_DISCONNECTED
 					.equals(action)) {
@@ -180,7 +178,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	};
 	
 	private void handleConFail() {
-		System.out.println("confail " + mCurrentConnectTime);
 		mCurrentConnectTime++;
 		if(mCurrentConnectTime >= MAX_CONNECT_TIME) {
 			if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {

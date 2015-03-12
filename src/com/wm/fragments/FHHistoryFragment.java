@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +27,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
 import com.wm.entity.FHResult;
+import com.wm.utils.UUIDS;
 
 public class FHHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener {
 	
@@ -157,7 +161,17 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	@Override
 	public void setCharacteristicNotification(
 			BluetoothLeService bluetoothLeService) {
-		
+		System.out.println("enter fh history");
+		BluetoothGattService service = bluetoothLeService
+				.getServiceByUuid(UUIDS.FH_RESULT_SERVICE);
+		if (service == null) {
+			return;
+		}
+		BluetoothGattCharacteristic inforCharacteristic = service.getCharacteristic(UUID
+				.fromString(UUIDS.FH_RESULT_CHARAC));
+		if(inforCharacteristic != null) {
+			bluetoothLeService.setCharacteristicNotification(inforCharacteristic, true);
+		}
 	}
 
 
