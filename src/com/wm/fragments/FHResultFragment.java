@@ -1,6 +1,7 @@
 package com.wm.fragments;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.graphics.Color;
@@ -17,6 +18,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
+import com.wm.db.HistoryDBManager;
+import com.wm.entity.FHResult;
 import com.wm.utils.DataConvertUtils;
 
 public class FHResultFragment extends BaseResultFragment {
@@ -42,7 +45,8 @@ public class FHResultFragment extends BaseResultFragment {
 
 	@Override
 	public void record() {
-
+		FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
+		HistoryDBManager.getInstance(getActivity()).addFhResult(fhResult);
 	}
 
 	private void initLineChart() {
@@ -52,7 +56,6 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
-
 	}
 
 	private void addEmptyData() {

@@ -196,7 +196,8 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	}
 	
 	private void connect() {
-		mScanner.scanLeDevice(true);
+//		mScanner.scanLeDevice(true);
+		mBluetoothLeService.connect(mDeviceInfo.address);
 	}
 
 	@Override
