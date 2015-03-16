@@ -30,6 +30,12 @@ import com.wm.fragments.BaseHistoryFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
+/**
+ * 
+ * 检测历史界面
+ * @author Like
+ *
+ */
 public class HistoryActivity extends BaseActivity implements ScanCallback {
 
 	private final static int MAX_CONNECT_TIME = 3;
@@ -106,7 +112,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	protected void onDestroy() {
 		super.onDestroy();
 		System.out.println("destory");
-		if(mServiceConnection != null) 
+		if(mServiceConnection != null)
 			unbindService(mServiceConnection);
 	}
 	
@@ -214,6 +220,8 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 
 	@Override
 	public void onScanSuccess(List<BluetoothDevice> devices) {
+		if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTING)
+			return;
 		boolean isCorrectDevice = false;
 		for(BluetoothDevice device : devices) {
 			if(device.getAddress().toUpperCase(Locale.getDefault())

@@ -36,8 +36,9 @@ public class BluetoothLeService extends Service {
 	public final static String ACTION_DATA_AVAILABLE = "com.wm.bluetooth.le.ACTION_DATA_AVAILABLE";
 	public final static String EXTRA_DATA = "com.wm.bluetooth.le.EXTRA_DATA";
 
+	// 连接的回调方法
 	private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
-
+		//连接状态发生改变
 		public void onConnectionStateChange(BluetoothGatt gatt, int status,
 				int newState) {
 			String intentAction;
@@ -54,7 +55,7 @@ public class BluetoothLeService extends Service {
 				broadcastUpdate(intentAction);
 			}
 		};
-
+		// 发现services
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
 			for(BluetoothGattService service : gatt.getServices()) {
 				System.out.println("service: " + service.getUuid());
@@ -66,7 +67,7 @@ public class BluetoothLeService extends Service {
 				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
 			}
 		};
-
+		// 读取characteristic
 		public void onCharacteristicRead(BluetoothGatt gatt,
 				android.bluetooth.BluetoothGattCharacteristic characteristic,
 				int status) {
@@ -74,12 +75,12 @@ public class BluetoothLeService extends Service {
 				broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
 			}
 		};
-
+		// 写入characteristic
 		public void onCharacteristicWrite(BluetoothGatt gatt,
 				android.bluetooth.BluetoothGattCharacteristic characteristic,
 				int status) {
 		};
-
+		// characteristic改变，接受notify的数据
 		public void onCharacteristicChanged(BluetoothGatt gatt,
 				android.bluetooth.BluetoothGattCharacteristic characteristic) {
 			broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
@@ -134,6 +135,7 @@ public class BluetoothLeService extends Service {
 			for (byte byteChar : data) {
 				stringBuilder.append(String.format("%02x ", byteChar));
 			}
+			// 将数据放入intent中
 			intent.putExtra(EXTRA_DATA, stringBuilder.toString().trim());
 		}
 		sendBroadcast(intent);

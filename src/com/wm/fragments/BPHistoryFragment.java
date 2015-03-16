@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import android.R.integer;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;

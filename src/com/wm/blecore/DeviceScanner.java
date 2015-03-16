@@ -91,7 +91,7 @@ public class DeviceScanner {
 	private LeScanCallback mLeScanCallback = new LeScanCallback() {
 		@Override
 		public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-			if(!mDevices.contains(device)) 
+			if(!mDevices.contains(device))
 				mDevices.add(device);
 		}
 	};
