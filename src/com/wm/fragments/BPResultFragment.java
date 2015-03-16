@@ -59,7 +59,6 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public void handleData(String data, BluetoothLeService bluetoothLeService) {
-		System.out.println(data);
 		if(mBluetoothLeService == null) {
 			mBluetoothLeService = bluetoothLeService;
 			BluetoothGattService service = mBluetoothLeService
@@ -85,9 +84,7 @@ public class BPResultFragment extends BaseResultFragment {
 			// ªÒµ√Pressure÷µ
 			mNeedNewData = true;
 			String currentPressure = getPressureValue(data);
-			System.out.println(currentPressure);
 			mLblP.setText(currentPressure);
-			
 		}
 		if (!mNeedNewData) {
 			mBluetoothLeService.setCharacteristicNotification(

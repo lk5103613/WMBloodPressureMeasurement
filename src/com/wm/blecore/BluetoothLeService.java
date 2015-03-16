@@ -17,6 +17,11 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+/**
+ * 检测设备连接状态，发送广播
+ * @author MGC09
+ *
+ */
 public class BluetoothLeService extends Service {
 
 	private BluetoothManager mBluetoothManager;
@@ -42,7 +47,6 @@ public class BluetoothLeService extends Service {
 		public void onConnectionStateChange(BluetoothGatt gatt, int status,
 				int newState) {
 			String intentAction;
-			System.out.println("callback " + newState);
 			if (newState == BluetoothProfile.STATE_CONNECTED) {
 				// 如果连接成功，通过广播方式告知MainAcivity
 				intentAction = ACTION_GATT_CONNECTED;
@@ -58,12 +62,12 @@ public class BluetoothLeService extends Service {
 		};
 		// 发现services
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-			for(BluetoothGattService service : gatt.getServices()) {
-				System.out.println("service: " + service.getUuid());
-				for(BluetoothGattCharacteristic cha : service.getCharacteristics()) {
-					System.out.println("characteristics: " + cha.getUuid());
-				}
-			}
+//			for(BluetoothGattService service : gatt.getServices()) {
+//				System.out.println("service: " + service.getUuid());
+//				for(BluetoothGattCharacteristic cha : service.getCharacteristics()) {
+//					System.out.println("characteristics: " + cha.getUuid());
+//				}
+//			}
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
 			}
@@ -199,7 +203,6 @@ public class BluetoothLeService extends Service {
 			}
 		}
 		
-		System.out.println("connect service" + mGattCallback);
 		mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
 		mBluetoothDeviceAddress = address;
 		mConnectionState = STATE_CONNECTING;

@@ -25,7 +25,6 @@ import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.DeviceScanner.ScanCallback;
-import com.wm.db.HistoryDBManager;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseHistoryFragment;
 import com.wm.fragments.DeviceFragment;
@@ -55,6 +54,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	private DeviceScanner mScanner;
 	private DeviceInfo mDeviceInfo;
 	private BluetoothLeService mBluetoothLeService;
+	private int mCurrentScanState = DeviceScanner.STATE_END_SCAN;
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
 		@Override
@@ -202,36 +202,31 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	}
 	
 	private void connect() {
-//		mScanner.scanLeDevice(true);
-		mBluetoothLeService.connect(mDeviceInfo.address);
+		mScanner.scanLeDevice(true);
 	}
 
 	@Override
-	public void onScanStateChange(int scanState) {
-		
-	}
-
-	@Override
-	public void onScanSuccess(List<BluetoothDevice> devices) {
-		if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTING)
-			return;
+	public void onScanStateChange(int scanState, List<BluetoothDevice> devices) {
 		boolean isCorrectDevice = false;
-		for(BluetoothDevice device : devices) {
-			if(device.getAddress().toUpperCase(Locale.getDefault())
-					.equals(mDeviceInfo.address)) {
-				isCorrectDevice = true;
-				break;
+		if(mCurrentScanState == DeviceScanner.STATE_BEGIN_SCAN && scanState == DeviceScanner.STATE_END_SCAN) {
+			if(devices == null || devices.size() == 0) {
+				handleConFail();
+				return;
 			}
+			mCurrentScanState = scanState;
+			for(BluetoothDevice device : devices) {
+				if(device.getAddress().toUpperCase(Locale.getDefault())
+						.equals(mDeviceInfo.address)) {
+					isCorrectDevice = true;
+					break;
+				}
+			}
+			if(isCorrectDevice)
+				mBluetoothLeService.connect(mDeviceInfo.address);
+			else
+				handleConFail();
 		}
-		if(isCorrectDevice)
-			mBluetoothLeService.connect(mDeviceInfo.address);
-		else
-			handleConFail();
-	}
-
-	@Override
-	public void onScanFailed() {
-		handleConFail();
+		mCurrentScanState = scanState;
 	}
 	
 }

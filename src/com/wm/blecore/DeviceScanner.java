@@ -44,11 +44,7 @@ public class DeviceScanner {
 
 	public interface ScanCallback {
 		
-		void onScanStateChange(int scanState);
-
-		void onScanSuccess(List<BluetoothDevice> mDevices);
-
-		void onScanFailed();
+		void onScanStateChange(int scanState, List<BluetoothDevice> mDevices);
 
 	}
 
@@ -64,7 +60,7 @@ public class DeviceScanner {
 			if(mScanning)
 				return;
 			mDevices.clear();
-			mCallback.onScanStateChange(STATE_BEGIN_SCAN);
+			mCallback.onScanStateChange(STATE_BEGIN_SCAN, null);
 			// 在指定时间之后停止扫描
 			mHandler.postDelayed(new Runnable() {
 				@Override
@@ -78,13 +74,9 @@ public class DeviceScanner {
 		} else {
 			if(!mScanning)
 				return;
-			mCallback.onScanStateChange(STATE_END_SCAN);
+			mCallback.onScanStateChange(STATE_END_SCAN, mDevices);
 			mScanning = false;
 			mBluetoothAdapter.stopLeScan(mLeScanCallback);
-			if(mDevices == null || mDevices.size() == 0)
-				mCallback.onScanFailed();
-			else
-				mCallback.onScanSuccess(mDevices);
 		}
 	}
 

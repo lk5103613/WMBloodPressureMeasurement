@@ -23,6 +23,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.wm.blecore.BluetoothLeService;
+import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.DeviceScanner.ScanCallback;
 import com.wm.entity.DeviceInfo;
@@ -44,6 +45,7 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	private String mType;
 	private BluetoothLeService mBluetoothLeService;
 	private DeviceInfo mDevice;
+	private int mCurrentScanState = DeviceScanner.STATE_END_SCAN;
 	
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -191,29 +193,26 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	}
 
 	@Override
-	public void onScanStateChange(int scanState) {
-		
-	}
-
-	@Override
-	public void onScanSuccess(List<BluetoothDevice> devices) {
-		boolean scanSuccess = false;
-		for(BluetoothDevice device : devices) {
-			if(device.getAddress().toUpperCase(Locale.getDefault()).equals(mDevice.address)) {
-				scanSuccess = true;
-				break;
+	public void onScanStateChange(int scanState, List<BluetoothDevice> devices) {
+		if(mCurrentScanState == DeviceScanner.STATE_BEGIN_SCAN && scanState == DeviceScanner.STATE_END_SCAN) {
+			if(devices == null || devices.size() == 0) {
+				handleConFail();
+				return;
+			}
+			boolean scanSuccess = false;
+			for(BluetoothDevice device : devices) {
+				if(device.getAddress().toUpperCase(Locale.getDefault()).equals(mDevice.address)) {
+					scanSuccess = true;
+					break;
+				}
+			}
+			if(scanSuccess)
+				mBluetoothLeService.connect(mDevice.address);
+			else {
+				handleConFail();
 			}
 		}
-		if(scanSuccess)
-			mBluetoothLeService.connect(mDevice.address);
-		else {
-			handleConFail();
-		}
-	}
-
-	@Override
-	public void onScanFailed() {
-		handleConFail();
+		mCurrentScanState = scanState;
 	}
 	
 	// 如果当前状态为已连接，返回true，否则返回false
