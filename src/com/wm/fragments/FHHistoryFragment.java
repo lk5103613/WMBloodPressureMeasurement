@@ -66,6 +66,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+		mChart.setStartAtZero(false);
 		
 	}
 	private void addEmptyData() {
@@ -73,7 +74,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		// create 30 x-vals
 		ArrayList<String> xVals = new ArrayList<>();
 
-		for (int i = 1; i <= 10; i++)
+		for (int i = 1; i <= 110; i++)
 			xVals.add(i+"");
 
 		LineData data = new LineData(xVals);
@@ -93,6 +94,9 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			// create 10 y-vals
 			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
 			List<Float> fhValues = mFHResults.get(position).fhValues;
+			
+			mChart.setScaleMinima(fhValues.size()/15, 1);// …Ë÷√Àı∑≈±»¿˝
+			
 			for (int i = 0 ; i < fhValues.size(); i++) {
 				yValsFh.add(new Entry(fhValues.get(i),i));
 			}
@@ -115,7 +119,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mFHResults = new ArrayList<>();
 		for (int i = 0; i < 3; i ++) {
 			ArrayList<Float> fhValues = new ArrayList<>();
-			for (int j = 0; j < 10; j++){
+			for (int j = 0; j < 110; j++){
 				float fh = (float) (Math.random() * 50f + 50f * 2);
 				
 				fhValues.add(fh);

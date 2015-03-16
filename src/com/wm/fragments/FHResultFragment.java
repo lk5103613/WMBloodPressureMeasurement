@@ -27,6 +27,7 @@ public class FHResultFragment extends BaseResultFragment {
 	LineChart mChart;
 	
 	private List<Float> mFHValues;
+	private ArrayList<String> xVals;
 
 	
 	@Override
@@ -57,15 +58,16 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
-		mChart.setScaleMinima(mFHValues.size() / 10, 1);// 设置缩放比例
+		mChart.setScaleMinima(3, 1);// 设置缩放比例
+		
 	}
 
 	private void addEmptyData() {
 
 		// create 30 x-vals
-		ArrayList<String> xVals = new ArrayList<String>();
+		xVals = new ArrayList<String>();
 
-		for (int i = 0; i < 100; i++){
+		for (int i = 0; i < 30; i++){
 			xVals.add(i+"");
 		}
 
@@ -92,7 +94,11 @@ public class FHResultFragment extends BaseResultFragment {
 			set.setCircleSize(3f);
 
 			data.addEntry(new Entry(value, set.getEntryCount()), 0);//Math.random() * 50) + 50f
-
+			System.out.println("count " + (xVals.size()-mFHValues.size()));
+			if ((xVals.size()-mFHValues.size()) < 2) {
+				xVals.add((xVals.size()+1)+"");
+			}
+			
 			mChart.notifyDataSetChanged();
 
 			// redraw the chart
