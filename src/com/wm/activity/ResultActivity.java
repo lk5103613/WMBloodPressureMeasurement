@@ -105,15 +105,19 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			Intent intent = new Intent(mContext, HistoryActivity.class);
-			intent.putExtra("type", mType);
-			intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDevice);
-			startActivity(intent);
-			overridePendingTransition(R.anim.scale_fade_in,
-					R.anim.slide_out_to_right);
-			finish();
+			back();
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void back(){
+		Intent intent = new Intent(mContext, HistoryActivity.class);
+		intent.putExtra("type", mType);
+		intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDevice);
+		startActivity(intent);
+		overridePendingTransition(R.anim.scale_fade_in,
+				R.anim.slide_out_to_right);
+		finish();
 	}
 
 	@OnClick(R.id.btn_record)
@@ -121,6 +125,10 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 		mBtnRecord.setEnabled(false);
 		mProgressBar.setVisibility(View.VISIBLE);
 		mFragment.record();
+		mBtnRecord.setEnabled(true);
+		mProgressBar.setVisibility(View.GONE);
+		back();
+		
 	}
 
 	@Override
