@@ -35,10 +35,10 @@ public class FHResultFragment extends BaseResultFragment {
 		View view = inflater.inflate(R.layout.fragment_fh_result, container,
 				false);
 		ButterKnife.inject(this, view);
+		mFHValues = new ArrayList<Float>();
+		
 		initLineChart();
 		addEmptyData();
-		
-		mFHValues = new ArrayList<Float>();
 		
 		return view;
 	}
@@ -56,22 +56,25 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+		mChart.setStartAtZero(false);
+		mChart.setScaleMinima(mFHValues.size() / 10, 1);// 设置缩放比例
 	}
 
 	private void addEmptyData() {
 
 		// create 30 x-vals
-		String[] xVals = new String[30];
+		ArrayList<String> xVals = new ArrayList<String>();
 
-		for (int i = 0; i < 30; i++)
-			xVals[i] = "" + i;
+		for (int i = 0; i < 100; i++){
+			xVals.add(i+"");
+		}
 
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
 		mChart.invalidate();
 	}
 
-	private void addEntry() {
+	private void addEntry(float value) {
 
 		LineData data = mChart.getData();
 
@@ -88,8 +91,7 @@ public class FHResultFragment extends BaseResultFragment {
 			set.setLineWidth(2.5f);
 			set.setCircleSize(3f);
 
-			data.addEntry(new Entry((float) (Math.random() * 50) + 50f, set
-							.getEntryCount()), 0);
+			data.addEntry(new Entry(value, set.getEntryCount()), 0);//Math.random() * 50) + 50f
 
 			mChart.notifyDataSetChanged();
 
@@ -114,9 +116,10 @@ public class FHResultFragment extends BaseResultFragment {
 	public void handleData(String data, BluetoothLeService bluetoothLeService) {
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
 		System.out.println("胎心仪: " + fhValue);
-		if(!fhValue.trim().equals("0")) 
+		if(!fhValue.trim().equals("0")) {
 			mFHValues.add(Float.valueOf(fhValue));
-		
+			addEntry(Float.parseFloat(fhValue));
+		}
 	}
 
 }
