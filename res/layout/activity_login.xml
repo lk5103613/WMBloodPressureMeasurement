@@ -54,17 +54,44 @@
                 android:imeOptions="actionDone"
                 android:padding="9dp"
                 android:textColor="@color/gray" />
+            <CheckBox 
+                android:id="@+id/box_remember"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/remember_psw"
+                android:layout_below="@id/txt_pwd"
+                android:layout_marginTop="5dp"/>
 
-            <Button
-                android:id="@+id/btn_login"
+            <LinearLayout 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txt_pwd"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/btn_match_bg"
-                android:text="@string/btn_login"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:layout_below="@id/box_remember"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                >
+                <Button
+	                android:id="@+id/btn_login"
+	                android:layout_width="0dp" 
+	                android:layout_weight="1"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/btn_match_bg"
+	                android:text="@string/btn_login"
+	                android:textColor="@color/white"
+	                android:textSize="16sp" 
+	                android:layout_marginEnd="5dp"/>
+                <Button
+	                android:id="@+id/btn_register"
+	                 android:layout_width="0dp" 
+	                android:layout_weight="1"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/btn_match_bg"
+	                android:text="@string/btn_register"
+	                android:textColor="@color/white"
+	                android:textSize="16sp"
+	                android:layout_marginStart="5dp" />
+                
+            </LinearLayout>
+            
             
         </RelativeLayout>
         

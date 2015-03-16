@@ -30,6 +30,8 @@ public class BPResultFragment extends BaseResultFragment {
 	TextView mLblSZ;
 	@InjectView(R.id.lbl_pressure)
 	TextView mLblP;
+	@InjectView(R.id.lbl_hr)
+	TextView mLblHr;
 
 	private boolean mNeedNewData = true;
 	private BPResult mBPResult;
@@ -69,8 +71,9 @@ public class BPResultFragment extends BaseResultFragment {
 			// 成功获得血压心率等数据
 			mNeedNewData = false;
 			mBPResult = new BPResult(data);
-			mLblSS.setText(String.valueOf(mBPResult.ssValue));
-			mLblSZ.setText(String.valueOf(mBPResult.szValue));
+			mLblSS.setText(String.valueOf((int)mBPResult.ssValue));
+			mLblSZ.setText(String.valueOf((int)mBPResult.szValue));
+			mLblHr.setText(String.valueOf((int)mBPResult.heartRate));
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
 			// 获得异常信息
