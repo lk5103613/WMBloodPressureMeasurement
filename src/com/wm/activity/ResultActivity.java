@@ -23,8 +23,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.wm.blecore.BluetoothLeService;
-import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
+import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.DeviceScanner.ScanCallback;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
@@ -152,11 +152,6 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if (mBluetoothLeService != null) {
-			if (isConnected())
-				this.mBluetoothLeService.disconnect();
-		}
-		mBluetoothLeService = null;
 	}
 
 	private BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {

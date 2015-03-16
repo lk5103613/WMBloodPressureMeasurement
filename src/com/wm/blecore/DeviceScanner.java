@@ -60,7 +60,6 @@ public class DeviceScanner {
 			if(mScanning)
 				return;
 			mDevices.clear();
-			mCallback.onScanStateChange(STATE_BEGIN_SCAN, null);
 			// 在指定时间之后停止扫描
 			mHandler.postDelayed(new Runnable() {
 				@Override
@@ -71,12 +70,11 @@ public class DeviceScanner {
 			}, SCAN_PERIOD);
 			mScanning = true;
 			mBluetoothAdapter.startLeScan(mLeScanCallback);
+			mCallback.onScanStateChange(STATE_BEGIN_SCAN, null);
 		} else {
-			if(!mScanning)
-				return;
-			mCallback.onScanStateChange(STATE_END_SCAN, mDevices);
 			mScanning = false;
 			mBluetoothAdapter.stopLeScan(mLeScanCallback);
+			mCallback.onScanStateChange(STATE_END_SCAN, mDevices);
 		}
 	}
 

@@ -79,7 +79,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 		
 		mContext = HistoryActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		System.out.println("type " + mType);
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		mScanner = DeviceScanner.getInstance(mBluetoothAdapter, this);
@@ -113,7 +112,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		System.out.println("destory");
 		if(mServiceConnection != null)
 			unbindService(mServiceConnection);
 	}
@@ -213,7 +211,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 				handleConFail();
 				return;
 			}
-			mCurrentScanState = scanState;
 			for(BluetoothDevice device : devices) {
 				if(device.getAddress().toUpperCase(Locale.getDefault())
 						.equals(mDeviceInfo.address)) {
