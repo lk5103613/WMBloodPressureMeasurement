@@ -24,19 +24,16 @@ public class IndexFragment extends Fragment {
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		getActivity().getMenuInflater().inflate(R.menu.main, menu);
+		
+		 super.onCreateOptionsMenu(menu, inflater);
+//		 getActivity().getMenuInflater().inflate(R.menu.main, menu);
+         menu.add("µÇÂ¼").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		switch (item.getItemId()) {
-		case R.id.action_login:
-			Intent intent = new Intent(getActivity(), LoginActivity.class);
-			startActivity(intent);
-			break;
-		default:
-			break;
-		}
+		Intent intent = new Intent(getActivity(), LoginActivity.class);
+		startActivity(intent);
 		return super.onOptionsItemSelected(item);
 	}
 
