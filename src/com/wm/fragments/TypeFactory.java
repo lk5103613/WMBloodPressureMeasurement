@@ -3,7 +3,6 @@ package com.wm.fragments;
 import android.content.Context;
 
 import com.wm.activity.R;
-import com.wm.blecore.BluetoothLeService;
 import com.wm.entity.DeviceInfo;
 
 public class TypeFactory {
@@ -16,7 +15,7 @@ public class TypeFactory {
 	private static BaseHistoryFragment mBSHistoryFragment;
 	private static BaseHistoryFragment mFHHistoryFragment;
 	
-	public static BaseResultFragment getResultFragment(String type, BluetoothLeService bluetoothLeService) {
+	public static BaseResultFragment getResultFragment(String type) {
 		if(type.equals(DeviceInfo.TYPE_BS)) {
 			if(mBSResultFragment == null) 
 				mBSResultFragment = new BSResultFragment();
@@ -33,7 +32,7 @@ public class TypeFactory {
 		return null;
 	}
 	
-	public static BaseHistoryFragment getHistoryFragment(String type, BluetoothLeService bluetoothLeService) {
+	public static BaseHistoryFragment getHistoryFragment(String type) {
 		if(type.equals(DeviceInfo.TYPE_BS)) {
 			if(mBSHistoryFragment == null)
 				mBSHistoryFragment = new BSHistoryFragment();

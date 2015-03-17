@@ -67,7 +67,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 
 		mContext = ResultActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		mFragment = TypeFactory.getResultFragment(mType, mBluetoothLeService);
+		mFragment = TypeFactory.getResultFragment(mType);
 
 		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));
 		setSupportActionBar(mToolbar);

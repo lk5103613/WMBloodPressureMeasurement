@@ -74,7 +74,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		mContext = HistoryActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
-		mFragment = TypeFactory.getHistoryFragment(mType, mBluetoothLeService);
+		mFragment = TypeFactory.getHistoryFragment(mType);
 		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
 		
 		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));

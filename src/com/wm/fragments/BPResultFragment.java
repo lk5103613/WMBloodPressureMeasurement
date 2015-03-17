@@ -12,7 +12,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.wm.activity.R;
-import com.wm.blecore.BluetoothLeService;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.entity.BPResultException;
@@ -34,9 +33,7 @@ public class BPResultFragment extends BaseResultFragment {
 	private BPResult mBPResult;
 	private BPResultException mBPException;
 	private Context mContext;
-	private BluetoothLeService mBluetoothLeService;
-	private BluetoothGattCharacteristic mInforCharacteristic = getInfoCharacteristic(
-			UUIDS.BP_RESULT_SERVICE, UUIDS.BP_RESULT_CHARAC);
+	private BluetoothGattCharacteristic mInforCharacteristic;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +73,12 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public void handleGetData(String data) {
+		if(mBluetoothLeService == null) 
+			return;
+		if (mInforCharacteristic == null) {
+			mInforCharacteristic = getInfoCharacteristic(
+					UUIDS.BP_RESULT_SERVICE, UUIDS.BP_RESULT_CHARAC);
+		}
 		if (data.trim().length() == 38) {
 			// 成功获得血压心率等数据
 			mNeedNewData = false;
@@ -104,7 +107,8 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public void handleServiceDiscover() {
-		mBluetoothLeService.setCharacteristicNotification(mInforCharacteristic, true);
+		mBluetoothLeService.setCharacteristicNotification(mInforCharacteristic,
+				true);
 	}
 
 }
