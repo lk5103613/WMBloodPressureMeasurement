@@ -1,5 +1,6 @@
 package com.wm.blecore;
 
+import java.util.Date;
 import java.util.UUID;
 
 import android.app.Service;
@@ -46,7 +47,6 @@ public class BluetoothLeService extends Service {
 	
 	@Override
 	public void onCreate() {
-		System.out.println("service on create");
 		super.onCreate();
 		mHandler = new Handler();
 		mDisconnectRunnable = new Runnable() {
@@ -54,7 +54,6 @@ public class BluetoothLeService extends Service {
 			public void run() {
 				if(mConnectionState == STATE_CONNECTING || mConnectionState == STATE_CONNECTED) {
 					disconnect();
-					System.out.println("handler post delayed executed");
 					broadcastUpdate(ACTION_GATT_DISCONNECTED);
 				} 
 			}
@@ -70,7 +69,7 @@ public class BluetoothLeService extends Service {
 			String intentAction;
 			if (newState == BluetoothProfile.STATE_CONNECTED) {
 				// 如果连接成功，通过广播方式告知MainAcivity
-				mHandler.postDelayed(mDisconnectRunnable, 3000);
+				mHandler.postDelayed(mDisconnectRunnable, 30000);
 				intentAction = ACTION_GATT_CONNECTED;
 				mConnectionState = STATE_CONNECTED;
 				broadcastUpdate(intentAction);
@@ -131,7 +130,6 @@ public class BluetoothLeService extends Service {
 
 	@Override
 	public boolean onUnbind(Intent intent) {
-		System.out.println("on unbind ");
 		close();
 		return super.onUnbind(intent);
 	}
@@ -233,6 +231,7 @@ public class BluetoothLeService extends Service {
 
 	
 	public boolean connect(final String address, int overtime) {
+		mHandler.removeCallbacks(mDisconnectRunnable);
 		boolean result = connect(address);
 		mHandler.postDelayed(mDisconnectRunnable, overtime);
 		return result;

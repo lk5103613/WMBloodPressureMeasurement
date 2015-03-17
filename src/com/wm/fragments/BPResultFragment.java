@@ -64,7 +64,6 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public void handleConnect() {
-
 	}
 
 	@Override
