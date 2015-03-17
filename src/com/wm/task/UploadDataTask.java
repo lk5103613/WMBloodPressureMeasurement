@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.wm.db.HistoryDBManager;
-import com.wm.db.DeviceDataContract.FHDataEntry;
 import com.wm.entity.BPResult;
 import com.wm.entity.BSResult;
 import com.wm.entity.FHResult;

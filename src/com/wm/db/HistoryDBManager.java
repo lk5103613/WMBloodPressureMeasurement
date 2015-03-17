@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.wm.db.DeviceDataContract.BPDataEntry;
 import com.wm.db.DeviceDataContract.BSDataEntry;
+import com.wm.db.DeviceDataContract.DeviceEntry;
 import com.wm.db.DeviceDataContract.FHDataEntry;
 import com.wm.entity.BPResult;
 import com.wm.entity.BSResult;
@@ -76,6 +77,38 @@ public class HistoryDBManager {
 		}
 		return bpResults;
 	}
+	
+	
+	/**
+	 * 标记血压记录已上传
+	 * 
+	 * @param bpResults
+	 * @return
+	 */
+	public boolean changeBpStatus(List<BPResult> bpResults){
+		if(bpResults.isEmpty()) {
+			return true;
+		}
+		
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(BPDataEntry.COLUMN_NAME_STATUS, 1);
+		
+		List<String> argsList = new ArrayList<>();
+		StringBuilder sb = new StringBuilder(BPDataEntry.COLUMN_NAME_ID);
+		sb.append(" in (");
+		for (int i = 0, size = bpResults.size(); i < size; i++) {
+			sb.append("?,");
+			argsList.add(String.valueOf(bpResults.get(i).id));
+		}
+		sb.deleteCharAt(sb.length()-1);//去掉最后一个逗号
+		sb.append(")");
+		
+		String where = sb.toString();
+		String[] whereArgs = (String[]) argsList.toArray(new String[bpResults.size()]);
+		return db.update(DeviceEntry.TABLE_NAME, values, where, whereArgs) > 0;
+	}
+	
 	/**
 	 * 添加血压计历史
 	 * 
@@ -205,6 +238,7 @@ public class HistoryDBManager {
 		long newRowId = db.insert(FHDataEntry.TABLE_NAME, FHDataEntry.COLUMN_NAME_NULLABLE, values);
 		return newRowId;
 	}
+	
 	/**
 	 * 胎心字符串才分为list
 	 * 

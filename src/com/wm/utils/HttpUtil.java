@@ -19,9 +19,7 @@ import org.json.JSONObject;
  * 
  */
 public class HttpUtil {
-	// 192.168.1.61:8081/ 115.29.15.61:8080/ 212.150.144.25:80/ 54.76.170.226:80
 	public static final String BASE_PATH = "http://192.168.1.61:8081/";
-	public static String token = "";
 
 	/**
 	 * get message from server through HttpCLient
