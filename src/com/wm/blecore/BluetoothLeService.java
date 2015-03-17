@@ -53,6 +53,7 @@ public class BluetoothLeService extends Service {
 			@Override
 			public void run() {
 				if(mConnectionState == STATE_CONNECTING || mConnectionState == STATE_CONNECTED) {
+					System.out.println("State : " + mConnectionState);
 					disconnect();
 					System.out.println("handler post delayed executed");
 					broadcastUpdate(ACTION_GATT_DISCONNECTED);
@@ -217,6 +218,7 @@ public class BluetoothLeService extends Service {
 		if (mBluetoothDeviceAddress != null
 				&& address.equals(mBluetoothDeviceAddress)
 				&& mBluetoothGatt != null) {
+//			mBluetoothGatt.disconnect();//test
 			if (mBluetoothGatt.connect()) {
 				mConnectionState = STATE_CONNECTING;
 				return true;
