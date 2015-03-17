@@ -58,6 +58,26 @@ public class HistoryDBManager {
 		return bpResults;
 	}
 	
+	public List<BPResult> getBpResultsByStatus(int status){
+		
+		List<BPResult> bpResults = new ArrayList<>();
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		String[] projection = { BPDataEntry.COLUMN_NAME_ID, BPDataEntry.COLUMN_NAME_SZVALUE, 
+				BPDataEntry.COLUMN_NAME_SSVALUE, BPDataEntry.COLUMN_NAME_DATE};
+		String selection = BPDataEntry.COLUMN_NAME_STATUS + "=?";
+		String selectionArgs[] = new String[]{String.valueOf(status)};
+		Cursor c = db.query(
+				BPDataEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null );
+		
+		while(c.moveToNext()) {
+			int id = c.getInt(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_ID));
+			float szValue = c.getFloat(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_SZVALUE));
+			float ssValue = c.getFloat(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_SSVALUE));
+			long date = c.getLong(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_DATE)); 
+			bpResults.add(new BPResult(id, szValue, ssValue, date));
+		}
+		return bpResults;
+	}
 	/**
 	 * 添加血压计历史
 	 * 
@@ -98,6 +118,23 @@ public class HistoryDBManager {
 		return bsResults;
 	}
 	
+	public List<BSResult> getBsResultsByStatus(int status){
+		List<BSResult> bsResults = new ArrayList<>();
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		String[] projection = {BSDataEntry.COLUMN_NAME_ID, BSDataEntry.COLUMN_NAME_BSVALUE, 
+				BSDataEntry.COLUMN_NAME_DATE};
+		String selection = BSDataEntry.COLUMN_NAME_STATUS + "=?";
+		String[] args = {String.valueOf(status)};
+		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, selection, args, null, null, null);
+		while (c.moveToNext()) {
+			int id = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_ID));
+			int bsValue = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_BSVALUE));
+			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
+			bsResults.add(new BSResult(id, bsValue, date));
+		}
+		return bsResults;
+	}
+	
 	/**
 	 * 添加血糖历史
 	 * 
@@ -126,6 +163,24 @@ public class HistoryDBManager {
 		String[] projection = {FHDataEntry.COLUMN_NAME_ID, FHDataEntry.COLUMN_NAME_FHVALUES, 
 				FHDataEntry.COLUMN_NAME_DATE};
 		Cursor c = db.query(FHDataEntry.TABLE_NAME, projection, null, null, null, null, null);
+		while (c.moveToNext()) {
+			int id = c.getInt(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_ID));
+			String fhValues = c.getString(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_FHVALUES));
+			long date = c.getLong(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_DATE));
+			List<Float> fhList = splitFhValues(fhValues);
+			fhResults.add(new FHResult(id,fhList, date));
+		}
+		return fhResults;
+	}
+	
+	public List<FHResult> getFhResultsByStatus(int status){
+		List<FHResult> fhResults = new ArrayList<>();
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		String[] projection = {FHDataEntry.COLUMN_NAME_ID, FHDataEntry.COLUMN_NAME_FHVALUES, 
+				FHDataEntry.COLUMN_NAME_DATE};
+		String selections = FHDataEntry.COLUMN_NAME_STATUS + "=?";
+		String[] args = {String.valueOf(status)};
+		Cursor c = db.query(FHDataEntry.TABLE_NAME, projection, selections, args, null, null, null);
 		while (c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_ID));
 			String fhValues = c.getString(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_FHVALUES));

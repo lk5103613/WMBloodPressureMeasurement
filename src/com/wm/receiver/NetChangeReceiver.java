@@ -1,16 +1,11 @@
 package com.wm.receiver;
 
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.wm.activity.R;
 import com.wm.utils.DialogUtils;
 import com.wm.utils.NetUtils;
 
