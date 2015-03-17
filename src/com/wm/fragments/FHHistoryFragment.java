@@ -26,6 +26,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
+import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
 import com.wm.utils.UUIDS;
 
@@ -37,24 +38,25 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	TextView mTxtDate;
 	
 	private Context mContext;
-	private List<FHResult> mFHResults;
+	private List<FHResult> mFHResults = new ArrayList<>();
 	private int mIndex = 0;
+	private HistoryDBManager mDbManager;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_fh_history, container, false);
 		ButterKnife.inject(this, view);
+		mDbManager = HistoryDBManager.getInstance(getActivity());
 		
 		mContext = getActivity();
 		
 		initLineChart();
 		addEmptyData();
 		mChart.invalidate();
-		initData();
+//		initData();
+		getFHHistory();
 		addDataSet(mIndex);
-
-		
 		return view;
 	}
 	
@@ -67,6 +69,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
+		mChart.setScaleMinima(5, 1);// 设置缩放比例
 		
 	}
 	private void addEmptyData() {
@@ -95,8 +98,6 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
 			List<Float> fhValues = mFHResults.get(position).fhValues;
 			
-			mChart.setScaleMinima(fhValues.size()/15, 1);// 设置缩放比例
-			
 			for (int i = 0 ; i < fhValues.size(); i++) {
 				yValsFh.add(new Entry(fhValues.get(i),i));
 			}
@@ -114,21 +115,25 @@ public class FHHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			mChart.animateY(1000);
 		}
 	}
-
-	private void initData(){
-		mFHResults = new ArrayList<>();
-		for (int i = 0; i < 3; i ++) {
-			ArrayList<Float> fhValues = new ArrayList<>();
-			for (int j = 0; j < 110; j++){
-				float fh = (float) (Math.random() * 50f + 50f * 2);
-				
-				fhValues.add(fh);
-			}
-			FHResult fhResult = new FHResult(fhValues, new Date().getTime());
-			
-			mFHResults.add(fhResult);
-		}
+	
+	private void getFHHistory(){
+		mFHResults = mDbManager.getAllFhResults();
 	}
+
+//	private void initData(){
+//		mFHResults = new ArrayList<>();
+//		for (int i = 0; i < 3; i ++) {
+//			ArrayList<Float> fhValues = new ArrayList<>();
+//			for (int j = 0; j < 110; j++){
+//				float fh = (float) (Math.random() * 50f + 50f * 2);
+//				
+//				fhValues.add(fh);
+//			}
+//			FHResult fhResult = new FHResult(fhValues, new Date().getTime());
+//			
+//			mFHResults.add(fhResult);
+//		}
+//	}
 	
 	@Override
 	public void onValueSelected(Entry e, int dataSetmIndex) {

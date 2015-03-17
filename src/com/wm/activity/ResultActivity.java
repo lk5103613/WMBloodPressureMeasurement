@@ -86,6 +86,8 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 		// 绑定蓝牙服务
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+		
+		mBtnRecord.setEnabled(false);//不可用，知道测试完成
 	}
 
 	@Override
@@ -168,7 +170,6 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 				mFragment.handleData(extraData, mBluetoothLeService);
 			}
 		}
-
 	};
 	
 

@@ -116,11 +116,4 @@ public class DeviceDBManager {
 		db.close();
 	}
 	
-	public boolean updDeviceName(int id, String name){
-		SQLiteDatabase db = mDBHelper.getWritableDatabase();
-		String sele;
-		//db.update(table, values, whereClause, whereArgs)
-		return true;
-	}
-	
 }

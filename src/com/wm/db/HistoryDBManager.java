@@ -160,10 +160,13 @@ public class HistoryDBManager {
 	 */
 	private List<Float> splitFhValues(String valueStr){
 		List<Float> fhList = new ArrayList<>();
-		String[] fhArray = valueStr.split(SEPARATOR);
-		for (int i = 0; i < fhArray.length; i++) {
-			fhList.add(Float.parseFloat(fhArray[i]));
+		if (!"".equals(fhList)){
+			String[] fhArray = valueStr.split(SEPARATOR);
+			for (int i = 0; i < fhArray.length; i++) {
+				fhList.add(Float.parseFloat(fhArray[i]));
+			}
 		}
+		
 		return fhList;
 	}
 	

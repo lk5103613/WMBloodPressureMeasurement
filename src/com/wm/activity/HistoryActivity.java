@@ -112,6 +112,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		System.out.println("history destory");
 		if(mServiceConnection != null)
 			unbindService(mServiceConnection);
 	}
@@ -225,5 +226,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback {
 		}
 		mCurrentScanState = scanState;
 	}
+	
+	
 	
 }
