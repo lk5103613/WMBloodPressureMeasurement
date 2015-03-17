@@ -140,6 +140,8 @@ public class BluetoothLeService extends Service {
 	public void close() {
 		mHandler.removeCallbacks(mDisconnectRunnable);
 		disconnect();
+		if(mBluetoothGatt == null)
+			return;
 		mBluetoothGatt.close();
 		mBluetoothGatt = null;
 	}

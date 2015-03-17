@@ -102,21 +102,21 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			back();
+			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private void back(){
-		mBluetoothLeService.close();
-		Intent intent = new Intent(mContext, HistoryActivity.class);
-		intent.putExtra("type", mType);
-		intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDevice);
-		startActivity(intent);
-		overridePendingTransition(R.anim.scale_fade_in,
-				R.anim.slide_out_to_right);
-		finish();
-	}
+//	private void back(){
+//		mBluetoothLeService.close();
+//		Intent intent = new Intent(mContext, HistoryActivity.class);
+//		intent.putExtra("type", mType);
+//		intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDevice);
+//		startActivity(intent);
+//		overridePendingTransition(R.anim.scale_fade_in,
+//				R.anim.slide_out_to_right);
+//		finish();
+//	}
 
 	@OnClick(R.id.btn_record)
 	public void record(View v) {
@@ -125,7 +125,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 		mFragment.record();
 		mBtnRecord.setEnabled(true);
 		mProgressBar.setVisibility(View.GONE);
-		back();
+		finish();
 	}
 
 	@Override
