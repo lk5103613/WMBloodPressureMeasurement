@@ -1,9 +1,5 @@
 package com.wm.activity;
 
-import java.util.List;
-import java.util.Locale;
-
-import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -22,8 +18,6 @@ import butterknife.OnClick;
 import com.wm.blecore.BleBroadcastReceiver;
 import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
-import com.wm.blecore.DeviceScanner;
-import com.wm.blecore.DeviceScanner.ScanCallback;
 import com.wm.blecore.IHandleConnect;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseHistoryFragment;
@@ -36,7 +30,7 @@ import com.wm.fragments.TypeFactory;
  * @author Like
  *
  */
-public class HistoryActivity extends BaseActivity implements ScanCallback, IHandleConnect {
+public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	
 	private final static int MAX_CONNECT_TIME = 3;
 	
@@ -51,10 +45,8 @@ public class HistoryActivity extends BaseActivity implements ScanCallback, IHand
 	private int mCurrentConnectTime = 0;
 	private BaseHistoryFragment mFragment;
 	private String mType;
-	private DeviceScanner mScanner;
 	private DeviceInfo mDeviceInfo;
 	private BluetoothLeService mBluetoothLeService;
-	private int mCurrentScanState = DeviceScanner.STATE_END_SCAN;
 	private BleBroadcastReceiver mReceiver;
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -82,7 +74,6 @@ public class HistoryActivity extends BaseActivity implements ScanCallback, IHand
 		mContext = HistoryActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
-		mScanner = DeviceScanner.getInstance(mBluetoothAdapter, this);
 		mFragment = TypeFactory.getHistoryFragment(mType, mBluetoothLeService);
 		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
 		
@@ -152,6 +143,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback, IHand
 	}
 	
 	private void handleConFail() {
+		System.out.println("con fail " + mCurrentConnectTime);
 		mCurrentConnectTime++;
 		if(mCurrentConnectTime >= MAX_CONNECT_TIME) {
 			if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
@@ -166,36 +158,12 @@ public class HistoryActivity extends BaseActivity implements ScanCallback, IHand
 	}
 	
 	private void connect() {
-		mScanner.scanLeDevice(true);
-	}
-
-	@Override
-	public void onScanStateChange(int scanState, List<BluetoothDevice> devices) {
-		boolean isCorrectDevice = false;
-		if(mCurrentScanState == DeviceScanner.STATE_BEGIN_SCAN && scanState == DeviceScanner.STATE_END_SCAN) {
-			if(devices == null || devices.size() == 0) {
-				handleConFail();
-				return;
-			}
-			for(BluetoothDevice device : devices) {
-				if(device.getAddress().toUpperCase(Locale.getDefault())
-						.equals(mDeviceInfo.address)) {
-					isCorrectDevice = true;
-					break;
-				}
-			}
-			if(isCorrectDevice)
-				mBluetoothLeService.connect(mDeviceInfo.address);
-			else
-				handleConFail();
-		}
-		mCurrentScanState = scanState;
+		mBluetoothLeService.connect(mDeviceInfo.address, 5000);
 	}
 
 	@Override
 	public void handleConnect() {
 		mFragment.handleConnect();
-		mCurrentConnectTime = 0;
 	}
 
 	@Override
@@ -211,6 +179,7 @@ public class HistoryActivity extends BaseActivity implements ScanCallback, IHand
 
 	@Override
 	public void handleServiceDiscover() {
+		mCurrentConnectTime = 0;
 		mFragment.handleServiceDiscover();
 		resetUI();
 		jumpToResult();

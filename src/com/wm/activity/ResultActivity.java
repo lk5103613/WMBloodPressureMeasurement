@@ -1,9 +1,5 @@
 package com.wm.activity;
 
-import java.util.List;
-import java.util.Locale;
-
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -24,15 +19,13 @@ import butterknife.OnClick;
 import com.wm.blecore.BleBroadcastReceiver;
 import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
-import com.wm.blecore.DeviceScanner;
-import com.wm.blecore.DeviceScanner.ScanCallback;
 import com.wm.blecore.IHandleConnect;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
-public class ResultActivity extends BaseActivity implements ScanCallback, IHandleConnect {
+public class ResultActivity extends BaseActivity implements IHandleConnect {
 
 	@InjectView(R.id.blood_check_bar)
 	Toolbar mToolbar;
@@ -47,7 +40,6 @@ public class ResultActivity extends BaseActivity implements ScanCallback, IHandl
 	private BluetoothLeService mBluetoothLeService;
 	private DeviceInfo mDevice;
 	private BroadcastReceiver mReceiver;
-	private int mCurrentScanState = DeviceScanner.STATE_END_SCAN;
 	
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -100,10 +92,10 @@ public class ResultActivity extends BaseActivity implements ScanCallback, IHandl
 	
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
-		
+		System.out.println("Result onDestroy");
 		if(mServiceConnection != null) 
 			unbindService(mServiceConnection);
+		super.onDestroy();
 	}
 
 	@Override
@@ -116,6 +108,7 @@ public class ResultActivity extends BaseActivity implements ScanCallback, IHandl
 	}
 	
 	private void back(){
+		mBluetoothLeService.close();
 		Intent intent = new Intent(mContext, HistoryActivity.class);
 		intent.putExtra("type", mType);
 		intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDevice);
@@ -133,12 +126,12 @@ public class ResultActivity extends BaseActivity implements ScanCallback, IHandl
 		mBtnRecord.setEnabled(true);
 		mProgressBar.setVisibility(View.GONE);
 		back();
-		
 	}
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+		mBluetoothLeService.close();
 		overridePendingTransition(0, R.anim.slide_out_to_right);
 	}
 
@@ -153,47 +146,6 @@ public class ResultActivity extends BaseActivity implements ScanCallback, IHandl
 	}
 	
 	@Override
-	protected void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	public void onScanStateChange(int scanState, List<BluetoothDevice> devices) {
-		if(mCurrentScanState == DeviceScanner.STATE_BEGIN_SCAN && scanState == DeviceScanner.STATE_END_SCAN) {
-			if(devices == null || devices.size() == 0) {
-				handleConFail();
-				return;
-			}
-			boolean scanSuccess = false;
-			for(BluetoothDevice device : devices) {
-				if(device.getAddress().toUpperCase(Locale.getDefault()).equals(mDevice.address)) {
-					scanSuccess = true;
-					break;
-				}
-			}
-			if(scanSuccess)
-				mBluetoothLeService.connect(mDevice.address);
-			else {
-				handleConFail();
-			}
-		}
-		mCurrentScanState = scanState;
-	}
-	
-	// 如果当前状态为已连接，返回true，否则返回false
-	private boolean isConnected() {
-		if (this.mBluetoothLeService == null) {
-			return false;
-		}
-		return this.mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTED;
-	}
-	
-	private void handleConFail() {
-		Toast.makeText(mContext, "链接已断开", Toast.LENGTH_LONG).show();
-		mBluetoothLeService.connect(mDevice.address);
-	}
-
-	@Override
 	public void handleConnect() {
 		mFragment.handleConnect();
 		System.out.println("connect success");
@@ -203,7 +155,7 @@ public class ResultActivity extends BaseActivity implements ScanCallback, IHandl
 	public void handleDisconnect() {
 		mFragment.handleDisconnect();
 		System.out.println("disconnect in result activity");
-		mBluetoothLeService.connect(mDevice.address);
+		mBluetoothLeService.connect(mDevice.address, 5000);
 	}
 
 	@Override
