@@ -10,11 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.wm.db.DeviceDataContract.BPDataEntry;
 import com.wm.db.DeviceDataContract.BSDataEntry;
-import com.wm.db.DeviceDataContract.DeviceEntry;
 import com.wm.db.DeviceDataContract.FHDataEntry;
 import com.wm.entity.BPResult;
 import com.wm.entity.BSResult;
-import com.wm.entity.DeviceInfo;
 import com.wm.entity.FHResult;
 
 public class HistoryDBManager {
