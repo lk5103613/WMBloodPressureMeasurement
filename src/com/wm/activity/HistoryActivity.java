@@ -104,6 +104,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		System.out.println("history destory");
 		if(mServiceConnection != null)
 			unbindService(mServiceConnection);
 	}
@@ -184,5 +185,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		resetUI();
 		jumpToResult();
 	}
+	
+	
 	
 }

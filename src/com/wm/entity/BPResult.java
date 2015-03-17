@@ -18,7 +18,7 @@ public class BPResult {
 	public float heartRate;
 	public int heartRateState = HEART_RATE_STATE_NORMAL;
 	public long date;
-	public int status;
+	public int status;//0 为提交， 1已提交
 
 	public BPResult() {
 	}

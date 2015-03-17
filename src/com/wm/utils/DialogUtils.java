@@ -1,12 +1,16 @@
 package com.wm.utils;
 
+import com.wm.activity.R;
+
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.view.View;
+import android.view.WindowManager;
 
 public class DialogUtils {
 	
@@ -129,5 +133,17 @@ public class DialogUtils {
 	        return progressDialog;
 	    }
 
+	    public static void dialogInReceiver(Context mContext, String title, String message,
+	    		String btnNav, String btnPos, OnClickListener btnPosListener, OnClickListener btnNavListener){
+	    	Builder builder=new Builder(mContext);  
+	        builder.setIcon(R.drawable.ic_launcher);  
+	        builder.setTitle(title);  
+	        builder.setMessage(message);  
+	        builder.setNegativeButton("ÊÇ", btnPosListener);  
+	        builder.setPositiveButton("·ñ", btnNavListener);
+	        Dialog dialog=builder.create();
+	        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+	        dialog.show(); 
+	    }
 	
 }
