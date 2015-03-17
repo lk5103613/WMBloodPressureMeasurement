@@ -17,19 +17,19 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.wm.activity.R;
-import com.wm.blecore.BluetoothLeService;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
 import com.wm.utils.DataConvertUtils;
+import com.wm.utils.UUIDS;
 
 public class FHResultFragment extends BaseResultFragment {
+
 	@InjectView(R.id.embryo_result_chart)
 	LineChart mChart;
-	
+
 	private List<Float> mFHValues;
 	private ArrayList<String> xVals;
 
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -37,10 +37,10 @@ public class FHResultFragment extends BaseResultFragment {
 				false);
 		ButterKnife.inject(this, view);
 		mFHValues = new ArrayList<Float>();
-		
+
 		initLineChart();
 		addEmptyData();
-		
+
 		return view;
 	}
 
@@ -59,7 +59,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
 		mChart.setScaleMinima(3, 1);// 设置缩放比例
-		
+
 	}
 
 	private void addEmptyData() {
@@ -67,8 +67,8 @@ public class FHResultFragment extends BaseResultFragment {
 		// create 30 x-vals
 		xVals = new ArrayList<String>();
 
-		for (int i = 0; i < 30; i++){
-			xVals.add(i+"");
+		for (int i = 0; i < 30; i++) {
+			xVals.add(i + "");
 		}
 
 		LineData data = new LineData(xVals);
@@ -93,12 +93,14 @@ public class FHResultFragment extends BaseResultFragment {
 			set.setLineWidth(2.5f);
 			set.setCircleSize(3f);
 
-			data.addEntry(new Entry(value, set.getEntryCount()), 0);//Math.random() * 50) + 50f
-			System.out.println("count " + (xVals.size()-mFHValues.size()));
-			if ((xVals.size()-mFHValues.size()) < 2) {
-				xVals.add((xVals.size()+1)+"");
+			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random()
+																	// * 50) +
+																	// 50f
+			System.out.println("count " + (xVals.size() - mFHValues.size()));
+			if ((xVals.size() - mFHValues.size()) < 2) {
+				xVals.add((xVals.size() + 1) + "");
 			}
-			
+
 			mChart.notifyDataSetChanged();
 
 			// redraw the chart
@@ -119,13 +121,30 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 
 	@Override
-	public void handleData(String data, BluetoothLeService bluetoothLeService) {
+	public void handleConnect() {
+
+	}
+
+	@Override
+	public void handleDisconnect() {
+
+	}
+
+	@Override
+	public void handleGetData(String data) {
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
-		System.out.println("胎心仪: " + fhValue);
-		if(!fhValue.trim().equals("0")) {
+		if (!fhValue.trim().equals("0")) {
 			mFHValues.add(Float.valueOf(fhValue));
 			addEntry(Float.parseFloat(fhValue));
 		}
+
+	}
+
+	@Override
+	public void handleServiceDiscover() {
+		mBluetoothLeService.setCharacteristicNotification(
+				getInfoCharacteristic(UUIDS.FH_RESULT_SERVICE,
+						UUIDS.FH_RESULT_CHARAC), true);
 	}
 
 }

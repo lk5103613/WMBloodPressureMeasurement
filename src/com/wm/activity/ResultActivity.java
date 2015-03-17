@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -22,16 +21,18 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import com.wm.blecore.BleBroadcastReceiver;
 import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.DeviceScanner.ScanCallback;
+import com.wm.blecore.IHandleConnect;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
-public class ResultActivity extends BaseActivity implements ScanCallback {
+public class ResultActivity extends BaseActivity implements ScanCallback, IHandleConnect {
 
 	@InjectView(R.id.blood_check_bar)
 	Toolbar mToolbar;
@@ -45,6 +46,7 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	private String mType;
 	private BluetoothLeService mBluetoothLeService;
 	private DeviceInfo mDevice;
+	private BroadcastReceiver mReceiver;
 	private int mCurrentScanState = DeviceScanner.STATE_END_SCAN;
 	
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -57,6 +59,7 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			mBluetoothLeService = ((LocalBinder) service).getService();
+			mFragment.setBluetoothLeService(mBluetoothLeService);
 			if (!mBluetoothLeService.initialize()) {
 				finish();
 			}
@@ -72,7 +75,7 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 
 		mContext = ResultActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		mFragment = TypeFactory.getResultFragment(mType);
+		mFragment = TypeFactory.getResultFragment(mType, mBluetoothLeService);
 
 		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));
 		setSupportActionBar(mToolbar);
@@ -91,12 +94,12 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+		mReceiver = BleBroadcastReceiver.getInstance(mBluetoothLeService, this);
+		registerReceiver(mReceiver, BleBroadcastReceiver.getIntentFilter());
 	}
 	
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		
 		if(mServiceConnection != null) 
@@ -146,45 +149,12 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 			overridePendingTransition(R.anim.scale_fade_in,
 					R.anim.slide_out_to_right);
 		}
-		unregisterReceiver(mGattUpdateReceiver);
+		unregisterReceiver(mReceiver);
 	}
 	
 	@Override
 	protected void onStop() {
 		super.onStop();
-	}
-
-	private BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			final String action = intent.getAction();
-			if (BluetoothLeService.ACTION_GATT_DISCONNECTED
-					.equals(action)) {
-				handleConFail();
-			} else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-				String extraData = intent
-						.getStringExtra(BluetoothLeService.EXTRA_DATA);
-				mFragment.handleData(extraData, mBluetoothLeService);
-			}
-		}
-
-	};
-	
-
-	/**
-	 * 为广播接收者创建意图过滤器
-	 * 
-	 * @return
-	 */
-	private IntentFilter makeGattUpdateIntentFilter() {
-		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-		intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-		intentFilter
-				.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-		intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
-		return intentFilter;
 	}
 
 	@Override
@@ -220,6 +190,30 @@ public class ResultActivity extends BaseActivity implements ScanCallback {
 	
 	private void handleConFail() {
 		Toast.makeText(mContext, "链接已断开", Toast.LENGTH_LONG).show();
+		mBluetoothLeService.connect(mDevice.address);
+	}
+
+	@Override
+	public void handleConnect() {
+		mFragment.handleConnect();
+		System.out.println("connect success");
+	}
+
+	@Override
+	public void handleDisconnect() {
+		mFragment.handleDisconnect();
+		System.out.println("disconnect in result activity");
+		mBluetoothLeService.connect(mDevice.address);
+	}
+
+	@Override
+	public void handleGetData(String data) {
+		mFragment.handleGetData(data);
+	}
+
+	@Override
+	public void handleServiceDiscover() {
+		mFragment.handleServiceDiscover();
 	}
 
 }

@@ -8,4 +8,7 @@ public class UUIDS {
 	public final static String FH_RESULT_SERVICE = "0000ffe0-0000-1000-8000-00805f9b34fb";
 	public final static String FH_RESULT_CHARAC = "0000ffe1-0000-1000-8000-00805f9b34fb";
 	
+	public final static String BS_RESULT_SERVICE = "";
+	public final static String BS_RESULT_CHARAC = "";
+	
 }

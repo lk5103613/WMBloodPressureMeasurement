@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,17 +20,17 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
-import com.wm.blecore.BluetoothLeService;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
-public class BPHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener {
+public class BPHistoryFragment extends BaseHistoryFragment implements
+		OnChartValueSelectedListener {
 
 	@InjectView(R.id.bp_history_chart)
 	LineChart mChart;
-	
+
 	private Context mContext;
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
@@ -45,22 +42,22 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 				false);
 		ButterKnife.inject(this, view);
 		mContext = getActivity();
-		
+
 		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
 		getBpHisory();
 		// chart
 		initLineChart();
-		
+
 		addEmptyData();
 		mChart.invalidate();
 
-//		initData();
+		// initData();
 		addDataSet();
-		
+
 		return view;
 	}
-	
-	public void initLineChart(){
+
+	public void initLineChart() {
 		mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
@@ -71,50 +68,51 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setStartAtZero(false);
 		mChart.setScaleMinima(mBPResults.size() / 7, 1);// 设置缩放比例
 	}
-	
+
 	/**
 	 * 添加X轴
 	 */
 	private void addEmptyData() {
 		ArrayList<String> xVals = new ArrayList<String>();
-		
+
 		// 创建 x值
 		for (int i = 0; i < mBPResults.size(); i++) {
 			Date date = DateUtil.longToDate(mBPResults.get(i).date);
-			String datestr = DateUtil.getFormatDate("MM.dd",date);
+			String datestr = DateUtil.getFormatDate("MM.dd", date);
 			xVals.add(datestr);
 		}
-		
+
 		for (int i = mBPResults.size(); i < 8; i++) {
 			Calendar nowss = Calendar.getInstance();
 			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
-					+ (nowss.get(Calendar.DAY_OF_MONTH)+i);
+					+ (nowss.get(Calendar.DAY_OF_MONTH) + i);
 			xVals.add(datestr);
 		}
 		System.out.println("size " + xVals.size());
-		
+
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
 		mChart.invalidate();
 	}
-	
+
 	private void addDataSet() {
 
 		LineData data = mChart.getData();
 
 		if (data != null) {
-			
-			ArrayList<Entry> yValsSz = new ArrayList<Entry>();//舒张
-			ArrayList<Entry> yValsSs = new ArrayList<Entry>();//收缩
-			
+
+			ArrayList<Entry> yValsSz = new ArrayList<Entry>();// 舒张
+			ArrayList<Entry> yValsSs = new ArrayList<Entry>();// 收缩
+
 			for (int i = 0; i < mBPResults.size(); i++) {
-				System.out.println("收缩 " + mBPResults.get(i).ssValue + " 舒张 "  + mBPResults.get(i).szValue);
-				yValsSz.add(new Entry(mBPResults.get(i).szValue,i));
-				yValsSs.add(new Entry(mBPResults.get(i).ssValue,i));
+				System.out.println("收缩 " + mBPResults.get(i).ssValue + " 舒张 "
+						+ mBPResults.get(i).szValue);
+				yValsSz.add(new Entry(mBPResults.get(i).szValue, i));
+				yValsSs.add(new Entry(mBPResults.get(i).ssValue, i));
 			}
 
-			
-			LineDataSet szSet = new LineDataSet(yValsSz, getString(R.string.diastolic));
+			LineDataSet szSet = new LineDataSet(yValsSz,
+					getString(R.string.diastolic));
 			szSet.setLineWidth(2.5f);
 			szSet.setCircleSize(3f);
 
@@ -123,8 +121,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			szSet.setHighLightColor(getResources().getColor(R.color.dark_green));
 
 			data.addDataSet(szSet);
-			
-			LineDataSet ssSet = new LineDataSet(yValsSs, getString(R.string.systolic));
+
+			LineDataSet ssSet = new LineDataSet(yValsSs,
+					getString(R.string.systolic));
 			ssSet.setLineWidth(2.5f);
 			ssSet.setCircleSize(3f);
 
@@ -133,13 +132,13 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			ssSet.setHighLightColor(getResources().getColor(R.color.sky_blue));
 
 			data.addDataSet(ssSet);
-			
+
 			mChart.notifyDataSetChanged();
-			mChart.animateY(1500);//设置Y轴动画 毫秒;
+			mChart.animateY(1500);// 设置Y轴动画 毫秒;
 		}
 	}
 
-	public void getBpHisory(){
+	public void getBpHisory() {
 		mBPResults = mHistoryDBManager.getAllBpResults();
 		System.out.println("size + " + mBPResults.size());
 	}
@@ -152,12 +151,13 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			mBPResults.add(new BPResult(szValue, ssValue));
 		}
 	}
-	
+
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
 		float sz = mBPResults.get(e.getXIndex()).szValue;
 		float ss = mBPResults.get(e.getXIndex()).ssValue;
-		Toast.makeText(mContext, "舒张压： " + (int)sz + "  收缩压： " + (int)ss, Toast.LENGTH_SHORT).show();
+		Toast.makeText(mContext, "舒张压： " + (int) sz + "  收缩压： " + (int) ss,
+				Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -166,19 +166,25 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	}
 
 	@Override
-	public void setCharacteristicNotification(
-			BluetoothLeService bluetoothLeService) {
-		BluetoothGattService service = bluetoothLeService
-				.getServiceByUuid(UUIDS.BP_RESULT_SERVICE);
-		if (service == null) {
-			return;
-		}
-		BluetoothGattCharacteristic inforCharacteristic = service.getCharacteristic(UUID
-				.fromString(UUIDS.BP_RESULT_CHARAC));
-		if(inforCharacteristic != null) {
-			bluetoothLeService.setCharacteristicNotification(inforCharacteristic, true);
-		}
+	public void handleConnect() {
+
 	}
-	
+
+	@Override
+	public void handleDisconnect() {
+
+	}
+
+	@Override
+	public void handleGetData(String data) {
+
+	}
+
+	@Override
+	public void handleServiceDiscover() {
+		mBluetoothLeService.setCharacteristicNotification(
+				getInfoCharacteristic(UUIDS.BP_RESULT_SERVICE,
+						UUIDS.BP_RESULT_CHARAC), true);
+	}
 
 }

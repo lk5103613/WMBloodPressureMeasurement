@@ -1,9 +1,6 @@
 package com.wm.fragments;
 
-import java.util.UUID;
-
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,7 +35,8 @@ public class BPResultFragment extends BaseResultFragment {
 	private BPResultException mBPException;
 	private Context mContext;
 	private BluetoothLeService mBluetoothLeService;
-	private BluetoothGattCharacteristic mInforCharacteristic;
+	private BluetoothGattCharacteristic mInforCharacteristic = getInfoCharacteristic(
+			UUIDS.BP_RESULT_SERVICE, UUIDS.BP_RESULT_CHARAC);
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,22 +55,34 @@ public class BPResultFragment extends BaseResultFragment {
 		HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
 	}
 
+	// 计算Pressure值
+	private String getPressureValue(String data) {
+		String[] items = data.split(" ");
+		int pressureH = Integer
+				.valueOf(DataConvertUtils.hexToDecimal(items[2]));
+		int pressureL = Integer
+				.valueOf(DataConvertUtils.hexToDecimal(items[1]));
+		return pressureH * 256 + pressureL + "";
+	}
+
 	@Override
-	public void handleData(String data, BluetoothLeService bluetoothLeService) {
-		if(mBluetoothLeService == null) {
-			mBluetoothLeService = bluetoothLeService;
-			BluetoothGattService service = mBluetoothLeService
-					.getServiceByUuid(UUIDS.BP_RESULT_SERVICE);
-			mInforCharacteristic = service.getCharacteristic(UUID
-					.fromString(UUIDS.BP_RESULT_CHARAC));
-		}
+	public void handleConnect() {
+
+	}
+
+	@Override
+	public void handleDisconnect() {
+	}
+
+	@Override
+	public void handleGetData(String data) {
 		if (data.trim().length() == 38) {
 			// 成功获得血压心率等数据
 			mNeedNewData = false;
 			mBPResult = new BPResult(data);
-			mLblSS.setText(String.valueOf((int)mBPResult.ssValue));
-			mLblSZ.setText(String.valueOf((int)mBPResult.szValue));
-			mLblHr.setText(String.valueOf((int)mBPResult.heartRate));
+			mLblSS.setText(String.valueOf((int) mBPResult.ssValue));
+			mLblSZ.setText(String.valueOf((int) mBPResult.szValue));
+			mLblHr.setText(String.valueOf((int) mBPResult.heartRate));
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
 			// 获得异常信息
@@ -90,18 +100,11 @@ public class BPResultFragment extends BaseResultFragment {
 			mBluetoothLeService.setCharacteristicNotification(
 					mInforCharacteristic, false);
 		}
-
 	}
 
-	// 计算Pressure值
-	private String getPressureValue(String data) {
-		String[] items = data.split(" ");
-		int pressureH = Integer
-				.valueOf(DataConvertUtils.hexToDecimal(items[2]));
-		int pressureL = Integer
-				.valueOf(DataConvertUtils.hexToDecimal(items[1]));
-		return pressureH * 256 + pressureL + "";
+	@Override
+	public void handleServiceDiscover() {
+		mBluetoothLeService.setCharacteristicNotification(mInforCharacteristic, true);
 	}
-
 
 }
