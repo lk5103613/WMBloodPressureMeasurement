@@ -10,35 +10,36 @@ import butterknife.InjectView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.LineData;
 import com.wm.activity.R;
-import com.wm.blecore.BluetoothLeService;
+import com.wm.utils.UUIDS;
 
 public class BSHistoryFragment extends BaseHistoryFragment {
 	
 	@InjectView(R.id.bs_history_chart)
 	LineChart mChart;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_bs_history, container,
 				false);
 		ButterKnife.inject(this, view);
-		
+
 		initLineChart();
 		addEmptyData();
-		
+
 		return view;
 	}
-	
-	private void initLineChart(){
+
+	private void initLineChart() {
 		// chart
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
-		
+
 	}
+
 	private void addEmptyData() {
 
 		// create 30 x-vals
@@ -53,9 +54,25 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	}
 
 	@Override
-	public void setCharacteristicNotification(
-			BluetoothLeService bluetoothLeService) {
-		
+	public void handleConnect() {
+
 	}
-	
+
+	@Override
+	public void handleDisconnect() {
+
+	}
+
+	@Override
+	public void handleGetData(String data) {
+
+	}
+
+	@Override
+	public void handleServiceDiscover() {
+		mBluetoothLeService.setCharacteristicNotification(
+				getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE,
+						UUIDS.BS_RESULT_CHARAC), true);
+	}
+
 }
