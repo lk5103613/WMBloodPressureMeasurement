@@ -83,7 +83,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 		// ¥¥Ω® x÷µ
 		for (int i = 0; i < mBPResults.size(); i++) {
-			Date date = DateUtil.longToDate(mBPResults.get(i).measureTime);
+			Date date = DateUtil.longToDate(mBPResults.get(i).date);
 			String datestr = DateUtil.getFormatDate("MM.dd", date);
 			xVals.add(datestr);
 		}

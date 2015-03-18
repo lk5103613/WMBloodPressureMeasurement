@@ -19,7 +19,8 @@ public class BPResult {
 	@Expose public float sbp; //收缩压
 	@Expose public float pulse; //心率 
 	public int heartRateState = HEART_RATE_STATE_NORMAL;
-	@Expose public long measureTime;
+	public long date;
+	@Expose public String measureTime;
 	@Expose public String remarks;
 	public int status;//0 为提交， 1已提交
 
@@ -33,7 +34,7 @@ public class BPResult {
 
 	public BPResult(float szValue, float ssValue, long date) {
 		this(szValue, ssValue);
-		this.measureTime = date;
+		this.date = date;
 	}
 
 	public BPResult(int id, float szValue, float ssValue, long date) {
@@ -42,7 +43,7 @@ public class BPResult {
 	}
 
 	public BPResult(String userCard, float dbp, float sbp, float pulse,
-			long measureTime, String remarks) {
+			String measureTime, String remarks) {
 		super();
 		this.userCard = userCard;
 		this.dbp = dbp;
@@ -69,7 +70,7 @@ public class BPResult {
 		} else if (items[9].toLowerCase(defloc).equals("aa")) {
 			heartRateState = HEART_RATE_STATE_NOT_NORMAL;
 		}
-		this.measureTime = new Date().getTime();
+		this.date = new Date().getTime();
 		this.remarks = "v0.0.1";
 		this.userCard = "330310198611010909";
 	}

@@ -51,24 +51,36 @@ public class IndexFragment extends Fragment {
 	
 	@OnClick(R.id.btn_test_upload)
 	public void upload(View v) {
-		System.out.println("on click in index");
 		new AsyncTask<Void, Void, ResponseData>() {
 
 			@Override
 			protected ResponseData doInBackground(Void... params) {
 				UploadService service = NetworkFactory.getUploadService();
+				if(service == null) {
+					System.out.println("service is null");
+					return null;
+				}
 				UploadEntity<BPResult> uploadEntity = new UploadEntity<BPResult>();
 				uploadEntity.callerName = "test";
 				uploadEntity.password = "test";
 				List<BPResult> bpResults = new ArrayList<BPResult>();
-				bpResults.add(new BPResult("123",12,12,12,1234556,"123"));
+				bpResults.add(new BPResult("123",12,12,12,"2011-1-1","123"));
 				uploadEntity.requestDatas = bpResults;
-				return service.uploadBloodpressure(uploadEntity);
+				ResponseData responseData = null;
+				try{
+					responseData = service.uploadBloodpressure(uploadEntity);
+				} catch(Exception e) {
+					System.out.println("upload blood pressure failed");
+					return null;
+				}
+				return responseData;
 			}
 			
 			@Override
 			protected void onPostExecute(ResponseData result) {
 				super.onPostExecute(result);
+				if(result == null) 
+					return;
 				System.out.println("over " + result.info + "   " + result.code);
 			}
 		}.execute();

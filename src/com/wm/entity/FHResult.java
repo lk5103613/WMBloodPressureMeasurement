@@ -11,7 +11,8 @@ public class FHResult {
 	@Expose public String userCard;
 	public List<Float> fhValues;
 	@Expose public String fh;
-	@Expose public long measureTime;
+	public long date;
+	@Expose public String measureTime;
 	@Expose public String remarks;
 	public int status;
 	
@@ -19,12 +20,12 @@ public class FHResult {
 	
 	public FHResult(List<Float> fhValues) {
 		this.fhValues = fhValues;
-		this.measureTime = new Date().getTime();
+		this.date = new Date().getTime();
 	}
 	
 	public FHResult(List<Float> fhValues, long date){
 		this.fhValues = fhValues;
-		this.measureTime = date;
+		this.date = date;
 	}
 	
 	public FHResult(int id, List<Float> fhValues, long date) {
