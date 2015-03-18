@@ -1,6 +1,5 @@
 package com.wm.blecore;
 
-import java.util.Date;
 import java.util.UUID;
 
 import android.app.Service;
@@ -234,7 +233,7 @@ public class BluetoothLeService extends Service {
 	public boolean connect(final String address, int overtime) {
 		mHandler.removeCallbacks(mDisconnectRunnable);
 		boolean result = connect(address);
-		mHandler.postDelayed(mDisconnectRunnable, overtime);
+		mHandler.postDelayed(mDisconnectRunnable, 50000);
 		return result;
 	}
 	

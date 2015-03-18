@@ -123,11 +123,11 @@ public class HistoryDBManager {
 	public long addBpResult(BPResult bpResult){
 		SQLiteDatabase db = mDBHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(BPDataEntry.COLUMN_NAME_SZVALUE, bpResult.szValue);
-		values.put(BPDataEntry.COLUMN_NAME_SSVALUE, bpResult.ssValue);
-		values.put(BPDataEntry.COLUMN_NAME_HEART_RATE, bpResult.heartRate);
+		values.put(BPDataEntry.COLUMN_NAME_SZVALUE, bpResult.sbp);
+		values.put(BPDataEntry.COLUMN_NAME_SSVALUE, bpResult.sbp);
+		values.put(BPDataEntry.COLUMN_NAME_HEART_RATE, bpResult.pulse);
 		values.put(BPDataEntry.COLUMN_NAME_HEART_RATE_STATE, bpResult.heartRateState);
-		values.put(BPDataEntry.COLUMN_NAME_DATE, bpResult.date);
+		values.put(BPDataEntry.COLUMN_NAME_DATE, bpResult.measureTime);
 		values.put(BPDataEntry.COLUMN_NAME_STATUS, bpResult.status);
 		long newRowId = db.insert(BPDataEntry.TABLE_NAME,
 				BPDataEntry.COLUMN_NAME_NULLABLE, values);
@@ -180,9 +180,9 @@ public class HistoryDBManager {
 	public long addBsResult(BSResult bsResult){
 		SQLiteDatabase db = mDBHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(BSDataEntry.COLUMN_NAME_BSVALUE, bsResult.bsValue);
+		values.put(BSDataEntry.COLUMN_NAME_BSVALUE, bsResult.bg);
 		values.put(BSDataEntry.COLUMN_NAME_STATUS, bsResult.status);
-		values.put(BSDataEntry.COLUMN_NAME_DATE, bsResult.date);
+		values.put(BSDataEntry.COLUMN_NAME_DATE, bsResult.measureTime);
 		long newRowId = db.insert(BSDataEntry.TABLE_NAME, BSDataEntry.COLUMN_NAME_NULLABLE, values);
 		return newRowId;
 		
@@ -239,7 +239,7 @@ public class HistoryDBManager {
 		ContentValues values = new ContentValues();
 		values.put(FHDataEntry.COLUMN_NAME_FHVALUES, listToStr(fhResult.fhValues, SEPARATOR));
 		values.put(FHDataEntry.COLUMN_NAME_STATUS, fhResult.status);
-		values.put(FHDataEntry.COLUMN_NAME_DATE, fhResult.date);
+		values.put(FHDataEntry.COLUMN_NAME_DATE, fhResult.measureTime);
 		long newRowId = db.insert(FHDataEntry.TABLE_NAME, FHDataEntry.COLUMN_NAME_NULLABLE, values);
 		return newRowId;
 	}
