@@ -42,7 +42,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 				false);
 		ButterKnife.inject(this, view);
 		mContext = getActivity();
-
+		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
+		getBpHisory();
+		
 		// chart
 		initLineChart();
 		return view;
@@ -50,7 +52,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public void onResume() {
-		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
+		
 		getBpHisory();
 
 		addEmptyData();
@@ -69,7 +71,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
-		mChart.setScaleMinima(1, 1);
+		mChart.setScaleMinima(mBPResults.size()/12, 1);
 		
 	}
 
@@ -107,9 +109,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 			ArrayList<Entry> yValsSz = new ArrayList<Entry>();// 舒张
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();// 收缩
-			if (mBPResults.size() %10 ==0) {
-				mChart.setScaleMinima(mBPResults.size()/10, 1);// 设置缩放比例
-			}
+
 			for (int i = 0; i < mBPResults.size(); i++) {
 				System.out.println("收缩 " + mBPResults.get(i).ssValue + " 舒张 "
 						+ mBPResults.get(i).szValue);

@@ -70,7 +70,7 @@ public class BluetoothLeService extends Service {
 			String intentAction;
 			if (newState == BluetoothProfile.STATE_CONNECTED) {
 				// 如果连接成功，通过广播方式告知MainAcivity
-				mHandler.postDelayed(mDisconnectRunnable, 30000);
+				mHandler.postDelayed(mDisconnectRunnable, 3000);
 				intentAction = ACTION_GATT_CONNECTED;
 				mConnectionState = STATE_CONNECTED;
 				broadcastUpdate(intentAction);
@@ -216,7 +216,6 @@ public class BluetoothLeService extends Service {
 		if (mBluetoothDeviceAddress != null
 				&& address.equals(mBluetoothDeviceAddress)
 				&& mBluetoothGatt != null) {
-//			mBluetoothGatt.disconnect();//test
 			if (mBluetoothGatt.connect()) {
 				mConnectionState = STATE_CONNECTING;
 				return true;
