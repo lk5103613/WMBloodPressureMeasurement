@@ -1,9 +1,11 @@
 package com.wm.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
+import com.wm.utils.DateUtil;
 
 public class FHResult {
 	
@@ -33,5 +35,32 @@ public class FHResult {
 		this.id = id;
 	}
 	
+	public FHResult(int id,String userCard, String fh, long date, String remarks) {
+		this.id = id;
+		this.userCard = userCard;
+		this.fh = fh;
+		this.date = date;
+		this.measureTime = DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date);
+		this.fhValues = splitFhValues(fh);
+	}
+	
+	
+	/**
+	 * 胎心字符串才分为list
+	 * 
+	 * @param valueStr
+	 * @return List
+	 */
+	private List<Float> splitFhValues(String valueStr){
+		List<Float> fhList = new ArrayList<>();
+		if (!"".equals(fhList)){
+			String[] fhArray = valueStr.split(",");
+			for (int i = 0; i < fhArray.length; i++) {
+				fhList.add(Float.parseFloat(fhArray[i]));
+			}
+		}
+		
+		return fhList;
+	}
 	
 }

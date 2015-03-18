@@ -31,4 +31,13 @@ public class BSResult {
 		this.remarks = remarks;
 	}
 	
+	public BSResult(int id, String userCard, int bg, long date, String remarks) {
+		super();
+		this.id = id;
+		this.userCard = userCard;
+		this.bg = bg;
+		this.date = date;
+		this.remarks = remarks;
+	}
+	
 }

@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+import android.R.plurals;
+
 import com.google.gson.annotations.Expose;
 import com.wm.utils.ASCIIData;
 import com.wm.utils.DataConvertUtils;
+import com.wm.utils.DateUtil;
 
 public class BPResult {
 
@@ -51,6 +54,18 @@ public class BPResult {
 		this.pulse = pulse;
 		this.measureTime = measureTime;
 		this.remarks = remarks;
+	}
+	public BPResult(int id, String userCard, float dbp, float sbp, float pulse,
+			long date, String remarks) {
+		this.id = id;
+		this.userCard = userCard;
+		this.dbp = dbp;
+		this.sbp = sbp;
+		this.pulse = pulse;
+		this.date = date;
+		this.measureTime = DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date);
+		this.id = id;
+		
 	}
 
 	public BPResult(String result) {
