@@ -77,7 +77,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 		// 创建 x值
 		for (int i = 0; i < mBPResults.size(); i++) {
-			Date date = DateUtil.longToDate(mBPResults.get(i).date);
+			Date date = DateUtil.longToDate(mBPResults.get(i).measureTime);
 			String datestr = DateUtil.getFormatDate("MM.dd", date);
 			xVals.add(datestr);
 		}
@@ -105,10 +105,10 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();// 收缩
 
 			for (int i = 0; i < mBPResults.size(); i++) {
-				System.out.println("收缩 " + mBPResults.get(i).ssValue + " 舒张 "
-						+ mBPResults.get(i).szValue);
-				yValsSz.add(new Entry(mBPResults.get(i).szValue, i));
-				yValsSs.add(new Entry(mBPResults.get(i).ssValue, i));
+				System.out.println("收缩 " + mBPResults.get(i).sbp + " 舒张 "
+						+ mBPResults.get(i).sbp);
+				yValsSz.add(new Entry(mBPResults.get(i).sbp, i));
+				yValsSs.add(new Entry(mBPResults.get(i).sbp, i));
 			}
 
 			LineDataSet szSet = new LineDataSet(yValsSz,
@@ -154,8 +154,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
-		float sz = mBPResults.get(e.getXIndex()).szValue;
-		float ss = mBPResults.get(e.getXIndex()).ssValue;
+		float sz = mBPResults.get(e.getXIndex()).sbp;
+		float ss = mBPResults.get(e.getXIndex()).sbp;
 		Toast.makeText(mContext, "舒张压： " + (int) sz + "  收缩压： " + (int) ss,
 				Toast.LENGTH_SHORT).show();
 	}

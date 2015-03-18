@@ -82,7 +82,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 
 	private void addDataSet(int position) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(mFHResults.get(position).date);
+		calendar.setTimeInMillis(mFHResults.get(position).measureTime);
 		mTxtDate.setText(calendar.get(Calendar.YEAR) + "."
 				+ (calendar.get(Calendar.MONTH) + 1) + "."
 				+ (calendar.get(Calendar.DATE) + position));
@@ -155,7 +155,6 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 
 	@OnClick(R.id.btn_previous)
 	public void previousClick() {
-
 		if (mIndex <= 0) {
 			Toast.makeText(mContext, getString(R.string.msg_fist_data),
 					Toast.LENGTH_LONG).show();
@@ -182,9 +181,6 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public void handleServiceDiscover() {
-		if(mBluetoothLeService == null) {
-			System.out.println("fhhistoryfragment bluetoothleservice is null");
-		}
 		mBluetoothLeService.setCharacteristicNotification(
 				getInfoCharacteristic(UUIDS.FH_RESULT_SERVICE,
 						UUIDS.FH_RESULT_CHARAC), true);
