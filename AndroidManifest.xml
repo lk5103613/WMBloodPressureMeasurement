@@ -74,12 +74,6 @@
             android:parentActivityName=".MainActivity" >
         </activity>
         
-        <receiver android:name="com.wm.receiver.NetChangeReceiver"   
-             android:label="NetworkConnection">   
-		    <intent-filter>   
-		        <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>   
-		    </intent-filter>   
-	    </receiver>
     </application>
 
 </manifest>

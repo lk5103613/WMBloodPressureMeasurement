@@ -14,6 +14,8 @@ import android.view.WindowManager;
 
 public class DialogUtils {
 	
+	public final static int NO_ICON = -1;
+	
 	/**
 	 * show dialog with the positive and negative button
 	 * 
@@ -37,10 +39,12 @@ public class DialogUtils {
 		builder.create().show();
 	}
 	
-	 public static void showAlertDialog(Context context, int drawableId, String title, String pos, String nega, final BtnCallback posCallback, final BtnCallback negCallBack) {
+	 public static AlertDialog showAlertDialog(Context context, int drawableId, String title, String pos, String nega, final BtnCallback posCallback, final BtnCallback negCallBack) {
 	        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	        builder.setCancelable(false);
-	        builder.setIcon(drawableId);
+	        if(drawableId != NO_ICON) {
+		        builder.setIcon(drawableId);
+	        }
 	        builder.setTitle(title);
 	        builder.setPositiveButton(pos, new DialogInterface.OnClickListener() {
 	            @Override
@@ -61,13 +65,15 @@ public class DialogUtils {
 	                }
 	            }
 	        });
-	        builder.create().show();
+	        return builder.create();
 	    }
 
-	    public static void showAlertDialog(Context context, int drawableId, String title, String message, String pos, String nega, final BtnCallback posCallback, final BtnCallback negCallBack) {
+	    public static AlertDialog showAlertDialog(Context context, int drawableId, String title, String message, String pos, String nega, final BtnCallback posCallback, final BtnCallback negCallBack) {
 	        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	        builder.setCancelable(false);
-	        builder.setIcon(drawableId);
+	        if(drawableId != NO_ICON) {
+		        builder.setIcon(drawableId);
+	        }
 	        builder.setTitle(title);
 	        builder.setMessage(message);
 	        builder.setPositiveButton(pos, new DialogInterface.OnClickListener() {
@@ -89,10 +95,10 @@ public class DialogUtils {
 	                }
 	            }
 	        });
-	        builder.create().show();
+	        return builder.create();
 	    }
 
-	    public static void showViewDialog(Context context, int drawableId, String title, View view, String pos, String neg, final BtnCallback posCallback , final BtnCallback negCallback) {
+	    public static AlertDialog showViewDialog(Context context, int drawableId, String title, View view, String pos, String neg, final BtnCallback posCallback , final BtnCallback negCallback) {
 	        AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	        builder.setCancelable(false);
 	        builder.setIcon(drawableId);
@@ -120,7 +126,8 @@ public class DialogUtils {
 	                }
 	            });
 	        }
-	        builder.create().show();
+	        AlertDialog alertDialog = builder.create();
+	        return alertDialog;
 	    }
 
 
