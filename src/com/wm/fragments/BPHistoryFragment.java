@@ -172,7 +172,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		float sz = mBPResults.get(e.getXIndex()).dbp;
 		float ss = mBPResults.get(e.getXIndex()).sbp;
 		float hr =  mBPResults.get(e.getXIndex()).pulse;
-		Toast.makeText(mContext, "舒张压： " + (int) sz + "  收缩压： " + (int) ss +" 脉搏值 : " +(int)hr,
+		Toast.makeText(mContext, "舒张压： " + (int) sz + "  收缩压： " + (int) ss +"  脉搏值 : " +(int)hr,
 				Toast.LENGTH_SHORT).show();
 	}
 
