@@ -60,7 +60,7 @@ public class BPResultFragment extends BaseResultFragment {
 				.valueOf(DataConvertUtils.hexToDecimal(items[2]));
 		int pressureL = Integer
 				.valueOf(DataConvertUtils.hexToDecimal(items[1]));
-		return pressureH * 256 + pressureL + "";
+		return (pressureH * 256 + pressureL) + "";
 	}
 
 	@Override
