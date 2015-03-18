@@ -82,7 +82,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 
 	private void addDataSet(int position) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(mFHResults.get(position).measureTime);
+		calendar.setTimeInMillis(mFHResults.get(position).date);
 		mTxtDate.setText(calendar.get(Calendar.YEAR) + "."
 				+ (calendar.get(Calendar.MONTH) + 1) + "."
 				+ (calendar.get(Calendar.DATE) + position));

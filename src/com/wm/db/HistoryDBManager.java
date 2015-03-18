@@ -151,7 +151,7 @@ public class HistoryDBManager {
 		values.put(BPDataEntry.COLUMN_NAME_SSVALUE, bpResult.sbp);
 		values.put(BPDataEntry.COLUMN_NAME_HEART_RATE, bpResult.pulse);
 		values.put(BPDataEntry.COLUMN_NAME_HEART_RATE_STATE, bpResult.heartRateState);
-		values.put(BPDataEntry.COLUMN_NAME_DATE, bpResult.measureTime);
+		values.put(BPDataEntry.COLUMN_NAME_DATE, bpResult.date);
 		values.put(BPDataEntry.COLUMN_NAME_STATUS, bpResult.status);
 		long newRowId = db.insert(BPDataEntry.TABLE_NAME,
 				BPDataEntry.COLUMN_NAME_NULLABLE, values);
@@ -206,7 +206,7 @@ public class HistoryDBManager {
 		ContentValues values = new ContentValues();
 		values.put(BSDataEntry.COLUMN_NAME_BSVALUE, bsResult.bg);
 		values.put(BSDataEntry.COLUMN_NAME_STATUS, bsResult.status);
-		values.put(BSDataEntry.COLUMN_NAME_DATE, bsResult.measureTime);
+		values.put(BSDataEntry.COLUMN_NAME_DATE, bsResult.date);
 		long newRowId = db.insert(BSDataEntry.TABLE_NAME, BSDataEntry.COLUMN_NAME_NULLABLE, values);
 		return newRowId;
 		

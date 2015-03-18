@@ -7,14 +7,15 @@ public class BSResult {
 	public int id;
 	@Expose public String userCard;
 	@Expose public int bg;
-	@Expose public long measureTime;
+	public long date;
+	@Expose public String measureTime;
 	@Expose public String remarks;
 	public int status;
 	
 	public BSResult(int bsValue, long date) {
 		super();
 		this.bg = bsValue;
-		this.measureTime = date;
+		this.date = date;
 	}
 
 	public BSResult(int id, int bsValue, long date) {
@@ -26,7 +27,7 @@ public class BSResult {
 		super();
 		this.userCard = userCard;
 		this.bg = bg;
-		this.measureTime = measureTime;
+		this.date = measureTime;
 		this.remarks = remarks;
 	}
 	
