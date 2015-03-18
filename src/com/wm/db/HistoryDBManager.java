@@ -303,5 +303,4 @@ public class HistoryDBManager {
 		return sb.toString();
 		
 	}
-	
 }
