@@ -57,6 +57,11 @@ public class HistoryDBManager {
 		return bpResults;
 	}
 	
+	public boolean deleteBpDatas(){
+		
+		return true;
+	}
+	
 	public List<BPResult> getBpResultsByStatus(int status){
 		
 		List<BPResult> bpResults = new ArrayList<>();
