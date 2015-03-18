@@ -54,7 +54,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	public void onResume() {
 		
 		getBpHisory();
-
 		addEmptyData();
 		mChart.invalidate();
 
@@ -108,12 +107,14 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 			ArrayList<Entry> yValsSz = new ArrayList<Entry>();// 舒张
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();// 收缩
+			ArrayList<Entry> yValsHr = new ArrayList<>();//心率
 
 			for (int i = 0; i < mBPResults.size(); i++) {
 				System.out.println("收缩 " + mBPResults.get(i).sbp + " 舒张 "
-						+ mBPResults.get(i).sbp);
-				yValsSz.add(new Entry(mBPResults.get(i).sbp, i));
+						+ mBPResults.get(i).dbp);
+				yValsSz.add(new Entry(mBPResults.get(i).dbp, i));
 				yValsSs.add(new Entry(mBPResults.get(i).sbp, i));
+				yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
 			}
 
 			LineDataSet szSet = new LineDataSet(yValsSz,
@@ -124,7 +125,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			szSet.setColor(getResources().getColor(R.color.dark_green));
 			szSet.setCircleColor(getResources().getColor(R.color.dark_green));
 			szSet.setHighLightColor(getResources().getColor(R.color.dark_green));
-
 			data.addDataSet(szSet);
 
 			LineDataSet ssSet = new LineDataSet(yValsSs,
@@ -135,9 +135,19 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			ssSet.setColor(getResources().getColor(R.color.sky_blue));
 			ssSet.setCircleColor(getResources().getColor(R.color.sky_blue));
 			ssSet.setHighLightColor(getResources().getColor(R.color.sky_blue));
-
 			data.addDataSet(ssSet);
 
+			LineDataSet hrSet = new LineDataSet(yValsHr,
+					getString(R.string.heart_rate));
+			hrSet.setLineWidth(2.5f);
+			hrSet.setCircleSize(3f);
+
+			hrSet.setColor(getResources().getColor(R.color.yellow));
+			hrSet.setCircleColor(getResources().getColor(R.color.yellow));
+			hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
+			data.addDataSet(hrSet);
+
+			
 			mChart.notifyDataSetChanged();
 			mChart.animateY(1500);// 设置Y轴动画 毫秒;
 		}
@@ -159,9 +169,10 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
-		float sz = mBPResults.get(e.getXIndex()).sbp;
+		float sz = mBPResults.get(e.getXIndex()).dbp;
 		float ss = mBPResults.get(e.getXIndex()).sbp;
-		Toast.makeText(mContext, "舒张压： " + (int) sz + "  收缩压： " + (int) ss,
+		float hr =  mBPResults.get(e.getXIndex()).pulse;
+		Toast.makeText(mContext, "舒张压： " + (int) sz + "  收缩压： " + (int) ss +"  脉搏值 : " +(int)hr,
 				Toast.LENGTH_SHORT).show();
 	}
 

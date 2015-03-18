@@ -2,6 +2,7 @@ package com.wm.fragments;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.location.GpsStatus.NmeaListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,7 @@ public class BPResultFragment extends BaseResultFragment {
 				.valueOf(DataConvertUtils.hexToDecimal(items[2]));
 		int pressureL = Integer
 				.valueOf(DataConvertUtils.hexToDecimal(items[1]));
-		return pressureH * 256 + pressureL + "";
+		return (pressureH * 256 + pressureL) + "";
 	}
 
 	@Override
@@ -72,8 +73,6 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public void handleGetData(String data) {
-		if(mBluetoothLeService == null) 
-			return;
 		if (mInforCharacteristic == null) {
 			mInforCharacteristic = getInfoCharacteristic(
 					UUIDS.BP_RESULT_SERVICE, UUIDS.BP_RESULT_CHARAC);
@@ -83,8 +82,10 @@ public class BPResultFragment extends BaseResultFragment {
 			mNeedNewData = false;
 			mBPResult = new BPResult(data);
 			mLblSS.setText(String.valueOf((int) mBPResult.sbp));
-			mLblSZ.setText(String.valueOf((int) mBPResult.sbp));
+			mLblSZ.setText(String.valueOf((int) mBPResult.dbp));
 			mLblHr.setText(String.valueOf((int) mBPResult.pulse));
+			System.out.println("舒张压 " + mBPResult.sbp + "收缩压 " + mBPResult.dbp + "心率 " + mBPResult.pulse);
+			
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
 			// 获得异常信息
@@ -99,6 +100,8 @@ public class BPResultFragment extends BaseResultFragment {
 			mLblP.setText(currentPressure);
 		}
 		if (!mNeedNewData) {
+			if(mBluetoothLeService == null)
+				return;
 			mBluetoothLeService.setCharacteristicNotification(
 					mInforCharacteristic, false);
 		}
