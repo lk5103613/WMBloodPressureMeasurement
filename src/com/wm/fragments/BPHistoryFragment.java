@@ -72,7 +72,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
 		mChart.setScaleMinima(mBPResults.size()/12, 1);
-		
 	}
 
 	/**
