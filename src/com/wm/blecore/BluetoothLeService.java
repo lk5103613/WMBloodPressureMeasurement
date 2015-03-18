@@ -52,6 +52,7 @@ public class BluetoothLeService extends Service {
 			@Override
 			public void run() {
 				if(mConnectionState == STATE_CONNECTING || mConnectionState == STATE_CONNECTED) {
+					System.out.println("State : " + mConnectionState);
 					disconnect();
 					broadcastUpdate(ACTION_GATT_DISCONNECTED);
 				} 

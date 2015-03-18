@@ -61,6 +61,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
@@ -104,7 +105,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 		case android.R.id.home:
 			finish();
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 	
 //	private void back(){

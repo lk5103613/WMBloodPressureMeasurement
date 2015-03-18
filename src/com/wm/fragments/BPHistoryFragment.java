@@ -42,21 +42,26 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 				false);
 		ButterKnife.inject(this, view);
 		mContext = getActivity();
-
 		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
 		getBpHisory();
+		
 		// chart
 		initLineChart();
+		return view;
+	}
+
+	@Override
+	public void onResume() {
+		
+		getBpHisory();
 
 		addEmptyData();
 		mChart.invalidate();
 
 		// initData();
 		addDataSet();
-
-		return view;
+		super.onResume();
 	}
-
 	public void initLineChart() {
 		mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
@@ -66,7 +71,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
-		mChart.setScaleMinima(mBPResults.size() / 7, 1);// …Ë÷√Àı∑≈±»¿˝
+		mChart.setScaleMinima(mBPResults.size()/12, 1);
+		
 	}
 
 	/**
