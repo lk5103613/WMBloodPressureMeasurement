@@ -26,13 +26,10 @@ public class FHResult {
 	}
 	
 	public FHResult(List<Float> fhValues, long date){
+		this.userCard = "330310198611010909";
+		this.remarks = "test";
 		this.fhValues = fhValues;
 		this.date = date;
-	}
-	
-	public FHResult(int id, List<Float> fhValues, long date) {
-		this(fhValues, date);
-		this.id = id;
 	}
 	
 	public FHResult(int id,String userCard, String fh, long date, String remarks) {

@@ -7,16 +7,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.test.RenamingDelegatingContext;
 
 import com.wm.db.DeviceDataContract.BPDataEntry;
 import com.wm.db.DeviceDataContract.BSDataEntry;
-import com.wm.db.DeviceDataContract.DeviceEntry;
 import com.wm.db.DeviceDataContract.FHDataEntry;
 import com.wm.entity.BPResult;
 import com.wm.entity.BSResult;
 import com.wm.entity.FHResult;
-import com.wm.utils.DateUtil;
 
 public class HistoryDBManager {
 
@@ -60,6 +57,21 @@ public class HistoryDBManager {
 			bpResults.add(new BPResult(id, card, szValue, ssValue,hr, date, remarks));
 		}
 		return bpResults;
+	}
+	
+	public void updateBPResult(BPResult bpResult) {
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(BPDataEntry.COLUMN_NAME_CARD, bpResult.userCard);
+		values.put(BPDataEntry.COLUMN_NAME_SSVALUE, bpResult.sbp);
+		values.put(BPDataEntry.COLUMN_NAME_SZVALUE, bpResult.dbp);
+		values.put(BPDataEntry.COLUMN_NAME_HEART_RATE, bpResult.pulse);
+		values.put(BPDataEntry.COLUMN_NAME_DATE, bpResult.date);
+		values.put(BPDataEntry.COLUMN_NAME_REMARKS, bpResult.remarks);
+		values.put(BPDataEntry.COLUMN_NAME_STATUS, bpResult.status);
+		String where = BPDataEntry.COLUMN_NAME_ID + " = ?";
+		String[] whereArgs = new  String[]{String.valueOf(bpResult.id)};
+		db.update(BPDataEntry.TABLE_NAME, values, where, whereArgs);
 	}
 	
 	public List<BPResult> getBpResultsByStatus(int status){
@@ -112,9 +124,7 @@ public class HistoryDBManager {
 		String[] whereArgs = (String[]) argList.toArray(new String[argList.size()]);
 		
 		db.delete(BPDataEntry.TABLE_NAME, selection.toString(), whereArgs);
-		
 	}
-	
 	
 	
 	/**
@@ -123,28 +133,11 @@ public class HistoryDBManager {
 	 * @param bpResults
 	 * @return
 	 */
-	public boolean changeBpStatus(List<BPResult> bpResults){
-		if(bpResults.isEmpty()) {
-			return true;
+	public void changeBpStatus(List<BPResult> bpResults){
+		for(BPResult bpResult : bpResults) {
+			bpResult.status = 1;
+			updateBPResult(bpResult);
 		}
-		
-		SQLiteDatabase db = mDBHelper.getWritableDatabase();
-		ContentValues values = new ContentValues();
-		values.put(BPDataEntry.COLUMN_NAME_STATUS, 1);
-		
-		List<String> argsList = new ArrayList<>();
-		StringBuilder sb = new StringBuilder(BPDataEntry.COLUMN_NAME_ID);
-		sb.append(" in (");
-		for (int i = 0, size = bpResults.size(); i < size; i++) {
-			sb.append("?,");
-			argsList.add(String.valueOf(bpResults.get(i).id));
-		}
-		sb.deleteCharAt(sb.length()-1);//去掉最后一个逗号
-		sb.append(")");
-		
-		String where = sb.toString();
-		String[] whereArgs = (String[]) argsList.toArray(new String[bpResults.size()]);
-		return db.update(DeviceEntry.TABLE_NAME, values, where, whereArgs) > 0;
 	}
 	
 	/**
@@ -226,7 +219,26 @@ public class HistoryDBManager {
 		values.put(BSDataEntry.COLUMN_NAME_REMARKS,bsResult.remarks);
 		long newRowId = db.insert(BSDataEntry.TABLE_NAME, BSDataEntry.COLUMN_NAME_NULLABLE, values);
 		return newRowId;
-		
+	}
+	
+	public void updateBsResult(BSResult bsResult){
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(BSDataEntry.COLUMN_NAME_BSVALUE, bsResult.bg);
+		values.put(BSDataEntry.COLUMN_NAME_STATUS, bsResult.status);
+		values.put(BSDataEntry.COLUMN_NAME_DATE, bsResult.date);
+		values.put(BSDataEntry.COLUMN_NAME_CARD, bsResult.userCard);
+		values.put(BSDataEntry.COLUMN_NAME_REMARKS,bsResult.remarks);
+		String where = BSDataEntry.COLUMN_NAME_ID + " = ?";
+		String[] whereArgs = new  String[]{String.valueOf(bsResult.id)};
+		db.update(BSDataEntry.TABLE_NAME, values, where, whereArgs);
+	}
+	
+	public void changeBsSate(List<BSResult> bsResults) {
+		for(BSResult bsResult : bsResults) {
+			bsResult.status = 1;
+			updateBsResult(bsResult);
+		}
 	}
 	
 	/**
@@ -256,7 +268,7 @@ public class HistoryDBManager {
 		List<FHResult> fhResults = new ArrayList<>();
 		SQLiteDatabase db = mDBHelper.getWritableDatabase();
 		String[] projection = {FHDataEntry.COLUMN_NAME_ID, FHDataEntry.COLUMN_NAME_FHVALUES, 
-				FHDataEntry.COLUMN_NAME_DATE};
+				FHDataEntry.COLUMN_NAME_DATE, FHDataEntry.COLUMN_NAME_CARD, FHDataEntry.COLUMN_NAME_REMARKS};
 		String selections = FHDataEntry.COLUMN_NAME_STATUS + "=?";
 		String[] args = {String.valueOf(status)};
 		Cursor c = db.query(FHDataEntry.TABLE_NAME, projection, selections, args, null, null, null);
@@ -266,7 +278,6 @@ public class HistoryDBManager {
 			long date = c.getLong(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_DATE));
 			String card = c.getString(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_REMARKS));
-			
 			fhResults.add(new FHResult(id,card, fhValues, date, remarks));
 		}
 		return fhResults;
@@ -291,6 +302,25 @@ public class HistoryDBManager {
 		return newRowId;
 	}
 	
+	public void updateFhResult(FHResult fhResult) {
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(FHDataEntry.COLUMN_NAME_FHVALUES, listToStr(fhResult.fhValues, ","));
+		values.put(FHDataEntry.COLUMN_NAME_STATUS, fhResult.status);
+		values.put(FHDataEntry.COLUMN_NAME_DATE, fhResult.date);
+		values.put(FHDataEntry.COLUMN_NAME_CARD, fhResult.userCard);
+		values.put(FHDataEntry.COLUMN_NAME_REMARKS, fhResult.remarks);
+		String where = FHDataEntry.COLUMN_NAME_ID + " = ?";
+		String[] whereArgs = new  String[]{String.valueOf(fhResult.id)};
+		db.update(FHDataEntry.TABLE_NAME, values, where, whereArgs);
+	}
+	
+	public void changeFhState(List<FHResult> fhResults) {
+		for(FHResult fhResult : fhResults) {
+			fhResult.status = 1;
+			updateFhResult(fhResult);
+		}
+	}
 	
 	
 	

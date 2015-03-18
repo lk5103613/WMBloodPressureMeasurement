@@ -38,29 +38,41 @@ public class UploadDataTask extends AsyncTask<Map<Integer, IUploadEntity>, Integ
 			List<FHResult> fhResults = mDbManager.getFhResultsByStatus(0);
 			if(bpResults != null && bpResults.size() != 0) {
 				UploadEntity<BPResult> uploadBps = new UploadEntity<>("test", "test", bpResults);
-				mService.uploadBloodpressure(uploadBps);
+				ResponseData data = mService.uploadBloodpressure(uploadBps);
+				if(data.code == 0)
+					mDbManager.changeBpStatus(bpResults);
 			}
 			if(bsResults != null && bsResults.size() != 0) {
 				UploadEntity<BSResult> uploadBss = new UploadEntity<>("test", "test", bsResults);
-				mService.uploadBloodGlucose(uploadBss);
+				ResponseData data = mService.uploadBloodGlucose(uploadBss);
+				if(data.code == 0)
+					mDbManager.changeBsSate(bsResults);
 			}
 			if(fhResults != null && fhResults.size() != 0) {
 				UploadEntity<FHResult> uploadFhs = new UploadEntity<>("test", "test", fhResults);
-				mService.uploadFetalHeart(uploadFhs);
+				ResponseData data = mService.uploadFetalHeart(uploadFhs);
+				if(data.code == 0)
+					mDbManager.changeFhState(fhResults);
 			}
 		}else {
 			Map<Integer, IUploadEntity> uploadEntities = params[0];
 			UploadEntity<BPResult> uploadBps = (UploadEntity<BPResult>) uploadEntities.get(UploadEntity.TYPE_BP);
 			if(uploadBps != null) {
-				mService.uploadBloodpressure(uploadBps);
+				ResponseData data = mService.uploadBloodpressure(uploadBps);
+				if(data.code == 0)
+					mDbManager.changeBpStatus(uploadBps.requestDatas);
 			}
 			UploadEntity<BSResult> uploadBss = (UploadEntity<BSResult>) uploadEntities.get(UploadEntity.TYPE_BS);
 			if(uploadBss != null) {
-				mService.uploadBloodGlucose(uploadBss);
+				ResponseData data = mService.uploadBloodGlucose(uploadBss);
+				if(data.code == 0)
+					mDbManager.changeBsSate(uploadBss.requestDatas);
 			}
 			UploadEntity<FHResult> uploadFhs = (UploadEntity<FHResult>) uploadEntities.get(UploadEntity.TYPE_FH);
 			if(uploadFhs != null) {
-				mService.uploadFetalHeart(uploadFhs);
+				ResponseData data = mService.uploadFetalHeart(uploadFhs);
+				if(data.code == 0) 
+					mDbManager.changeFhState(uploadFhs.requestDatas);
 			}
 		}
 		return null;

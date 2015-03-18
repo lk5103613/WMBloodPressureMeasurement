@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
-import android.R.plurals;
-
 import com.google.gson.annotations.Expose;
 import com.wm.utils.ASCIIData;
 import com.wm.utils.DataConvertUtils;
