@@ -138,7 +138,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			data.addDataSet(ssSet);
 
 			LineDataSet hrSet = new LineDataSet(yValsHr,
-					getString(R.string.current_pressure));
+					getString(R.string.heart_rate));
 			hrSet.setLineWidth(2.5f);
 			hrSet.setCircleSize(3f);
 
