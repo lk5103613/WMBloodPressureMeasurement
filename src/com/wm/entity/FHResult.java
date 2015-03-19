@@ -39,6 +39,7 @@ public class FHResult {
 		this.date = date;
 		this.measureTime = DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date);
 		this.fhValues = splitFhValues(fh);
+		this.remarks = remarks;
 	}
 	
 	
