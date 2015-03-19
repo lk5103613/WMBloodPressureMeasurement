@@ -96,9 +96,7 @@ public class DialogUtils {
 	                }
 	            }
 	        });
-	        AlertDialog dialog = builder.create();
-	        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-	        return dialog;
+	        return builder.create();
 	    }
 
 	    public static AlertDialog showViewDialog(Context context, int drawableId, String title, View view, String pos, String neg, final BtnCallback posCallback , final BtnCallback negCallback) {
