@@ -10,6 +10,7 @@ import com.wm.utils.NetUtils;
 public class NetChangeReceiver extends BroadcastReceiver{
 	
 	private NetChangeCallBack mCallback;
+	private int mLastType = -10;
 	private static IntentFilter mIntentFilter;
 	private static NetChangeReceiver mReceiver;
 	
@@ -34,7 +35,10 @@ public class NetChangeReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		int netType = NetUtils.getConnectState(context);
-		mCallback.onChange(netType);
+		if(mLastType != -10 && mLastType != netType) {
+			mCallback.onChange(netType);
+		}
+		mLastType = netType; 
 	}
 	
 	public static IntentFilter getIntentFilter() {
