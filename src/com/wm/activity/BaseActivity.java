@@ -22,7 +22,7 @@ public class BaseActivity extends BLEBaseActivity implements NetChangeCallBack {
 			mAlertDialog = DialogUtils.showAlertDialog(mContext, -1, "上传", "上传将会耗费您一定的流量，是否确定上传？", "是", "否", null, null);
 		if(mReceiver == null)
 			mReceiver = NetChangeReceiver.getInstance(this);
-		new CheckNeedUploadTask(mContext, connectState, mAlertDialog).execute();
+		//new CheckNeedUploadTask(mContext, connectState, mAlertDialog).execute();
 	}
 	
 	@Override

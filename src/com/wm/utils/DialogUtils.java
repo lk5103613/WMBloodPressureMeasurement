@@ -86,6 +86,7 @@ public class DialogUtils {
 	                }
 	            }
 	        });
+	       
 	        builder.setNegativeButton(nega, new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int whichButton) {
 	                if(negCallBack == null) {
@@ -95,7 +96,9 @@ public class DialogUtils {
 	                }
 	            }
 	        });
-	        return builder.create();
+	        AlertDialog dialog = builder.create();
+	        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+	        return dialog;
 	    }
 
 	    public static AlertDialog showViewDialog(Context context, int drawableId, String title, View view, String pos, String neg, final BtnCallback posCallback , final BtnCallback negCallback) {

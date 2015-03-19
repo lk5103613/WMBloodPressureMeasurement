@@ -33,6 +33,7 @@ public class NetChangeReceiver extends BroadcastReceiver{
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		System.out.println("receiver");
 		int netType = NetUtils.getConnectState(context);
 		mCallback.onChange(netType);
 	}
