@@ -108,17 +108,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 		return true;
 	}
 	
-//	private void back(){
-//		mBluetoothLeService.close();
-//		Intent intent = new Intent(mContext, HistoryActivity.class);
-//		intent.putExtra("type", mType);
-//		intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDevice);
-//		startActivity(intent);
-//		overridePendingTransition(R.anim.scale_fade_in,
-//				R.anim.slide_out_to_right);
-//		finish();
-//	}
-
 	@OnClick(R.id.btn_record)
 	public void record(View v) {
 		mBtnRecord.setEnabled(false);
