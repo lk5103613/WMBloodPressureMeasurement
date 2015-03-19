@@ -20,6 +20,7 @@ import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.IHandleConnect;
 import com.wm.entity.DeviceInfo;
+import com.wm.fragments.BPHistoryFragment.IShareData;
 import com.wm.fragments.BaseHistoryFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
@@ -30,9 +31,7 @@ import com.wm.fragments.TypeFactory;
  * @author Like
  *
  */
-public class HistoryActivity extends BaseActivity implements IHandleConnect {
-	
-	private final static int MAX_CONNECT_TIME = 3;
+public class HistoryActivity extends BaseActivity implements IHandleConnect, IShareData {
 	
 	@InjectView(R.id.history_bar)
 	Toolbar mToolbar;
@@ -42,7 +41,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	ProgressBar mWaitingConnect;
 	
 	private Context mContext;
-	private int mCurrentConnectTime = 0;
 	private BaseHistoryFragment mFragment;
 	private String mType;
 	private DeviceInfo mDeviceInfo;
@@ -77,6 +75,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
 		
+		
 		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -92,7 +91,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		mReceiver = BleBroadcastReceiver.getInstance(mBluetoothLeService, this);
 		registerReceiver(mReceiver, BleBroadcastReceiver.getIntentFilter());
 		resetUI();
-		mCurrentConnectTime = 0;
 	}
 	
 	@Override
@@ -130,7 +128,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(){
 		beginCheckUI();
-		mCurrentConnectTime = 0;
 		connect();
 	}
 	
@@ -144,48 +141,62 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	}
 	
 	private void handleConFail() {
-		System.out.println("con fail " + mCurrentConnectTime);
-		mCurrentConnectTime++;
-		if(mCurrentConnectTime >= MAX_CONNECT_TIME) {
-			if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
-				mBluetoothLeService.disconnect();
-			}
-			connectFailUI();
-			String rmdStr = getResources().getString(R.string.con_failed);
-			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
-			return;
+		if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
+			mBluetoothLeService.disconnect();
 		}
-		connect();
+		connectFailUI();
+		String rmdStr = getResources().getString(R.string.con_failed);
+		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+		return;
 	}
 	
 	private void connect() {
-		mBluetoothLeService.connect(mDeviceInfo.address, 5000);
+		mBluetoothLeService.connect(mDeviceInfo.address, 10000);
 	}
 
 	@Override
-	public void handleConnect() {
-		mFragment.handleConnect();
+	public boolean handleConnect() {
+		if(mFragment.handleConnect()) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void handleDisconnect() {
-		mFragment.handleDisconnect();
+	public boolean handleDisconnect() {
+		if(mFragment.handleDisconnect()) {
+			return true;
+		}
 		handleConFail();
+		return true;
 	}
 
 	@Override
-	public void handleGetData(String data) {
-		mFragment.handleGetData(data);
+	public boolean handleGetData(String data) {
+		if(mFragment.handleGetData(data)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void handleServiceDiscover() {
-		mCurrentConnectTime = 0;
-		mFragment.handleServiceDiscover();
+	public boolean handleServiceDiscover() {
+		if(mFragment.handleServiceDiscover()) {
+			return true;
+		}
 		resetUI();
 		jumpToResult();
+		return true;
+	}
+
+	@Override
+	public DeviceInfo getDevice() {
+		return mDeviceInfo;
 	}
 	
-	
+	@Override
+	public void conFail() {
+		handleConFail();
+	}
 	
 }

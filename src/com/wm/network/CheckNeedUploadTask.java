@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 
 import com.wm.db.HistoryDBManager;
@@ -58,13 +59,20 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void onPostExecute(Map<Integer, IUploadEntity> result) {
+	protected void onPostExecute(final Map<Integer, IUploadEntity> result) {
 		super.onPostExecute(result);
 		if(result.isEmpty()) {
 			return;
 		}
 		switch (mConnectState) {
 			case NetUtils.TYPE_GPRS:
+				mDialog.setButton(DialogInterface.BUTTON_POSITIVE, "ÊÇ", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						System.out.println("on position click");
+						new UploadDataTask(mContext).execute(result);
+					}
+				});
 				if(mDialog.isShowing()) 
 					return;
 				mDialog.show();

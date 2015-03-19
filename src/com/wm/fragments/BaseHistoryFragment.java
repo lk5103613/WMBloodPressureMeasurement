@@ -30,7 +30,8 @@ public abstract class BaseHistoryFragment extends Fragment implements IHandleCon
 	}
 	
 	@Override
-	public void handleServiceDiscover() {
+	public boolean handleServiceDiscover() {
+		return false;
 	}
 
 }

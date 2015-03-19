@@ -2,7 +2,6 @@ package com.wm.fragments;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
-import android.location.GpsStatus.NmeaListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,15 +63,17 @@ public class BPResultFragment extends BaseResultFragment {
 	}
 
 	@Override
-	public void handleConnect() {
+	public boolean handleConnect() {
+		return false;
 	}
 
 	@Override
-	public void handleDisconnect() {
+	public boolean handleDisconnect() {
+		return false;
 	}
 
 	@Override
-	public void handleGetData(String data) {
+	public boolean handleGetData(String data) {
 		if (mInforCharacteristic == null) {
 			mInforCharacteristic = getInfoCharacteristic(
 					UUIDS.BP_RESULT_SERVICE, UUIDS.BP_RESULT_CHARAC);
@@ -101,16 +102,18 @@ public class BPResultFragment extends BaseResultFragment {
 		}
 		if (!mNeedNewData) {
 			if(mBluetoothLeService == null)
-				return;
+				return false;
 			mBluetoothLeService.setCharacteristicNotification(
 					mInforCharacteristic, false);
 		}
+		return false;
 	}
 
 	@Override
-	public void handleServiceDiscover() {
+	public boolean handleServiceDiscover() {
 		mBluetoothLeService.setCharacteristicNotification(mInforCharacteristic,
 				true);
+		return false;
 	}
 
 }

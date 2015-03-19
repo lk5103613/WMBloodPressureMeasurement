@@ -165,25 +165,26 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 	}
 
 	@Override
-	public void handleConnect() {
-
+	public boolean handleConnect() {
+		return false;
 	}
 
 	@Override
-	public void handleDisconnect() {
-
+	public boolean handleDisconnect() {
+		return false;
 	}
 
 	@Override
-	public void handleGetData(String data) {
-
+	public boolean handleGetData(String data) {
+		return false;
 	}
 
 	@Override
-	public void handleServiceDiscover() {
+	public boolean handleServiceDiscover() {
 		mBluetoothLeService.setCharacteristicNotification(
 				getInfoCharacteristic(UUIDS.FH_RESULT_SERVICE,
 						UUIDS.FH_RESULT_CHARAC), true);
+		return false; 
 	}
 
 }

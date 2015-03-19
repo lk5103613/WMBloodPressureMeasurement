@@ -2,12 +2,12 @@ package com.wm.blecore;
 
 public interface IHandleConnect {
 
-	void handleConnect();
+	boolean handleConnect();
 	
-	void handleDisconnect();
+	boolean handleDisconnect();
 	
-	void handleGetData(String data);
+	boolean handleGetData(String data);
 	
-	void handleServiceDiscover();
+	boolean handleServiceDiscover();
 	
 }

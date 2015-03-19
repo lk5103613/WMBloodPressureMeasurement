@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
+import com.wm.entity.DeviceInfo;
 import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
@@ -34,6 +36,20 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	private Context mContext;
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
+	private IShareData mData;
+	private int mCurrentConnectTime = 0;
+	
+	public interface IShareData {
+		DeviceInfo getDevice();
+		
+		void conFail();
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mData = (IShareData) activity;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,7 +108,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 					+ (nowss.get(Calendar.DAY_OF_MONTH) + i);
 			xVals.add(datestr);
 		}
-		System.out.println("size " + xVals.size());
 
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
@@ -110,8 +125,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			ArrayList<Entry> yValsHr = new ArrayList<>();//心率
 
 			for (int i = 0; i < mBPResults.size(); i++) {
-				System.out.println("收缩 " + mBPResults.get(i).sbp + " 舒张 "
-						+ mBPResults.get(i).dbp);
 				yValsSz.add(new Entry(mBPResults.get(i).dbp, i));
 				yValsSs.add(new Entry(mBPResults.get(i).sbp, i));
 				yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
@@ -155,7 +168,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	public void getBpHisory() {
 		mBPResults = mHistoryDBManager.getAllBpResults();
-		System.out.println("size + " + mBPResults.size());
 	}
 
 	public void initData() {
@@ -182,25 +194,35 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	}
 
 	@Override
-	public void handleConnect() {
-
+	public boolean handleConnect() {
+		return false;
 	}
 
 	@Override
-	public void handleDisconnect() {
-
+	public boolean handleDisconnect() {
+		String address = mData.getDevice().address;
+		if(mCurrentConnectTime < 5) {
+			mBluetoothLeService.connect(address, 5000);
+			mCurrentConnectTime++;
+		}
+		else {
+			mCurrentConnectTime = 0;
+			mData.conFail();
+		}
+		return true;
 	}
 
 	@Override
-	public void handleGetData(String data) {
-
+	public boolean handleGetData(String data) {
+		return false;
 	}
 
 	@Override
-	public void handleServiceDiscover() {
+	public boolean handleServiceDiscover() {
 		mBluetoothLeService.setCharacteristicNotification(
 				getInfoCharacteristic(UUIDS.BP_RESULT_SERVICE,
 						UUIDS.BP_RESULT_CHARAC), true);
+		return false;
 	}
 
 }

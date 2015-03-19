@@ -26,25 +26,26 @@ public class BSResultFragment extends BaseResultFragment {
 	}
 
 	@Override
-	public void handleConnect() {
-
+	public boolean handleConnect() {
+		return false;
 	}
 
 	@Override
-	public void handleDisconnect() {
-
+	public boolean handleDisconnect() {
+		return false;
 	}
 
 	@Override
-	public void handleGetData(String data) {
-
+	public boolean handleGetData(String data) {
+		return false;
 	}
 
 	@Override
-	public void handleServiceDiscover() {
+	public boolean handleServiceDiscover() {
 		mBluetoothLeService.setCharacteristicNotification(
 				getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE,
 						UUIDS.BS_RESULT_CHARAC), true);
+		return false;
 	}
 
 }

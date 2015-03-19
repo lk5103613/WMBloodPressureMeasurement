@@ -13,6 +13,8 @@ import com.wm.customview.MyViewPager;
 import com.wm.customview.PagerSlidingTitleIconTabStrip;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.DeviceFragment.OnStateChangeListener;
+import com.wm.network.CheckNeedUploadTask;
+import com.wm.utils.NetUtils;
 import com.wm.utils.TabPager;
 
 public class MainActivity extends BaseActivity implements
@@ -44,6 +46,9 @@ public class MainActivity extends BaseActivity implements
 		// 初始化全局参数
 		mBackClickTimes = 0;
 		mTabPager = TabPager.getInstance(mContext);
+		
+		int connectState = NetUtils.getConnectState(mContext);
+		new CheckNeedUploadTask(mContext, connectState, mAlertDialog).execute();
 	}
 
 	/**

@@ -147,26 +147,38 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 	}
 	
 	@Override
-	public void handleConnect() {
-		mFragment.handleConnect();
+	public boolean handleConnect() {
+		if(mFragment.handleConnect()) {
+			return true;
+		}
 		System.out.println("connect success");
+		return true;
 	}
 
 	@Override
-	public void handleDisconnect() {
-		mFragment.handleDisconnect();
+	public boolean handleDisconnect() {
+		if(mFragment.handleDisconnect()) {
+			return true;
+		}
 		System.out.println("disconnect in result activity");
 		mBluetoothLeService.connect(mDevice.address, 5000);
+		return true;
 	}
 
 	@Override
-	public void handleGetData(String data) {
-		mFragment.handleGetData(data);
+	public boolean handleGetData(String data) {
+		if(mFragment.handleGetData(data)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void handleServiceDiscover() {
-		mFragment.handleServiceDiscover();
+	public boolean handleServiceDiscover() {
+		if(mFragment.handleServiceDiscover()) {
+			return true;
+		}
+		return false;
 	}
 
 }
