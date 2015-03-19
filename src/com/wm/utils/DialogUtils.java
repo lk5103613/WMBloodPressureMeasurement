@@ -86,6 +86,7 @@ public class DialogUtils {
 	                }
 	            }
 	        });
+	       
 	        builder.setNegativeButton(nega, new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int whichButton) {
 	                if(negCallBack == null) {
