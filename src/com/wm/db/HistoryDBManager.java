@@ -251,7 +251,7 @@ public class HistoryDBManager {
 		SQLiteDatabase db = mDBHelper.getWritableDatabase();
 		String[] projection = {FHDataEntry.COLUMN_NAME_ID, FHDataEntry.COLUMN_NAME_FHVALUES, 
 				FHDataEntry.COLUMN_NAME_DATE,FHDataEntry.COLUMN_NAME_CARD,FHDataEntry.COLUMN_NAME_REMARKS};
-		Cursor c = db.query(FHDataEntry.TABLE_NAME, projection, null, null, null, null, null);
+		Cursor c = db.query(FHDataEntry.TABLE_NAME, projection, null, null, null, null, FHDataEntry.COLUMN_NAME_DATE+" desc");
 		while (c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_ID));
 			String fhValues = c.getString(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_FHVALUES));
@@ -291,6 +291,11 @@ public class HistoryDBManager {
 	 * @return
 	 */
 	public long addFhResult(FHResult fhResult) {
+		System.out.println("fh " + fhResult.fhValues.size());
+		if (fhResult.fhValues.isEmpty()) {
+			return 0;
+		}
+		System.out.println("enter");
 		SQLiteDatabase db = mDBHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(FHDataEntry.COLUMN_NAME_FHVALUES, listToStr(fhResult.fhValues, ","));

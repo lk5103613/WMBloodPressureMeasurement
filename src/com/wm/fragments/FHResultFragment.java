@@ -58,7 +58,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
-		mChart.setScaleMinima(3, 1);// 设置缩放比例
+		mChart.setScaleMinima(2, 1);// 设置缩放比例
 
 	}
 
