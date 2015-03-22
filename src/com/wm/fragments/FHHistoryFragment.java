@@ -1,11 +1,8 @@
 package com.wm.fragments;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import android.R.integer;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -54,7 +51,6 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 		addEmptyData(-1);
 		mChart.invalidate();
 //		initData();
-		
 		return view;
 	}
 

@@ -284,6 +284,7 @@ public class DeviceFragment extends Fragment {
 	}
 
 	public void update(final int i) {
+		System.out.println("click " + i);
 		String name = mDeviceDataSet.deviceInfos.get(i).name;
 		LayoutInflater factory = LayoutInflater.from(mContext);
 		View mainView = factory.inflate(R.layout.change_device_name,
@@ -309,7 +310,7 @@ public class DeviceFragment extends Fragment {
 						}).start();
 						mAdapter.notifyDataSetChanged();
 					}
-				}, null);
+				}, null).show();
 	}
 
 	class BtnClickListener implements View.OnClickListener {
@@ -344,6 +345,7 @@ public class DeviceFragment extends Fragment {
 
 				break;
 			case R.id.btn_update:
+				System.out.println("position " + mPosition);
 				update(mPosition);
 				break;
 			default:
