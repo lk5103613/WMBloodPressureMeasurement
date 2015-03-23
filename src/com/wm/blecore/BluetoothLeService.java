@@ -99,7 +99,6 @@ public class BluetoothLeService extends Service {
 				android.bluetooth.BluetoothGattCharacteristic characteristic,
 				int status) {
 			if (status == BluetoothGatt.GATT_SUCCESS) {
-				removeDelayOperation();
 				broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
 			}
 		};
@@ -111,6 +110,7 @@ public class BluetoothLeService extends Service {
 		// characteristic改变，接受notify的数据
 		public void onCharacteristicChanged(BluetoothGatt gatt,
 				android.bluetooth.BluetoothGattCharacteristic characteristic) {
+			removeDelayOperation();
 			broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
 		};
 
