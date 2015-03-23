@@ -133,6 +133,7 @@ public class FHResultFragment extends BaseResultFragment {
 	@Override
 	public boolean handleGetData(String data) {
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
+		System.out.println(fhValue);
 		if (!fhValue.trim().equals("0")) {
 			mFHValues.add(Float.valueOf(fhValue));
 			addEntry(Float.parseFloat(fhValue));
