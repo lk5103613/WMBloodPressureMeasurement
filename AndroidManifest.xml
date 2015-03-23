@@ -52,7 +52,8 @@
         </activity>
         <activity
             android:name=".GuideViewActivity"
-            android:label="@string/title_activity_guide_view" >
+            android:label="@string/title_activity_guide_view"
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".FHHistoryActivity"
@@ -62,13 +63,13 @@
             android:name=".BloodSugarCheckActivity"
             android:label="@string/title_activity_blood_sugar_check" >
         </activity>
-        <activity android:name=".LoginActivity" >
+        <activity android:name=".LoginActivity"
+            android:parentActivityName=".MainActivity" >
         </activity>
 
         <service
             android:name="com.wm.blecore.BluetoothLeService"
             android:enabled="true" />
-
         <activity
             android:name=".HistoryActivity"
             android:parentActivityName=".MainActivity" >

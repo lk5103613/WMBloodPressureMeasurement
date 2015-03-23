@@ -1,8 +1,6 @@
 package com.wm.fragments;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -22,6 +20,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
+import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
 import com.wm.utils.UUIDS;
 
@@ -34,6 +33,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 	TextView mTxtDate;
 
 	private Context mContext;
+	private HistoryDBManager mDbManager;
 	private List<FHResult> mFHResults;
 	private int mIndex = 0;
 
@@ -45,16 +45,27 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 		ButterKnife.inject(this, view);
 
 		mContext = getActivity();
-
+		mDbManager = HistoryDBManager.getInstance(mContext);
+		mFHResults = mDbManager.getAllFhResults();
 		initLineChart();
-		addEmptyData();
+		addEmptyData(-1);
 		mChart.invalidate();
-		initData();
-		addDataSet(mIndex);
-
+//		initData();
 		return view;
 	}
 
+	@Override
+	public void onResume() {
+		mIndex = 0;
+		mDbManager = HistoryDBManager.getInstance(mContext);
+		mFHResults = mDbManager.getAllFhResults();
+		
+		if (!mFHResults.isEmpty()) {
+			mChart.getData().removeDataSet(0);
+			addDataSet(mIndex);
+		}
+		super.onResume();
+	}
 	private void initLineChart() {
 		// chart
 		mChart.setOnChartValueSelectedListener(this);
@@ -64,15 +75,16 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
-
+		mChart.setScaleMinima(2, 1);
 	}
 
-	private void addEmptyData() {
+	private void addEmptyData(int position) {
 
 		// create 30 x-vals
 		ArrayList<String> xVals = new ArrayList<>();
-
-		for (int i = 1; i <= 110; i++)
+		int size = position == -1? 60:mFHResults.get(position).fhValues.size();
+		
+		for (int i = 1; i <= size; i++)
 			xVals.add(i + "");
 
 		LineData data = new LineData(xVals);
@@ -81,11 +93,8 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 	}
 
 	private void addDataSet(int position) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(mFHResults.get(position).date);
-		mTxtDate.setText(calendar.get(Calendar.YEAR) + "."
-				+ (calendar.get(Calendar.MONTH) + 1) + "."
-				+ (calendar.get(Calendar.DATE) + position));
+		addEmptyData(position);
+		mTxtDate.setText(mFHResults.get(position).measureTime);
 
 		LineData data = mChart.getData();
 
@@ -94,7 +103,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
 			List<Float> fhValues = mFHResults.get(position).fhValues;
 
-			mChart.setScaleMinima(fhValues.size() / 15, 1);// 设置缩放比例
+			//mChart.setScaleMinima(fhValues.size() / 15, 1);// 设置缩放比例
 
 			for (int i = 0; i < fhValues.size(); i++) {
 				yValsFh.add(new Entry(fhValues.get(i), i));
@@ -115,20 +124,20 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 		}
 	}
 
-	private void initData() {
-		mFHResults = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
-			ArrayList<Float> fhValues = new ArrayList<>();
-			for (int j = 0; j < 110; j++) {
-				float fh = (float) (Math.random() * 50f + 50f * 2);
-
-				fhValues.add(fh);
-			}
-			FHResult fhResult = new FHResult(fhValues, new Date().getTime());
-
-			mFHResults.add(fhResult);
-		}
-	}
+//	private void initData() {
+//		mFHResults = new ArrayList<>();
+//		for (int i = 0; i < 3; i++) {
+//			ArrayList<Float> fhValues = new ArrayList<>();
+//			for (int j = 0; j < 110; j++) {
+//				float fh = (float) (Math.random() * 50f + 50f * 2);
+//
+//				fhValues.add(fh);
+//			}
+//			FHResult fhResult = new FHResult(fhValues, new Date().getTime());
+//
+//			mFHResults.add(fhResult);
+//		}
+//	}
 
 	@Override
 	public void onValueSelected(Entry e, int dataSetmIndex) {

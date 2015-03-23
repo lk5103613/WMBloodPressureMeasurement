@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ScrollView;
 import butterknife.ButterKnife;
@@ -24,7 +25,8 @@ public class LoginActivity extends BaseActivity {
 	ScrollView mScrollView;
 	@InjectView(R.id.scroll_inner)
 	View mInner;
-
+	@InjectView(R.id.login_toolbar)
+	Toolbar mToolbar;
 	private Context mContext;
 	private TabPager mTabPager;
 
@@ -34,9 +36,13 @@ public class LoginActivity extends BaseActivity {
 		setContentView(R.layout.activity_login);
 		ButterKnife.inject(this);
 
+		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
+		setSupportActionBar(mToolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
+		
 		mContext = LoginActivity.this;
 		mTabPager = TabPager.getInstance(mContext);
-		
 	}
 
 	@OnClick(R.id.btn_login)

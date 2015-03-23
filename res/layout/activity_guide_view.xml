@@ -2,6 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/guide_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary" >
+    </android.support.v7.widget.Toolbar>
 
     <com.wm.customview.MyViewPager
 	   android:id="@+id/guide_pager"
