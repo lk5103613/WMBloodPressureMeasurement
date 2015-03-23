@@ -14,8 +14,7 @@
 	   android:id="@+id/guide_pager"
 	   android:layout_below="@id/guide_toolbar"
 	   android:layout_width="fill_parent"
-	   android:layout_height="fill_parent"
-	   android:layout_below="@id/guide_toolbar" />
+	   android:layout_height="fill_parent"/>
     
     <LinearLayout android:id="@+id/dots_container"
         android:layout_width="wrap_content"
