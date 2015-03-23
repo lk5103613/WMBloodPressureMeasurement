@@ -52,7 +52,6 @@
         </activity>
         <activity
             android:name=".GuideViewActivity"
-            android:label="@string/title_activity_guide_view"
             android:parentActivityName=".MainActivity" >
         </activity>
         <activity

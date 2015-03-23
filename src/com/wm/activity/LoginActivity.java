@@ -36,7 +36,7 @@ public class LoginActivity extends BaseActivity {
 		setContentView(R.layout.activity_login);
 		ButterKnife.inject(this);
 
-		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
+		mToolbar.setTitle(getResources().getString(R.string.action_login));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
