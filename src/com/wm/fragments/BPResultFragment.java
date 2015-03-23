@@ -74,7 +74,7 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public boolean handleGetData(String data) {
-		if (mInforCharacteristic == null) {
+		if (mInforCharacteristic == null && mBluetoothLeService != null) {
 			mInforCharacteristic = getInfoCharacteristic(
 					UUIDS.BP_RESULT_SERVICE, UUIDS.BP_RESULT_CHARAC);
 		}
@@ -85,8 +85,8 @@ public class BPResultFragment extends BaseResultFragment {
 			mLblSS.setText(String.valueOf((int) mBPResult.sbp));
 			mLblSZ.setText(String.valueOf((int) mBPResult.dbp));
 			mLblHr.setText(String.valueOf((int) mBPResult.pulse));
-			System.out.println("舒张压 " + mBPResult.sbp + "收缩压 " + mBPResult.dbp + "心率 " + mBPResult.pulse);
-			
+			System.out.println("舒张压 " + mBPResult.sbp + "收缩压 " + mBPResult.dbp
+					+ "心率 " + mBPResult.pulse);
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
 			// 获得异常信息
@@ -101,7 +101,7 @@ public class BPResultFragment extends BaseResultFragment {
 			mLblP.setText(currentPressure);
 		}
 		if (!mNeedNewData) {
-			if(mBluetoothLeService == null)
+			if (mBluetoothLeService == null)
 				return false;
 			mBluetoothLeService.setCharacteristicNotification(
 					mInforCharacteristic, false);
@@ -111,6 +111,9 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public boolean handleServiceDiscover() {
+		mLblSS.setText("");
+		mLblSZ.setText("");
+		mLblHr.setText("");
 		mBluetoothLeService.setCharacteristicNotification(mInforCharacteristic,
 				true);
 		return false;

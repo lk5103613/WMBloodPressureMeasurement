@@ -57,7 +57,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 			}
 		}
 	};
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +92,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 	
 	@Override
 	protected void onDestroy() {
-		System.out.println("Result onDestroy");
 		if(mServiceConnection != null) 
 			unbindService(mServiceConnection);
 		super.onDestroy();
@@ -156,6 +154,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleGetData(String data) {
+		System.out.println(data);
 		if(mFragment.handleGetData(data)) {
 			return true;
 		}

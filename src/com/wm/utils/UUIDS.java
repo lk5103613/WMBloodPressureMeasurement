@@ -8,7 +8,11 @@ public class UUIDS {
 	public final static String FH_RESULT_SERVICE = "0000ffe0-0000-1000-8000-00805f9b34fb";
 	public final static String FH_RESULT_CHARAC = "0000ffe1-0000-1000-8000-00805f9b34fb";
 	
-	public final static String BS_RESULT_SERVICE = "";
-	public final static String BS_RESULT_CHARAC = "";
+	public final static String BS_RESULT_SERVICE = "0000fff0-0000-1000-8000-00805f9b34fb";
+	public final static String BS_RESULT_CHARAC = "0000fff4-0000-1000-8000-00805f9b34fb";
+	public final static String BS_RESULT_CHARAC2 = "0000fff3-0000-1000-8000-00805f9b34fb";
+	
+	public final static String BS_RESULT_SERVICE2 = "00001801-0000-1000-8000-00805f9b34fb";
+	public final static String BS_RESULT_CHARAC3 = "00002a05-0000-1000-8000-00805f9b34fb";
 	
 }

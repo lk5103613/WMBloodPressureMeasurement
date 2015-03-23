@@ -1,5 +1,6 @@
 package com.wm.fragments;
 
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,9 +71,19 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 
 	@Override
 	public boolean handleServiceDiscover() {
-		mBluetoothLeService.setCharacteristicNotification(
-				getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE,
-						UUIDS.BS_RESULT_CHARAC), true);
+		BluetoothGattCharacteristic characteristic = getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE,
+						UUIDS.BS_RESULT_CHARAC2);
+		byte[] bs = new byte[5];
+		bs[0] = (byte) 0x7b;
+		bs[1] = (byte) 0x49;
+		bs[2] = (byte) 0x23;
+		bs[3] = (byte) 0xea;
+		bs[4] = (byte) 0x7d;
+		characteristic.setValue(bs);
+		mBluetoothLeService.writeCharacteristic(characteristic);
+		BluetoothGattCharacteristic characteristic2 = getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE,
+				UUIDS.BS_RESULT_CHARAC);
+		mBluetoothLeService.setCharacteristicNotification(characteristic2, true);
 		return false;
 	}
 

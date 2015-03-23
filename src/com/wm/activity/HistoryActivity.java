@@ -75,7 +75,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
 		
-		
 		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -176,7 +175,9 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 		if(mFragment.handleGetData(data)) {
 			return true;
 		}
-		return false;
+		resetUI();
+		jumpToResult();
+		return true;
 	}
 
 	@Override
@@ -184,9 +185,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 		if(mFragment.handleServiceDiscover()) {
 			return true;
 		}
-		resetUI();
-		jumpToResult();
-		return true;
+		return false;
 	}
 
 	@Override

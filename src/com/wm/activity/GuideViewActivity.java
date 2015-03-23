@@ -36,7 +36,6 @@ public class GuideViewActivity extends ActionBarActivity implements View.OnClick
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_guide_view);
 		ButterKnife.inject(this);
 		mToolbar.setTitle(getResources().getString(R.string.use_help));
