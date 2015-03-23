@@ -3,9 +3,10 @@ package com.wm.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -16,12 +17,14 @@ import butterknife.InjectView;
 import com.wm.adapter.GuideViewPagerAdapter;
 import com.wm.customview.MyViewPager;
 
-public class GuideViewActivity extends Activity implements View.OnClickListener, OnPageChangeListener{
+public class GuideViewActivity extends ActionBarActivity implements View.OnClickListener, OnPageChangeListener{
 	
 	@InjectView(R.id.guide_pager)
 	MyViewPager mViewPager;
 	@InjectView(R.id.dots_container)
 	LinearLayout dotsContainer;
+	@InjectView(R.id.guide_toolbar)
+	Toolbar mToolbar;
 	
 	private GuideViewPagerAdapter mAdapter;
 	List<View> mViews;
@@ -34,9 +37,13 @@ public class GuideViewActivity extends Activity implements View.OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_guide_view);
 		ButterKnife.inject(this);
+		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
+		setSupportActionBar(mToolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		
 		mViews = new ArrayList<View>();
 		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
