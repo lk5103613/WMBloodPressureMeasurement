@@ -42,9 +42,9 @@ public class BSResultFragment extends BaseResultFragment {
 
 	@Override
 	public boolean handleServiceDiscover() {
-		mBluetoothLeService.setCharacteristicNotification(
-				getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE,
-						UUIDS.BS_RESULT_CHARAC), true);
+//		mBluetoothLeService.setCharacteristicNotification(
+//				getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE,
+//						UUIDS.BS_RESULT_CHARAC), true);
 		return false;
 	}
 
