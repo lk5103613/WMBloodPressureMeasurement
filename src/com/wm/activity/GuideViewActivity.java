@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import butterknife.ButterKnife;
@@ -40,7 +39,7 @@ public class GuideViewActivity extends ActionBarActivity implements View.OnClick
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_guide_view);
 		ButterKnife.inject(this);
-		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
+		mToolbar.setTitle(getResources().getString(R.string.use_help));
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);

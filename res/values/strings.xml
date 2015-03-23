@@ -15,6 +15,7 @@
     <string name="bp_text">血压计</string>
     <string name="btn_match">配&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;对</string>
     <string name="add_new_device">增加新设备</string>
+    <string name="use_help">使用帮助</string>
     <string name="check_history">检测历史</string>
     <string name="begin_check">开始检测</string>
     <string name="systolic_blood_pressure">收缩压</string>
