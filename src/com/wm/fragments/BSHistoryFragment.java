@@ -66,11 +66,13 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 
 	@Override
 	public boolean handleGetData(String data) {
+		System.out.println(data);
 		return false;
 	}
 
 	@Override
 	public boolean handleServiceDiscover() {
+		System.out.println("service discover");
 		BluetoothGattCharacteristic characteristic1_1 = getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE1,
 						UUIDS.BS_RESULT_CHARAC1_1);
 		BluetoothGattCharacteristic characteristic1_2 = getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE1,
@@ -83,9 +85,10 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 		bs[2] = (byte) 0x23;
 		bs[3] = (byte) 0xea;
 		bs[4] = (byte) 0x7d;
-		characteristic1_1.setValue(bs);
-		mBluetoothLeService.writeCharacteristic(characteristic1_1);
-		mBluetoothLeService.setCharacteristicNotification(characteristic1_2, true);
+		characteristic1_2.setValue(bs);
+		mBluetoothLeService.writeCharacteristic(characteristic1_2);
+		mBluetoothLeService.readCharacteristic(characteristic1_1);
+		mBluetoothLeService.setCharacteristicNotification(characteristic1_1, true);
 		return false;
 	}
 

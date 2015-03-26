@@ -84,12 +84,12 @@ public class BluetoothLeService extends Service {
 		};
 		// 发现services
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-			for(BluetoothGattService service : gatt.getServices()) {
-				System.out.println("service: " + service.getUuid());
-				for(BluetoothGattCharacteristic cha : service.getCharacteristics()) {
-					System.out.println("characteristics: " + cha.getUuid());
-				}
-			}
+//			for(BluetoothGattService service : gatt.getServices()) {
+//				System.out.println("service: " + service.getUuid());
+//				for(BluetoothGattCharacteristic cha : service.getCharacteristics()) {
+//					System.out.println("characteristics: " + cha.getUuid());
+//				}
+//			}
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
 			}
@@ -106,6 +106,7 @@ public class BluetoothLeService extends Service {
 		public void onCharacteristicWrite(BluetoothGatt gatt,
 				android.bluetooth.BluetoothGattCharacteristic characteristic,
 				int status) {
+			System.out.println("on write success   " + characteristic.getValue());
 		};
 		// characteristic改变，接受notify的数据
 		public void onCharacteristicChanged(BluetoothGatt gatt,
@@ -278,6 +279,14 @@ public class BluetoothLeService extends Service {
 			return;
 		}
 		mBluetoothGatt.writeCharacteristic(characteristic);
+	}
+	
+	// 读取characteristic中的value
+	public void readCharacteristic(BluetoothGattCharacteristic characteristic) {
+		if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+			return;
+		}
+		mBluetoothGatt.readCharacteristic(characteristic);
 	}
 
 }

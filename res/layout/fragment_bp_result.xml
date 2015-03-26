@@ -30,8 +30,6 @@
             android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
     
-     
-    
     <LinearLayout
         android:id="@+id/s_container"
         android:layout_width="match_parent"

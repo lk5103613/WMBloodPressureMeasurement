@@ -85,6 +85,7 @@ public class BPResultFragment extends BaseResultFragment {
 			mLblSS.setText(String.valueOf((int) mBPResult.sbp));
 			mLblSZ.setText(String.valueOf((int) mBPResult.dbp));
 			mLblHr.setText(String.valueOf((int) mBPResult.pulse));
+			mCallback.showResult(mBPResult.bpResult);
 			System.out.println("舒张压 " + mBPResult.sbp + "收缩压 " + mBPResult.dbp
 					+ "心率 " + mBPResult.pulse);
 			// 将数据存入数据库

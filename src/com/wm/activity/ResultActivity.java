@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -24,8 +25,9 @@ import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
+import com.wm.fragments.BaseResultFragment.Interaction;
 
-public class ResultActivity extends BaseActivity implements IHandleConnect {
+public class ResultActivity extends BaseActivity implements IHandleConnect, Interaction {
 
 	@InjectView(R.id.blood_check_bar)
 	Toolbar mToolbar;
@@ -33,6 +35,8 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 	Button mBtnRecord;
 	@InjectView(R.id.waiting_record)
 	ProgressBar mProgressBar;
+	@InjectView(R.id.result_suggest)
+	TextView mResult;
 
 	private Context mContext;
 	private BaseResultFragment mFragment;
@@ -167,6 +171,11 @@ public class ResultActivity extends BaseActivity implements IHandleConnect {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void showResult(String data) {
+		this.mResult.setText(data);
 	}
 
 }

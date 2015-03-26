@@ -65,14 +65,14 @@
         <activity android:name=".LoginActivity"
             android:parentActivityName=".MainActivity" >
         </activity>
-
-        <service
-            android:name="com.wm.blecore.BluetoothLeService"
-            android:enabled="true" />
         <activity
             android:name=".HistoryActivity"
             android:parentActivityName=".MainActivity" >
         </activity>
+
+        <service
+            android:name="com.wm.blecore.BluetoothLeService"
+            android:enabled="true" />
         
     </application>
 

@@ -101,7 +101,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		System.out.println("history destory");
 		if(mServiceConnection != null)
 			unbindService(mServiceConnection);
 	}
