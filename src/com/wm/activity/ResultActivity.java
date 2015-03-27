@@ -115,9 +115,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Inte
 		mBtnRecord.setEnabled(false);
 		mProgressBar.setVisibility(View.VISIBLE);
 		mFragment.record();
-		mBtnRecord.setEnabled(true);
-		mProgressBar.setVisibility(View.GONE);
-		finish();
 	}
 
 	@Override

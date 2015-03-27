@@ -21,7 +21,7 @@ public class BSResultFragment extends BaseResultFragment {
 
 	@Override
 	public void record() {
-
+		getActivity().finish();
 	}
 
 	@Override

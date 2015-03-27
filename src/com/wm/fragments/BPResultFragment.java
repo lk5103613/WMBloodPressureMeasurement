@@ -49,7 +49,13 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public void record() {
-		HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
+			}
+		}).start();
+		getActivity().finish();
 	}
 
 	// º∆À„Pressure÷µ

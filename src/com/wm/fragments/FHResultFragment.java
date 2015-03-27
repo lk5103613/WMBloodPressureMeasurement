@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,14 @@ public class FHResultFragment extends BaseResultFragment {
 
 	private List<Float> mFHValues;
 	private ArrayList<String> xVals;
-
+	private Handler mHandler;
+	private Runnable mRunnable = new Runnable() {
+		@Override
+		public void run() {
+			saveAndJump();
+		}
+	};
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -40,14 +48,15 @@ public class FHResultFragment extends BaseResultFragment {
 
 		initLineChart();
 		addEmptyData();
+		
+		mHandler = new Handler();
 
 		return view;
 	}
 
 	@Override
 	public void record() {
-		FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
-		HistoryDBManager.getInstance(getActivity()).addFhResult(fhResult);
+		mHandler.postDelayed(mRunnable, 35000);
 	}
 
 	private void initLineChart() {
@@ -96,7 +105,6 @@ public class FHResultFragment extends BaseResultFragment {
 			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random()
 																	// * 50) +
 																	// 50f
-			System.out.println("count " + (xVals.size() - mFHValues.size()));
 			if ((xVals.size() - mFHValues.size()) < 2) {
 				xVals.add((xVals.size() + 1) + "");
 			}
@@ -119,6 +127,12 @@ public class FHResultFragment extends BaseResultFragment {
 
 		return set;
 	}
+	
+	private void saveAndJump() {
+		FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
+		HistoryDBManager.getInstance(getActivity()).addFhResult(fhResult);
+		getActivity().finish();
+	}
 
 	@Override
 	public boolean handleConnect() {
@@ -136,6 +150,10 @@ public class FHResultFragment extends BaseResultFragment {
 		if (!fhValue.trim().equals("0")) {
 			mFHValues.add(Float.valueOf(fhValue));
 			addEntry(Float.parseFloat(fhValue));
+		}
+		if(mFHValues.size() >= 60) {
+			mHandler.removeCallbacks(mRunnable);
+			saveAndJump();
 		}
 		return false;
 	}
