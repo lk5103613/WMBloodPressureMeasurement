@@ -131,6 +131,7 @@ public class FHResultFragment extends BaseResultFragment {
 	private void saveAndJump() {
 		FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
 		HistoryDBManager.getInstance(getActivity()).addFhResult(fhResult);
+		mBluetoothLeService.disconnect();
 		getActivity().finish();
 	}
 
