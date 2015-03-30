@@ -31,9 +31,11 @@ public class FHResultFragment extends BaseResultFragment {
 	private List<Float> mFHValues;
 	private ArrayList<String> xVals;
 	private Handler mHandler;
+	private boolean mBeginRecord = false;
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
+			mBeginRecord = false;
 			saveAndJump();
 		}
 	};
@@ -56,6 +58,7 @@ public class FHResultFragment extends BaseResultFragment {
 
 	@Override
 	public void record() {
+		mBeginRecord = true;
 		mHandler.postDelayed(mRunnable, 35000);
 	}
 
@@ -148,7 +151,8 @@ public class FHResultFragment extends BaseResultFragment {
 	public boolean handleGetData(String data) {
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
 		if (!fhValue.trim().equals("0")) {
-			mFHValues.add(Float.valueOf(fhValue));
+			if(mBeginRecord)
+				mFHValues.add(Float.valueOf(fhValue));
 			addEntry(Float.parseFloat(fhValue));
 		}
 		if(mFHValues.size() >= 60) {
