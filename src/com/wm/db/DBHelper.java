@@ -41,6 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ BSDataEntry.COLUMN_NAME_BSVALUE + TEXT_TYPE + COMMA_SEP
 			+ BSDataEntry.COLUMN_NAME_DATE + INTEGER_TYPE + COMMA_SEP
 			+ BSDataEntry.COLUMN_NAME_REMARKS + TEXT_TYPE + COMMA_SEP
+			+ BSDataEntry.COLUMN_NAME_MESURE_TIME + TEXT_TYPE + COMMA_SEP
 			+ BSDataEntry.COLUMN_NAME_STATUS + INTEGER_TYPE + " )";
 	private static final String SQL_CREATE_FHDATE = "CREATE TABLE "
 			+ FHDataEntry.TABLE_NAME + " (" + FHDataEntry.COLUMN_NAME_ID

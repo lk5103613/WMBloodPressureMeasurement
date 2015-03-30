@@ -40,20 +40,25 @@ public class BSResult {
 		this.remarks = remarks;
 	}
 	
-	public BSResult(int id, String userCard, String bg, long date, String remarks) {
+	public BSResult(int id, String userCard, String bg, long date, String remarks, String measureTime) {
 		super();
 		this.id = id;
 		this.userCard = userCard;
 		this.bg = bg;
 		this.date = date;
 		this.remarks = remarks;
+		this.measureTime = measureTime;
 	}
 	
 	public BSResult(String[] datas) {
 		Map<String, String> AsciiTable = ASCIIData.getASCIITable();
 		StringBuilder sb = new StringBuilder();
+		StringBuilder timeSb = new StringBuilder();
 		for(int i=2; i<6; i++) {
 			sb.append(AsciiTable.get(datas[i].toUpperCase(Locale.getDefault())));
+		}
+		for(int i=11; i<18; i++) {
+			timeSb.append(AsciiTable.get(datas[i].toUpperCase(Locale.getDefault())));
 		}
 		int mgPerDlValue = Integer.valueOf(sb.toString());
 		String value = DataConvertUtils.format(mgPerDlValue * 1.0 / 18, 1);
@@ -61,7 +66,16 @@ public class BSResult {
 		this.date = new Date().getTime();
 		this.userCard = "220502198611010011";
 		this.remarks = "test";
+		this.measureTime = timeSb.toString();
 	}
 	
+	public void getMeasureTime(String[] datas) {
+		Map<String, String> AsciiTable = ASCIIData.getASCIITable();
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<3; i++) {
+			sb.append(AsciiTable.get(datas[i].toUpperCase(Locale.getDefault())));
+		}
+		this.measureTime += sb.toString();
+	}
 	
 }

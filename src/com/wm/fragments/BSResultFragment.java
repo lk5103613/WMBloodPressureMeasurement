@@ -78,6 +78,11 @@ public class BSResultFragment extends BaseResultFragment {
 		if(datas.length == 18) {
 			mBSResult = new BSResult(datas);
 			mBsValue.setText(mBSResult.bg);
+		} else if(datas.length == 6) {
+			if(mBSResult == null) {
+				return false;
+			}
+			mBSResult.getMeasureTime(datas);
 		}
 		return false;
 	}

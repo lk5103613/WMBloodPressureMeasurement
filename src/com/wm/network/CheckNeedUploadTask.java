@@ -46,7 +46,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			UploadEntity<BPResult> uploadBps = new UploadEntity<BPResult>("test", "test", bpResults);
 			uploadEntities.put(UploadEntity.TYPE_BP, uploadBps);
 		}
-		if(bsResults != null && bpResults.size() != 0) {
+		if(bsResults != null && bsResults.size() != 0) {
 			UploadEntity<BSResult> uploadBss = new UploadEntity<>("test", "test", bsResults);
 			uploadEntities.put(UploadEntity.TYPE_BS, uploadBss);
 		}
@@ -60,7 +60,6 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onPostExecute(final Map<Integer, IUploadEntity> result) {
-		super.onPostExecute(result);
 		if(result.isEmpty()) {
 			return;
 		}
@@ -69,7 +68,6 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 				mDialog.setButton(DialogInterface.BUTTON_POSITIVE, "ÊÇ", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						System.out.println("on position click");
 						new UploadDataTask(mContext).execute(result);
 					}
 				});

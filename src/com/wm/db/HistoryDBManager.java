@@ -171,7 +171,7 @@ public class HistoryDBManager {
 		List<BSResult> bsResults = new ArrayList<>();
 		SQLiteDatabase db = mDBHelper.getWritableDatabase();
 		String[] projection = {BSDataEntry.COLUMN_NAME_ID, BSDataEntry.COLUMN_NAME_BSVALUE, 
-				BSDataEntry.COLUMN_NAME_DATE,BSDataEntry.COLUMN_NAME_CARD,BSDataEntry.COLUMN_NAME_REMARKS};
+				BSDataEntry.COLUMN_NAME_DATE,BSDataEntry.COLUMN_NAME_CARD,BSDataEntry.COLUMN_NAME_REMARKS, BSDataEntry.COLUMN_NAME_MESURE_TIME};
 		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, null, null, null, null, null);
 		while (c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_ID));
@@ -179,7 +179,8 @@ public class HistoryDBManager {
 			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
 			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));
-			bsResults.add(new BSResult(id, card, bsValue, date,remarks));
+			String measureTime = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_MESURE_TIME));
+			bsResults.add(new BSResult(id, card, bsValue, date,remarks, measureTime));
 		}
 		return bsResults;
 	}
@@ -188,7 +189,7 @@ public class HistoryDBManager {
 		List<BSResult> bsResults = new ArrayList<>();
 		SQLiteDatabase db = mDBHelper.getWritableDatabase();
 		String[] projection = {BSDataEntry.COLUMN_NAME_ID, BSDataEntry.COLUMN_NAME_BSVALUE, 
-				BSDataEntry.COLUMN_NAME_DATE,BSDataEntry.COLUMN_NAME_CARD,BSDataEntry.COLUMN_NAME_REMARKS};
+				BSDataEntry.COLUMN_NAME_DATE,BSDataEntry.COLUMN_NAME_CARD,BSDataEntry.COLUMN_NAME_REMARKS, BSDataEntry.COLUMN_NAME_MESURE_TIME};
 		String selection = BSDataEntry.COLUMN_NAME_STATUS + "=?";
 		String[] args = {String.valueOf(status)};
 		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, selection, args, null, null, null);
@@ -198,7 +199,8 @@ public class HistoryDBManager {
 			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
 			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));
-			bsResults.add(new BSResult(id, card, bsValue, date,remarks));
+			String measureTime = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_MESURE_TIME));
+			bsResults.add(new BSResult(id, card, bsValue, date,remarks, measureTime));
 		}
 		return bsResults;
 	}
@@ -217,6 +219,7 @@ public class HistoryDBManager {
 		values.put(BSDataEntry.COLUMN_NAME_DATE, bsResult.date);
 		values.put(BSDataEntry.COLUMN_NAME_CARD, bsResult.userCard);
 		values.put(BSDataEntry.COLUMN_NAME_REMARKS,bsResult.remarks);
+		values.put(BSDataEntry.COLUMN_NAME_MESURE_TIME, bsResult.measureTime);
 		long newRowId = db.insert(BSDataEntry.TABLE_NAME, BSDataEntry.COLUMN_NAME_NULLABLE, values);
 		return newRowId;
 	}
@@ -229,6 +232,7 @@ public class HistoryDBManager {
 		values.put(BSDataEntry.COLUMN_NAME_DATE, bsResult.date);
 		values.put(BSDataEntry.COLUMN_NAME_CARD, bsResult.userCard);
 		values.put(BSDataEntry.COLUMN_NAME_REMARKS,bsResult.remarks);
+		values.put(BSDataEntry.COLUMN_NAME_MESURE_TIME, bsResult.measureTime);
 		String where = BSDataEntry.COLUMN_NAME_ID + " = ?";
 		String[] whereArgs = new  String[]{String.valueOf(bsResult.id)};
 		db.update(BSDataEntry.TABLE_NAME, values, where, whereArgs);

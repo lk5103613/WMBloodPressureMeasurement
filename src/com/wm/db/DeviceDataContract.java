@@ -38,6 +38,7 @@ public class DeviceDataContract {
 		public static final String COLUMN_NAME_STATUS = "status";
 		public static final String COLUMN_NAME_CARD = "user_card";
 		public static final String COLUMN_NAME_REMARKS = "remarks";
+		public static final String COLUMN_NAME_MESURE_TIME = "measure_time";
 	}
 	
 	public static abstract class FHDataEntry implements BaseColumns {
