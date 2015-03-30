@@ -70,7 +70,7 @@ public class BluetoothLeService extends Service {
 			String intentAction;
 			if (newState == BluetoothProfile.STATE_CONNECTED) {
 				// 如果连接成功，通过广播方式告知MainAcivity
-				addDelayOperation(3000);
+				addDelayOperation(10000);
 				intentAction = ACTION_GATT_CONNECTED;
 				mConnectionState = STATE_CONNECTED;
 				broadcastUpdate(intentAction);

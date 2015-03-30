@@ -1,7 +1,6 @@
 package com.wm.activity;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import com.wm.blecore.BluetoothLeService;
 import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.IHandleConnect;
 import com.wm.entity.DeviceInfo;
-import com.wm.fragments.BPHistoryFragment.IShareData;
 import com.wm.fragments.BaseHistoryFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
@@ -31,7 +29,10 @@ import com.wm.fragments.TypeFactory;
  * @author Like
  *
  */
-public class HistoryActivity extends BaseActivity implements IHandleConnect, IShareData {
+public class HistoryActivity extends BaseActivity implements IHandleConnect {
+	
+	public final static int MAX_CON_TIME = 3;
+	public final static int OVER_TIME = 5000;
 	
 	@InjectView(R.id.history_bar)
 	Toolbar mToolbar;
@@ -40,12 +41,12 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 	@InjectView(R.id.waiting_connect)
 	ProgressBar mWaitingConnect;
 	
-	private Context mContext;
 	private BaseHistoryFragment mFragment;
 	private String mType;
 	private DeviceInfo mDeviceInfo;
 	private BluetoothLeService mBluetoothLeService;
 	private BleBroadcastReceiver mReceiver;
+	private int mFailedTime = 0;
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
 		@Override
@@ -69,7 +70,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 		setContentView(R.layout.activity_history);
 		ButterKnife.inject(this);
 		
-		mContext = HistoryActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		mFragment = TypeFactory.getHistoryFragment(mType);
@@ -79,6 +79,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
+		mFailedTime = 0;
 		// °ó¶¨À¶ÑÀ·þÎñ
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -130,6 +131,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 	}
 	
 	private void jumpToResult() {
+		mFailedTime = 0;
 		Intent intent = new Intent(this, ResultActivity.class);
 		intent.putExtra(DeviceInfo.INTENT_TYPE, mType);
 		intent.putExtra(DeviceFragment.KEY_DEVICE_INFO, mDeviceInfo);
@@ -139,6 +141,12 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 	}
 	
 	private void handleConFail() {
+		if(mFailedTime <= MAX_CON_TIME) {
+			System.out.println("failed ======" + mFailedTime);
+			mFailedTime++;
+			connect();
+			return;
+		}
 		if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
 			mBluetoothLeService.disconnect();
 		}
@@ -149,7 +157,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 	}
 	
 	private void connect() {
-		mBluetoothLeService.connect(mDeviceInfo.address, 10000);
+		mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
 	}
 
 	@Override
@@ -171,6 +179,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 
 	@Override
 	public boolean handleGetData(String data) {
+		System.out.println(data);
 		if(mFragment.handleGetData(data)) {
 			return true;
 		}
@@ -187,14 +196,4 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, ISh
 		return false;
 	}
 
-	@Override
-	public DeviceInfo getDevice() {
-		return mDeviceInfo;
-	}
-	
-	@Override
-	public void conFail() {
-		handleConFail();
-	}
-	
 }

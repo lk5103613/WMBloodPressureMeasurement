@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
-import com.wm.entity.DeviceInfo;
 import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
@@ -33,23 +30,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	@InjectView(R.id.bp_history_chart)
 	LineChart mChart;
 
-	private Context mContext;
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
-	private IShareData mData;
-	private int mCurrentConnectTime = 0;
-	
-	public interface IShareData {
-		DeviceInfo getDevice();
-		
-		void conFail();
-	}
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mData = (IShareData) activity;
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +39,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		View view = inflater.inflate(R.layout.fragment_bp_history, container,
 				false);
 		ButterKnife.inject(this, view);
-		mContext = getActivity();
 		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
 		getBpHisory();
 		
@@ -200,16 +181,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public boolean handleDisconnect() {
-		String address = mData.getDevice().address;
-		if(mCurrentConnectTime < 5) {
-			mBluetoothLeService.connect(address, 5000);
-			mCurrentConnectTime++;
-		}
-		else {
-			mCurrentConnectTime = 0;
-			mData.conFail();
-		}
-		return true;
+		return false;
 	}
 
 	@Override

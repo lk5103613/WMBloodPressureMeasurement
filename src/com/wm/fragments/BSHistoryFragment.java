@@ -2,6 +2,7 @@ package com.wm.fragments;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,17 @@ import butterknife.InjectView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.LineData;
 import com.wm.activity.R;
+import com.wm.entity.BSResult;
 import com.wm.utils.UUIDS;
 
 public class BSHistoryFragment extends BaseHistoryFragment {
 	
+	public final static String BS_DATA = "bs_data";
+
 	@InjectView(R.id.bs_history_chart)
 	LineChart mChart;
+	private Handler mHandler;
+	private BluetoothGattCharacteristic mCommandCharac;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,6 +30,8 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 		View view = inflater.inflate(R.layout.fragment_bs_history, container,
 				false);
 		ButterKnife.inject(this, view);
+		
+		mHandler = new Handler();
 
 		initLineChart();
 		addEmptyData();
@@ -72,24 +80,19 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 
 	@Override
 	public boolean handleServiceDiscover() {
-		System.out.println("service discover");
-		BluetoothGattCharacteristic characteristic1_1 = getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE1,
-						UUIDS.BS_RESULT_CHARAC1_1);
-		BluetoothGattCharacteristic characteristic1_2 = getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE1,
-				UUIDS.BS_RESULT_CHARAC1_2);
-		BluetoothGattCharacteristic characteristic2_1 = getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE2,
-				UUIDS.BS_RESULT_CHARAC2_1);
-		byte[] bs = new byte[5];
-		bs[0] = (byte) 0x7b;
-		bs[1] = (byte) 0x49;
-		bs[2] = (byte) 0x23;
-		bs[3] = (byte) 0xea;
-		bs[4] = (byte) 0x7d;
-		characteristic1_2.setValue(bs);
-		mBluetoothLeService.writeCharacteristic(characteristic1_2);
-		mBluetoothLeService.readCharacteristic(characteristic1_1);
-		mBluetoothLeService.setCharacteristicNotification(characteristic1_1, true);
+		mBluetoothLeService.setCharacteristicNotification(
+				getInfoCharacteristic(UUIDS.BS_RESULT_SERVICE,
+						UUIDS.BS_RESULT_CHARAC), true);
+		mHandler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				mCommandCharac = getInfoCharacteristic(
+						UUIDS.BS_RESULT_SERVICE, UUIDS.BS_CHARAC_COMMAND);
+				mCommandCharac.setValue(BSResult.COMMAND_GET_REC_NO);
+				mBluetoothLeService.writeCharacteristic(mCommandCharac);
+			}
+		}, 100);
 		return false;
 	}
-
+	
 }

@@ -1,7 +1,6 @@
 package com.wm.fragments;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +31,6 @@ public class BPResultFragment extends BaseResultFragment {
 	private boolean mNeedNewData = true;
 	private BPResult mBPResult;
 	private BPResultException mBPException;
-	private Context mContext;
 	private BluetoothGattCharacteristic mInforCharacteristic;
 
 	@Override
@@ -92,8 +90,6 @@ public class BPResultFragment extends BaseResultFragment {
 			mLblSZ.setText(String.valueOf((int) mBPResult.dbp));
 			mLblHr.setText(String.valueOf((int) mBPResult.pulse));
 			mCallback.showResult(mBPResult.bpResult);
-			System.out.println("舒张压 " + mBPResult.sbp + "收缩压 " + mBPResult.dbp
-					+ "心率 " + mBPResult.pulse);
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
 			// 获得异常信息
