@@ -175,7 +175,7 @@ public class HistoryDBManager {
 		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, null, null, null, null, null);
 		while (c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_ID));
-			int bsValue = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_BSVALUE));
+			String bsValue = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_BSVALUE));
 			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
 			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));
@@ -194,7 +194,7 @@ public class HistoryDBManager {
 		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, selection, args, null, null, null);
 		while (c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_ID));
-			int bsValue = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_BSVALUE));
+			String bsValue = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_BSVALUE));
 			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
 			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));

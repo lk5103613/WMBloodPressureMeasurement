@@ -15,6 +15,7 @@ public final class ASCIIData {
 	
 	public static Map<String, String> getASCIITable() {
 		if(ASCII_TABLE.keySet().size() == 0) {
+			ASCII_TABLE.put("2C", ",");
 			ASCII_TABLE.put("30", "0");
 			ASCII_TABLE.put("31", "1");
 			ASCII_TABLE.put("32", "2");
@@ -79,6 +80,8 @@ public final class ASCIIData {
 	    	ASCII_TABLE.put("6D","m");
 	    	ASCII_TABLE.put("6E","n");
 	    	ASCII_TABLE.put("6F","o");
+	    	ASCII_TABLE.put("7D", "}");
+	    	ASCII_TABLE.put("7B", "{");
 		}
 		return ASCII_TABLE;
 	}

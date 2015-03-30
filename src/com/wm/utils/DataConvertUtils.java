@@ -1,5 +1,7 @@
 package com.wm.utils;
 
+import java.text.NumberFormat;
+
 /**
  * 
  * 对数据进行进制的转换
@@ -26,5 +28,11 @@ public class DataConvertUtils {
 		int decNumber = Integer.valueOf(decimal);
 		return Integer.toHexString(decNumber);
 	}
-
+	
+	public static String format(double number, int save) {
+		 NumberFormat nf = NumberFormat.getNumberInstance();   
+         nf.setMaximumFractionDigits(save);
+         return nf.format(number);
+	}
+	
 }

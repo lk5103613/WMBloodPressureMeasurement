@@ -2,7 +2,6 @@ package com.wm.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -23,9 +22,9 @@ import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.IHandleConnect;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
+import com.wm.fragments.BaseResultFragment.Interaction;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
-import com.wm.fragments.BaseResultFragment.Interaction;
 
 public class ResultActivity extends BaseActivity implements IHandleConnect, Interaction {
 
@@ -38,7 +37,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Inte
 	@InjectView(R.id.result_suggest)
 	TextView mResult;
 
-	private Context mContext;
 	private BaseResultFragment mFragment;
 	private String mType;
 	private BluetoothLeService mBluetoothLeService;
@@ -55,7 +53,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Inte
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			mBluetoothLeService = ((LocalBinder) service).getService();
-			mFragment.setBluetoothLeService(mBluetoothLeService);
+			mFragment.onBindService(mBluetoothLeService);
 			if (!mBluetoothLeService.initialize()) {
 				finish();
 			}
@@ -69,7 +67,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Inte
 		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
 
-		mContext = ResultActivity.this;
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
 		mFragment = TypeFactory.getResultFragment(mType);
 
