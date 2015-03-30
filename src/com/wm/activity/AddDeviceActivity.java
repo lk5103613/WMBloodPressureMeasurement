@@ -94,6 +94,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		} else if (selectedType.equals(mFHText)) {
 			type = DeviceInfo.TYPE_FH;
 		}
+		System.out.println(type);
 		return type;
 	}
 
@@ -132,10 +133,12 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 			}
 			mCurrentScanTime = 0; // set scan number to 0
 			System.out.println("scan success");
+			
 			final List<DeviceInfo> needSaveDevices = new ArrayList<DeviceInfo>();
 			for (BluetoothDevice device : devices) {
 				final String address = device.getAddress()
 						.toUpperCase(Locale.getDefault()).trim();
+				
 				if (mDBAddresses.contains(address) || !isMatchedDevice(device)) {
 					continue;
 				}

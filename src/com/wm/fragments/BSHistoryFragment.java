@@ -12,6 +12,7 @@ import butterknife.InjectView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.LineData;
 import com.wm.activity.R;
+import com.wm.db.HistoryDBManager;
 import com.wm.entity.BSResult;
 import com.wm.utils.UUIDS;
 
@@ -23,6 +24,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	LineChart mChart;
 	private Handler mHandler;
 	private BluetoothGattCharacteristic mCommandCharac;
+	private HistoryDBManager historyDBManager;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +37,8 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 
 		initLineChart();
 		addEmptyData();
-
+		historyDBManager = HistoryDBManager.getInstance(getActivity());
+		
 		return view;
 	}
 
