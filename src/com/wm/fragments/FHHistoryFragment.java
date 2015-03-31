@@ -38,6 +38,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_fh_history, container,
 				false);
 		ButterKnife.inject(this, view);
@@ -151,6 +152,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 	public void nextClick() {
 
 		if (mIndex >= (mFHResults.size() - 1)) {
+			System.out.println("context " + mContext);
 			Toast.makeText(mContext, getString(R.string.msg_last_data),
 					Toast.LENGTH_LONG).show();
 			return;
