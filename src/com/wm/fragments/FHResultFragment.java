@@ -29,6 +29,7 @@ public class FHResultFragment extends BaseResultFragment {
 	LineChart mChart;
 
 	private List<Float> mFHValues;
+	private int recordIndex=0;
 	private ArrayList<String> xVals;
 	private Handler mHandler;
 	private boolean mBeginRecord = false;
@@ -70,7 +71,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
-		mChart.setScaleMinima(2, 1);// 设置缩放比例
+//		mChart.setScaleMinima(2, 1);// 设置缩放比例
 
 	}
 
@@ -79,7 +80,7 @@ public class FHResultFragment extends BaseResultFragment {
 		// create 30 x-vals
 		xVals = new ArrayList<String>();
 
-		for (int i = 0; i < 30; i++) {
+		for (int i = 1; i <= 30; i++) {
 			xVals.add(i + "");
 		}
 
@@ -89,6 +90,7 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 
 	private void addEntry(float value) {
+		recordIndex ++;
 
 		LineData data = mChart.getData();
 
@@ -102,13 +104,13 @@ public class FHResultFragment extends BaseResultFragment {
 			}
 			set.setColor(getResources().getColor(R.color.red));
 			set.setCircleColor(getResources().getColor(R.color.red));
-			set.setLineWidth(2.5f);
-			set.setCircleSize(3f);
+			set.setLineWidth(1.5f);
+			set.setCircleSize(1.5f);
 
-			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random()
-																	// * 50) +
-																	// 50f
-			if ((xVals.size() - mFHValues.size()) < 2) {
+			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random() * 50) +50f
+			System.out.println("xvals size " + xVals.size() +" " + mFHValues.size());
+			
+			if ((xVals.size() - recordIndex) < 2) {
 				xVals.add((xVals.size() + 1) + "");
 			}
 
@@ -123,11 +125,10 @@ public class FHResultFragment extends BaseResultFragment {
 
 		LineDataSet set = new LineDataSet(null, getString(R.string.fh_value));
 		set.setLineWidth(1f);
-		set.setCircleSize(2.5f);
+		set.setCircleSize(1.5f);
 		set.setColor(Color.rgb(240, 99, 99));
 		set.setCircleColor(Color.rgb(240, 99, 99));
 		set.setHighLightColor(Color.rgb(190, 190, 190));
-
 		return set;
 	}
 	
