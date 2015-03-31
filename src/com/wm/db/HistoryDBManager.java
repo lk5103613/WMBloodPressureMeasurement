@@ -205,6 +205,26 @@ public class HistoryDBManager {
 		return bsResults;
 	}
 	
+	public BSResult getBsResultByTime(String meatureTime) {
+		BSResult result = null;
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		String[] projection = {BSDataEntry.COLUMN_NAME_ID, BSDataEntry.COLUMN_NAME_BSVALUE, 
+				BSDataEntry.COLUMN_NAME_DATE,BSDataEntry.COLUMN_NAME_CARD,BSDataEntry.COLUMN_NAME_REMARKS, BSDataEntry.COLUMN_NAME_MESURE_TIME};
+		String selection = BSDataEntry.COLUMN_NAME_MESURE_TIME + "=?";
+		String[] args = {String.valueOf(meatureTime)};
+		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, selection, args, null, null, null);
+		while (c.moveToNext()) {
+			int id = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_ID));
+			String bsValue = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_BSVALUE));
+			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
+			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
+			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));
+			String measureTime = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_MESURE_TIME));
+			result = new BSResult(id, card, bsValue, date,remarks, measureTime);
+		}
+		return result;
+	}
+	
 	/**
 	 * Ìí¼ÓÑªÌÇÀúÊ·
 	 * 

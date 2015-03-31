@@ -55,7 +55,8 @@ public class BSResultFragment extends BaseResultFragment {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					mDBManager.addBsResult(mBSResult);
+					if(mDBManager.getBsResultByTime(mBSResult.measureTime) == null)
+						mDBManager.addBsResult(mBSResult);
 				}
 			}).start();
 		}
