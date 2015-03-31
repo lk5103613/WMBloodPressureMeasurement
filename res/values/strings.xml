@@ -62,12 +62,14 @@
     <string name="scan_failed">没有扫描到匹配的新设备，请确保设备已开启</string>
     <string name="scan_success">匹配成功</string>
     <string name="con_failed">连接失败，确保对应设备已经开启</string>
-    
     <string name="bp_result_ideal">理想血压</string>
     <string name="bp_result_normal">正常血压</string>
     <string name="bp_result_hbp">高血压</string>
     <string name="bp_result_cri_hbp">临界高血压</string>
     <string name="bp_result_lbp">低血压</string>
-   	<string name="bp_result_pre_hbp">高血压前期</string> 
+    <string name="bp_result_pre_hbp">高血压前期</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    
+    <string name="icon_description">this is logo</string>
 
 </resources>
