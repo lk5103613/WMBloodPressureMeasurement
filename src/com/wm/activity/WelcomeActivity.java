@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import butterknife.ButterKnife;
@@ -30,6 +31,19 @@ public class WelcomeActivity extends Activity {
 		mContext = this;
 		
 		Animation logoAnimation = AnimationUtils.loadAnimation(mContext, R.anim.welcome_logo_anim);
+		logoAnimation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) { }
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) { }
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				Animation shakeAnimation = AnimationUtils.loadAnimation(mContext, R.anim.welcome_logo_shake);
+				mLogo.startAnimation(shakeAnimation);
+			}
+		});
 		mLogo.startAnimation(logoAnimation);
 		Animation companyNameAnimation = AnimationUtils.loadAnimation(mContext, R.anim.welcome_company_name_anim);
 		mCompanyName.startAnimation(companyNameAnimation);
