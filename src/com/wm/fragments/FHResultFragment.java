@@ -71,7 +71,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setGridColor(getResources().getColor(R.color.light_black));
 		mChart.setBorderColor(getResources().getColor(R.color.light_black));
 		mChart.setStartAtZero(false);
-//		mChart.setScaleMinima(2, 1);// 设置缩放比例
+		mChart.setScaleMinima(2, 1);// 设置缩放比例
 
 	}
 
@@ -113,6 +113,7 @@ public class FHResultFragment extends BaseResultFragment {
 			if ((xVals.size() - recordIndex) < 2) {
 				xVals.add((xVals.size() + 1) + "");
 			}
+			mChart.centerViewPort(xVals.size()-1, 20);
 
 			mChart.notifyDataSetChanged();
 
