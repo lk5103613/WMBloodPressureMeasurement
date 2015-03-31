@@ -32,6 +32,7 @@ public class FHResultFragment extends BaseResultFragment {
 	private ArrayList<String> xVals;
 	private Handler mHandler;
 	private boolean mBeginRecord = false;
+	private boolean mBeginGetData = false;
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -132,6 +133,12 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 	
 	private void saveAndJump() {
+		if(mFHValues.size() < 60) {
+			float average = getAverage();
+			while(mFHValues.size() != 60) {
+				mFHValues.add(average);
+			}
+		}
 		FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
 		HistoryDBManager.getInstance(getActivity()).addFhResult(fhResult);
 		mBluetoothLeService.disconnect();
@@ -152,10 +159,16 @@ public class FHResultFragment extends BaseResultFragment {
 	public boolean handleGetData(String data) {
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
 		if (!fhValue.trim().equals("0")) {
+			if(!mBeginGetData)
+				mBeginGetData = true;
 			if(mBeginRecord)
 				mFHValues.add(Float.valueOf(fhValue));
-			addEntry(Float.parseFloat(fhValue));
+		} else {
+			if(mBeginGetData) {
+				fhValue = String.valueOf(getAverage());
+			}
 		}
+		addEntry(Float.parseFloat(fhValue));
 		if(mFHValues.size() >= 60) {
 			mHandler.removeCallbacks(mRunnable);
 			saveAndJump();
@@ -171,6 +184,16 @@ public class FHResultFragment extends BaseResultFragment {
 							UUIDS.FH_RESULT_CHARAC), true);
 		}
 		return false;
+	}
+	
+	private float getAverage() {
+		if(mFHValues.size() == 0)
+			return 0f;
+		float sum = 0f;
+		for(int i=0; i<mFHValues.size(); i++) {
+			sum += mFHValues.get(i);
+		}
+		return sum/mFHValues.size();
 	}
 
 }
