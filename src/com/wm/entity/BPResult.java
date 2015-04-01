@@ -14,39 +14,6 @@ public class BPResult {
 	public static int HEART_RATE_STATE_NORMAL = 0;
 	public static int HEART_RATE_STATE_NOT_NORMAL = 1;
 	
-	private final static int IDEAL_DBP_MIN = 60;
-	private final static int IDEAL_DBP_MAX = 80;
-	private final static int IDEAL_SBP_MIN = 90;
-	private final static int IDEAL_SBP_MAX = 120;
-	
-	private final static int NORMAL_DBP_MIN = 60;
-	private final static int NORMAL_DBP_MAX = 90;
-	private final static int NORMAL_SBP_MIN = 100;
-	private final static int NORMAL_SBP_MAX = 130;
-	
-	private final static int PRE_HBP_DBP_MIN = 84;
-	private final static int PRE_HBP_DBP_MAX = 90;
-	private final static int PRE_HBP_SBP_MIN = 129;
-	private final static int PRE_HBP_SBP_MAX = 140;
-	
-	private final static int HBP_DBP = 90;
-	private final static int HBP_SBP = 140;
-	
-	private final static int LBP_DBP = 60;
-	private final static int LBP_SBP = 90;
-	
-	private final static int CRITICAL_HBP_DBP_MIN = 90;
-	private final static int CRITICAL_HBP_DBP_MAX = 95;
-	private final static int CRITICAL_HBP_SBP_MIN = 140;
-	private final static int CRITICAL_HBP_SBP_MAX = 160;
-	
-	private final static String BP_IDEAL = "理想血压";
-	private final static String BP_NORMAL = "正常血压";
-	private final static String BP_PRE_HBP = "高血压前期";
-	private final static String BP_HBP = "高血压";
-	private final static String BP_LBP = "低血压";
-	private final static String BP_CRI_HBP = "临界高血压";
-
 	public int id;
 	@Expose public String userCard;
 	@Expose public float dbp; //舒张压 
@@ -120,43 +87,38 @@ public class BPResult {
 		this.date = new Date().getTime();
 		this.remarks = "v0.0.1";
 		this.userCard = "330310198611010909";
-		this.bpResult = getResult(dbp, sbp);
+		this.bpResult = getAdvise(dbp, sbp);
 	}
 	
-	private boolean isValueWithin(int min, int max, float value) {
-		if(min == -1) {
-			if(value <= max)
-				return true;
-			return false;
+	/** 收缩压临界值 */
+	public static final int[] SBPS = {
+		90, 105, 120, 130, 140
+	};
+
+	/** 舒张压临界值 */
+	public static final int[] DBPS = {
+		60, 65, 80, 85, 90
+	};
+
+	/** 建议 */
+	public static final String[] ADVISES = {
+		"低", "偏低", "理想", "正常", "偏高", "高"
+	};
+
+
+	/**
+	 * 获取建议
+	 * @param sbp 收缩压
+	 * @param dbp 舒张压
+	 * @return 建议
+	 */
+	public static String getAdvise(float sbp, float dbp) {
+		for (int i = 0; i < SBPS.length; i++) {
+			if ((sbp <= SBPS[i]) || (dbp <= DBPS[i])) {
+				return ADVISES[i];
+			}
 		}
-		if(max == -1) {
-			if(value >= min) 
-				return true;
-			return false;
-		}
-		if(value >= min && value <= max) 
-			return true;
-		return false;
-	}
-	
-	private String getResult(float dbp, float sbp) {
-		if(isValueWithin(IDEAL_DBP_MIN, IDEAL_DBP_MAX, dbp) 
-				&& isValueWithin(IDEAL_SBP_MIN, IDEAL_SBP_MAX, sbp)) 
-			return BP_IDEAL;
-		if(isValueWithin(NORMAL_DBP_MIN, NORMAL_DBP_MAX, dbp) 
-				&& isValueWithin(NORMAL_SBP_MIN, NORMAL_SBP_MAX, sbp)) 
-			return BP_NORMAL;
-		if(isValueWithin(PRE_HBP_DBP_MIN, PRE_HBP_DBP_MAX, dbp) 
-				&& isValueWithin(PRE_HBP_SBP_MIN, PRE_HBP_SBP_MAX, sbp))
-			return BP_PRE_HBP;
-		if(isValueWithin(HBP_DBP, -1, dbp) && isValueWithin(HBP_SBP, -1, sbp)) 
-			return BP_HBP;
-		if(isValueWithin(-1, LBP_DBP, dbp) && isValueWithin(-1, LBP_SBP, sbp))
-			return BP_LBP;
-		if(isValueWithin(CRITICAL_HBP_DBP_MIN, CRITICAL_HBP_DBP_MAX, dbp) 
-				&& isValueWithin(CRITICAL_HBP_SBP_MIN, CRITICAL_HBP_SBP_MAX, sbp))
-			return BP_CRI_HBP;
-		return null;
+		return ADVISES[ADVISES.length - 1];
 	}
 
 }
