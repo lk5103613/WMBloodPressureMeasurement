@@ -57,7 +57,6 @@ public class FHResult {
 				fhList.add(Float.parseFloat(fhArray[i]));
 			}
 		}
-		
 		return fhList;
 	}
 	
