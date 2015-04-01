@@ -190,7 +190,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 
 	private boolean isMatchedDevice(BluetoothDevice device) {
 		if (getDeviceType().equals(DeviceInfo.TYPE_FH)) {
-			if(device.getName().toLowerCase(Locale.getDefault()).equals("bolutek"))
+			//if(device.getName().toLowerCase(Locale.getDefault()).equals("bolutek"))
 				return true;
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {
 			return true;
