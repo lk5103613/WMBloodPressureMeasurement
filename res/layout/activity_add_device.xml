@@ -48,7 +48,7 @@
 	    android:text="@string/btn_match"
 	    android:layout_gravity="center_vertical"
 	    android:layout_alignParentBottom="true"
-	    android:background="@drawable/btn_match_bg"
+	    android:background="@drawable/btn_bg"
 	    android:textColor="@color/white"
 	    android:layout_marginBottom="56dp"
         android:layout_marginLeft="30dp"

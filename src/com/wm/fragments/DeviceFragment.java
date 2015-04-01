@@ -18,10 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -89,7 +90,7 @@ public class DeviceFragment extends Fragment {
 
 		return view;
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -101,11 +102,11 @@ public class DeviceFragment extends Fragment {
 			@Override
 			public void run() {
 				mDevices = mDeviceDBManager.getAllDevices();
-				if(mDeviceDataSet == null) 
+				if (mDeviceDataSet == null)
 					mDeviceDataSet = new DeviceDataSet();
 				mDeviceDataSet.option = OptionEnum.ITEM_ADD;
 				mDeviceDataSet.deviceInfos = mDevices;
-				if(mAdapter == null) {
+				if (mAdapter == null) {
 					mAdapter = new DeviceListAdapter(mContext, mDeviceDataSet);
 					mDeviceListView.setAdapter(mAdapter);
 				} else {
@@ -254,6 +255,8 @@ public class DeviceFragment extends Fragment {
 						R.id.btn_delete);
 				mHolder.mBtnUpdate = ButterKnife.findById(convertView,
 						R.id.btn_update);
+				mHolder.mBtnContainer = ButterKnife.findById(convertView, 
+						R.id.btn_container);
 				convertView.setTag(mHolder);
 			} else {
 				mHolder = (ViewHolder) convertView.getTag();// 取出viewholder对象
@@ -262,25 +265,27 @@ public class DeviceFragment extends Fragment {
 			if (OptionEnum.ITEM_DELETE.equals(mDeviceDataSet.option)) {
 				mHolder.mBtnDelete.setVisibility(View.VISIBLE);
 				mHolder.mBtnUpdate.setVisibility(View.GONE);
+				mHolder.mBtnContainer.setVisibility(View.VISIBLE);
 			} else if (OptionEnum.ITEM_UPDATE.equals(mDeviceDataSet.option)) {
 				mHolder.mBtnDelete.setVisibility(View.GONE);
 				mHolder.mBtnUpdate.setVisibility(View.VISIBLE);
+				mHolder.mBtnContainer.setVisibility(View.VISIBLE);
 			} else {
 				mHolder.mBtnDelete.setVisibility(View.GONE);
 				mHolder.mBtnUpdate.setVisibility(View.GONE);
+				mHolder.mBtnContainer.setVisibility(View.GONE);
 			}
 
 			mHolder.mDeviceIcon.setType(mDeviceDataSet.deviceInfos
 					.get(position).type);
 			mHolder.mDeviceName.setText(mDeviceDataSet.deviceInfos
-					.get(position).name);
+					.get(position).name.trim());
 			mHolder.mBtnDelete
 					.setOnClickListener(new BtnClickListener(position));
 			mHolder.mBtnUpdate
 					.setOnClickListener(new BtnClickListener(position));
 			return convertView;
 		}
-
 	}
 
 	public void update(final int i) {
@@ -362,7 +367,8 @@ public class DeviceFragment extends Fragment {
 	final class ViewHolder {
 		public DeviceIcon mDeviceIcon;
 		public TextView mDeviceName;
-		public ImageButton mBtnDelete;
-		public ImageButton mBtnUpdate;
+		public Button mBtnDelete;
+		public Button mBtnUpdate;
+		public RelativeLayout mBtnContainer;
 	}
 }

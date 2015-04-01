@@ -2,13 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@color/fragment_bg">
 
      <ListView
         android:id="@+id/device_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:divider="@null">
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="40dp"
+        android:divider="@color/light_gray"
+        android:dividerHeight="1dp"
+        android:background="@color/white">
     </ListView>
 
 </LinearLayout>
