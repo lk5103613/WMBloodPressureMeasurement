@@ -21,7 +21,7 @@ public class IndexPagerAdapter extends FragmentStatePagerAdapter implements Titl
 	}
 	
 	private Fragment[] mFragments = new Fragment[]{mIndexFragment, mDeviceFragment, mSettingFragment};
-	private String[] mTitles = new String[]{"首页", "设备", "设置"};
+	private String[] mTitles = new String[]{"首   页", "设   备", "设   置"};
 	private int[] mIcons = new int[]{R.drawable.home_tab_selector, R.drawable.device_tab_selector, R.drawable.setting_tab_selector};
 
 	@Override

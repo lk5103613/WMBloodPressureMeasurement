@@ -4,7 +4,7 @@
     <color name="windowBackground">#1A1A1A</color>
 
     <!-- <color name="colorPrimary">#8bc34a</color> -->
-    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimary">#00A2EA</color>
     <!-- <color name="colorPrimaryDark">#259b24</color> -->
     <color name="colorPrimaryDark">#004d40</color>
     <color name="toolbarTextColor">#c6e9ce</color>
@@ -37,5 +37,8 @@
 	<color name="sky_blue">#A4D3EE</color>
 	<color name="chart_bg">@color/white</color>
 	<color name="yellow">#FFD700</color>
+	
+	<color name="tab_dark">#0090D6</color>
+	<color name="tab_light">#97DAF7</color>
 	
 </resources>
