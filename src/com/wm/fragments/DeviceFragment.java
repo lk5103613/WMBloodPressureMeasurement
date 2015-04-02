@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,7 +95,10 @@ public class DeviceFragment extends Fragment {
 	
 	public void showMenuDialog(){
 		MenuDialog menuDialog = new MenuDialog();
-		
+		WindowManager.LayoutParams params = menuDialog.getDialog().getWindow().getAttributes();
+		params.gravity = Gravity.TOP;
+		params.y = 200;
+		params.x = 400;
 		menuDialog.show(getActivity().getFragmentManager(), "menu");
 		
 	}
