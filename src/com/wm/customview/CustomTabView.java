@@ -16,14 +16,12 @@ import com.wm.activity.R;
 public class CustomTabView extends HorizontalScrollView {
 	
 	private int mDefaultTextSize = 15;
-	private int mSelectedTextSize = 20;
 	
 	private ViewPager mPager;
 	private LinearLayout mTabsContainer;
 	private int mHeight;
 	private boolean mHasAddedTab = false;
 	private OnPageChangeListener mListener;
-	private int mLastPosition = 0;
 	
 	public CustomTabView(Context context) {
 		super(context);
@@ -71,7 +69,6 @@ public class CustomTabView extends HorizontalScrollView {
 		mPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
-				changeTab(position);
 				if(mListener != null)
 					mListener.onPageSelected(position);
 			}
@@ -84,21 +81,10 @@ public class CustomTabView extends HorizontalScrollView {
 			
 			@Override
 			public void onPageScrollStateChanged(int state) {
-				if (state == ViewPager.SCROLL_STATE_IDLE) {
-					changeTab(mPager.getCurrentItem());
-				}
 				if(mListener != null)
 					mListener.onPageScrollStateChanged(state);
 			}
 		});
-	}
-	
-	private void changeTab(int position) {
-//		TextView lastTab = (TextView) mTabsContainer.getChildAt(mLastPosition);
-//		lastTab.setTextSize(mDefaultTextSize);
-//		mLastPosition = position;
-//		TextView tab = (TextView) mTabsContainer.getChildAt(position);
-//		tab.setTextSize(mSelectedTextSize);
 	}
 	
 	public void setOnPageChangeListener(OnPageChangeListener listener) {

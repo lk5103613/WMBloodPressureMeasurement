@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,12 +34,12 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	public final static int MAX_CON_TIME = 3;
 	public final static int OVER_TIME = 5000;
 	
-	@InjectView(R.id.history_bar)
-	Toolbar mToolbar;
 	@InjectView(R.id.btn_begin_check)
 	Button mBtnBeginCheck;
 	@InjectView(R.id.waiting_connect)
 	ProgressBar mWaitingConnect;
+	@InjectView(R.id.title)
+	TextView mTitle;
 	
 	private BaseHistoryFragment mFragment;
 	private String mType;
@@ -63,6 +63,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 			}
 		}
 	};
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +76,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
 		
-		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
+		mTitle.setText(TypeFactory.getTitleByType(mContext, mType));
 		mFailedTime = 0;
 		// °ó¶¨À¶ÑÀ·þÎñ
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
@@ -128,6 +126,11 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	public void beginCheck(){
 		beginCheckUI();
 		connect();
+	}
+	
+	@OnClick(R.id.history_back)
+	public void back(View v) {
+		finish();
 	}
 	
 	private void jumpToResult() {

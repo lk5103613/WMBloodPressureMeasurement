@@ -8,7 +8,6 @@
     <string name="btn_update">修&#160;&#160;&#160;&#160;&#160;改</string>
     <string name="device_type">设备类型:</string>
     <string name="setting_more">更多内容</string>
-    <string name="bp_text">血压计</string>
     <string name="btn_match">配&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;对</string>
     <string name="add_new_device">增加新设备</string>
     <string name="use_help">使用帮助</string>
@@ -23,7 +22,6 @@
     <string name="blood_check_result">恭喜您！本次测量在正常范围内</string>
     <string name="ewm_description">智慧医疗二维码</string>
     <string name="company_name">苏州领泰数字医疗设备有限公司</string>
-    <string name="title_activity_guide_view">GuideViewActivity</string>
     <string name="img_dot">指示点</string>
     <string name="action_add_device">新增设备</string>
     <string name="action_change_name">修改名称</string>
@@ -34,9 +32,7 @@
     <string name="btn_record">记&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;录</string>
     <string name="ask_when_exit">再按一次退出程序</string>
     <string name="title_activity_blood_sugar_check">BloodSugarCheckActivity</string>
-    <string name="fh_text">胎心仪</string>
     <string name="fh_value">胎心值</string>
-    <string name="bs_text">血糖仪</string>
     <string name="systolic">收缩压</string>
     <string name="systolic_value">0/mmHg</string>
     <string name="diastolic">舒张压</string>
@@ -67,6 +63,12 @@
     <string name="title_activity_welcome">WelcomeActivity</string>
     
     <string name="title_activity_about">关&#160;于&#160;我&#160;们</string>
+    <string name="title_activity_guide_view">使&#160;用&#160;帮&#160;助</string>
+    <string name="title_fragment_device">设&#160;备&#160;列&#160;表</string>
+    <string name="title_fragment_settings">设&#160;&#160;&#160;&#160;置</string>
+    <string name="bp_text">血&#160;压&#160;计</string>
+    <string name="bs_text">血&#160;糖&#160;仪</string>
+    <string name="fh_text">胎&#160;心&#160;仪</string>
     
     <string name="icon_description">this is logo</string>
 

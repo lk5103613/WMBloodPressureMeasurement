@@ -2,20 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@color/fragment_bg">
+    android:background="@color/fragment_bg"
+    android:orientation="vertical" >
 
-     <ListView
+    <RelativeLayout
+        android:id="@+id/index_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorPrimary" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/title_fragment_device"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        
+        <RelativeLayout android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true">
+           	<ImageView android:layout_width="30dp"
+           	    android:layout_height="6dp"
+           	    android:contentDescription="@string/icon_description"
+           	    android:layout_centerInParent="true"
+           	    android:src="@drawable/menu_more"/> 
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ListView
         android:id="@+id/device_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="40dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="60dp"
+        android:background="@color/white"
         android:divider="@color/light_gray"
-        android:dividerHeight="1dp"
-        android:background="@color/white">
+        android:dividerHeight="1dp" >
     </ListView>
 
 </LinearLayout>
