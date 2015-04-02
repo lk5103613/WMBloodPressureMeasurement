@@ -29,6 +29,7 @@ public class FHResultFragment extends BaseResultFragment {
 	LineChart mChart;
 
 	private List<Float> mFHValues;
+	private List<Float> mAllValues;
 	private int recordIndex=0;
 	private ArrayList<String> xVals;
 	private Handler mHandler;
@@ -49,6 +50,7 @@ public class FHResultFragment extends BaseResultFragment {
 				false);
 		ButterKnife.inject(this, view);
 		mFHValues = new ArrayList<Float>();
+		mAllValues = new ArrayList<Float>();
 
 		initLineChart();
 		addEmptyData();
@@ -170,6 +172,7 @@ public class FHResultFragment extends BaseResultFragment {
 				fhValue = String.valueOf(getAverage());
 			}
 		}
+		mAllValues.add(Float.valueOf(fhValue));
 		addEntry(Float.parseFloat(fhValue));
 		if(mFHValues.size() >= 60) {
 			mHandler.removeCallbacks(mRunnable);
@@ -189,13 +192,13 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 	
 	private float getAverage() {
-		if(mFHValues.size() == 0)
+		if(mAllValues.size() == 0)
 			return 0f;
 		float sum = 0f;
-		for(int i=0; i<mFHValues.size(); i++) {
-			sum += mFHValues.get(i);
+		for(int i=0; i<mAllValues.size(); i++) {
+			sum += mAllValues.get(i);
 		}
-		return sum/mFHValues.size();
+		return sum/mAllValues.size();
 	}
 
 }

@@ -35,7 +35,7 @@
             android:gravity="center"
             android:layout_toEndOf="@id/btn_previous"
             android:layout_toStartOf="@+id/btn_next"
-            android:text="2013-1-1" 
+            android:text="" 
             android:textSize="18sp"
             android:textColor="@color/black"
             android:background="@color/white"
