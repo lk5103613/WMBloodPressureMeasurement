@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-     <LinearLayout
-         android:id="@+id/p_container"
+
+    <LinearLayout
+        android:id="@+id/p_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginEnd="10dp"
@@ -29,16 +29,16 @@
             android:layout_marginStart="30dp"
             android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:id="@+id/s_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_below="@id/p_container"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_below="@id/p_container" >
+        android:orientation="horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,15 +76,14 @@
             android:textColor="@color/item_text_color" />
 
         <TextView
-	        android:id="@+id/lbl_sz"
+            android:id="@+id/lbl_sz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="30dp"
             android:textColor="@color/colorPrimaryDark" />
-
     </LinearLayout>
-    
+
     <LinearLayout
         android:id="@+id/hr_container"
         android:layout_width="match_parent"
@@ -104,13 +103,12 @@
             android:textColor="@color/item_text_color" />
 
         <TextView
-	        android:id="@+id/lbl_hr"
+            android:id="@+id/lbl_hr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="30dp"
             android:textColor="@color/colorPrimaryDark" />
-
     </LinearLayout>
 
 </RelativeLayout>

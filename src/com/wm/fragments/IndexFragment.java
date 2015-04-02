@@ -10,11 +10,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 import com.wm.activity.LoginActivity;
 import com.wm.activity.R;
+import com.wm.customview.ImageTextView;
 
 public class IndexFragment extends Fragment {
+	
+	@InjectView(R.id.bp_image_text)
+	ImageTextView mImage;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -22,6 +28,8 @@ public class IndexFragment extends Fragment {
 		setHasOptionsMenu(true);// ÏÔÊ¾fragmentµÄmenu
 		View view = inflater.inflate(R.layout.fragment_index, container, false);
 		ButterKnife.inject(this, view);
+		
+		mImage.startRotate();
 		return view;
 	}
 	
