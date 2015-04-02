@@ -4,7 +4,8 @@
     <color name="windowBackground">#1A1A1A</color>
 
     <!-- <color name="colorPrimary">#8bc34a</color> -->
-    <color name="colorPrimary">#009688</color>
+
+    <color name="colorPrimary">#00A2EA</color>
     <!-- <color name="colorPrimaryDark">#259b24</color> -->
     <color name="colorPrimaryDark">#004d40</color>
     <color name="toolbarTextColor">#c6e9ce</color>

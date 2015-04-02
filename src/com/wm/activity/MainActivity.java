@@ -9,8 +9,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.wm.adapter.IndexPagerAdapter;
+import com.wm.customview.CustomTabView;
 import com.wm.customview.MyViewPager;
-import com.wm.customview.PagerSlidingTitleIconTabStrip;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.DeviceFragment.OnStateChangeListener;
 import com.wm.network.CheckNeedUploadTask;
@@ -27,8 +27,8 @@ public class MainActivity extends BaseActivity implements
 	Toolbar mToolbar;
 	@InjectView(R.id.main_pager)
 	MyViewPager mPager;
-	@InjectView(R.id.main_tabs)
-	PagerSlidingTitleIconTabStrip mTabs;
+	@InjectView(R.id.main_tab)
+	CustomTabView mTabView;
 
 	private int mBackClickTimes = 0;
 	private boolean mDeviceEdit = false;
@@ -46,6 +46,8 @@ public class MainActivity extends BaseActivity implements
 		// 初始化全局参数
 		mBackClickTimes = 0;
 		mTabPager = TabPager.getInstance(mContext);
+		mTabView.setViewPager(mPager);
+		mTabView.setOnPageChangeListener(this);
 		
 		int connectState = NetUtils.getConnectState(mContext);
 		new CheckNeedUploadTask(mContext, connectState, mAlertDialog).execute();
@@ -59,11 +61,6 @@ public class MainActivity extends BaseActivity implements
 		mToolbar.setTitle("智慧医疗");
 		setSupportActionBar(mToolbar);
 		mPager.setAdapter(mIndexPagerAdapter);
-		mTabs.setOnPageChangeListener(this);
-		mTabs.setShouldExpand(true);
-		mTabs.setViewPager(mPager);
-		mTabs.setIndicatorColorResource(R.color.colorPrimary);
-		mTabs.setTextColorResource(R.color.colorPrimary);
 	}
 
 	@Override
