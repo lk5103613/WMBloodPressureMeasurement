@@ -42,7 +42,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="35dp"
         android:src="@drawable/triangle" />
-
+<!-- toolbar end -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -101,13 +101,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/footer" />
-<!-- <RelativeLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <TextView 
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"/>
-    
-</RelativeLayout> -->
+
 </LinearLayout>

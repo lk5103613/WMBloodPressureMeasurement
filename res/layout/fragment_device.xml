@@ -35,6 +35,13 @@
            	    android:src="@drawable/menu_more"/> 
         </RelativeLayout>
     </RelativeLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="35dp"
+        android:src="@drawable/triangle" />
+<!-- toolbar end -->
 
     <ListView
         android:id="@+id/device_listview"

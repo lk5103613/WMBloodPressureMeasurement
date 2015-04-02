@@ -21,6 +21,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.wm.activity.R;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
+import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
 public class FHHistoryFragment extends BaseHistoryFragment implements
@@ -92,7 +93,8 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 
 	private void addDataSet(int position) {
 		addEmptyData(position);
-		mTxtDate.setText(mFHResults.get(position).measureTime);
+		long date = mFHResults.get(position).date;
+		mTxtDate.setText(DateUtil.getFormatDate(DateUtil.DATA_FORMAT_CHINESE, date));
 
 		LineData data = mChart.getData();
 
