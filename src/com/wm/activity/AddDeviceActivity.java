@@ -7,7 +7,6 @@ import java.util.Locale;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -27,8 +26,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 
 	@InjectView(R.id.type_spinner)
 	Spinner mTypeSpinner;
-	@InjectView(R.id.add_device_toolbar)
-	Toolbar mToolbar;
 
 	private DeviceScanner mScanner;
 	private DeviceDBManager mDeviceDBManager;
@@ -46,10 +43,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		setContentView(R.layout.activity_add_device);
 		ButterKnife.inject(this);
 
-		mToolbar.setTitle("");
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.back);
 		mScanner = DeviceScanner.getInstance(mBluetoothAdapter, this);
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mBPText = getResources().getString(R.string.bp_text);
