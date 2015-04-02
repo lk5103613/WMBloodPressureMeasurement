@@ -9,7 +9,7 @@ public class SettingData {
 	public String subContent;
 	public boolean hasSubContent;
 	public boolean hasMoreContent;
-	public int src = R.drawable.ic_action_next_item;
+	public int src = R.drawable.setting_go;
 	public Intent targetIntent;
 	
 	public SettingData(String settingName, String subContent) {
