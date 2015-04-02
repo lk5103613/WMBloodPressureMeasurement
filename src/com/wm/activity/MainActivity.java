@@ -9,7 +9,6 @@ import butterknife.InjectView;
 
 import com.wm.adapter.IndexPagerAdapter;
 import com.wm.customview.CustomTabView;
-import com.wm.customview.MenuDialog;
 import com.wm.customview.MyViewPager;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.DeviceFragment.OnStateChangeListener;

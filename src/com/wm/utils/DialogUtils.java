@@ -101,7 +101,7 @@ public class DialogUtils {
 
 	    public static AlertDialog showViewDialog(Context context, int drawableId, String title, View view, String pos, String neg, final BtnCallback posCallback , final BtnCallback negCallback) {
 	        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-	        builder.setCancelable(false);
+	        builder.setCancelable(true);
 	        builder.setIcon(drawableId);
 	        builder.setTitle(title);
 	        builder.setView(view);
