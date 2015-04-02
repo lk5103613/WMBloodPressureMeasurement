@@ -1,26 +1,26 @@
 package com.wm.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class AboutActivity extends BaseActivity {
-	
-	@InjectView(R.id.about_toolbar)
-	Toolbar mToolbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 		ButterKnife.inject(this);
-		mToolbar.setTitle("关于我们");
-		setSupportActionBar(mToolbar);
-		mToolbar.setNavigationContentDescription("关于我们");
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
-		
+//		mToolbar.setTitle("关于我们");
+//		setSupportActionBar(mToolbar);
+//		mToolbar.setNavigationContentDescription("关于我们");
+//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
+	}
+	
+	@OnClick(R.id.about_back)
+	public void back() {
+		finish();
 	}
 	
 	@Override
