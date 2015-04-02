@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/menu_bg" 
+    android:paddingBottom="10dp">
+    
+	<TextView
+	    android:id="@+id/action_add"
+	    android:layout_width="wrap_content"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:text="@string/action_add_device"
+	    android:drawableBottom="@drawable/deliver"/>
+	<TextView
+	    android:id="@+id/action_change_name"
+	    android:layout_width="wrap_content"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:text="@string/action_change_name"
+	    android:drawableBottom="@drawable/deliver"/>
+	<TextView
+	    android:id="@+id/action_cancel_change"
+	    android:layout_width="wrap_content"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:text="@string/action_cancel_change"
+	    android:drawableBottom="@drawable/deliver"
+	    android:visibility="gone"/>
+	<TextView
+	    android:id="@+id/action_delete_device"
+	    android:layout_width="wrap_content"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:text="@string/action_delete_deivce"
+	    android:drawableBottom="@drawable/deliver"/>
+	<TextView
+	    android:id="@+id/action_cancel_delete"
+	    android:layout_width="wrap_content"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:text="@string/action_cancel_delete"
+	    android:drawableBottom="@drawable/deliver"
+	    android:visibility="gone"/>
+</LinearLayout>

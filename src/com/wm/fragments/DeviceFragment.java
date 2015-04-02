@@ -32,6 +32,7 @@ import com.wm.activity.AddDeviceActivity;
 import com.wm.activity.HistoryActivity;
 import com.wm.activity.R;
 import com.wm.customview.DeviceIcon;
+import com.wm.customview.MenuDialog;
 import com.wm.db.DeviceDBManager;
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.DeviceInfo;
@@ -87,10 +88,17 @@ public class DeviceFragment extends Fragment {
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
 		setHasOptionsMenu(true);// ÏÔÊ¾fragmentµÄmenu
-
+		showMenuDialog();
 		return view;
 	}
-
+	
+	public void showMenuDialog(){
+		MenuDialog menuDialog = new MenuDialog();
+		
+		menuDialog.show(getActivity().getFragmentManager(), "menu");
+		
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
