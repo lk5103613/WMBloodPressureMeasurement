@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import com.wm.adapter.SpinnerAdapter;
 import com.wm.blecore.DeviceScanner;
 import com.wm.blecore.DeviceScanner.ScanCallback;
 import com.wm.db.DeviceDBManager;
@@ -59,13 +60,20 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		mProgressDialog = DialogUtils.createProgressDialog(mContext, "",
 				"正在扫描设备");
 
-		String[] type = new String[] { mBPText, mBSText, mFHText };
-
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-				R.layout.type_item, type);
-		arrayAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		mTypeSpinner.setAdapter(arrayAdapter);
+		//String[] type = new String[] { mBPText, mBSText, mFHText };
+		//ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+		//		R.layout.type_item, type);
+		//arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		//mTypeSpinner.setAdapter(arrayAdapter);
+		
+		ArrayList<String> type= new ArrayList<>();
+		type.add(mBPText);
+		type.add(mBSText);
+		type.add(mFHText);
+		
+		ArrayAdapter<String> adapter = new SpinnerAdapter(mTypeSpinner, this, R.layout.simple_spinner_item,type);
+		mTypeSpinner.setAdapter(adapter);
+				
 	}
 
 	@Override

@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="btn_delete">删&#160;&#160;&#160;&#160;&#160;除</string>
     <string name="btn_update">修&#160;&#160;&#160;&#160;&#160;改</string>
-    <string name="device_type">设备类型</string>
+    <string name="device_type">设备类型:</string>
     <string name="setting_more">更多内容</string>
     <string name="bp_text">血压计</string>
     <string name="btn_match">配&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;对</string>

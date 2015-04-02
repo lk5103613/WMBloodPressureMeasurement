@@ -42,5 +42,7 @@
 	<color name="light_blue">#00A2EA</color>
     <color name="dark_blue">#008ED6</color>
     <color name="fragment_bg">#FEFEFE</color>
+    
+    <color name="device_type_bgcolor">#EEEEEE</color>
 	
 </resources>
