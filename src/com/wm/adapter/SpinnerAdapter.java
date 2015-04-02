@@ -52,7 +52,7 @@ public class SpinnerAdapter extends ArrayAdapter<String>{
 		default:
 			break;
 		}
-		int iconId = position==selectIndex?R.drawable.icon_select:R.drawable.spinner_icon;
+		int iconId = position==selectIndex?R.drawable.icon_arrow_select:R.drawable.icon_arrow_nor;
 		icon.setImageResource(iconId);
 		return view;
 	}
