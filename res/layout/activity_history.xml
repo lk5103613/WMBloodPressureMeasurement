@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@color/fragment_bg">
     
    <RelativeLayout
 	   android:id="@+id/history_toolbar"
@@ -34,6 +35,13 @@
             android:layout_centerInParent="true"/>
         
     </RelativeLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="35dp"
+        android:src="@drawable/triangle" />
+<!-- toolbar end -->
 
     <TextView
         android:layout_width="match_parent"
@@ -72,11 +80,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="56dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp" >
-        
 
         <Button
             android:id="@+id/btn_begin_check"
@@ -94,5 +101,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </FrameLayout>
-
+	<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/footer" />
 </LinearLayout>

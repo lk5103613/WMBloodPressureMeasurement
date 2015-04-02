@@ -48,6 +48,7 @@ public class MainActivity extends BaseActivity implements
 		
 		int connectState = NetUtils.getConnectState(mContext);
 		new CheckNeedUploadTask(mContext, connectState, mAlertDialog).execute();
+		
 	}
 
 	/**

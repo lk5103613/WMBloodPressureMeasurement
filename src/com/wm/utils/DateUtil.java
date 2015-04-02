@@ -7,6 +7,7 @@ import java.util.Locale;
 public class DateUtil {
 	
 	public static final String DATA_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATA_FORMAT_CHINESE="MM‘¬dd»’";
 	
 	public static Date longToDate(long longDate) {
 		Date date = new Date(longDate);

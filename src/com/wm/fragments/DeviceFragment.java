@@ -2,21 +2,29 @@ package com.wm.fragments;
 
 import java.util.List;
 
+import android.R.raw;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 import com.wm.activity.AddDeviceActivity;
@@ -40,7 +49,7 @@ import com.wm.utils.BtnCallback;
 import com.wm.utils.DialogUtils;
 import com.wm.utils.TabPager;
 
-public class DeviceFragment extends Fragment {
+public class DeviceFragment extends Fragment implements View.OnClickListener {
 
 	public final static String KEY_DEVICE_INFO = "device_info";
 	public static int STATE_EDIT = 0;
@@ -49,6 +58,8 @@ public class DeviceFragment extends Fragment {
 
 	@InjectView(R.id.device_listview)
 	ListView mDeviceListView;
+	@InjectView(R.id.device_toolbar)
+	RelativeLayout mToolbar;
 
 	private OnStateChangeListener mCallback;
 	private DeviceDataSet mDeviceDataSet;
@@ -60,6 +71,11 @@ public class DeviceFragment extends Fragment {
 	private List<DeviceInfo> mDevices;
 	private DeviceDBManager mDeviceDBManager;
 	private Handler mHandler;
+
+	private TextView actionAdd, actionDel, actionCancelDel, actionUpd,
+			actionCancelUpd;
+	AlertDialog alertDialog;
+	View dialogView;
 
 	public interface OnStateChangeListener {
 		public void onStateChange(int state);
@@ -87,8 +103,56 @@ public class DeviceFragment extends Fragment {
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
 		setHasOptionsMenu(true);// 显示fragment的menu
-
 		return view;
+	}
+
+	public void showMenuDialog() {
+		if (alertDialog == null) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setCancelable(true);
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			dialogView = inflater.inflate(R.layout.menu_dialog_layout, null);
+			builder.setView(dialogView);
+			alertDialog = builder.create();
+			alertDialog.setCanceledOnTouchOutside(true);
+		}
+		
+		alertDialog.show();
+		
+		actionAdd = ButterKnife.findById(dialogView, R.id.action_add);
+		actionDel = ButterKnife.findById(dialogView, R.id.action_delete_device);
+		actionCancelDel = ButterKnife.findById(dialogView, R.id.action_cancel_delete);
+		actionUpd = ButterKnife.findById(dialogView, R.id.action_change_name);
+		actionCancelUpd = ButterKnife.findById(dialogView, R.id.action_cancel_change);
+
+		actionAdd.setOnClickListener(this);
+		actionDel.setOnClickListener(this);
+		actionCancelDel.setOnClickListener(this);
+		actionCancelUpd.setOnClickListener(this);
+		actionUpd.setOnClickListener(this);
+
+		
+
+		Window dialogWindow = alertDialog.getWindow();
+		WindowManager m = getActivity().getWindowManager();
+		Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
+
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+		params.gravity = Gravity.TOP;
+		params.y = mToolbar.getHeight() + 10;
+		params.x = 200;
+
+		Point p = new Point();
+		d.getSize(p);
+		params.width = (int) (p.x * 0.65); // 宽度设置为屏幕的0.65
+
+		dialogWindow.setAttributes(params);
+
+	}
+
+	@OnClick(R.id.menu_img)
+	public void menuClick() {
+		showMenuDialog();
 	}
 
 	@Override
@@ -147,50 +211,6 @@ public class DeviceFragment extends Fragment {
 		super.onPrepareOptionsMenu(menu);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		switch (item.getItemId()) {
-		case R.id.action_add_device:
-			mTabPager.savePosition(TabPager.PAGE_DEVICE);
-			mDeviceDataSet.option = OptionEnum.ITEM_ADD;
-			mAdapter.notifyDataSetChanged();
-			Intent intent = new Intent(mContext, AddDeviceActivity.class);
-			startActivity(intent);
-			getActivity().overridePendingTransition(R.anim.slide_in_from_right,
-					R.anim.scale_fade_out);
-			break;
-		case R.id.action_delete_device:
-			isDelete = true;
-			isEdit = false;
-			mCallback.onStateChange(STATE_DELETE);
-			mDeviceDataSet.option = OptionEnum.ITEM_DELETE;
-			mAdapter.notifyDataSetChanged();
-			break;
-		case R.id.action_cancel_delete:
-			isDelete = false;
-			mCallback.onStateChange(STATE_NORMAL);
-			mDeviceDataSet.option = null;
-			mAdapter.notifyDataSetChanged();
-			break;
-		case R.id.action_change_name:
-			isEdit = true;
-			isDelete = false;
-			mCallback.onStateChange(STATE_EDIT);
-			mDeviceDataSet.option = OptionEnum.ITEM_UPDATE;
-			mAdapter.notifyDataSetChanged();
-			break;
-		case R.id.action_cancel_change:
-			isEdit = false;
-			mCallback.onStateChange(STATE_NORMAL);
-			mDeviceDataSet.option = null;
-			mAdapter.notifyDataSetChanged();
-			break;
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 
 	public void resetList() {
 		mDeviceDataSet.option = null;
@@ -255,7 +275,7 @@ public class DeviceFragment extends Fragment {
 						R.id.btn_delete);
 				mHolder.mBtnUpdate = ButterKnife.findById(convertView,
 						R.id.btn_update);
-				mHolder.mBtnContainer = ButterKnife.findById(convertView, 
+				mHolder.mBtnContainer = ButterKnife.findById(convertView,
 						R.id.btn_container);
 				convertView.setTag(mHolder);
 			} else {
@@ -370,6 +390,68 @@ public class DeviceFragment extends Fragment {
 		public Button mBtnDelete;
 		public Button mBtnUpdate;
 		public RelativeLayout mBtnContainer;
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.action_add:
+			actionCancelDel.setVisibility(View.GONE);
+			actionCancelUpd.setVisibility(View.GONE);
+			actionDel.setVisibility(View.VISIBLE);
+			actionUpd.setVisibility(View.VISIBLE);
+			mTabPager.savePosition(TabPager.PAGE_DEVICE);
+			mDeviceDataSet.option = OptionEnum.ITEM_ADD;
+			mAdapter.notifyDataSetChanged();
+			Intent intent = new Intent(mContext, AddDeviceActivity.class);
+			startActivity(intent);
+			getActivity().overridePendingTransition(R.anim.slide_in_from_right,
+					R.anim.scale_fade_out);
+			break;
+		case R.id.action_delete_device:
+			isDelete = true;
+			isEdit = false;
+			mCallback.onStateChange(STATE_DELETE);
+			mDeviceDataSet.option = OptionEnum.ITEM_DELETE;
+			mAdapter.notifyDataSetChanged();
+			v.setVisibility(View.GONE);
+			actionCancelDel.setVisibility(View.VISIBLE);
+			actionCancelUpd.setVisibility(View.GONE);
+			actionUpd.setVisibility(View.VISIBLE);
+			break;
+		case R.id.action_cancel_delete:
+			isDelete = false;
+			mCallback.onStateChange(STATE_NORMAL);
+			mDeviceDataSet.option = null;
+			mAdapter.notifyDataSetChanged();
+			v.setVisibility(View.GONE);
+			actionDel.setVisibility(View.VISIBLE);
+			break;
+		case R.id.action_change_name:
+			isEdit = true;
+			isDelete = false;
+			mCallback.onStateChange(STATE_EDIT);
+			mDeviceDataSet.option = OptionEnum.ITEM_UPDATE;
+			mAdapter.notifyDataSetChanged();
+			v.setVisibility(View.GONE);
+			actionCancelUpd.setVisibility(View.VISIBLE);
+			actionCancelDel.setVisibility(View.GONE);
+			actionDel.setVisibility(View.VISIBLE);
+			break;
+		case R.id.action_cancel_change:
+			isEdit = false;
+			mCallback.onStateChange(STATE_NORMAL);
+			mDeviceDataSet.option = null;
+			mAdapter.notifyDataSetChanged();
+			v.setVisibility(View.GONE);
+			actionUpd.setVisibility(View.VISIBLE);
+			break;
+
+		default:
+			break;
+		}
 		
+		alertDialog.dismiss();
+
 	}
 }
