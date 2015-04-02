@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -28,14 +27,14 @@ import com.wm.fragments.TypeFactory;
 
 public class ResultActivity extends BaseActivity implements IHandleConnect, Interaction {
 
-	@InjectView(R.id.blood_check_bar)
-	Toolbar mToolbar;
 	@InjectView(R.id.btn_record)
 	Button mBtnRecord;
 	@InjectView(R.id.waiting_record)
 	ProgressBar mProgressBar;
 	@InjectView(R.id.result_suggest)
 	TextView mResult;
+	@InjectView(R.id.title)
+	TextView mTitle;
 
 	private BaseResultFragment mFragment;
 	private String mType;
@@ -70,10 +69,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Inte
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
 		mFragment = TypeFactory.getResultFragment(mType);
 
-		mToolbar.setTitle(TypeFactory.getTitleByType(mContext, mType));
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
+		mTitle.setText(TypeFactory.getTitleByType(mContext, mType));
 		mDevice = getIntent()
 				.getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 
