@@ -370,5 +370,6 @@ public class DeviceFragment extends Fragment {
 		public Button mBtnDelete;
 		public Button mBtnUpdate;
 		public RelativeLayout mBtnContainer;
+		
 	}
 }
