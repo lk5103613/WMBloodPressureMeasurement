@@ -71,8 +71,8 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDescription("");
-		mChart.setGridColor(getResources().getColor(R.color.light_black));
-		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
+		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setStartAtZero(false);
 		mChart.setScaleMinima(2, 1);
 	}
