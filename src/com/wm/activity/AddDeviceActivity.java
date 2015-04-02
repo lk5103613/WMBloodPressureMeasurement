@@ -7,7 +7,6 @@ import java.util.Locale;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -27,8 +26,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 
 	@InjectView(R.id.type_spinner)
 	Spinner mTypeSpinner;
-	@InjectView(R.id.add_device_toolbar)
-	Toolbar mToolbar;
 
 	private DeviceScanner mScanner;
 	private DeviceDBManager mDeviceDBManager;
@@ -46,12 +43,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		setContentView(R.layout.activity_add_device);
 		ButterKnife.inject(this);
 
-		System.out.println("onCreate");
-
-		mToolbar.setTitle(getResources().getString(R.string.add_new_device));
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		mScanner = DeviceScanner.getInstance(mBluetoothAdapter, this);
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mBPText = getResources().getString(R.string.bp_text);
@@ -59,12 +50,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		mFHText = getResources().getString(R.string.fh_text);
 		mProgressDialog = DialogUtils.createProgressDialog(mContext, "",
 				"正在扫描设备");
-
-		//String[] type = new String[] { mBPText, mBSText, mFHText };
-		//ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-		//		R.layout.type_item, type);
-		//arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		//mTypeSpinner.setAdapter(arrayAdapter);
 		
 		ArrayList<String> type= new ArrayList<>();
 		type.add(mBPText);
