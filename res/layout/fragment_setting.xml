@@ -5,6 +5,23 @@
     android:background="@color/white"
     android:orientation="vertical" >
     
+   <RelativeLayout
+	   android:id="@+id/settings_toolbar"
+	   android:layout_width="match_parent"
+	   android:layout_height="@dimen/toolbar_height"
+	   android:background="@color/colorPrimary" >
+	        
+        <TextView android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           	android:textColor="@color/white"
+           	android:textStyle="bold"
+           	android:textSize="20sp"
+            android:text="@string/title_fragment_settings"
+            android:layout_centerInParent="true"/>
+        
+    </RelativeLayout>
+    
 	<ListView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"

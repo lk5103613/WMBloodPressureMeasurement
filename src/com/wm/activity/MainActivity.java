@@ -3,7 +3,6 @@ package com.wm.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,8 +23,6 @@ public class MainActivity extends BaseActivity implements
 	// request code to open bluetooth
 	public static int REQUEST_ENABLE_BT = 1;
 	
-	@InjectView(R.id.index_toolbar)
-	Toolbar mToolbar;
 	@InjectView(R.id.main_pager)
 	MyViewPager mPager;
 	@InjectView(R.id.main_tab)
@@ -60,8 +57,6 @@ public class MainActivity extends BaseActivity implements
 	 */
 	private void initTab() {
 		mIndexPagerAdapter = new IndexPagerAdapter(getSupportFragmentManager());
-		mToolbar.setTitle("÷«ª€“Ω¡∆");
-		setSupportActionBar(mToolbar);
 		mPager.setAdapter(mIndexPagerAdapter);
 	}
 

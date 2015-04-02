@@ -6,12 +6,12 @@ import java.util.List;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 import com.wm.adapter.GuideViewPagerAdapter;
 import com.wm.customview.MyViewPager;
@@ -22,8 +22,6 @@ public class GuideViewActivity extends ActionBarActivity implements View.OnClick
 	MyViewPager mViewPager;
 	@InjectView(R.id.dots_container)
 	LinearLayout dotsContainer;
-	@InjectView(R.id.guide_toolbar)
-	Toolbar mToolbar;
 	
 	private GuideViewPagerAdapter mAdapter;
 	List<View> mViews;
@@ -38,10 +36,6 @@ public class GuideViewActivity extends ActionBarActivity implements View.OnClick
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_guide_view);
 		ButterKnife.inject(this);
-		mToolbar.setTitle(getResources().getString(R.string.use_help));
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		
 		mViews = new ArrayList<View>();
 		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -56,6 +50,11 @@ public class GuideViewActivity extends ActionBarActivity implements View.OnClick
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(this);
 		initDots();
+	}
+	
+	@OnClick(R.id.guide_back)
+	public void back(View v) {
+		finish();
 	}
 	
 	private void initDots() {

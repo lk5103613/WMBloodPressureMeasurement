@@ -11,11 +11,6 @@ public class AboutActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 		ButterKnife.inject(this);
-//		mToolbar.setTitle("关于我们");
-//		setSupportActionBar(mToolbar);
-//		mToolbar.setNavigationContentDescription("关于我们");
-//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 	}
 	
 	@OnClick(R.id.about_back)
