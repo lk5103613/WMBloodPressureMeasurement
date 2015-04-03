@@ -14,11 +14,18 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.XLabels;
+import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
+import com.wm.activity.R.color;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BSResult;
 import com.wm.utils.DateUtil;
@@ -28,12 +35,13 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	
 	public final static String BS_DATA = "bs_data";
 
-	@InjectView(R.id.bs_history_chart)
-	LineChart mChart;
+	@InjectView(R.id.bs_barchart)
+	BarChart mChart;
 	private Handler mHandler;
 	private BluetoothGattCharacteristic mCommandCharac;
 	private HistoryDBManager historyDBManager;
 	private List<BSResult> bsResults;
+	private int[] colors;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,10 +51,9 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 		ButterKnife.inject(this, view);
 		
 		mHandler = new Handler();
-
-		initLineChart();
-		
 		historyDBManager = HistoryDBManager.getInstance(getActivity());
+		initBarChart();
+		setData(20, 50);
 		
 		return view;
 	}
@@ -54,72 +61,65 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	public void onResume() {
 		super.onResume();
 		bsResults = historyDBManager.getAllBsResults();
-		System.out.println("result " + bsResults.size());
-		addEmptyData();
-		addDataSet();
-		
 	}
 
-	private void initLineChart() {
-		// chart
-		mChart.setDrawYValues(false);
-		mChart.setDrawGridBackground(false);
-		mChart.setDescription("");
-		mChart.setGridColor(getResources().getColor(R.color.light_black));
-		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+	private void initBarChart() {
+			colors = new int[]{getResources().getColor(R.color.yellow_green),
+					getResources().getColor(R.color.colorPrimary)};
 
-	}
+	        // enable the drawing of values
+	        mChart.setDrawYValues(false);
+	        mChart.setDrawValueAboveBar(true);
+	        mChart.setDescription("");
 
-	private void addEmptyData() {
-		ArrayList<String> xVals = new ArrayList<>();
-		for (int i = 0, size = bsResults.size(); i< size; i++) {
-			Date date = DateUtil.longToDate(bsResults.get(i).date);
-			String datestr = DateUtil.getFormatDate("MM.dd", date);
-			xVals.add(datestr);
-		}
+	        // if more than 60 entries are displayed in the chart, no values will be
+	        // drawn
+	        mChart.setMaxVisibleValueCount(300);
+	        mChart.set3DEnabled(false);//关闭3D效果
+	        mChart.setPinchZoom(false);// x y 轴单独缩放
+	        mChart.setDrawBarShadow(false);//柱状图阴影
+	        mChart.setDrawGridBackground(false);
+	        mChart.setDrawHorizontalGrid(true);
+	        mChart.setDrawVerticalGrid(false);
+	        mChart.setValueTextSize(10f);
+	        mChart.setDrawLegend(false);
 
-		for (int i = bsResults.size(); i < 8; i++) {
-			Calendar nowss = Calendar.getInstance();
-			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
-					+ (nowss.get(Calendar.DAY_OF_MONTH) + i);
-			xVals.add(datestr);
-		}
-		
+	        mChart.setDrawBorder(false);// 不绘制边框
+	        XLabels xl = mChart.getXLabels();
+	        xl.setPosition(XLabelPosition.BOTTOM);//x 坐标位置
+	        mChart.animateY(1000);//Y轴动画
 
-		LineData data = new LineData(xVals);
-		mChart.setData(data);
-		mChart.invalidate();
 	}
 	
-	private void addDataSet() {
+	private void setData(int count, float range) {
 
-		LineData data = mChart.getData();
+        ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < count; i++) {
+            xVals.add(i+"");
+        }
 
-		if (data != null) {
-			// create 10 y-vals
-			ArrayList<Entry> yValsBs = new ArrayList<Entry>();
-			
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-			//mChart.setScaleMinima(fhValues.size() / 15, 1);// 设置缩放比例
+        for (int i = 0; i < count; i++) {
+            float mult = (range + 1);
+            float val = (float) (Math.random() * mult);
+            yVals1.add(new BarEntry(val, i));
+        }
 
-			for (int i = 0; i < bsResults.size(); i++) {
-				yValsBs.add(new Entry(Float.parseFloat(bsResults.get(i).bg), i));
-			}
+        BarDataSet set1 = new BarDataSet(yVals1, "");
+        set1.setBarSpacePercent(35f);
+        set1.setColors(colors);
 
-			LineDataSet set = new LineDataSet(yValsBs,
-					getString(R.string.bs_text));
-			set.setLineWidth(2.5f);
-			set.setCircleSize(3f);
-			int color = getResources().getColor(R.color.red);
-			set.setColor(color);
-			set.setCircleColor(color);
-			set.setHighLightColor(color);
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        dataSets.add(set1);
 
-			data.addDataSet(set);
-			mChart.notifyDataSetChanged();
-			mChart.animateY(1000);
-		}
-	}
+        BarData data = new BarData(xVals, dataSets);
+
+        mChart.setData(data);
+    }
+
+	
+	
 
 
 	@Override
