@@ -17,8 +17,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.MarkerView;
 import com.wm.activity.R;
 import com.wm.customview.MyMarkerView;
 import com.wm.db.HistoryDBManager;
@@ -74,13 +72,17 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setStartAtZero(false);
+		//mChart.setStartAtZero(false);
 		mChart.setScaleMinima(2, 1);
-		mChart.setDrawLegend(false);//不绘制颜色标记
+		mChart.setDrawLegend(true);//绘制颜色标记
 		mChart.setDrawXLabels(false);//不绘制X轴标签
 		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签
         mv.setOffsets(-mv.getMeasuredWidth() / 2 +30, -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
+        mChart.getYLabels().setLabelCount(5);
+        mChart.setHighlightEnabled(false);
+        
+        
 	}
 
 	private void addEmptyData(int position) {
@@ -124,6 +126,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 
 			data.addDataSet(set);
 			mChart.notifyDataSetChanged();
+			mChart.centerViewPort(1, mChart.getAverage()+30);
 			mChart.animateY(1000);
 		}
 	}
