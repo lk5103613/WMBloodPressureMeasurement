@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -16,7 +18,9 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
+import com.github.mikephil.charting.utils.YLabels;
 import com.wm.activity.R;
 import com.wm.customview.MyMarkerView;
 import com.wm.db.HistoryDBManager;
@@ -24,10 +28,12 @@ import com.wm.entity.BPResult;
 import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
-public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartValueSelectedListener 
+public class BPHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener {
 
 	@InjectView(R.id.bp_history_chart)
 	LineChart mChart;
+	@InjectView(R.id.text_heart)
+	TextView textHeart;
 
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
@@ -43,6 +49,7 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 		
 		// chart
 		initLineChart();
+		System.out.println("bp oncreate");
 		return view;
 	}
 
@@ -55,10 +62,11 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 
 		// initData();
 		addDataSet();
+		System.out.println("bp onresume");
 		super.onResume();
 	}
 	public void initLineChart() {
-//		mChart.setOnChartValueSelectedListener(this);
+		mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
@@ -67,14 +75,16 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setDrawBorder(false);
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-		mChart.setStartAtZero(false);
+		//mChart.setStartAtZero(false);
 	
-		mChart.setScaleMinima(1, 1);//mBPResults.size()/20
+		mChart.setScaleMinima(1, 1.3f);//mBPResults.size()/20
 		mChart.setDrawXLabels(true);//绘制X轴标签
 		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
-        mv.setOffsets(-mv.getMeasuredWidth() / 2 +30, -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
+        mv.setOffsets(-mv.getMeasuredWidth() / 2 +35, -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
-        mChart.getYLabels().setLabelCount(5);
+        
+        YLabels y = mChart.getYLabels(); //y轴的标示
+        y.setLabelCount(4); // y轴上的标签的显示的个数
 		
 	}
 
@@ -148,8 +158,7 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 //			hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
 //			data.addDataSet(hrSet);
 
-			mChart.centerViewPort(1, 150);
-			System.out.println("average " + mChart.getAverage());
+			mChart.centerViewPort(1, mChart.getAverage()+100);//设置视角中心
 			mChart.notifyDataSetChanged();
 			mChart.animateY(1500);// 设置Y轴动画 毫秒;
 		}
@@ -168,19 +177,17 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 		}
 	}
 
-//	@Override
-//	public void onValueSelected(Entry e, int dataSetIndex) {
-//		float sz = mBPResults.get(e.getXIndex()).dbp;
-//		float ss = mBPResults.get(e.getXIndex()).sbp;
-//		float hr =  mBPResults.get(e.getXIndex()).pulse;
-//		Toast.makeText(mContext, "舒张压： " + (int) sz + "  收缩压： " + (int) ss +"  脉搏值 : " +(int)hr,
-//				Toast.LENGTH_SHORT).show();
-//	}
-//
-//	@Override
-//	public void onNothingSelected() {
-//
-//	}
+	@Override
+	public void onValueSelected(Entry e, int dataSetIndex) {
+		
+		float hr =  mBPResults.get(e.getXIndex()).pulse;
+		textHeart.setText((int)hr+"");
+	}
+
+	@Override
+	public void onNothingSelected() {
+
+	}
 
 	@Override
 	public boolean handleConnect() {

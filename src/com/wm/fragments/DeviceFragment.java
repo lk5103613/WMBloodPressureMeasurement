@@ -99,7 +99,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mHandler = new Handler();
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
-		setHasOptionsMenu(true);// 显示fragment的menu
+		System.out.println("device framgent oncreate");
 		return view;
 	}
 
@@ -128,8 +128,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		actionCancelUpd.setOnClickListener(this);
 		actionUpd.setOnClickListener(this);
 
-		
-
 		Window dialogWindow = alertDialog.getWindow();
 		WindowManager m = getActivity().getWindowManager();
 		Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
@@ -156,6 +154,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	public void onResume() {
 		super.onResume();
 		initData();
+		System.out.println("device framgent onresume");
 	}
 
 	private void initData() {
@@ -182,32 +181,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		super.onActivityCreated(savedInstanceState);
 
 	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		getActivity().getMenuInflater().inflate(R.menu.device, menu);
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		if (!isDelete) {
-			menu.findItem(R.id.action_delete_device).setVisible(true);
-			menu.findItem(R.id.action_cancel_delete).setVisible(false);
-		} else {
-			menu.findItem(R.id.action_delete_device).setVisible(false);
-			menu.findItem(R.id.action_cancel_delete).setVisible(true);
-		}
-
-		if (!isEdit) {
-			menu.findItem(R.id.action_change_name).setVisible(true);
-			menu.findItem(R.id.action_cancel_change).setVisible(false);
-		} else {
-			menu.findItem(R.id.action_change_name).setVisible(false);
-			menu.findItem(R.id.action_cancel_change).setVisible(true);
-		}
-		super.onPrepareOptionsMenu(menu);
-	}
-
 
 	public void resetList() {
 		mDeviceDataSet.option = null;
