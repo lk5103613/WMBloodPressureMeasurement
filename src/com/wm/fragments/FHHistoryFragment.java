@@ -69,6 +69,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 //		mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
+		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
@@ -126,7 +127,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 
 			data.addDataSet(set);
 			mChart.notifyDataSetChanged();
-			mChart.centerViewPort(1, mChart.getAverage()+30);
+			mChart.centerViewPort(1, mChart.getAverage()+100);
 			mChart.animateY(1000);
 		}
 	}
