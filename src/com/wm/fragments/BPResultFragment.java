@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.wm.activity.R;
+import com.wm.customview.ImageTextView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.entity.BPResultException;
@@ -20,13 +20,11 @@ import com.wm.utils.UUIDS;
 public class BPResultFragment extends BaseResultFragment {
 
 	@InjectView(R.id.lbl_ss)
-	TextView mLblSS;
+	ImageTextView mLblSS;
 	@InjectView(R.id.lbl_sz)
-	TextView mLblSZ;
-	@InjectView(R.id.lbl_pressure)
-	TextView mLblP;
-	@InjectView(R.id.lbl_hr)
-	TextView mLblHr;
+	ImageTextView mLblSZ;
+	@InjectView(R.id.bp_pressure)
+	ImageTextView mPressure;
 
 	private boolean mNeedNewData = true;
 	private BPResult mBPResult;
@@ -41,6 +39,8 @@ public class BPResultFragment extends BaseResultFragment {
 		ButterKnife.inject(this, view);
 
 		mContext = getActivity();
+		
+		mPressure.startRotate();
 
 		return view;
 	}
@@ -85,15 +85,16 @@ public class BPResultFragment extends BaseResultFragment {
 		if (data.trim().length() == 38) {
 			// 成功获得血压心率等数据
 			mNeedNewData = false;
+			mPressure.stopRotate();
 			mBPResult = new BPResult(data);
 			mLblSS.setText(String.valueOf((int) mBPResult.sbp));
 			mLblSZ.setText(String.valueOf((int) mBPResult.dbp));
-			mLblHr.setText(String.valueOf((int) mBPResult.pulse));
 			mCallback.showResult(mBPResult.bpResult);
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
 			// 获得异常信息
 			mNeedNewData = false;
+			mPressure.stopRotate();
 			mBPException = new BPResultException(data);
 			Toast.makeText(mContext, mBPException.description,
 					Toast.LENGTH_LONG).show();
@@ -101,7 +102,7 @@ public class BPResultFragment extends BaseResultFragment {
 			// 获得Pressure值
 			mNeedNewData = true;
 			String currentPressure = getPressureValue(data);
-			mLblP.setText(currentPressure);
+			mPressure.setText(currentPressure);
 		}
 		if (!mNeedNewData) {
 			if (mBluetoothLeService == null)
@@ -116,7 +117,6 @@ public class BPResultFragment extends BaseResultFragment {
 	public boolean handleServiceDiscover() {
 		mLblSS.setText("");
 		mLblSZ.setText("");
-		mLblHr.setText("");
 		mBluetoothLeService.setCharacteristicNotification(mInforCharacteristic,
 				true);
 		return false;
