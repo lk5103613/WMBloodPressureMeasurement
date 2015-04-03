@@ -13,8 +13,6 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.widget.ImageView;
 
 import com.wm.activity.R;
@@ -55,12 +53,6 @@ public class ImageTextView extends ImageView {
 
 	public ImageTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
-		DisplayMetrics dm = getResources().getDisplayMetrics();
-
-		mTextSize = (int) TypedValue.applyDimension(
-				TypedValue.COMPLEX_UNIT_DIP, mTextSize, dm);
-
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.ImageTextView);
 		mText = a.getString(R.styleable.ImageTextView_text);
@@ -80,10 +72,11 @@ public class ImageTextView extends ImageView {
 		if (mTextPaint != null)
 			return;
 		mTextPaint = new Paint();
+		mTextPaint.setAntiAlias(true);
+		mTextPaint.setFilterBitmap(true);
 		mTextPaint.setColor(mColor);
 		mTextPaint.setTextSize(mTextSize);
 		mTextPaint.setStrokeWidth(1);
-
 	}
 
 	@Override
@@ -96,7 +89,6 @@ public class ImageTextView extends ImageView {
 			mDSBitmap = Bitmap.createScaledBitmap(
 					((BitmapDrawable) drawable).getBitmap(), dsWidth, dsHeight,
 					true);
-
 		float centerX = dsWidth * 1.0f / 2;
 		float centerY = dsHeight * 1.0f / 2;
 		initMatrix();
@@ -105,9 +97,7 @@ public class ImageTextView extends ImageView {
 		if (mText == null)
 			return;
 		float textLength = mTextPaint.measureText(mText);
-		canvas.drawText(mText, centerX - textLength / 2, centerY + mTextSize
-				/ 2, mTextPaint);
-
+		canvas.drawText(mText, centerX - textLength / 2, centerY + (int)(mTextSize / 2.5), mTextPaint);
 	}
 
 	private void setDegree(int degree) {
@@ -123,6 +113,15 @@ public class ImageTextView extends ImageView {
 	public void stopRotate() {
 		mRotating = false;
 		mHandler.removeMessages(0);
+	}
+	
+	public String getText() {
+		return mText;
+	}
+	
+	public void setText(String text) {
+		this.mText = text;
+		invalidate();
 	}
 
 	@Override

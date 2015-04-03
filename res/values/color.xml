@@ -44,5 +44,6 @@
     <color name="fragment_bg">#FEFEFE</color>
     
     <color name="device_type_bgcolor">#EEEEEE</color>
+    <color name="bp_pressure_value_color">#383536</color>
 	
 </resources>
