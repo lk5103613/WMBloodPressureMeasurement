@@ -5,8 +5,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="device_item_height">80dp</dimen>
     <dimen name="device_item_icon">60dp</dimen>
-	<dimen name="device_item_btn_padding">10dp</dimen>
+	<dimen name="device_item_btn_padding">5dp</dimen>
 	<dimen name="device_item_btn_height">32dp</dimen>
+	<dimen name="device_item_btn_width">70dp</dimen>
 	
 	<dimen name="toolbar_height">55dp</dimen>
 </resources>
