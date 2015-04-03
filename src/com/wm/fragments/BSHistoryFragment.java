@@ -1,8 +1,6 @@
 package com.wm.fragments;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -15,20 +13,16 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.BarLineChartBase.BorderPosition;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
-import com.wm.activity.R.color;
+import com.wm.customview.MyMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BSResult;
-import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
 public class BSHistoryFragment extends BaseHistoryFragment {
@@ -72,9 +66,9 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	        mChart.setDrawValueAboveBar(true);
 	        mChart.setDescription("");
 
-	        // if more than 60 entries are displayed in the chart, no values will be
+	        // if more than 400 entries are displayed in the chart, no values will be
 	        // drawn
-	        mChart.setMaxVisibleValueCount(300);
+	        mChart.setMaxVisibleValueCount(400);
 	        mChart.set3DEnabled(false);//关闭3D效果
 	        mChart.setPinchZoom(false);// x y 轴单独缩放
 	        mChart.setDrawBarShadow(false);//柱状图阴影
@@ -82,9 +76,13 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	        mChart.setDrawHorizontalGrid(true);
 	        mChart.setDrawVerticalGrid(false);
 	        mChart.setValueTextSize(10f);
-	        mChart.setDrawLegend(false);
-
-	        mChart.setDrawBorder(false);// 不绘制边框
+	        mChart.setDrawLegend(false);//不绘制颜色标记
+	        mChart.setGridColor(getResources().getColor(R.color.fragment_bg));//网格颜色
+			mChart.setBorderColor(getResources().getColor(R.color.dark_gray));//边框颜色
+	        mChart.setBorderPositions(new BorderPosition[]{BorderPosition.BOTTOM,BorderPosition.LEFT});//绘制边框位置， 左、下
+	        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view);//自定义标签
+	        mv.setOffsets(-mv.getMeasuredWidth() / 2, -mv.getMeasuredHeight());//调整 数据 标签的位置
+	        mChart.setMarkerView(mv);// 设置标签
 	        XLabels xl = mChart.getXLabels();
 	        xl.setPosition(XLabelPosition.BOTTOM);//x 坐标位置
 	        mChart.animateY(1000);//Y轴动画
