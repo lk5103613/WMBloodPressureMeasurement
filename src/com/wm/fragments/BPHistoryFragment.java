@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -17,9 +16,9 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
+import com.wm.customview.MyMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.utils.DateUtil;
@@ -69,7 +68,13 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 		mChart.setDrawBorder(false);
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		mChart.setStartAtZero(false);
-		mChart.setScaleMinima(mBPResults.size()/12, 1);
+	
+		mChart.setScaleMinima(1, 1);//mBPResults.size()/20
+		mChart.setDrawXLabels(true);//绘制X轴标签
+		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
+        mv.setOffsets(-mv.getMeasuredWidth() / 2 +30, -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
+        mChart.setMarkerView(mv);// 设置标签
+        mChart.getYLabels().setLabelCount(5);
 		
 	}
 
@@ -82,11 +87,11 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 		// 创建 x值
 		for (int i = 0; i < mBPResults.size(); i++) {
 			Date date = DateUtil.longToDate(mBPResults.get(i).date);
-			String datestr = DateUtil.getFormatDate("MM.dd", date);
+			String datestr = (date.getMonth()+1)+"." + (date.getDate());
 			xVals.add(datestr);
 		}
 
-		for (int i = mBPResults.size(); i < 8; i++) {
+		for (int i = mBPResults.size(); i < 15; i++) {
 			Calendar nowss = Calendar.getInstance();
 			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
 					+ (nowss.get(Calendar.DAY_OF_MONTH) + i);
@@ -106,45 +111,45 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 
 			ArrayList<Entry> yValsSz = new ArrayList<Entry>();// 舒张
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();// 收缩
-			ArrayList<Entry> yValsHr = new ArrayList<>();//心率
+//			ArrayList<Entry> yValsHr = new ArrayList<>();//心率
 
 			for (int i = 0; i < mBPResults.size(); i++) {
 				yValsSz.add(new Entry(mBPResults.get(i).dbp, i));
 				yValsSs.add(new Entry(mBPResults.get(i).sbp, i));
-				yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
+//				yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
 			}
 
 			LineDataSet szSet = new LineDataSet(yValsSz,
 					getString(R.string.diastolic));
-			szSet.setLineWidth(2.5f);
+			szSet.setLineWidth(2f);
 			szSet.setCircleSize(3f);
 
-			szSet.setColor(getResources().getColor(R.color.dark_green));
-			szSet.setCircleColor(getResources().getColor(R.color.dark_green));
-			szSet.setHighLightColor(getResources().getColor(R.color.dark_green));
+			szSet.setColor(getResources().getColor(R.color.yellow_green));
+			szSet.setCircleColor(getResources().getColor(R.color.yellow_green));
+			szSet.setHighLightColor(getResources().getColor(R.color.yellow_green));
 			data.addDataSet(szSet);
 
 			LineDataSet ssSet = new LineDataSet(yValsSs,
 					getString(R.string.systolic));
-			ssSet.setLineWidth(2.5f);
+			ssSet.setLineWidth(2f);
 			ssSet.setCircleSize(3f);
-
-			ssSet.setColor(getResources().getColor(R.color.sky_blue));
-			ssSet.setCircleColor(getResources().getColor(R.color.sky_blue));
-			ssSet.setHighLightColor(getResources().getColor(R.color.sky_blue));
+			ssSet.setColor(getResources().getColor(R.color.colorPrimary));
+			ssSet.setCircleColor(getResources().getColor(R.color.colorPrimary));
+			ssSet.setHighLightColor(getResources().getColor(R.color.colorPrimary));
 			data.addDataSet(ssSet);
 
-			LineDataSet hrSet = new LineDataSet(yValsHr,
-					getString(R.string.heart_rate));
-			hrSet.setLineWidth(2.5f);
-			hrSet.setCircleSize(3f);
+//			LineDataSet hrSet = new LineDataSet(yValsHr,
+//					getString(R.string.heart_rate));
+//			hrSet.setLineWidth(2.5f);
+//			hrSet.setCircleSize(3f);
+//
+//			hrSet.setColor(getResources().getColor(R.color.yellow));
+//			hrSet.setCircleColor(getResources().getColor(R.color.yellow));
+//			hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
+//			data.addDataSet(hrSet);
 
-			hrSet.setColor(getResources().getColor(R.color.yellow));
-			hrSet.setCircleColor(getResources().getColor(R.color.yellow));
-			hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
-			data.addDataSet(hrSet);
-
-			
+			mChart.centerViewPort(1, 150);
+			System.out.println("average " + mChart.getAverage());
 			mChart.notifyDataSetChanged();
 			mChart.animateY(1500);// 设置Y轴动画 毫秒;
 		}
