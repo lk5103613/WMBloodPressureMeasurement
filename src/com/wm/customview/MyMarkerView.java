@@ -19,10 +19,11 @@ public class MyMarkerView extends MarkerView {
 
     private TextView tvContent;
 
-    public MyMarkerView(Context context, int layoutResource) {
+    public MyMarkerView(Context context, int layoutResource, int marker) {
         super(context, layoutResource);
 
         tvContent = (TextView) findViewById(R.id.tvContent);
+        findViewById(R.id.marker_container).setBackgroundResource(marker);
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the

@@ -18,14 +18,15 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.MarkerView;
 import com.wm.activity.R;
+import com.wm.customview.MyMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
 import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
-public class FHHistoryFragment extends BaseHistoryFragment implements
-		OnChartValueSelectedListener {
+public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChartValueSelectedListener
 
 	@InjectView(R.id.fh_history_chart)
 	LineChart mChart;
@@ -67,7 +68,7 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 	}
 	private void initLineChart() {
 		// chart
-		mChart.setOnChartValueSelectedListener(this);
+//		mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDescription("");
@@ -75,6 +76,11 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setStartAtZero(false);
 		mChart.setScaleMinima(2, 1);
+		mChart.setDrawLegend(false);//不绘制颜色标记
+		mChart.setDrawXLabels(false);//不绘制X轴标签
+		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签
+        mv.setOffsets(-mv.getMeasuredWidth() / 2 +30, -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
+        mChart.setMarkerView(mv);// 设置标签
 	}
 
 	private void addEmptyData(int position) {
@@ -103,17 +109,15 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
 			List<Float> fhValues = mFHResults.get(position).fhValues;
 
-			//mChart.setScaleMinima(fhValues.size() / 15, 1);// 设置缩放比例
-
 			for (int i = 0; i < fhValues.size(); i++) {
 				yValsFh.add(new Entry(fhValues.get(i), i));
 			}
 
 			LineDataSet set = new LineDataSet(yValsFh,
 					getString(R.string.fh_value));
-			set.setLineWidth(2.5f);
-			set.setCircleSize(3f);
-			int color = getResources().getColor(R.color.red);
+			set.setLineWidth(2f);
+			set.setCircleSize(2.5f);
+			int color = getResources().getColor(R.color.colorPrimary);
 			set.setColor(color);
 			set.setCircleColor(color);
 			set.setHighLightColor(color);
@@ -139,16 +143,16 @@ public class FHHistoryFragment extends BaseHistoryFragment implements
 //		}
 //	}
 
-	@Override
-	public void onValueSelected(Entry e, int dataSetmIndex) {
-		float fh = mFHResults.get(0).fhValues.get(e.getXIndex());
-		Toast.makeText(mContext, "胎心值： " + (int) fh, Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public void onNothingSelected() {
-
-	}
+//	@Override
+//	public void onValueSelected(Entry e, int dataSetmIndex) {
+//		float fh = mFHResults.get(0).fhValues.get(e.getXIndex());
+//		Toast.makeText(mContext, "胎心值： " + (int) fh, Toast.LENGTH_SHORT).show();
+//	}
+//
+//	@Override
+//	public void onNothingSelected() {
+//
+//	}
 
 	@OnClick(R.id.btn_next)
 	public void nextClick() {
