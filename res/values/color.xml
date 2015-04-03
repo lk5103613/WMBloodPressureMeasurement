@@ -39,11 +39,13 @@
 	<color name="chart_bg">@color/white</color>
 	<color name="yellow">#FFD700</color>
 	
-	<color name="light_blue">#00A2EA</color>
+	
     <color name="dark_blue">#008ED6</color>
     <color name="fragment_bg">#FEFEFE</color>
     
     <color name="device_type_bgcolor">#EEEEEE</color>
     <color name="bp_pressure_value_color">#383536</color>
+    <color name="history_color">#5B5B5B</color>
+    <color name="yellow_green">#ADCE24</color>
 	
 </resources>

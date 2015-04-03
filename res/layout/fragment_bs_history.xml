@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/bs_history_chart"
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bs_barchart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/chart_bg" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

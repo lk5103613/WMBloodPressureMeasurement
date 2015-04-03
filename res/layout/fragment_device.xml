@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/triangle" />
 <!-- toolbar end -->
 
@@ -52,7 +52,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="60dp"
         android:background="@color/white"
-        android:divider="@color/light_gray"
+        android:divider="@drawable/black_deliver"
         android:dividerHeight="1dp" >
     </ListView>
 
