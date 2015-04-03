@@ -81,7 +81,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 			mChart.setBorderColor(getResources().getColor(R.color.dark_gray));//边框颜色
 	        mChart.setBorderPositions(new BorderPosition[]{BorderPosition.BOTTOM,BorderPosition.LEFT});//绘制边框位置， 左、下
 	        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view);//自定义标签
-	        mv.setOffsets(-mv.getMeasuredWidth() / 2, -mv.getMeasuredHeight());//调整 数据 标签的位置
+	        mv.setOffsets(-mv.getMeasuredWidth() / 2 +30, -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
 	        mChart.setMarkerView(mv);// 设置标签
 	        XLabels xl = mChart.getXLabels();
 	        xl.setPosition(XLabelPosition.BOTTOM);//x 坐标位置
