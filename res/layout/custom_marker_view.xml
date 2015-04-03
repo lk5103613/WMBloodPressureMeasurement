@@ -9,13 +9,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="5dp"
         android:text=""
-        android:textSize="12sp"
+        android:textSize="15sp"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:singleLine="true"/>
 
 </RelativeLayout>

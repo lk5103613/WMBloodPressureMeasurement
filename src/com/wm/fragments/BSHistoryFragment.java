@@ -71,9 +71,10 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	        mChart.setMaxVisibleValueCount(400);
 	        mChart.set3DEnabled(false);//关闭3D效果
 	        mChart.setPinchZoom(false);// x y 轴单独缩放
+	        mChart.setScaleEnabled(true);//设置可缩放
 	        mChart.setDrawBarShadow(false);//柱状图阴影
 	        mChart.setDrawGridBackground(false);
-	        mChart.setDrawHorizontalGrid(true);
+	        mChart.setDrawHorizontalGrid(false);//不绘制水平网格
 	        mChart.setDrawVerticalGrid(false);
 	        mChart.setValueTextSize(10f);
 	        mChart.setDrawLegend(false);//不绘制颜色标记
@@ -85,6 +86,9 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	        mChart.setMarkerView(mv);// 设置标签
 	        XLabels xl = mChart.getXLabels();
 	        xl.setPosition(XLabelPosition.BOTTOM);//x 坐标位置
+	        
+	        //test
+	        mChart.setScaleMinima(20/7, 1);
 	        mChart.animateY(1000);//Y轴动画
 
 	}
