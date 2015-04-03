@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="match_parent"
     android:layout_marginEnd="10dp"
     android:layout_marginStart="10dp"
     android:background="@color/white"
     android:layout_marginTop="30dp"
     android:layout_marginBottom="30dp"
-    android:orientation="horizontal" >
+    android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res/com.wm.activity">
+    
+    <com.wm.customview.ImageTextView 
+        android:id="@+id/bs_value"
+        android:layout_width="200dp"
+        android:layout_height="200dp" 
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        app:textSize="50sp"
+        app:textColor="@color/white"
+        android:src="@drawable/bs_value_bg"/>
     
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:text="@string/blood_sugar"
-        android:textColor="@color/item_text_color" />
-
-    <TextView
-        android:id="@+id/bs_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="30dp"
-        android:textColor="@color/colorPrimaryDark" />
+        android:textSize="30sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_gravity="center" />
 
 </LinearLayout>

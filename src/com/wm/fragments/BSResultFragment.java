@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.wm.activity.R;
 import com.wm.blecore.BluetoothLeService;
+import com.wm.customview.ImageTextView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BSResult;
 import com.wm.utils.UUIDS;
@@ -18,7 +18,7 @@ import com.wm.utils.UUIDS;
 public class BSResultFragment extends BaseResultFragment {
 	
 	@InjectView(R.id.bs_value)
-	TextView mBsValue;
+	ImageTextView mBsValue;
 	
 	private BluetoothGattCharacteristic mCommandCharac;
 	private BSResult mBSResult;
