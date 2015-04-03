@@ -18,14 +18,14 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.utils.DateUtil;
 import com.wm.utils.UUIDS;
 
-public class BPHistoryFragment extends BaseHistoryFragment implements
-		OnChartValueSelectedListener {
+public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartValueSelectedListener 
 
 	@InjectView(R.id.bp_history_chart)
 	LineChart mChart;
@@ -59,15 +59,18 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		super.onResume();
 	}
 	public void initLineChart() {
-		mChart.setOnChartValueSelectedListener(this);
+//		mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDescription("");
-		mChart.setGridColor(getResources().getColor(R.color.light_black));
-		mChart.setBorderColor(getResources().getColor(R.color.light_black));
-		mChart.setStartAtZero(false);
+		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
+		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
+		mChart.setDrawBorder(false);
+		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
+//		mChart.setStartAtZero(false);
 		mChart.setScaleMinima(mBPResults.size()/12, 1);
+		
 	}
 
 	/**
@@ -160,19 +163,19 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		}
 	}
 
-	@Override
-	public void onValueSelected(Entry e, int dataSetIndex) {
-		float sz = mBPResults.get(e.getXIndex()).dbp;
-		float ss = mBPResults.get(e.getXIndex()).sbp;
-		float hr =  mBPResults.get(e.getXIndex()).pulse;
-		Toast.makeText(mContext, " Ê’≈—π£∫ " + (int) sz + "   ’Àı—π£∫ " + (int) ss +"  ¬ˆ≤´÷µ : " +(int)hr,
-				Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public void onNothingSelected() {
-
-	}
+//	@Override
+//	public void onValueSelected(Entry e, int dataSetIndex) {
+//		float sz = mBPResults.get(e.getXIndex()).dbp;
+//		float ss = mBPResults.get(e.getXIndex()).sbp;
+//		float hr =  mBPResults.get(e.getXIndex()).pulse;
+//		Toast.makeText(mContext, " Ê’≈—π£∫ " + (int) sz + "   ’Àı—π£∫ " + (int) ss +"  ¬ˆ≤´÷µ : " +(int)hr,
+//				Toast.LENGTH_SHORT).show();
+//	}
+//
+//	@Override
+//	public void onNothingSelected() {
+//
+//	}
 
 	@Override
 	public boolean handleConnect() {
