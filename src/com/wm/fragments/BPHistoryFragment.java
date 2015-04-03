@@ -68,7 +68,7 @@ public class BPHistoryFragment extends BaseHistoryFragment{//implements OnChartV
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setDrawBorder(false);
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-//		mChart.setStartAtZero(false);
+		mChart.setStartAtZero(false);
 		mChart.setScaleMinima(mBPResults.size()/12, 1);
 		
 	}
