@@ -179,10 +179,10 @@ public class FHResultFragment extends BaseResultFragment {
 		} else {
 			if(mBeginGetData) {
 				fhValue = String.valueOf(getAverage());
+				mAllValues.add(Float.valueOf(fhValue));
+				addEntry(Float.parseFloat(fhValue));
 			}
 		}
-		mAllValues.add(Float.valueOf(fhValue));
-		addEntry(Float.parseFloat(fhValue));
 		if(mFHValues.size() >= 60) {
 			mHandler.removeCallbacks(mRunnable);
 			saveAndJump();

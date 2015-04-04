@@ -32,6 +32,8 @@ import butterknife.InjectView;
 public class WelcomeActivity extends Activity implements
 		OnCheckedChangeListener, OnClickListener {
 
+	public final static AUTH = "auth";
+
 	@InjectView(R.id.welcome_logo)
 	ImageView mLogo;
 	@InjectView(R.id.welcome_company_name)
@@ -130,13 +132,13 @@ public class WelcomeActivity extends Activity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_yes:
-			SharedPfUtil.setValue(this, "auth", true);
+			SharedPfUtil.setValue(this, AUTH, true);
 			break;
 		case R.id.btn_no:
-			SharedPfUtil.setValue(this, "auth", false);
+			SharedPfUtil.setValue(this, AUTH, false);
 			break;
 		default:
-			SharedPfUtil.setValue(this, "auth", false);
+			SharedPfUtil.setValue(this, AUTH, false);
 			break;
 		}
 		
