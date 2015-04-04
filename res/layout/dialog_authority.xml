@@ -39,7 +39,7 @@
 	        android:layout_width="0dp"
 	        android:layout_weight="1"
 	        android:layout_height="35dp"
-	        android:background="@drawable/btn_record_bg"
+	        android:background="@drawable/btn_dialog_bg"
 	        android:text="不同意"
 	        android:layout_margin="10dp"
 	        android:textColor="@color/white"/>
@@ -48,7 +48,7 @@
 	        android:layout_width="0dp"
 	        android:layout_weight="1"
 	        android:layout_height="35dp"
-	        android:background="@drawable/btn_record_bg"
+	        android:background="@drawable/btn_dialog_bg"
 	        android:enabled="false"
 	        android:layout_margin="10dp"
 	        android:text="同意"

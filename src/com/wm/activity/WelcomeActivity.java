@@ -82,7 +82,7 @@ public class WelcomeActivity extends Activity implements
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
 		LayoutInflater inflater = getLayoutInflater();
-		mDialogView = inflater.inflate(R.layout.authority_layout, null);
+		mDialogView = inflater.inflate(R.layout.dialog_authority, null);
 
 		mAuthCheckBox = (CheckBox) mDialogView.findViewById(R.id.auth_checkbox);
 		mLinkText = (TextView) findViewById(R.id.link);
@@ -125,7 +125,7 @@ public class WelcomeActivity extends Activity implements
 		mAalertDialog.dismiss();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
-		
+		finish();
 	}
 	
 	@Override

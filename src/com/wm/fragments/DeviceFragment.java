@@ -71,6 +71,11 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionCancelUpd;
 	AlertDialog alertDialog;
 	View dialogView;
+	
+	AlertDialog changeNameDialog;
+	View changeNameView;
+	Button btnChangeNameYes, btnChangeNameNo;
+	EditText nameEdit;
 
 	public interface OnStateChangeListener {
 		public void onStateChange(int state);
@@ -106,7 +111,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setCancelable(true);
 			LayoutInflater inflater = getActivity().getLayoutInflater();
-			dialogView = inflater.inflate(R.layout.menu_dialog_layout, null);
+			dialogView = inflater.inflate(R.layout.dialog_menu_layout, null);
 			builder.setView(dialogView);
 			alertDialog = builder.create();
 			alertDialog.setCanceledOnTouchOutside(true);
@@ -277,33 +282,46 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	}
 
 	public void update(final int i) {
-		System.out.println("click " + i);
 		String name = mDeviceDataSet.deviceInfos.get(i).name;
-		LayoutInflater factory = LayoutInflater.from(mContext);
-		View mainView = factory.inflate(R.layout.change_device_name,
-				new LinearLayout(mContext), false);
-		final EditText txtDeviceName = ButterKnife.findById(mainView,
-				R.id.txt_device_name);
-		txtDeviceName.setText(name);
-		txtDeviceName.setSelection(name.length());
-		DialogUtils.showViewDialog(mContext, R.drawable.ic_action_edit, "设备名称",
-				mainView, "确定", "取消", new BtnCallback() {
-					@Override
-					public void click(final DialogInterface dialog,
-							final int which) {
-						String deviceName = txtDeviceName.getText().toString();
-						mDeviceDataSet.deviceInfos.get(i).name = deviceName;
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								mDeviceDBManager
-										.updateDevice(mDeviceDataSet.deviceInfos
-												.get(i));
-							}
-						}).start();
-						mAdapter.notifyDataSetChanged();
-					}
-				}, null).show();
+		if (changeNameDialog == null) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setCancelable(true);
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			View mainView = inflater.inflate(R.layout.dialog_change_name,
+					new LinearLayout(mContext), false);
+			nameEdit = (EditText)mainView.findViewById(R.id.txt_device_name);
+			btnChangeNameYes = (Button) mainView.findViewById(R.id.btn_change_name_yes);
+			btnChangeNameNo = (Button)mainView.findViewById(R.id.btn_change_name_no);
+			btnChangeNameYes.setOnClickListener(new BtnClickListener(i));
+			btnChangeNameNo.setOnClickListener(new BtnClickListener(i));
+			changeNameDialog = builder.create();
+			changeNameDialog.setView(mainView, 0, 0, 0, 0);
+			changeNameDialog.setCanceledOnTouchOutside(true);
+		}
+		
+		changeNameDialog.show();
+		nameEdit.setText(name);
+		nameEdit.setSelection(name.length());
+		
+		
+//		DialogUtils.showViewDialog(mContext, R.drawable.ic_action_edit, "设备名称",
+//				mainView, "确定", "取消", new BtnCallback() {
+//					@Override
+//					public void click(final DialogInterface dialog,
+//							final int which) {
+//						String deviceName = txtDeviceName.getText().toString();
+//						mDeviceDataSet.deviceInfos.get(i).name = deviceName;
+//						new Thread(new Runnable() {
+//							@Override
+//							public void run() {
+//								mDeviceDBManager
+//										.updateDevice(mDeviceDataSet.deviceInfos
+//												.get(i));
+//							}
+//						}).start();
+//						mAdapter.notifyDataSetChanged();
+//					}
+//				}, null).show();
 	}
 
 	class BtnClickListener implements View.OnClickListener {
@@ -340,6 +358,22 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			case R.id.btn_update:
 				System.out.println("position " + mPosition);
 				update(mPosition);
+				break;
+			case R.id.btn_change_name_no:
+				changeNameDialog.dismiss();
+				break;
+			case R.id.btn_change_name_yes:
+				String deviceName = nameEdit.getText().toString();
+				mDeviceDataSet.deviceInfos.get(mPosition).name = deviceName;
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						mDeviceDBManager.updateDevice(mDeviceDataSet.deviceInfos
+										.get(mPosition));
+					}
+				}).start();
+				mAdapter.notifyDataSetChanged();
+				changeNameDialog.dismiss();
 				break;
 			default:
 				break;
