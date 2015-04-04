@@ -70,10 +70,15 @@ public class FHResultFragment extends BaseResultFragment {
 		// chart
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
+		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDescription("");
-		mChart.setGridColor(getResources().getColor(R.color.light_black));
-		mChart.setBorderColor(getResources().getColor(R.color.light_black));
+		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
+		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setStartAtZero(false);
+		mChart.setDrawLegend(false);//不绘制颜色标记
+		mChart.setDrawXLabels(false);//不绘制X轴标签
+		mChart.getYLabels().setLabelCount(5);
+	    mChart.setHighlightEnabled(false);
 		mChart.setScaleMinima(2, 1);// 设置缩放比例
 
 	}
