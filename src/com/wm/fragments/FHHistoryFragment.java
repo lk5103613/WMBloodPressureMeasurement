@@ -17,6 +17,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
 import com.wm.customview.MyMarkerView;
 import com.wm.db.HistoryDBManager;
@@ -77,12 +78,14 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		//mChart.setStartAtZero(false);
 		mChart.setScaleMinima(2, 1);
 		mChart.setDrawLegend(true);//绘制颜色标记
-		mChart.setDrawXLabels(false);//不绘制X轴标签
+		mChart.setDrawXLabels(true);//绘制X轴标签
+		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签
         mv.setOffsets(-mv.getMeasuredWidth() / 2-18*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
         mChart.getYLabels().setLabelCount(5);
         mChart.setHighlightEnabled(true);
+        mChart.centerViewPort(0, 200);
 	}
 
 	private void addEmptyData(int position) {

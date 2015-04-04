@@ -17,6 +17,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
@@ -76,7 +77,8 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setStartAtZero(false);
 		mChart.setDrawLegend(false);//不绘制颜色标记
-		mChart.setDrawXLabels(false);//不绘制X轴标签
+		mChart.setDrawXLabels(true);//绘制X轴标签
+		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		mChart.getYLabels().setLabelCount(5);
 	    mChart.setHighlightEnabled(false);
 		mChart.setScaleMinima(2, 1);// 设置缩放比例
@@ -121,7 +123,9 @@ public class FHResultFragment extends BaseResultFragment {
 			if ((xVals.size() - recordIndex) < 2) {
 				xVals.add((xVals.size() + 1) + "");
 			}
-			mChart.centerViewPort(xVals.size()-1, 20);
+			if (xVals.size()>10) {
+				mChart.centerViewPort(xVals.size()-5, 100);
+			}
 
 			mChart.notifyDataSetChanged();
 

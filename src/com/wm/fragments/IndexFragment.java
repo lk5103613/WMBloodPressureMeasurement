@@ -22,7 +22,15 @@ public class IndexFragment extends Fragment {
 		setHasOptionsMenu(true);// ÏÔÊ¾fragmentµÄmenu
 		View view = inflater.inflate(R.layout.fragment_index, container, false);
 		ButterKnife.inject(this, view);
+		System.out.println("index oncreate view");
 		return view;
+	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		System.out.println("index onresume view");
 	}
 	
 	@Override

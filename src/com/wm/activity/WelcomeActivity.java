@@ -7,10 +7,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -96,6 +101,19 @@ public class WelcomeActivity extends Activity implements
 		mAuthCheckBox.setOnCheckedChangeListener(this);
 		mBtnNo.setOnClickListener(this);
 		mBtnYes.setOnClickListener(this);
+		
+
+		Window dialogWindow = mAalertDialog.getWindow();
+		WindowManager m = this.getWindowManager();
+		Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
+
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+
+		Point p = new Point();
+		d.getSize(p);
+		params.width = (int) (p.x * 0.9); // 宽度设置为屏幕的0.65
+
+		dialogWindow.setAttributes(params);
 	}
 
 	@Override
@@ -134,7 +152,7 @@ public class WelcomeActivity extends Activity implements
 		
 		if (isFinishing()) {
 			overridePendingTransition(R.anim.scale_fade_in,
-					R.anim.slide_out_to_right);
+					R.anim.slide_out_to_left);
 		}
 	}
 
