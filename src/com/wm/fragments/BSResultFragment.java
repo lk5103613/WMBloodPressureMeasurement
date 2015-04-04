@@ -55,7 +55,7 @@ public class BSResultFragment extends BaseResultFragment {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					if(mDBManager.getBsResultByTime(mBSResult.measureTime) == null)
+					//if(mDBManager.getBsResultByTime(mBSResult.measureTime) == null)//不需要判断存不存在
 						mDBManager.addBsResult(mBSResult);
 				}
 			}).start();

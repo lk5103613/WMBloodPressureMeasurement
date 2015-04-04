@@ -5,17 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <com.wm.customview.ImageTextView
-        android:id="@+id/bp_image_text"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/bp_result"
-        app:text="123"
-        app:textSize="25sp"
-        app:textColor="@color/green" />
-    
-    <ImageView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="30dp"
         android:src="@drawable/index_bg"/>
 

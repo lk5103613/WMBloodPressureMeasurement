@@ -2,6 +2,7 @@
 package com.wm.customview;
 
 import android.content.Context;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.data.CandleEntry;
@@ -17,12 +18,14 @@ import com.wm.activity.R;
 public class MyMarkerView extends MarkerView {
 
     private TextView tvContent;
+    private RelativeLayout relativeLayout;
 
     public MyMarkerView(Context context, int layoutResource, int marker) {
         super(context, layoutResource);
 
         tvContent = (TextView) findViewById(R.id.tvContent);
-        findViewById(R.id.marker_container).setBackgroundResource(marker);
+        relativeLayout = (RelativeLayout)findViewById(R.id.marker_container);
+        relativeLayout.setBackgroundResource(marker);
     }
 
     
@@ -36,10 +39,9 @@ public class MyMarkerView extends MarkerView {
 
         if (e instanceof CandleEntry) {
             CandleEntry ce = (CandleEntry) e;
-            tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 0, true));
+            tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 1, true));
         } else {
-
-            tvContent.setText("" + Utils.formatNumber(e.getVal(), 0, true));
+            tvContent.setText("" + Utils.formatNumber(e.getVal(), 1, true));
         }
     }
 

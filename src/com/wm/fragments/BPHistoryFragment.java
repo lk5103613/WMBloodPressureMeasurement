@@ -69,7 +69,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
-		mChart.setDescription("");
+		mChart.setDescription("月.日");
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setDrawBorder(false);
@@ -156,7 +156,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 //			hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
 //			data.addDataSet(hrSet);
 
-			mChart.centerViewPort(1, mChart.getAverage()+100);//设置视角中心
+			if(!mBPResults.isEmpty()){
+				mChart.centerViewPort(1, mChart.getAverage()+100);//设置视角中心
+			}
 			mChart.notifyDataSetChanged();
 			mChart.animateY(1500);// 设置Y轴动画 毫秒;
 		}
