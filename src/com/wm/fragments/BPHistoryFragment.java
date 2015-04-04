@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -59,7 +58,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		
 		getBpHisory();
 		addEmptyData();
-		mChart.invalidate();
 
 		// initData();
 		addDataSet();
@@ -168,14 +166,14 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mBPResults = mHistoryDBManager.getAllBpResults();
 	}
 
-	public void initData() {
-		mBPResults = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
-			float szValue = (float) Math.random() * 50f + 50f * 2;
-			float ssValue = (float) Math.random() * 50f + 50f * 2;
-			mBPResults.add(new BPResult(szValue, ssValue));
-		}
-	}
+//	public void initData() {
+//		mBPResults = new ArrayList<>();
+//		for (int i = 0; i < 10; i++) {
+//			float szValue = (float) Math.random() * 50f + 50f * 2;
+//			float ssValue = (float) Math.random() * 50f + 50f * 2;
+//			mBPResults.add(new BPResult(szValue, ssValue));
+//		}
+//	}
 
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
