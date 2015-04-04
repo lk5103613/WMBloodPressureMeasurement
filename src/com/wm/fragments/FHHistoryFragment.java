@@ -75,7 +75,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
-		//mChart.setStartAtZero(false);
+		mChart.setStartAtZero(false);
 		mChart.setScaleMinima(2, 1);
 		mChart.setDrawLegend(true);//绘制颜色标记
 		mChart.setDrawXLabels(true);//绘制X轴标签
@@ -83,9 +83,10 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签
         mv.setOffsets(-mv.getMeasuredWidth() / 2-18*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
-        mChart.getYLabels().setLabelCount(5);
         mChart.setHighlightEnabled(true);
         mChart.centerViewPort(0, 200);
+        mChart.getYLabels().setLabelCount(5);
+
 	}
 
 	private void addEmptyData(int position) {
