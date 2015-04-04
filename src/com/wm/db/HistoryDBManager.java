@@ -14,6 +14,7 @@ import com.wm.db.DeviceDataContract.FHDataEntry;
 import com.wm.entity.BPResult;
 import com.wm.entity.BSResult;
 import com.wm.entity.FHResult;
+import com.wm.utils.DateUtil;
 
 public class HistoryDBManager {
 
@@ -180,7 +181,8 @@ public class HistoryDBManager {
 			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));
 			String measureTime = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_MESURE_TIME));
-			bsResults.add(new BSResult(id, card, bsValue, date,remarks, measureTime));
+			bsResults.add(new BSResult(id, card, bsValue, date,remarks, 
+					DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date)));//measure time 先存放date值
 		}
 		return bsResults;
 	}
@@ -200,7 +202,9 @@ public class HistoryDBManager {
 			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));
 			String measureTime = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_MESURE_TIME));
-			bsResults.add(new BSResult(id, card, bsValue, date,remarks, measureTime));
+			bsResults.add(new BSResult(id, card, bsValue, date,remarks, 
+					DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date)));//measure time 先存放date值
+			System.out.println("measure time " + DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date));
 		}
 		return bsResults;
 	}

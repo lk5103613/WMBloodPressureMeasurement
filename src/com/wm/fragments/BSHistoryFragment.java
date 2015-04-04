@@ -51,7 +51,6 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 		historyDBManager = HistoryDBManager.getInstance(getActivity());
 		bsResults = historyDBManager.getAllBsResults();
 		mChart.setScaleMinima(bsResults.size()/7, 1);
-		
 		initBarChart();
 		setData(20, 50);
 		
@@ -113,7 +112,6 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
 					+ (nowss.get(Calendar.DAY_OF_MONTH) + j);
 			xVals.add(datestr);
-//			yVals1.add(new BarEntry(0.5f, j-1));//test
 		}
 		BarDataSet set1 = new BarDataSet(yVals1, "");
         set1.setBarSpacePercent(35f);
