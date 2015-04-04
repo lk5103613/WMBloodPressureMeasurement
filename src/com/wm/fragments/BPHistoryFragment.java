@@ -26,6 +26,7 @@ import com.wm.customview.MyMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.utils.DateUtil;
+import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
 public class BPHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener {
@@ -80,12 +81,11 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setScaleMinima(1, 1.3f);//mBPResults.size()/20
 		mChart.setDrawXLabels(true);//绘制X轴标签
 		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
-        mv.setOffsets(-mv.getMeasuredWidth() / 2 +35, -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
+        mv.setOffsets(-mv.getMeasuredWidth() / 2 - 20*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
         
         YLabels y = mChart.getYLabels(); //y轴的标示
         y.setLabelCount(4); // y轴上的标签的显示的个数
-		
 	}
 
 	/**

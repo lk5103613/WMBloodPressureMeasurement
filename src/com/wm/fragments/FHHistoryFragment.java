@@ -22,6 +22,7 @@ import com.wm.customview.MyMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
 import com.wm.utils.DateUtil;
+import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
 public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChartValueSelectedListener
@@ -78,12 +79,10 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setDrawLegend(true);//绘制颜色标记
 		mChart.setDrawXLabels(false);//不绘制X轴标签
 		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签
-        mv.setOffsets(-mv.getMeasuredWidth() / 2 +30, -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
+        mv.setOffsets(-mv.getMeasuredWidth() / 2-18*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
         mChart.getYLabels().setLabelCount(5);
-        mChart.setHighlightEnabled(false);
-        
-        
+        mChart.setHighlightEnabled(true);
 	}
 
 	private void addEmptyData(int position) {

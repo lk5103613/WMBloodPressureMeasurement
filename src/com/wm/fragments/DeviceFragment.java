@@ -16,8 +16,6 @@ import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -62,8 +60,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	private DeviceDataSet mDeviceDataSet;
 	private DeviceListAdapter mAdapter;
 	private Context mContext;
-	private boolean isDelete = false;
-	private boolean isEdit = false;
+//	private boolean isDelete = false;
+//	private boolean isEdit = false;
 	private TabPager mTabPager;
 	private List<DeviceInfo> mDevices;
 	private DeviceDBManager mDeviceDBManager;
@@ -185,8 +183,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	public void resetList() {
 		mDeviceDataSet.option = null;
 		mAdapter.notifyDataSetChanged();
-		this.isDelete = false;
-		this.isEdit = false;
+//		this.isDelete = false;
+//		this.isEdit = false;
 		mCallback.onStateChange(STATE_NORMAL);
 	}
 
@@ -379,8 +377,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 					R.anim.scale_fade_out);
 			break;
 		case R.id.action_delete_device:
-			isDelete = true;
-			isEdit = false;
+//			isDelete = true;
+//			isEdit = false;
 			mCallback.onStateChange(STATE_DELETE);
 			mDeviceDataSet.option = OptionEnum.ITEM_DELETE;
 			mAdapter.notifyDataSetChanged();
@@ -390,7 +388,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionUpd.setVisibility(View.VISIBLE);
 			break;
 		case R.id.action_cancel_delete:
-			isDelete = false;
+//			isDelete = false;
 			mCallback.onStateChange(STATE_NORMAL);
 			mDeviceDataSet.option = null;
 			mAdapter.notifyDataSetChanged();
@@ -398,8 +396,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionDel.setVisibility(View.VISIBLE);
 			break;
 		case R.id.action_change_name:
-			isEdit = true;
-			isDelete = false;
+//			isEdit = true;
+//			isDelete = false;
 			mCallback.onStateChange(STATE_EDIT);
 			mDeviceDataSet.option = OptionEnum.ITEM_UPDATE;
 			mAdapter.notifyDataSetChanged();
@@ -409,7 +407,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionDel.setVisibility(View.VISIBLE);
 			break;
 		case R.id.action_cancel_change:
-			isEdit = false;
+//			isEdit = false;
 			mCallback.onStateChange(STATE_NORMAL);
 			mDeviceDataSet.option = null;
 			mAdapter.notifyDataSetChanged();
