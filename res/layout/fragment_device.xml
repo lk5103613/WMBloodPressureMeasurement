@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/fragment_bg"
     android:orientation="vertical" >
-
     <RelativeLayout
         android:id="@+id/device_toolbar"
         android:layout_width="match_parent"
@@ -55,5 +54,14 @@
         android:divider="@drawable/black_deliver"
         android:dividerHeight="1dp" >
     </ListView>
+    
+     <TextView  
+         android:id="@+id/empty"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:text="暂无设备"
+	    android:textSize="20sp"
+	    android:gravity="center"
+	    android:layout_margin="10dp"/>
 
 </LinearLayout>

@@ -40,7 +40,6 @@ import com.wm.db.DeviceDBManager;
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
-import com.wm.utils.BtnCallback;
 import com.wm.utils.DialogUtils;
 import com.wm.utils.TabPager;
 
@@ -55,6 +54,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	ListView mDeviceListView;
 	@InjectView(R.id.device_toolbar)
 	RelativeLayout mToolbar;
+	@InjectView(R.id.empty)
+	TextView mEmptyView;
 
 	private OnStateChangeListener mCallback;
 	private DeviceDataSet mDeviceDataSet;
@@ -102,6 +103,13 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mHandler = new Handler();
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
+		
+//		View emptyView = inflater.inflate(R.layout.listview_empty_view, null);
+//		ViewGroup parentView = (ViewGroup) mDeviceListView.getParent(); 
+//		parentView.addView(emptyView, 2);
+//		mDeviceListView.setEmptyView(emptyView);
+		
+		mDeviceListView.setEmptyView(mEmptyView);  
 		return view;
 	}
 
