@@ -102,7 +102,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mHandler = new Handler();
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
-		System.out.println("device framgent oncreate");
 		return view;
 	}
 
@@ -157,7 +156,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	public void onResume() {
 		super.onResume();
 		initData();
-		System.out.println("device framgent onresume");
 	}
 
 	private void initData() {

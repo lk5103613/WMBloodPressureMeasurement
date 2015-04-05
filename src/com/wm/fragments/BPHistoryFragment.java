@@ -21,7 +21,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.github.mikephil.charting.utils.YLabels;
 import com.wm.activity.R;
-import com.wm.customview.MyMarkerView;
+import com.wm.customview.LineMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.utils.DateUtil;
@@ -76,9 +76,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		//mChart.setStartAtZero(false);
 	
-		mChart.setScaleMinima(1, 1.3f);//mBPResults.size()/20
+		mChart.setScaleMinima(1, 1f);//mBPResults.size()/20
 		mChart.setDrawXLabels(true);//绘制X轴标签
-		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
+		LineMarkerView mv = new LineMarkerView(getActivity(), mChart,R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
         mv.setOffsets(-mv.getMeasuredWidth() / 2 - 20*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
         
@@ -131,19 +131,20 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 					getString(R.string.diastolic));
 			szSet.setLineWidth(2f);
 			szSet.setCircleSize(3f);
-
-			szSet.setColor(getResources().getColor(R.color.yellow_green));
-			szSet.setCircleColor(getResources().getColor(R.color.yellow_green));
-			szSet.setHighLightColor(getResources().getColor(R.color.yellow_green));
+			int yellowGreen = getResources().getColor(R.color.yellow_green);
+			szSet.setColor(yellowGreen);
+			szSet.setCircleColor(yellowGreen);
+			szSet.setHighLightColor(yellowGreen);
 			data.addDataSet(szSet);
 
 			LineDataSet ssSet = new LineDataSet(yValsSs,
 					getString(R.string.systolic));
+			int blue = getResources().getColor(R.color.colorPrimary);
 			ssSet.setLineWidth(2f);
 			ssSet.setCircleSize(3f);
-			ssSet.setColor(getResources().getColor(R.color.colorPrimary));
-			ssSet.setCircleColor(getResources().getColor(R.color.colorPrimary));
-			ssSet.setHighLightColor(getResources().getColor(R.color.colorPrimary));
+			ssSet.setColor(blue);
+			ssSet.setCircleColor(blue);
+			ssSet.setHighLightColor(blue);
 			data.addDataSet(ssSet);
 
 //			LineDataSet hrSet = new LineDataSet(yValsHr,
@@ -155,6 +156,18 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 //			hrSet.setCircleColor(getResources().getColor(R.color.yellow));
 //			hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
 //			data.addDataSet(hrSet);
+			
+			//用于提高Y轴坐标的值
+			ArrayList<Entry> yValsMax = new ArrayList<>();
+			yValsMax.add(new Entry(180, 0));
+			LineDataSet setMax = new LineDataSet(yValsMax, "");
+			setMax.setLineWidth(2f);
+			setMax.setCircleSize(2);
+			int maxColor = getResources().getColor(R.color.fragment_bg);
+			setMax.setCircleColor(maxColor);
+			setMax.setHighLightColor(maxColor);
+			setMax.setColor(maxColor);
+			data.addDataSet(setMax);
 
 			if(!mBPResults.isEmpty()){
 				mChart.centerViewPort(1, mChart.getAverage()+100);//设置视角中心

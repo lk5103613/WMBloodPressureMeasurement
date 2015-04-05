@@ -21,7 +21,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
-import com.wm.customview.MyMarkerView;
+import com.wm.customview.BarMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BSResult;
 import com.wm.utils.DateUtil;
@@ -52,7 +52,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 		bsResults = historyDBManager.getAllBsResults();
 		mChart.setScaleMinima(bsResults.size()/7, 1);
 		initBarChart();
-		setData(20, 50);
+//		setData(20, 50);
 		
 		return view;
 	}
@@ -89,9 +89,10 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	        mChart.setGridColor(getResources().getColor(R.color.fragment_bg));//网格颜色
 			mChart.setBorderColor(getResources().getColor(R.color.dark_gray));//边框颜色
 	        mChart.setBorderPositions(new BorderPosition[]{BorderPosition.BOTTOM,BorderPosition.LEFT});//绘制边框位置， 左、下
-	        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
+	        BarMarkerView mv = new BarMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
 	        mv.setOffsets(-mv.getMeasuredWidth() / 2-20*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
 	        mChart.setMarkerView(mv);// 设置标签
+	        
 	        XLabels xl = mChart.getXLabels();
 	        xl.setPosition(XLabelPosition.BOTTOM);//x 坐标位置
 
@@ -151,10 +152,6 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 
         mChart.setData(data);
     }
-
-	
-	
-
 
 	@Override
 	public boolean handleConnect() {

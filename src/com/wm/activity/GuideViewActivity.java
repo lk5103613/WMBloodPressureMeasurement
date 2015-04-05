@@ -14,12 +14,12 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.wm.adapter.GuideViewPagerAdapter;
-import com.wm.customview.MyViewPager;
+import com.wm.customview.BarViewPager;
 
 public class GuideViewActivity extends ActionBarActivity implements View.OnClickListener, OnPageChangeListener{
 	
 	@InjectView(R.id.guide_pager)
-	MyViewPager mViewPager;
+	BarViewPager mViewPager;
 	@InjectView(R.id.dots_container)
 	LinearLayout dotsContainer;
 	

@@ -31,7 +31,7 @@ public class FHResultFragment extends BaseResultFragment {
 
 	private List<Float> mFHValues;
 	private List<Float> mAllValues;
-	private int recordIndex=0;
+	private int recordIndex;
 	private ArrayList<String> xVals;
 	private Handler mHandler;
 	private boolean mBeginRecord = false;
@@ -82,15 +82,17 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.getYLabels().setLabelCount(5);
 	    mChart.setHighlightEnabled(false);
 		mChart.setScaleMinima(2, 1);// …Ë÷√Àı∑≈±»¿˝
+		mChart.centerViewPort(0, 200);
 
 	}
 
 	private void addEmptyData() {
+		recordIndex = 0;
 
 		// create 30 x-vals
 		xVals = new ArrayList<String>();
 
-		for (int i = 1; i <= 30; i++) {
+		for (int i = 1; i <= 15; i++) {
 			xVals.add(i + "");
 		}
 
@@ -123,8 +125,8 @@ public class FHResultFragment extends BaseResultFragment {
 			if ((xVals.size() - recordIndex) < 2) {
 				xVals.add((xVals.size() + 1) + "");
 			}
-			if (xVals.size()>10) {
-				mChart.centerViewPort(xVals.size()-5, 100);
+			if (recordIndex>10) {
+				mChart.centerViewPort(recordIndex+1, 200);
 			}
 
 			mChart.notifyDataSetChanged();

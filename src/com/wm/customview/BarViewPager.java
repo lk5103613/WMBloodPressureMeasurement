@@ -6,13 +6,13 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class MyViewPager extends ViewPager {
+public class BarViewPager extends ViewPager {
 
 	private boolean scroll = false;
-	public MyViewPager(Context context) {
+	public BarViewPager(Context context) {
 		super(context);
 	}
-	public MyViewPager(Context context, AttributeSet attrs) {
+	public BarViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 	public void setScroll(boolean scroll) {

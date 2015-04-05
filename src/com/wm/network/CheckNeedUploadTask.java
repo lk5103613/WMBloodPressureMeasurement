@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 
+import com.wm.activity.WelcomeActivity;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.entity.BSResult;
@@ -16,6 +17,7 @@ import com.wm.entity.FHResult;
 import com.wm.entity.IUploadEntity;
 import com.wm.entity.UploadEntity;
 import com.wm.utils.NetUtils;
+import com.wm.utils.SharedPfUtil;
 
 public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUploadEntity>> {
 	

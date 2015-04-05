@@ -1,38 +1,38 @@
 package com.wm.activity;
 
-import com.wm.utils.SharedPfUtil;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import com.wm.utils.SharedPfUtil;
 
 public class WelcomeActivity extends Activity implements
 		OnCheckedChangeListener, OnClickListener {
 
-	public final static AUTH = "auth";
+	public final static String AUTH = "auth";
 
 	@InjectView(R.id.welcome_logo)
 	ImageView mLogo;
@@ -92,7 +92,7 @@ public class WelcomeActivity extends Activity implements
 		mDialogView = inflater.inflate(R.layout.dialog_authority, null);
 
 		mAuthCheckBox = (CheckBox) mDialogView.findViewById(R.id.auth_checkbox);
-		mLinkText = (TextView) findViewById(R.id.link);
+		mLinkText = (TextView) mDialogView.findViewById(R.id.link);
 		mBtnNo = (Button) mDialogView.findViewById(R.id.btn_no);
 		mBtnYes = (Button) mDialogView.findViewById(R.id.btn_yes);
 		mAalertDialog = builder.create();
@@ -100,11 +100,15 @@ public class WelcomeActivity extends Activity implements
 		mAalertDialog.setView(mDialogView, 0, 0, 0, 0);
 		mAalertDialog.show();
 		
+		
 		mAuthCheckBox.setOnCheckedChangeListener(this);
 		mBtnNo.setOnClickListener(this);
 		mBtnYes.setOnClickListener(this);
 		
-
+		String url = "<a href=\""+mLinkText.getText()+"\">"+mLinkText.getText()+"</a> ";
+		mLinkText.setText(Html.fromHtml(url));
+		mLinkText.setMovementMethod(LinkMovementMethod.getInstance());
+		
 		Window dialogWindow = mAalertDialog.getWindow();
 		WindowManager m = this.getWindowManager();
 		Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用

@@ -37,7 +37,7 @@
        	 
     </RelativeLayout>
 
-    <com.wm.customview.MyViewPager
+    <com.wm.customview.BarViewPager
 	   android:id="@+id/guide_pager"
 	   android:layout_below="@id/guide_toolbar"
 	   android:layout_width="fill_parent"

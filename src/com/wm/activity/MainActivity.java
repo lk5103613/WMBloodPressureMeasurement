@@ -9,7 +9,7 @@ import butterknife.InjectView;
 
 import com.wm.adapter.IndexPagerAdapter;
 import com.wm.customview.CustomTabView;
-import com.wm.customview.MyViewPager;
+import com.wm.customview.BarViewPager;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.DeviceFragment.OnStateChangeListener;
 import com.wm.network.CheckNeedUploadTask;
@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity implements
 	public static int REQUEST_ENABLE_BT = 1;
 	
 	@InjectView(R.id.main_pager)
-	MyViewPager mPager;
+	BarViewPager mPager;
 	@InjectView(R.id.main_tab)
 	CustomTabView mTabView;
 

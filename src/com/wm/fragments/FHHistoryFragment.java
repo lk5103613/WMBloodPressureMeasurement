@@ -19,7 +19,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
-import com.wm.customview.MyMarkerView;
+import com.wm.customview.LineMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
 import com.wm.utils.DateUtil;
@@ -80,7 +80,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setDrawLegend(true);//绘制颜色标记
 		mChart.setDrawXLabels(true);//绘制X轴标签
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-		MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签
+		LineMarkerView mv = new LineMarkerView(getActivity(),mChart, R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签
         mv.setOffsets(-mv.getMeasuredWidth() / 2-18*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
         mChart.setHighlightEnabled(true);
@@ -127,8 +127,20 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 			set.setColor(color);
 			set.setCircleColor(color);
 			set.setHighLightColor(color);
-
 			data.addDataSet(set);
+			
+			//用于提高Y轴坐标的值
+			ArrayList<Entry> yValsMax = new ArrayList<>();
+			yValsMax.add(new Entry(250, 0));
+			LineDataSet setMax = new LineDataSet(yValsMax, "");
+			setMax.setLineWidth(2f);
+			setMax.setCircleSize(2);
+			int maxColor = getResources().getColor(R.color.fragment_bg);
+			setMax.setCircleColor(maxColor);
+			setMax.setHighLightColor(maxColor);
+			setMax.setColor(maxColor);
+			data.addDataSet(setMax);
+			
 			mChart.notifyDataSetChanged();
 			mChart.centerViewPort(1, mChart.getAverage()+100);
 			mChart.animateY(1000);

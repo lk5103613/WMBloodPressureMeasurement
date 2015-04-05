@@ -5,8 +5,11 @@ import android.content.Context;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.MarkerView;
 import com.github.mikephil.charting.utils.Utils;
 import com.wm.activity.R;
@@ -15,17 +18,20 @@ import com.wm.activity.R;
  * ×Ô¶¨ÒåMarkerView
  * 
  */
-public class MyMarkerView extends MarkerView {
+public class LineMarkerView extends MarkerView {
 
     private TextView tvContent;
     private RelativeLayout relativeLayout;
+    private LineChart mChart;
+    private int markerBg;
 
-    public MyMarkerView(Context context, int layoutResource, int marker) {
+    public LineMarkerView(Context context,LineChart chart, int layoutResource, int marker) {
         super(context, layoutResource);
 
         tvContent = (TextView) findViewById(R.id.tvContent);
         relativeLayout = (RelativeLayout)findViewById(R.id.marker_container);
-        relativeLayout.setBackgroundResource(marker);
+        this.markerBg = marker;
+        this.mChart = chart;
     }
 
     
@@ -36,7 +42,15 @@ public class MyMarkerView extends MarkerView {
      */
     @Override
     public void refreshContent(Entry e, int dataSetIndex) {
-
+    	
+    	int color = mChart.getData().getDataSetByIndex(dataSetIndex).getColor();
+    	
+    	if(color == getResources().getColor(R.color.fragment_bg)){
+    		relativeLayout.setBackground(null);
+    		return;
+    	} else {
+    		relativeLayout.setBackgroundResource(markerBg);
+    	}
         if (e instanceof CandleEntry) {
             CandleEntry ce = (CandleEntry) e;
             tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 1, true));
