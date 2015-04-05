@@ -21,11 +21,11 @@ import com.wm.blecore.BluetoothLeService.LocalBinder;
 import com.wm.blecore.IHandleConnect;
 import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseResultFragment;
-import com.wm.fragments.BaseResultFragment.Interaction;
+import com.wm.fragments.BaseResultFragment.ActivityCallback;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
-public class ResultActivity extends BaseActivity implements IHandleConnect, Interaction {
+public class ResultActivity extends BaseActivity implements IHandleConnect, ActivityCallback {
 
 	@InjectView(R.id.btn_record)
 	Button mBtnRecord;
@@ -103,12 +103,22 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Inte
 		return true;
 	}
 	
+	private void setRecordBtnState(int state) {
+		if(state == BaseResultFragment.BTN_STATE_AVAILABLE) {
+			mBtnRecord.setEnabled(true);
+			mProgressBar.setVisibility(View.GONE);
+		} else if(state == BaseResultFragment.BTN_STATE_UNAVAILABLE) {
+			mBtnRecord.setEnabled(false);
+			mProgressBar.setVisibility(View.GONE);
+		} else if(state == BaseResultFragment.BTN_STATE_UNAVAILABLE_WAITING) {
+			mBtnRecord.setEnabled(false);
+			mProgressBar.setVisibility(View.VISIBLE);
+		}
+	}
+	
 	@OnClick(R.id.btn_record)
 	public void record(View v) {
-		mBtnRecord.setEnabled(false);
-		mProgressBar.setVisibility(View.VISIBLE);
 		mFragment.record();
-		finish();
 	}
 	
 	@OnClick(R.id.result_back)
@@ -173,6 +183,16 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Inte
 	@Override
 	public void showResult(String data) {
 		this.mResult.setText(data);
+	}
+
+	@Override
+	public void setButtonState(int state) {
+		setButtonState(state);
+	}
+
+	@Override
+	public void closeActivity() {
+		finish();
 	}
 
 }

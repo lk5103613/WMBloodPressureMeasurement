@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -61,6 +62,7 @@ public class FHResultFragment extends BaseResultFragment {
 	@Override
 	public void record() {
 		mBeginRecord = true;
+		mCallback.setButtonState(BTN_STATE_UNAVAILABLE_WAITING);
 		mHandler.postDelayed(mRunnable, 35000);
 	}
 
@@ -151,10 +153,27 @@ public class FHResultFragment extends BaseResultFragment {
 				mFHValues.add((int)average);
 			}
 		}
-		FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
-		HistoryDBManager.getInstance(getActivity()).addFhResult(fhResult);
-		mBluetoothLeService.disconnect();
-		getActivity().finish();
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				mCallback.setButtonState(BTN_STATE_AVAILABLE);
+			}
+			
+			@Override
+			protected Void doInBackground(Void... params) {
+				FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
+				HistoryDBManager.getInstance(mContext).addFhResult(fhResult);
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				mBluetoothLeService.disconnect();
+				mCallback.closeActivity();
+			}
+		};
 	}
 
 	@Override

@@ -18,14 +18,28 @@ import com.wm.blecore.IHandleConnect;
 
 public abstract class BaseResultFragment extends Fragment implements IHandleConnect {
 	
+	public final static int BTN_STATE_AVAILABLE = 0;
+	public final static int BTN_STATE_UNAVAILABLE = 1;
+	public final static int BTN_STATE_UNAVAILABLE_WAITING = 2;
+	
 	protected BluetoothLeService mBluetoothLeService;
-	protected Interaction mCallback;
 	protected Context mContext;
+	protected ActivityCallback mCallback;
 	
 	public BaseResultFragment() {}
 	
 	public BaseResultFragment(BluetoothLeService bluetoothLeService) {
 		this.mBluetoothLeService = bluetoothLeService;
+	}
+	
+	public interface ActivityCallback {
+		
+		void showResult(String data);
+		
+		void setButtonState(int state);
+		
+		void closeActivity();
+		
 	}
 	
 	@Override
@@ -47,16 +61,9 @@ public abstract class BaseResultFragment extends Fragment implements IHandleConn
 
 	public abstract void record();
 	
-	public interface Interaction {
-		
-		void showResult(String data);
-		
-	}
-	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mCallback = (Interaction) activity;
 	}
 
 	

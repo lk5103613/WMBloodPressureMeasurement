@@ -84,8 +84,9 @@ public class HistoryDBManager {
 				BPDataEntry.COLUMN_NAME_DATE, BPDataEntry.COLUMN_NAME_CARD,BPDataEntry.COLUMN_NAME_REMARKS};
 		String selection = BPDataEntry.COLUMN_NAME_STATUS + "=?";
 		String selectionArgs[] = new String[]{String.valueOf(status)};
+		String orderBy = BPDataEntry.COLUMN_NAME_DATE + " DESC"; 
 		Cursor c = db.query(
-				BPDataEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null );
+				BPDataEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, orderBy);
 		
 		while(c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_ID));
@@ -98,6 +99,15 @@ public class HistoryDBManager {
 			bpResults.add(new BPResult(id, card, szValue, ssValue,hr, date, remarks));
 		}
 		return bpResults;
+	}
+	
+	//此方法可能需要修改
+	public int getUploadedBpCounts() {
+		String sql = "select count(*) from " + BPDataEntry.TABLE_NAME + " where " + BPDataEntry.COLUMN_NAME_STATUS + " =  1";
+		SQLiteDatabase db = mDBHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+		cursor.moveToFirst();
+		return cursor.getInt(0);
 	}
 	
 	/**
@@ -185,6 +195,37 @@ public class HistoryDBManager {
 					DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date)));//measure time 先存放date值
 		}
 		return bsResults;
+	}
+	
+	public int getUploadedBsCounts() {
+		String sql = "select count(*) from " + BSDataEntry.TABLE_NAME + " where " + BSDataEntry.COLUMN_NAME_STATUS + " = 1";
+		SQLiteDatabase db = mDBHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+		return cursor.getInt(0);
+	}
+	
+	
+	public void deleteBsDatas(){
+		
+		List<BSResult> results = getBsResultsByStatus(1);
+		if(results.size()<=300) {
+			return;
+		}
+		
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		StringBuilder selection = new StringBuilder();
+		List<String> argList = new ArrayList<>();
+		selection.append(BSDataEntry.COLUMN_NAME_ID + " in (");
+		for (int i = results.size(); i >300; i-- ) {
+			selection.append("?,");
+			argList.add(results.get(i).id+"");
+		}
+		selection.deleteCharAt(selection.length()-1);//去掉最后一个逗号
+		selection.append(")");
+		
+		String[] whereArgs = (String[]) argList.toArray(new String[argList.size()]);
+		
+		db.delete(BSDataEntry.TABLE_NAME, selection.toString(), whereArgs);
 	}
 	
 	public List<BSResult> getBsResultsByStatus(int status){
@@ -290,6 +331,38 @@ public class HistoryDBManager {
 			fhResults.add(new FHResult(id,card, fhValues, date, remarks));
 		}
 		return fhResults;
+	}
+	
+	
+	public int getUploadedFhCounts() {
+		String sql = "select count(*) from " + FHDataEntry.TABLE_NAME + " where " + FHDataEntry.COLUMN_NAME_STATUS + " = 1";
+		SQLiteDatabase db = mDBHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+		return cursor.getInt(0);
+	}
+	
+	
+	public void deleteFhDatas(){
+		
+		List<FHResult> results = getFhResultsByStatus(1);
+		if(results.size()<=300) {
+			return;
+		}
+		
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		StringBuilder selection = new StringBuilder();
+		List<String> argList = new ArrayList<>();
+		selection.append(FHDataEntry.COLUMN_NAME_ID + " in (");
+		for (int i = results.size(); i >300; i-- ) {
+			selection.append("?,");
+			argList.add(results.get(i).id+"");
+		}
+		selection.deleteCharAt(selection.length()-1);//去掉最后一个逗号
+		selection.append(")");
+		
+		String[] whereArgs = (String[]) argList.toArray(new String[argList.size()]);
+		
+		db.delete(FHDataEntry.TABLE_NAME, selection.toString(), whereArgs);
 	}
 	
 	public List<FHResult> getFhResultsByStatus(int status){

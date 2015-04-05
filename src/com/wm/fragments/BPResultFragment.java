@@ -1,7 +1,10 @@
 package com.wm.fragments;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +21,24 @@ import com.wm.utils.DataConvertUtils;
 import com.wm.utils.UUIDS;
 
 public class BPResultFragment extends BaseResultFragment {
-
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 1. 在onCreateView中设置记录按钮不可用
+	 * 2. 在获得正确数据或异常数据时设置按钮可点击
+	 * 3. 如果BPResult不为空，点击记录按钮后显示ProgressBar，然后finish
+	 * 4. 如果BPResult为空，直接finish
+	 * 5. 为减小线程的影响，在record中使用了asynctask
+	 * 
+	 * 阅后即焚
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	@InjectView(R.id.lbl_ss)
 	ImageTextView mLblSS;
 	@InjectView(R.id.lbl_sz)
@@ -30,6 +50,7 @@ public class BPResultFragment extends BaseResultFragment {
 	private BPResult mBPResult;
 	private BPResultException mBPException;
 	private BluetoothGattCharacteristic mInforCharacteristic;
+	private Handler mHandler;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,20 +61,44 @@ public class BPResultFragment extends BaseResultFragment {
 
 		mContext = getActivity();
 		mPressure.startRotate();
+		
+		mHandler = new Handler(new Handler.Callback() {
+			
+			@Override
+			public boolean handleMessage(Message msg) {
+				return false;
+			}
+		});
+		
+		mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
 
 		return view;
 	}
 
 	@Override
 	public void record() {
-		
-		new Thread(new Runnable() {
+		new AsyncTask<Void, Void, Void>() {
+			
 			@Override
-			public void run() {
-				HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
+			protected void onPreExecute() {
+				super.onPreExecute();
+				if(mBPResult != null) 
+					mCallback.setButtonState(BTN_STATE_UNAVAILABLE_WAITING);
 			}
-		}).start();
-		
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				if(mBPResult != null) 
+					HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Void result) {
+				mCallback.closeActivity();
+				super.onPostExecute(result);
+			}
+		}.execute();
 	}
 
 	// 计算Pressure值
@@ -83,6 +128,7 @@ public class BPResultFragment extends BaseResultFragment {
 					UUIDS.BP_RESULT_SERVICE, UUIDS.BP_RESULT_CHARAC);
 		}
 		if (data.trim().length() == 38) {
+			mCallback.setButtonState(BTN_STATE_AVAILABLE);
 			// 成功获得血压心率等数据
 			mNeedNewData = false;
 			mPressure.stopRotate();
@@ -93,6 +139,7 @@ public class BPResultFragment extends BaseResultFragment {
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
 			// 获得异常信息
+			mCallback.setButtonState(BTN_STATE_AVAILABLE);
 			mNeedNewData = false;
 			mPressure.stopRotate();
 			mBPException = new BPResultException(data);
