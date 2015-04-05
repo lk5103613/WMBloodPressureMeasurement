@@ -11,7 +11,7 @@ public class FHResult {
 	
 	public int id;
 	@Expose public String userCard;
-	public List<Float> fhValues;
+	public List<Integer> fhValues;
 	@Expose public String fh;
 	public long date;
 	@Expose public String measureTime;
@@ -20,12 +20,12 @@ public class FHResult {
 	
 	public FHResult(){}
 	
-	public FHResult(List<Float> fhValues) {
+	public FHResult(List<Integer> fhValues) {
 		this.fhValues = fhValues;
 		this.date = new Date().getTime();
 	}
 	
-	public FHResult(List<Float> fhValues, long date){
+	public FHResult(List<Integer> fhValues, long date){
 		this.userCard = "330310198611010909";
 		this.remarks = "test";
 		this.fhValues = fhValues;
@@ -49,12 +49,12 @@ public class FHResult {
 	 * @param valueStr
 	 * @return List
 	 */
-	private List<Float> splitFhValues(String valueStr){
-		List<Float> fhList = new ArrayList<>();
+	private List<Integer> splitFhValues(String valueStr){
+		List<Integer> fhList = new ArrayList<>();
 		if (!"".equals(fhList)){
 			String[] fhArray = valueStr.split(",");
 			for (int i = 0; i < fhArray.length; i++) {
-				fhList.add(Float.parseFloat(fhArray[i]));
+				fhList.add(Integer.parseInt(fhArray[i]));
 			}
 		}
 		return fhList;

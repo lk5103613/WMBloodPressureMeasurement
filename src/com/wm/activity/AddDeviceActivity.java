@@ -154,7 +154,10 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
 				finish();
 			} else {
-				Toast.makeText(mContext, "已存在设备列表中", Toast.LENGTH_LONG).show();
+				if(!devices.isEmpty()) {
+					
+				}
+				//Toast.makeText(mContext, "已存在设备列表中", Toast.LENGTH_LONG).show();
 			}
 
 		}
@@ -182,13 +185,15 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	}
 
 	private boolean isMatchedDevice(BluetoothDevice device) {
+		String deviceName = device.getName().trim().toLowerCase(Locale.getDefault());
 		if (getDeviceType().equals(DeviceInfo.TYPE_FH)) {
-			//if(device.getName().toLowerCase(Locale.getDefault()).equals("bolutek"))
+			if(deviceName.equals("bolutek"))//判断类型与名字是否匹配 胎心
 				return true;
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {
 			return true;
-		} else if(getDeviceType().equals(DeviceInfo.TYPE_BS)) {
-			return true;
+		} else if(getDeviceType().equals(DeviceInfo.TYPE_BS)) {//血糖
+			if(device.equals("abg-bxxx"))
+				return true;
 		}
 		return false;
 	}

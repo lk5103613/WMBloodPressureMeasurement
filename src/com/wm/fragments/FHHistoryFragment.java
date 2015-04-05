@@ -113,7 +113,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		if (data != null) {
 			// create 10 y-vals
 			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
-			List<Float> fhValues = mFHResults.get(position).fhValues;
+			List<Integer> fhValues = mFHResults.get(position).fhValues;
 
 			for (int i = 0; i < fhValues.size(); i++) {
 				yValsFh.add(new Entry(fhValues.get(i), i));
@@ -131,7 +131,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 			
 			//用于提高Y轴坐标的值
 			ArrayList<Entry> yValsMax = new ArrayList<>();
-			yValsMax.add(new Entry(250, 0));
+			yValsMax.add(new Entry(300, 0));
 			LineDataSet setMax = new LineDataSet(yValsMax, "");
 			setMax.setLineWidth(2f);
 			setMax.setCircleSize(2);

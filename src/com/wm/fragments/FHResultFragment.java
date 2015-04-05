@@ -29,13 +29,13 @@ public class FHResultFragment extends BaseResultFragment {
 	@InjectView(R.id.embryo_result_chart)
 	LineChart mChart;
 
-	private List<Float> mFHValues;
-	private List<Float> mAllValues;
+	private List<Integer> mFHValues;
+//	private List<Float> mAllValues;
 	private int recordIndex;
 	private ArrayList<String> xVals;
 	private Handler mHandler;
 	private boolean mBeginRecord = false;
-	private boolean mBeginGetData = false;
+//	private boolean mBeginGetData = false;
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -50,8 +50,8 @@ public class FHResultFragment extends BaseResultFragment {
 		View view = inflater.inflate(R.layout.fragment_fh_result, container,
 				false);
 		ButterKnife.inject(this, view);
-		mFHValues = new ArrayList<Float>();
-		mAllValues = new ArrayList<Float>();
+		mFHValues = new ArrayList<Integer>();
+//		mAllValues = new ArrayList<Float>();
 
 		initLineChart();
 		addEmptyData();
@@ -151,7 +151,7 @@ public class FHResultFragment extends BaseResultFragment {
 		if(mFHValues.size() < 60) {
 			float average = getAverage();
 			while(mFHValues.size() != 60) {
-				mFHValues.add(average);
+				mFHValues.add((int)average);
 			}
 		}
 		FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
@@ -173,17 +173,18 @@ public class FHResultFragment extends BaseResultFragment {
 	@Override
 	public boolean handleGetData(String data) {
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
-		if (!fhValue.trim().equals("0")) {
-			if(!mBeginGetData)
-				mBeginGetData = true;
-			if(mBeginRecord)
-				mFHValues.add(Float.valueOf(fhValue));
-		} else {
-			if(mBeginGetData) {
-				fhValue = String.valueOf(getAverage());
-				mAllValues.add(Float.valueOf(fhValue));
-				addEntry(Float.parseFloat(fhValue));
+		System.out.println("fhvalues " + fhValue);
+		if(!mBeginRecord) {
+			return true;
+		}
+		if (fhValue.trim().equals("0")) {//获取值为0
+			if(getAverage()!=0) {
+				addEntry(getAverage());
+				mFHValues.add(getAverage());
 			}
+		} else {//获取值不为0
+			addEntry(Integer.parseInt(fhValue));
+			mFHValues.add(Integer.parseInt(fhValue));
 		}
 		if(mFHValues.size() >= 60) {
 			mHandler.removeCallbacks(mRunnable);
@@ -202,14 +203,14 @@ public class FHResultFragment extends BaseResultFragment {
 		return false;
 	}
 	
-	private float getAverage() {
-		if(mAllValues.size() == 0)
-			return 0f;
+	private int getAverage() {
+		if(mFHValues.size() == 0)
+			return 0;
 		float sum = 0f;
-		for(int i=0; i<mAllValues.size(); i++) {
-			sum += mAllValues.get(i);
+		for(int i=0; i<mFHValues.size(); i++) {
+			sum += mFHValues.get(i);
 		}
-		return sum/mAllValues.size();
+		return (int)sum/mFHValues.size();
 	}
 
 }
