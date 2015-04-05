@@ -49,14 +49,15 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		mBSText = getResources().getString(R.string.bs_text);
 		mFHText = getResources().getString(R.string.fh_text);
 		mProgressDialog = DialogUtils.createProgressDialog(mContext, "",
-				"正在扫描设备");
+				getResources().getString(R.string.scaning));
 		
 		ArrayList<String> type= new ArrayList<>();
 		type.add(mBPText);
 		type.add(mBSText);
 		type.add(mFHText);
 		
-		ArrayAdapter<String> adapter = new SpinnerAdapter(mTypeSpinner, this, R.layout.simple_spinner_item,type);
+		ArrayAdapter<String> adapter = new SpinnerAdapter(mTypeSpinner, this, 
+				R.layout.simple_spinner_item,type);
 		mTypeSpinner.setAdapter(adapter);
 				
 	}
@@ -87,7 +88,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		} else if (selectedType.equals(mFHText)) {
 			type = DeviceInfo.TYPE_FH;
 		}
-		System.out.println(type);
 		return type;
 	}
 
@@ -135,8 +135,8 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				if (mDBAddresses.contains(address) || !isMatchedDevice(device)) {
 					continue;
 				}
-				final String name = device.getName();
-				needSaveDevices.add(new DeviceInfo(getDeviceType(), name,
+				needSaveDevices.add(new DeviceInfo(getDeviceType(), 
+						getDeviceName(getDeviceType()),
 						address));
 			}
 			new Thread(new Runnable() {
@@ -154,16 +154,33 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
 				finish();
 			} else {
-				if(!devices.isEmpty()) {
-					
-				}
-				//Toast.makeText(mContext, "已存在设备列表中", Toast.LENGTH_LONG).show();
+				
+				Toast.makeText(mContext, getResources().getString(R.string.not_found_device), 
+						Toast.LENGTH_LONG).show();
 			}
 
 		}
 		mCurrentScanState = scanState;
 	}
 
+	private String getDeviceName(String type){
+		String name = "";
+		switch (type) {
+		case DeviceInfo.TYPE_FH:
+			name = getResources().getString(R.string.fh_text);
+			break;
+		case DeviceInfo.TYPE_BS:
+			name =getResources().getString(R.string.bs_text);
+			break;
+		case DeviceInfo.TYPE_BP:
+			name = getResources().getString(R.string.bp_text);
+			break;
+		default:
+			name = getResources().getString(R.string.bp_text);
+			break;
+		}
+		return name;
+	}
 	private void handleConFailed() {
 		System.out.println("scan failed");
 		if (mCurrentScanTime < 1) { // scan again
@@ -189,7 +206,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		if (getDeviceType().equals(DeviceInfo.TYPE_FH)) {
 			if(deviceName.equals("bolutek"))//判断类型与名字是否匹配 胎心
 				return true;
-		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {
+		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {//血压
 			return true;
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BS)) {//血糖
 			if(device.equals("abg-bxxx"))

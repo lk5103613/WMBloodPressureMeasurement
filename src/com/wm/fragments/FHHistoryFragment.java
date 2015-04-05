@@ -75,7 +75,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setStartAtZero(false);
+		mChart.setStartAtZero(true);
 		mChart.setScaleMinima(2, 1);
 		mChart.setDrawLegend(true);//绘制颜色标记
 		mChart.setDrawXLabels(true);//绘制X轴标签

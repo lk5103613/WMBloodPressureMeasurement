@@ -6,8 +6,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -61,8 +59,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	private DeviceDataSet mDeviceDataSet;
 	private DeviceListAdapter mAdapter;
 	private Context mContext;
-//	private boolean isDelete = false;
-//	private boolean isEdit = false;
 	private TabPager mTabPager;
 	private List<DeviceInfo> mDevices;
 	private DeviceDBManager mDeviceDBManager;
@@ -77,6 +73,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	View changeNameView;
 	Button btnChangeNameYes, btnChangeNameNo;
 	EditText nameEdit;
+	
+	AlertDialog delDialog;
 
 	public interface OnStateChangeListener {
 		public void onStateChange(int state);
@@ -188,8 +186,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	public void resetList() {
 		mDeviceDataSet.option = null;
 		mAdapter.notifyDataSetChanged();
-//		this.isDelete = false;
-//		this.isEdit = false;
 		mCallback.onStateChange(STATE_NORMAL);
 	}
 
@@ -303,6 +299,27 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		nameEdit.setText(name);
 		nameEdit.setSelection(name.length());
 	}
+	
+	public void delete(int position) {
+		if(delDialog ==null) {
+			delDialog = DialogUtils.createDialog(getActivity(), 
+					R.layout.dialog_delete,getResources().getString(R.string.ask_del_device),
+					new BtnClickListener(position), new BtnClickListener(position));
+		}
+		
+		delDialog.show();
+		Window dialogWindow = delDialog.getWindow();
+		WindowManager m = getActivity().getWindowManager();
+		Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
+
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+
+		Point p = new Point();
+		d.getSize(p);
+		params.width = (int) (p.x * 0.75); // 宽度设置为屏幕的0.65
+		params.height = (int) (p.y * 0.3);
+		dialogWindow.setAttributes(params);
+	}
 
 	class BtnClickListener implements View.OnClickListener {
 		private int mPosition;
@@ -315,28 +332,9 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_delete:
-				DialogUtils.dialogTwoButton(mContext, "删除设备？", "删除", "删除",
-						"取消", new OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								final DeviceInfo tmpDeviceInfo = mDeviceDataSet.deviceInfos
-										.get(mPosition);
-								new Thread(new Runnable() {
-									@Override
-									public void run() {
-										mDeviceDBManager
-												.removeDeviceById(tmpDeviceInfo.id);
-									}
-								}).start();
-								mDeviceDataSet.deviceInfos.remove(mPosition);
-								mAdapter.notifyDataSetChanged();
-							}
-						});
-
+				delete(mPosition);
 				break;
 			case R.id.btn_update:
-				System.out.println("position " + mPosition);
 				update(mPosition);
 				break;
 			case R.id.btn_change_name_no:
@@ -354,6 +352,22 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 				}).start();
 				mAdapter.notifyDataSetChanged();
 				changeNameDialog.dismiss();
+				break;
+			case R.id.btn_del_no:
+				delDialog.dismiss();
+				break;
+			case R.id.btn_del_yes:
+				final DeviceInfo tmpDeviceInfo = mDeviceDataSet.deviceInfos
+						.get(mPosition);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						mDeviceDBManager.removeDeviceById(tmpDeviceInfo.id);
+					}
+				}).start();
+				mDeviceDataSet.deviceInfos.remove(mPosition);
+				mAdapter.notifyDataSetChanged();
+				delDialog.dismiss();
 				break;
 			default:
 				break;

@@ -87,13 +87,13 @@
         <Button
             android:id="@+id/btn_match"
             android:layout_width="match_parent"
-            android:layout_height="36sp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:background="@drawable/btn_bg"
             android:text="@string/btn_match"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <ImageView

@@ -69,6 +69,9 @@
     <string name="bp_text">血&#160;压&#160;计</string>
     <string name="bs_text">血&#160;糖&#160;仪</string>
     <string name="fh_text">胎&#160;心&#160;仪</string>
+    <string name="not_found_device">未发现匹配的新设备</string>
+    <string name="scaning">正在扫描设备</string>
+    <string name="ask_del_device">是否删除设备？</string>
     
     <string name="icon_description">this is logo</string>
 

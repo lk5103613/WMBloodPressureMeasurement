@@ -47,10 +47,7 @@ public class BPResultFragment extends BaseResultFragment {
 
 	@Override
 	public void record() {
-		if (null == mBPResult){
-			Toast.makeText(getActivity(), "Î´¼ì²âµ½½á¹û", Toast.LENGTH_LONG).show();
-			return;
-		}
+		
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

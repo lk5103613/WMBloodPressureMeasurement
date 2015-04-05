@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class DialogUtils {
 	
@@ -146,34 +147,24 @@ public class DialogUtils {
 	        return progressDialog;
 	    }
 	    
-	    public static AlertDialog createChangeNameDialot(Activity context, View.OnClickListener yesClickListener,
+	    public static AlertDialog createDialog(Activity context, int layout, String titleText,
+	    		View.OnClickListener yesClickListener,
 	    		View.OnClickListener noClickListener){
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setCancelable(true);
 			LayoutInflater inflater = context.getLayoutInflater();
-			View mainView = inflater.inflate(R.layout.dialog_change_name,
+			View mainView = inflater.inflate(layout,
 					new LinearLayout(context), false);
-			EditText nameEdit = (EditText)mainView.findViewById(R.id.txt_device_name);
-			Button btnChangeNameYes = (Button) mainView.findViewById(R.id.btn_change_name_yes);
-			Button btnChangeNameNo = (Button)mainView.findViewById(R.id.btn_change_name_no);
-			btnChangeNameYes.setOnClickListener(yesClickListener);
-			btnChangeNameNo.setOnClickListener(noClickListener);
+			TextView title = (TextView) mainView.findViewById(R.id.title);
+			Button btnDelYes = (Button) mainView.findViewById(R.id.btn_del_yes);
+			Button btnDelNo = (Button)mainView.findViewById(R.id.btn_del_no);
+			title.setText(titleText);
+			btnDelYes.setOnClickListener(yesClickListener);
+			btnDelNo.setOnClickListener(noClickListener);
 			AlertDialog alertDialog = builder.create();
+			alertDialog.setView(mainView, 0, 0, 0, 0);
 			alertDialog.setCanceledOnTouchOutside(true);
 	    	return alertDialog;
 	    }
-
-//	    public static void dialogInReceiver(Context mContext, String title, String message,
-//	    		String btnNav, String btnPos, OnClickListener btnPosListener, OnClickListener btnNavListener){
-//	    	Builder builder=new Builder(mContext);  
-//	        builder.setIcon(R.drawable.ic_launcher);  
-//	        builder.setTitle(title);  
-//	        builder.setMessage(message);  
-//	        builder.setNegativeButton("ÊÇ", btnPosListener);  
-//	        builder.setPositiveButton("·ñ", btnNavListener);
-//	        Dialog dialog=builder.create();
-//	        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-//	        dialog.show(); 
-//	    }
 	
 }

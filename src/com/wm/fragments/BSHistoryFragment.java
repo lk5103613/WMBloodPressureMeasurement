@@ -126,32 +126,32 @@ public class BSHistoryFragment extends BaseHistoryFragment {
         
        
 	}
-	private void setData(int count, float range) {
-
-        ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < count; i++) {
-            xVals.add(i+"");
-        }
-
-        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-
-        for (int i = 0; i < count; i++) {
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult);
-            yVals1.add(new BarEntry(val, i));
-        }
-
-        BarDataSet set1 = new BarDataSet(yVals1, "");
-        set1.setBarSpacePercent(35f);
-        set1.setColors(colors);
-
-        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
-        dataSets.add(set1);
-
-        BarData data = new BarData(xVals, dataSets);
-
-        mChart.setData(data);
-    }
+//	private void setData(int count, float range) {
+//
+//        ArrayList<String> xVals = new ArrayList<String>();
+//        for (int i = 0; i < count; i++) {
+//            xVals.add(i+"");
+//        }
+//
+//        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+//
+//        for (int i = 0; i < count; i++) {
+//            float mult = (range + 1);
+//            float val = (float) (Math.random() * mult);
+//            yVals1.add(new BarEntry(val, i));
+//        }
+//
+//        BarDataSet set1 = new BarDataSet(yVals1, "");
+//        set1.setBarSpacePercent(35f);
+//        set1.setColors(colors);
+//
+//        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+//        dataSets.add(set1);
+//
+//        BarData data = new BarData(xVals, dataSets);
+//
+//        mChart.setData(data);
+//    }
 
 	@Override
 	public boolean handleConnect() {

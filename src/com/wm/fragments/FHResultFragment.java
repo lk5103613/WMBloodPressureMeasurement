@@ -30,12 +30,10 @@ public class FHResultFragment extends BaseResultFragment {
 	LineChart mChart;
 
 	private List<Integer> mFHValues;
-//	private List<Float> mAllValues;
 	private int recordIndex;
 	private ArrayList<String> xVals;
 	private Handler mHandler;
 	private boolean mBeginRecord = false;
-//	private boolean mBeginGetData = false;
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -51,7 +49,6 @@ public class FHResultFragment extends BaseResultFragment {
 				false);
 		ButterKnife.inject(this, view);
 		mFHValues = new ArrayList<Integer>();
-//		mAllValues = new ArrayList<Float>();
 
 		initLineChart();
 		addEmptyData();
@@ -75,7 +72,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setDescription("");
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setStartAtZero(false);
+		mChart.setStartAtZero(true);
 		mChart.setDrawLegend(false);//不绘制颜色标记
 		mChart.setDrawXLabels(true);//绘制X轴标签
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
@@ -89,7 +86,7 @@ public class FHResultFragment extends BaseResultFragment {
 	private void addEmptyData() {
 		recordIndex = 0;
 
-		// create 30 x-vals
+		// create 15 x-vals
 		xVals = new ArrayList<String>();
 
 		for (int i = 1; i <= 15; i++) {

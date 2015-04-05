@@ -47,7 +47,7 @@ public class SettingFragment extends Fragment  {
 	
 	private void initItems() {
 		// 版本信息应从服务器获取
-		items.add(new SettingData("版本信息", "Demo版"));
+		items.add(new SettingData("版本信息", "V1.0"));
 		items.add(new SettingData("关于我们", new Intent(mContext, AboutActivity.class)));
 		items.add(new SettingData("使用帮助", new Intent(mContext, GuideViewActivity.class)));
 	}
