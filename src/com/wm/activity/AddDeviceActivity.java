@@ -203,13 +203,14 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 
 	private boolean isMatchedDevice(BluetoothDevice device) {
 		String deviceName = device.getName().trim().toLowerCase(Locale.getDefault());
+		System.out.println("device name " + deviceName);
 		if (getDeviceType().equals(DeviceInfo.TYPE_FH)) {
 			if(deviceName.equals("bolutek"))//判断类型与名字是否匹配 胎心
 				return true;
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {//血压
 			return true;
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BS)) {//血糖
-			if(device.equals("abg-bxxx"))
+			if(deviceName.equals("abg-bxxx"))
 				return true;
 		}
 		return false;

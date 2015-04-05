@@ -147,18 +147,17 @@ public class DialogUtils {
 	        return progressDialog;
 	    }
 	    
-	    public static AlertDialog createDialog(Activity context, int layout, String titleText,
+	    public static AlertDialog createDialog(Activity context,
 	    		View.OnClickListener yesClickListener,
 	    		View.OnClickListener noClickListener){
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setCancelable(true);
 			LayoutInflater inflater = context.getLayoutInflater();
-			View mainView = inflater.inflate(layout,
+			View mainView = inflater.inflate(R.layout.dialog_delete,
 					new LinearLayout(context), false);
 			TextView title = (TextView) mainView.findViewById(R.id.title);
 			Button btnDelYes = (Button) mainView.findViewById(R.id.btn_del_yes);
 			Button btnDelNo = (Button)mainView.findViewById(R.id.btn_del_no);
-			title.setText(titleText);
 			btnDelYes.setOnClickListener(yesClickListener);
 			btnDelNo.setOnClickListener(noClickListener);
 			AlertDialog alertDialog = builder.create();

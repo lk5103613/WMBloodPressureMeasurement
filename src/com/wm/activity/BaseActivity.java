@@ -2,6 +2,7 @@ package com.wm.activity;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.wm.network.CheckNeedUploadTask;
 import com.wm.network.NetChangeReceiver;
@@ -16,8 +17,11 @@ public class BaseActivity extends BLEBaseActivity implements NetChangeCallBack {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(mAlertDialog == null) 
-			mAlertDialog = DialogUtils.showAlertDialog(mContext, -1, "上传", "上传将会耗费您一定的流量，是否确定上传？", "是", "否", null, null);
+		if(mAlertDialog == null) {
+			mAlertDialog = DialogUtils.showAlertDialog(mContext, -1, "上传", getResources().getString(R.string.ask_upload), "是", "否", null, null);
+			mAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		}
+			
 		if(mReceiver == null)
 			mReceiver = NetChangeReceiver.getInstance(this);
 	}

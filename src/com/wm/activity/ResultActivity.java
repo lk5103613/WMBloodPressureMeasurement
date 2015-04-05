@@ -108,6 +108,13 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Inte
 		mBtnRecord.setEnabled(false);
 		mProgressBar.setVisibility(View.VISIBLE);
 		mFragment.record();
+		finish();
+	}
+	
+	@OnClick(R.id.result_back)
+	public void back(){
+		mBluetoothLeService.disconnect();
+		finish();
 	}
 
 	@Override

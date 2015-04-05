@@ -72,6 +72,7 @@
     <string name="not_found_device">未发现匹配的新设备</string>
     <string name="scaning">正在扫描设备</string>
     <string name="ask_del_device">是否删除设备？</string>
+    <string name="ask_upload">上传将会耗费您一定的流量，是否确定上传？</string>
     
     <string name="icon_description">this is logo</string>
 

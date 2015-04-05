@@ -39,7 +39,6 @@ public class BPResultFragment extends BaseResultFragment {
 		ButterKnife.inject(this, view);
 
 		mContext = getActivity();
-		
 		mPressure.startRotate();
 
 		return view;
@@ -54,7 +53,7 @@ public class BPResultFragment extends BaseResultFragment {
 				HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
 			}
 		}).start();
-		getActivity().finish();
+		
 	}
 
 	// º∆À„Pressure÷µ

@@ -302,8 +302,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	
 	public void delete(int position) {
 		if(delDialog ==null) {
-			delDialog = DialogUtils.createDialog(getActivity(), 
-					R.layout.dialog_delete,getResources().getString(R.string.ask_del_device),
+			delDialog = DialogUtils.createDialog(getActivity(),
 					new BtnClickListener(position), new BtnClickListener(position));
 		}
 		
