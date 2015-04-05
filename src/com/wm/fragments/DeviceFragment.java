@@ -103,13 +103,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mHandler = new Handler();
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
-		
-//		View emptyView = inflater.inflate(R.layout.listview_empty_view, null);
-//		ViewGroup parentView = (ViewGroup) mDeviceListView.getParent(); 
-//		parentView.addView(emptyView, 2);
-//		mDeviceListView.setEmptyView(emptyView);
-		
-		mDeviceListView.setEmptyView(mEmptyView);  
+		mDeviceListView.setEmptyView(mEmptyView);  //add empty view
 		return view;
 	}
 
@@ -173,7 +167,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 				mDevices = mDeviceDBManager.getAllDevices();
 				if (mDeviceDataSet == null)
 					mDeviceDataSet = new DeviceDataSet();
-				mDeviceDataSet.option = OptionEnum.ITEM_ADD;
+				//mDeviceDataSet.option = OptionEnum.ITEM_ADD;
 				mDeviceDataSet.deviceInfos = mDevices;
 				if (mAdapter == null) {
 					mAdapter = new DeviceListAdapter(mContext, mDeviceDataSet);
