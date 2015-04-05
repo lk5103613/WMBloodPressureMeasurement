@@ -302,26 +302,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		changeNameDialog.show();
 		nameEdit.setText(name);
 		nameEdit.setSelection(name.length());
-		
-		
-//		DialogUtils.showViewDialog(mContext, R.drawable.ic_action_edit, "设备名称",
-//				mainView, "确定", "取消", new BtnCallback() {
-//					@Override
-//					public void click(final DialogInterface dialog,
-//							final int which) {
-//						String deviceName = txtDeviceName.getText().toString();
-//						mDeviceDataSet.deviceInfos.get(i).name = deviceName;
-//						new Thread(new Runnable() {
-//							@Override
-//							public void run() {
-//								mDeviceDBManager
-//										.updateDevice(mDeviceDataSet.deviceInfos
-//												.get(i));
-//							}
-//						}).start();
-//						mAdapter.notifyDataSetChanged();
-//					}
-//				}, null).show();
 	}
 
 	class BtnClickListener implements View.OnClickListener {
@@ -411,8 +391,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 					R.anim.scale_fade_out);
 			break;
 		case R.id.action_delete_device:
-//			isDelete = true;
-//			isEdit = false;
 			mCallback.onStateChange(STATE_DELETE);
 			mDeviceDataSet.option = OptionEnum.ITEM_DELETE;
 			mAdapter.notifyDataSetChanged();
@@ -422,7 +400,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionUpd.setVisibility(View.VISIBLE);
 			break;
 		case R.id.action_cancel_delete:
-//			isDelete = false;
 			mCallback.onStateChange(STATE_NORMAL);
 			mDeviceDataSet.option = null;
 			mAdapter.notifyDataSetChanged();
@@ -430,8 +407,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionDel.setVisibility(View.VISIBLE);
 			break;
 		case R.id.action_change_name:
-//			isEdit = true;
-//			isDelete = false;
 			mCallback.onStateChange(STATE_EDIT);
 			mDeviceDataSet.option = OptionEnum.ITEM_UPDATE;
 			mAdapter.notifyDataSetChanged();
@@ -441,7 +416,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionDel.setVisibility(View.VISIBLE);
 			break;
 		case R.id.action_cancel_change:
-//			isEdit = false;
 			mCallback.onStateChange(STATE_NORMAL);
 			mDeviceDataSet.option = null;
 			mAdapter.notifyDataSetChanged();
