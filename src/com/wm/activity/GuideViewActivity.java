@@ -25,9 +25,9 @@ public class GuideViewActivity extends ActionBarActivity implements View.OnClick
 	
 	private GuideViewPagerAdapter mAdapter;
 	List<View> mViews;
-	private static final int[] pics = { R.drawable.ic_action_discard,
-        R.drawable.ic_action_discard_selected, R.drawable.ic_action_edit,
-        R.drawable.ic_action_new_selected };
+	private static final int[] pics = { R.drawable.change_name_img,
+        R.drawable.add_device_img, R.drawable.bp_history_img,
+        R.drawable.bs_result_img };
 	 private ImageView[] dots ;
 	 private int currentIndex;
 

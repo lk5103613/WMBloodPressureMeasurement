@@ -6,9 +6,11 @@ import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.Button;
 
+import com.wm.activity.R;
 import com.wm.activity.WelcomeActivity;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
@@ -25,11 +27,15 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 	private int mConnectState;
 	private HistoryDBManager mDbManager;
 	private AlertDialog mDialog;
+	Button btnUdpNo;
+	Button btnUpdYes;
 	
-	public CheckNeedUploadTask(Context context, int connectState, AlertDialog dialog){
+	public CheckNeedUploadTask(Context context, AlertDialog mAlertDialog, Button btnUdpNo, Button btnUpdYes,int connectState){
 		this.mContext = context;
 		this.mConnectState = connectState;
-		this.mDialog = dialog;
+		this.mDialog = mAlertDialog;
+		this.btnUdpNo = btnUdpNo;
+		this.btnUpdYes = btnUpdYes;
 	}
 	
 	@Override
@@ -46,15 +52,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			System.out.println("autho false");
 			return uploadEntities;
 		}
-//		int allBPCount = mDbManager.getUploadedBpCounts();
-//		if(allBPCount > 300)
-		mDbManager.deleteBpDatas();
-//		int allBSCount = mDbManager.getUploadedBsCounts();
-//		if(allBSCount > 300) 
-		mDbManager.deleteBsDatas();
-//		int allFHCount = mDbManager.getUploadedFhCounts();
-//		if(allFHCount > 300)
-		mDbManager.deleteFhDatas();
+		
 		List<BPResult> bpResults = mDbManager.getBpResultsByStatus(0);
 		List<BSResult> bsResults = mDbManager.getBsResultsByStatus(0);
 		List<FHResult> fhResults = mDbManager.getFhResultsByStatus(0);
@@ -81,20 +79,42 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 		}
 		switch (mConnectState) {
 			case NetUtils.TYPE_GPRS:
-				mDialog.setButton(DialogInterface.BUTTON_POSITIVE, "ÊÇ", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						new UploadDataTask(mContext).execute(result);
-					}
-				});
-				if(mDialog.isShowing()) 
-					return;
-				mDialog.show();
+				
+				btnUpdYes.setOnClickListener(new BtnClickListener(result));
+				btnUdpNo.setOnClickListener(new BtnClickListener(result));
+				if(!mDialog.isShowing()){
+					mDialog.show();
+				}
 				break;
 			case NetUtils.TYPE_WIFI:
 				new UploadDataTask(mContext).execute(result);
 				break;
 		}
+	}
+	
+	class BtnClickListener implements View.OnClickListener{
+		
+		private Map<Integer, IUploadEntity> result;
+		public BtnClickListener(Map<Integer, IUploadEntity> result) {
+			this.result = result;
+		}
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.btn_upload_no:
+				mDialog.dismiss();
+				break;
+			case R.id.btn_upload_yes:
+				new UploadDataTask(mContext).execute(result);
+				mDialog.dismiss();
+				break;
+			default:
+				break;
+			}
+			
+		}
+		
 	}
 
 }

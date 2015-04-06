@@ -3,8 +3,6 @@ package com.wm.fragments;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,8 +136,9 @@ public class BPResultFragment extends BaseResultFragment {
 			mCallback.showResult(mBPResult.bpResult);
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
+			
 			// 获得异常信息
-			mCallback.setButtonState(BTN_STATE_AVAILABLE);
+			mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
 			mNeedNewData = false;
 			mPressure.stopRotate();
 			mBPException = new BPResultException(data);

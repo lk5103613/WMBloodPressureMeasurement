@@ -21,6 +21,7 @@ public class HistoryDBManager {
 	private Context mContext;
 	private DBHelper mDBHelper;
 	private static HistoryDBManager mHistoryDBManager;
+	private int maxCount = 300;
 
 	private HistoryDBManager(Context context) {
 		this.mContext = context;
@@ -101,15 +102,6 @@ public class HistoryDBManager {
 		return bpResults;
 	}
 	
-	//此方法可能需要修改
-//	public int getUploadedBpCounts() {
-//		String sql = "select count(*) from " + BPDataEntry.TABLE_NAME + " where " + BPDataEntry.COLUMN_NAME_STATUS + " =  1";
-//		SQLiteDatabase db = mDBHelper.getReadableDatabase();
-//		Cursor cursor = db.rawQuery(sql, null);
-//		cursor.moveToFirst();
-//		return cursor.getInt(0);
-//	}
-	
 	/**
 	 * 删除已上传的数据，只留最近300条
 	 * 
@@ -117,7 +109,8 @@ public class HistoryDBManager {
 	public void deleteBpDatas(){
 		
 		List<BPResult> results = getBpResultsByStatus(1);
-		if(results.size()<=300) {
+		System.out.println("bp results " + results.size());
+		if(results.size()<=(maxCount-1)) {
 			return;
 		}
 		
@@ -125,12 +118,19 @@ public class HistoryDBManager {
 		StringBuilder selection = new StringBuilder();
 		List<String> argList = new ArrayList<>();
 		selection.append(BPDataEntry.COLUMN_NAME_ID + " in (");
-		for (int i = results.size(); i >300; i-- ) {
+		System.out.println("sql before " + selection.toString());
+		
+		for (int i = results.size()-1; i >(maxCount-1); i-- ) {
+			
 			selection.append("?,");
+			System.out.println("id " + results.get(i).id);
 			argList.add(results.get(i).id+"");
+			System.out.println("sql in "+ i +"  " + selection.toString());
 		}
+		System.out.println("sql after " + selection.toString());
 		selection.deleteCharAt(selection.length()-1);//去掉最后一个逗号
 		selection.append(")");
+		System.out.println("sql " + selection.toString());
 		
 		String[] whereArgs = (String[]) argList.toArray(new String[argList.size()]);
 		
@@ -197,18 +197,10 @@ public class HistoryDBManager {
 		return bsResults;
 	}
 	
-//	public int getUploadedBsCounts() {
-//		String sql = "select count(*) from " + BSDataEntry.TABLE_NAME + " where " + BSDataEntry.COLUMN_NAME_STATUS + " = 1";
-//		SQLiteDatabase db = mDBHelper.getReadableDatabase();
-//		Cursor cursor = db.rawQuery(sql, null);
-//		return cursor.getInt(0);
-//	}
-	
-	
 	public void deleteBsDatas(){
 		
 		List<BSResult> results = getBsResultsByStatus(1);
-		if(results.size()<=300) {
+		if(results.size()<=(maxCount-1)) {
 			return;
 		}
 		
@@ -216,7 +208,7 @@ public class HistoryDBManager {
 		StringBuilder selection = new StringBuilder();
 		List<String> argList = new ArrayList<>();
 		selection.append(BSDataEntry.COLUMN_NAME_ID + " in (");
-		for (int i = results.size(); i >300; i-- ) {
+		for (int i = results.size()-1; i >(maxCount-1); i-- ) {
 			selection.append("?,");
 			argList.add(results.get(i).id+"");
 		}
@@ -235,7 +227,8 @@ public class HistoryDBManager {
 				BSDataEntry.COLUMN_NAME_DATE,BSDataEntry.COLUMN_NAME_CARD,BSDataEntry.COLUMN_NAME_REMARKS, BSDataEntry.COLUMN_NAME_MESURE_TIME};
 		String selection = BSDataEntry.COLUMN_NAME_STATUS + "=?";
 		String[] args = {String.valueOf(status)};
-		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, selection, args, null, null, null);
+		String orderBy = BSDataEntry.COLUMN_NAME_DATE + " DESC"; 
+		Cursor c = db.query(BSDataEntry.TABLE_NAME, projection, selection, args, null, null, orderBy);
 		while (c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_ID));
 			String bsValue = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_BSVALUE));
@@ -334,18 +327,10 @@ public class HistoryDBManager {
 	}
 	
 	
-//	public int getUploadedFhCounts() {
-//		String sql = "select count(*) from " + FHDataEntry.TABLE_NAME + " where " + FHDataEntry.COLUMN_NAME_STATUS + " = 1";
-//		SQLiteDatabase db = mDBHelper.getReadableDatabase();
-//		Cursor cursor = db.rawQuery(sql, null);
-//		return cursor.getInt(0);
-//	}
-	
-	
 	public void deleteFhDatas(){
 		
 		List<FHResult> results = getFhResultsByStatus(1);
-		if(results.size()<=300) {
+		if(results.size()<=(maxCount-1)) {
 			return;
 		}
 		
@@ -353,7 +338,7 @@ public class HistoryDBManager {
 		StringBuilder selection = new StringBuilder();
 		List<String> argList = new ArrayList<>();
 		selection.append(FHDataEntry.COLUMN_NAME_ID + " in (");
-		for (int i = results.size(); i >300; i-- ) {
+		for (int i = results.size()-1; i >(maxCount-1); i-- ) {
 			selection.append("?,");
 			argList.add(results.get(i).id+"");
 		}
@@ -372,7 +357,8 @@ public class HistoryDBManager {
 				FHDataEntry.COLUMN_NAME_DATE, FHDataEntry.COLUMN_NAME_CARD, FHDataEntry.COLUMN_NAME_REMARKS};
 		String selections = FHDataEntry.COLUMN_NAME_STATUS + "=?";
 		String[] args = {String.valueOf(status)};
-		Cursor c = db.query(FHDataEntry.TABLE_NAME, projection, selections, args, null, null, null);
+		String orderBy = FHDataEntry.COLUMN_NAME_DATE + " DESC"; 
+		Cursor c = db.query(FHDataEntry.TABLE_NAME, projection, selections, args, null, null, orderBy);
 		while (c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_ID));
 			String fhValues = c.getString(c.getColumnIndexOrThrow(FHDataEntry.COLUMN_NAME_FHVALUES));

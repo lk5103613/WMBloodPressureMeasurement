@@ -87,7 +87,7 @@ public class BPResult {
 		this.date = new Date().getTime();
 		this.remarks = "v0.0.1";
 		this.userCard = "330310198611010909";
-		this.bpResult = getAdvise(dbp, sbp);
+		this.bpResult = getAdvise(dbp, sbp) +"ÑªÑ¹";
 	}
 	
 	/** ÊÕËõÑ¹ÁÙ½çÖµ */

@@ -42,9 +42,8 @@ public class BSResultFragment extends BaseResultFragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_bs_result, container, false);
 		ButterKnife.inject(this, view);
-		
+		super.onCreateView(inflater, container, savedInstanceState);
 		mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
-		
 		mDBManager = HistoryDBManager.getInstance(mContext);
 		
 		return view;
@@ -105,6 +104,7 @@ public class BSResultFragment extends BaseResultFragment {
 		if(datas.length == 18) {
 			mBSResult = new BSResult(datas);
 			mBsValue.setText(mBSResult.bg);
+			mCallback.showResult(mBSResult.bsResult);
 		} else if(datas.length == 6) {
 			if(mBSResult == null) {
 				return false;

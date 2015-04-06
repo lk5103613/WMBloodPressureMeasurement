@@ -86,7 +86,6 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
         mChart.setHighlightEnabled(true);
         mChart.centerViewPort(0, 200);
         mChart.getYLabels().setLabelCount(5);
-
 	}
 
 	private void addEmptyData(int position) {
@@ -143,7 +142,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 			
 			mChart.notifyDataSetChanged();
 			mChart.centerViewPort(1, mChart.getAverage()+100);
-			mChart.animateY(1000);
+			mChart.animateY(600);
 		}
 	}
 
@@ -177,7 +176,6 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 	public void nextClick() {
 
 		if (mIndex >= (mFHResults.size() - 1)) {
-			System.out.println("context " + mContext);
 			Toast.makeText(mContext, getString(R.string.msg_last_data),
 					Toast.LENGTH_LONG).show();
 			return;

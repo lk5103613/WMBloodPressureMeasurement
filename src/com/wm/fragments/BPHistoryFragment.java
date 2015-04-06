@@ -66,7 +66,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	}
 	public void initLineChart() {
 		mChart.setOnChartValueSelectedListener(this);
+		mChart.setPinchZoom(false);
 		mChart.setDrawYValues(false);
+		mChart.setScaleEnabled(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDescription("ÔÂ.ÈÕ");

@@ -51,7 +51,7 @@
         <activity
             android:name=".ResultActivity"
             android:parentActivityName=".BPHistoryActivity"
-            android:launchMode="singleTop" >
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".GuideViewActivity"

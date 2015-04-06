@@ -20,6 +20,7 @@ public class BSResult {
 	@Expose public String measureTime;
 	@Expose public String remarks;
 	public int status;
+	public String bsResult;
 	
 	public BSResult(String bsValue, long date) {
 		super();
@@ -61,12 +62,15 @@ public class BSResult {
 			timeSb.append(AsciiTable.get(datas[i].toUpperCase(Locale.getDefault())));
 		}
 		int mgPerDlValue = Integer.valueOf(sb.toString());
-		String value = DataConvertUtils.format(mgPerDlValue * 1.0 / 18, 1);
-		this.bg = value;
+		System.out.println(" bs " + mgPerDlValue * 1.0 / 18);
+		
+		float value = DataConvertUtils.formatNoRound(mgPerDlValue * 1.0 / 18);
+		this.bg = value+"";
 		this.date = new Date().getTime();
 		this.userCard = "220502198611010011";
 		this.remarks = "test";
 		this.measureTime = timeSb.toString();
+		this.bsResult = getAdvise(value) + "血糖";
 	}
 	
 	public void getMeasureTime(String[] datas) {
@@ -76,6 +80,25 @@ public class BSResult {
 			sb.append(AsciiTable.get(datas[i].toUpperCase(Locale.getDefault())));
 		}
 		this.measureTime += sb.toString();
+	}
+	
+	public static final float[] DBSS = {
+		3.9f,  7.0f
+	};
+
+	/** 建议 */
+	public static final String[] ADVISES = {
+		"低", "正常", "高"
+	};
+
+	
+	public static String getAdvise(float bs) {
+		for(int i = 0; i < DBSS.length; i++) {
+			if (bs < DBSS[i]){
+				return ADVISES[i];
+			}
+		}
+		return ADVISES[ADVISES.length-1];
 	}
 	
 }

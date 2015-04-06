@@ -42,7 +42,7 @@
 		    android:layout_marginEnd="20dp"
 		    android:textColor="@color/white"
 		    android:layout_height="36dp"
-		    android:text="删除"/>
+		    android:text="上传"/>
 	    
 	</LinearLayout>
 </LinearLayout>

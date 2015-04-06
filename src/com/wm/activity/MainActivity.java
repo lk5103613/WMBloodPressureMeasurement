@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity implements
 		mTabView.setOnPageChangeListener(this);
 		
 		int connectState = NetUtils.getConnectState(mContext);
-		new CheckNeedUploadTask(mContext, connectState, mAlertDialog).execute();
+		new CheckNeedUploadTask(mContext,mAlertDialog,btnUpdYes, btnUpdNo, connectState).execute();
 		
 	}
 

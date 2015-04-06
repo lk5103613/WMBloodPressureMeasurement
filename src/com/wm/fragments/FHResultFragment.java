@@ -149,18 +149,13 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 	
 	private void saveAndJump() {
-//		if (mFHValues.size() == 0 || getAverage()==0) {
-//			Toast.makeText(getActivity(), getResources().getString(R.string.no_data_available), Toast.LENGTH_LONG).show();
-//			mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
-//			return;
-//		}
 		if(mFHValues.size() < 60) {
 			float average = getAverage();
 			while(mFHValues.size() != 60 && average != 0) {
 				mFHValues.add((int)average);
 			}
 		}
-		new AsyncTask<Void, Void, Void>() {
+		new AsyncTask<Void, Void, Integer>() {
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
@@ -168,18 +163,23 @@ public class FHResultFragment extends BaseResultFragment {
 			}
 			
 			@Override
-			protected Void doInBackground(Void... params) {
+			protected Integer doInBackground(Void... params) {
+				int count = mFHValues.size();
 				if (!mFHValues.isEmpty()){
 					FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
 					HistoryDBManager.getInstance(mContext).addFhResult(fhResult);
 				}
 				
-				return null;
+				return count;
 			}
 			
 			@Override
-			protected void onPostExecute(Void result) {
+			protected void onPostExecute(Integer result) {
 				super.onPostExecute(result);
+				if (result ==0) {
+					Toast.makeText(getActivity(), getResources().getString(R.string.no_data_available), 
+							Toast.LENGTH_LONG).show();
+				}
 				mBluetoothLeService.disconnect();
 				mCallback.closeActivity();
 			}

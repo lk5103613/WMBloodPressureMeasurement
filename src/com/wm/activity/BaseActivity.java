@@ -2,28 +2,45 @@ package com.wm.activity;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.wm.network.CheckNeedUploadTask;
 import com.wm.network.NetChangeReceiver;
 import com.wm.network.NetChangeReceiver.NetChangeCallBack;
-import com.wm.utils.DialogUtils;
 
 public class BaseActivity extends BLEBaseActivity implements NetChangeCallBack {
 	
 	protected AlertDialog mAlertDialog;
 	private NetChangeReceiver mReceiver;
+	protected Button btnUpdYes, btnUpdNo;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if(mAlertDialog == null) {
-			mAlertDialog = DialogUtils.showAlertDialog(mContext, -1, "ÉÏ´«", getResources().getString(R.string.ask_upload), "ÊÇ", "·ñ", null, null);
-			mAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+			createUploadDialog();
 		}
 			
 		if(mReceiver == null)
 			mReceiver = NetChangeReceiver.getInstance(this);
+	}
+	
+	private void createUploadDialog(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(true);
+		LayoutInflater inflater = this.getLayoutInflater();
+		View mainView = inflater.inflate(R.layout.dialog_ask_upload,
+				new LinearLayout(this), false);
+		btnUpdYes = (Button) mainView.findViewById(R.id.btn_upload_yes);
+		btnUpdNo = (Button)mainView.findViewById(R.id.btn_upload_no);
+
+		mAlertDialog = builder.create();
+		mAlertDialog.setView(mainView, 0, 0, 0, 0);
+		mAlertDialog.setCanceledOnTouchOutside(true);
 	}
 	
 	@Override
@@ -49,6 +66,6 @@ public class BaseActivity extends BLEBaseActivity implements NetChangeCallBack {
 
 	@Override
 	public void onChange(int netType) {
-		new CheckNeedUploadTask(mContext, netType, mAlertDialog).execute();
+		new CheckNeedUploadTask(mContext,mAlertDialog,btnUpdNo,btnUpdYes,netType).execute();
 	}
 }

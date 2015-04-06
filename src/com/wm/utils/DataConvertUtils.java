@@ -35,4 +35,15 @@ public class DataConvertUtils {
          return nf.format(number);
 	}
 	
+	/**
+	 * 保留一位小数， 并且不四舍五入
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static float formatNoRound(Double value){
+		float result = (float) (Math.floor(value*10)/10);
+		return result;
+	}
+	
 }

@@ -5,11 +5,8 @@ import android.content.Context;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.CandleEntry;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.MarkerView;
 import com.github.mikephil.charting.utils.Utils;
 import com.wm.activity.R;
@@ -22,7 +19,6 @@ public class BarMarkerView extends MarkerView {
 
     private TextView tvContent;
     private RelativeLayout relativeLayout;
-    private LineChart mChart;
 
 
     public BarMarkerView(Context context, int layoutResource, int marker) {
