@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -160,6 +161,12 @@ public class WelcomeActivity extends Activity implements
 			overridePendingTransition(R.anim.scale_fade_in,
 					R.anim.slide_out_to_left);
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		return true;//½ûÖ¹back
 	}
 
 }

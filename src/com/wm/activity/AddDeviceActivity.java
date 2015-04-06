@@ -78,6 +78,10 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		mProgressDialog = null;
 	}
 
+	@OnClick(R.id.add_back)
+	public void back(){
+		finish();
+	}
 	private String getDeviceType() {
 		String type = null;
 		String selectedType = mTypeSpinner.getSelectedItem().toString();
@@ -208,7 +212,10 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 			if(deviceName.equals("bolutek"))//判断类型与名字是否匹配 胎心
 				return true;
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {//血压
-			return true;
+//			if(deviceName.equals("lt-xy")){
+				return true;
+//			}
+			
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BS)) {//血糖
 			if(deviceName.equals("abg-bxxx"))
 				return true;

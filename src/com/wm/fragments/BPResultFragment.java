@@ -41,6 +41,8 @@ public class BPResultFragment extends BaseResultFragment {
 	ImageTextView mLblSS;
 	@InjectView(R.id.lbl_sz)
 	ImageTextView mLblSZ;
+	@InjectView(R.id.lbl_pulse)
+	ImageTextView mLblPlues;
 	@InjectView(R.id.bp_pressure)
 	ImageTextView mPressure;
 
@@ -133,6 +135,7 @@ public class BPResultFragment extends BaseResultFragment {
 			mBPResult = new BPResult(data);
 			mLblSS.setText(String.valueOf((int) mBPResult.sbp));
 			mLblSZ.setText(String.valueOf((int) mBPResult.dbp));
+			mLblPlues.setText(String.valueOf((int)mBPResult.pulse));
 			mCallback.showResult(mBPResult.bpResult);
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {

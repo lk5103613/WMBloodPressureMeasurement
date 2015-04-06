@@ -48,7 +48,7 @@
         android:id="@+id/result_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="5"
         android:orientation="vertical" >
     </LinearLayout>
 
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp" >
+            android:layout_marginTop="20dp" >
 
             <Button
                 android:id="@+id/btn_record"
@@ -93,6 +93,7 @@
                 android:background="@drawable/btn_record_bg"
                 android:paddingEnd="20dp"
                 android:paddingStart="20dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/btn_record"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
