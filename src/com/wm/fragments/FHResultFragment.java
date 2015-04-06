@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -49,6 +50,7 @@ public class FHResultFragment extends BaseResultFragment {
 		View view = inflater.inflate(R.layout.fragment_fh_result, container,
 				false);
 		ButterKnife.inject(this, view);
+		super.onCreateView(inflater, container, savedInstanceState);
 		mFHValues = new ArrayList<Integer>();
 
 		initLineChart();
@@ -147,9 +149,14 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 	
 	private void saveAndJump() {
+//		if (mFHValues.size() == 0 || getAverage()==0) {
+//			Toast.makeText(getActivity(), getResources().getString(R.string.no_data_available), Toast.LENGTH_LONG).show();
+//			mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
+//			return;
+//		}
 		if(mFHValues.size() < 60) {
 			float average = getAverage();
-			while(mFHValues.size() != 60) {
+			while(mFHValues.size() != 60 && average != 0) {
 				mFHValues.add((int)average);
 			}
 		}
@@ -162,8 +169,11 @@ public class FHResultFragment extends BaseResultFragment {
 			
 			@Override
 			protected Void doInBackground(Void... params) {
-				FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
-				HistoryDBManager.getInstance(mContext).addFhResult(fhResult);
+				if (!mFHValues.isEmpty()){
+					FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
+					HistoryDBManager.getInstance(mContext).addFhResult(fhResult);
+				}
+				
 				return null;
 			}
 			
@@ -173,7 +183,7 @@ public class FHResultFragment extends BaseResultFragment {
 				mBluetoothLeService.disconnect();
 				mCallback.closeActivity();
 			}
-		};
+		}.execute();
 	}
 
 	@Override
@@ -189,7 +199,6 @@ public class FHResultFragment extends BaseResultFragment {
 	@Override
 	public boolean handleGetData(String data) {
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
-		System.out.println("fhvalues " + fhValue);
 		if(!mBeginRecord) {
 			return true;
 		}

@@ -46,15 +46,15 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			System.out.println("autho false");
 			return uploadEntities;
 		}
-		int allBPCount = mDbManager.getUploadedBpCounts();
-		if(allBPCount > 300)
-			mDbManager.deleteBpDatas();
-		int allBSCount = mDbManager.getUploadedBsCounts();
-		if(allBSCount > 300) 
-			mDbManager.deleteBsDatas();
-		int allFHCount = mDbManager.getUploadedFhCounts();
-		if(allFHCount > 300)
-			mDbManager.deleteFhDatas();
+//		int allBPCount = mDbManager.getUploadedBpCounts();
+//		if(allBPCount > 300)
+		mDbManager.deleteBpDatas();
+//		int allBSCount = mDbManager.getUploadedBsCounts();
+//		if(allBSCount > 300) 
+		mDbManager.deleteBsDatas();
+//		int allFHCount = mDbManager.getUploadedFhCounts();
+//		if(allFHCount > 300)
+		mDbManager.deleteFhDatas();
 		List<BPResult> bpResults = mDbManager.getBpResultsByStatus(0);
 		List<BSResult> bsResults = mDbManager.getBsResultsByStatus(0);
 		List<FHResult> fhResults = mDbManager.getFhResultsByStatus(0);

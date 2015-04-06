@@ -46,6 +46,7 @@ public abstract class BaseResultFragment extends Fragment implements IHandleConn
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mContext = getActivity();
+		mCallback = (ActivityCallback) getActivity();
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	

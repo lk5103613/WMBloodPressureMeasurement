@@ -102,13 +102,13 @@ public class HistoryDBManager {
 	}
 	
 	//此方法可能需要修改
-	public int getUploadedBpCounts() {
-		String sql = "select count(*) from " + BPDataEntry.TABLE_NAME + " where " + BPDataEntry.COLUMN_NAME_STATUS + " =  1";
-		SQLiteDatabase db = mDBHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, null);
-		cursor.moveToFirst();
-		return cursor.getInt(0);
-	}
+//	public int getUploadedBpCounts() {
+//		String sql = "select count(*) from " + BPDataEntry.TABLE_NAME + " where " + BPDataEntry.COLUMN_NAME_STATUS + " =  1";
+//		SQLiteDatabase db = mDBHelper.getReadableDatabase();
+//		Cursor cursor = db.rawQuery(sql, null);
+//		cursor.moveToFirst();
+//		return cursor.getInt(0);
+//	}
 	
 	/**
 	 * 删除已上传的数据，只留最近300条
@@ -197,12 +197,12 @@ public class HistoryDBManager {
 		return bsResults;
 	}
 	
-	public int getUploadedBsCounts() {
-		String sql = "select count(*) from " + BSDataEntry.TABLE_NAME + " where " + BSDataEntry.COLUMN_NAME_STATUS + " = 1";
-		SQLiteDatabase db = mDBHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, null);
-		return cursor.getInt(0);
-	}
+//	public int getUploadedBsCounts() {
+//		String sql = "select count(*) from " + BSDataEntry.TABLE_NAME + " where " + BSDataEntry.COLUMN_NAME_STATUS + " = 1";
+//		SQLiteDatabase db = mDBHelper.getReadableDatabase();
+//		Cursor cursor = db.rawQuery(sql, null);
+//		return cursor.getInt(0);
+//	}
 	
 	
 	public void deleteBsDatas(){
@@ -334,12 +334,12 @@ public class HistoryDBManager {
 	}
 	
 	
-	public int getUploadedFhCounts() {
-		String sql = "select count(*) from " + FHDataEntry.TABLE_NAME + " where " + FHDataEntry.COLUMN_NAME_STATUS + " = 1";
-		SQLiteDatabase db = mDBHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, null);
-		return cursor.getInt(0);
-	}
+//	public int getUploadedFhCounts() {
+//		String sql = "select count(*) from " + FHDataEntry.TABLE_NAME + " where " + FHDataEntry.COLUMN_NAME_STATUS + " = 1";
+//		SQLiteDatabase db = mDBHelper.getReadableDatabase();
+//		Cursor cursor = db.rawQuery(sql, null);
+//		return cursor.getInt(0);
+//	}
 	
 	
 	public void deleteFhDatas(){

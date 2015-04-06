@@ -50,7 +50,7 @@ public class BPResultFragment extends BaseResultFragment {
 	private BPResult mBPResult;
 	private BPResultException mBPException;
 	private BluetoothGattCharacteristic mInforCharacteristic;
-	private Handler mHandler;
+//	private Handler mHandler;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,17 +58,17 @@ public class BPResultFragment extends BaseResultFragment {
 		View view = inflater.inflate(R.layout.fragment_bp_result, container,
 				false);
 		ButterKnife.inject(this, view);
-
+		super.onCreateView(inflater, container, savedInstanceState);
 		mContext = getActivity();
 		mPressure.startRotate();
-		
-		mHandler = new Handler(new Handler.Callback() {
-			
-			@Override
-			public boolean handleMessage(Message msg) {
-				return false;
-			}
-		});
+//		
+//		mHandler = new Handler(new Handler.Callback() {
+//			
+//			@Override
+//			public boolean handleMessage(Message msg) {
+//				return false;
+//			}
+//		});
 		
 		mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
 

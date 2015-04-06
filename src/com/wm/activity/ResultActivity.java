@@ -25,7 +25,8 @@ import com.wm.fragments.BaseResultFragment.ActivityCallback;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
 
-public class ResultActivity extends BaseActivity implements IHandleConnect, ActivityCallback {
+public class ResultActivity extends BaseActivity implements IHandleConnect,
+		ActivityCallback {
 
 	@InjectView(R.id.btn_record)
 	Button mBtnRecord;
@@ -41,7 +42,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 	private BluetoothLeService mBluetoothLeService;
 	private DeviceInfo mDevice;
 	private BroadcastReceiver mReceiver;
-	
+
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
 		@Override
@@ -61,7 +62,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
@@ -86,10 +87,10 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 		mReceiver = BleBroadcastReceiver.getInstance(mBluetoothLeService, this);
 		registerReceiver(mReceiver, BleBroadcastReceiver.getIntentFilter());
 	}
-	
+
 	@Override
 	protected void onDestroy() {
-		if(mServiceConnection != null) 
+		if (mServiceConnection != null)
 			unbindService(mServiceConnection);
 		super.onDestroy();
 	}
@@ -102,27 +103,32 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 		}
 		return true;
 	}
-	
+
 	private void setRecordBtnState(int state) {
-		if(state == BaseResultFragment.BTN_STATE_AVAILABLE) {
+		switch (state) {
+		case BaseResultFragment.BTN_STATE_AVAILABLE:
 			mBtnRecord.setEnabled(true);
-			mProgressBar.setVisibility(View.GONE);
-		} else if(state == BaseResultFragment.BTN_STATE_UNAVAILABLE) {
+			break;
+		case BaseResultFragment.BTN_STATE_UNAVAILABLE:
 			mBtnRecord.setEnabled(false);
 			mProgressBar.setVisibility(View.GONE);
-		} else if(state == BaseResultFragment.BTN_STATE_UNAVAILABLE_WAITING) {
+			break;
+		case BaseResultFragment.BTN_STATE_UNAVAILABLE_WAITING:
 			mBtnRecord.setEnabled(false);
 			mProgressBar.setVisibility(View.VISIBLE);
+			break;
+		default:
+			break;
 		}
 	}
-	
+
 	@OnClick(R.id.btn_record)
 	public void record(View v) {
 		mFragment.record();
 	}
-	
+
 	@OnClick(R.id.result_back)
-	public void back(){
+	public void back() {
 		mBluetoothLeService.disconnect();
 		finish();
 	}
@@ -143,10 +149,10 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 		}
 		unregisterReceiver(mReceiver);
 	}
-	
+
 	@Override
 	public boolean handleConnect() {
-		if(mFragment.handleConnect()) {
+		if (mFragment.handleConnect()) {
 			return true;
 		}
 		System.out.println("connect success");
@@ -155,7 +161,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 
 	@Override
 	public boolean handleDisconnect() {
-		if(mFragment.handleDisconnect()) {
+		if (mFragment.handleDisconnect()) {
 			return true;
 		}
 		System.out.println("disconnect in result activity");
@@ -166,7 +172,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 	@Override
 	public boolean handleGetData(String data) {
 		System.out.println(data);
-		if(mFragment.handleGetData(data)) {
+		if (mFragment.handleGetData(data)) {
 			return true;
 		}
 		return false;
@@ -174,7 +180,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 
 	@Override
 	public boolean handleServiceDiscover() {
-		if(mFragment.handleServiceDiscover()) {
+		if (mFragment.handleServiceDiscover()) {
 			return true;
 		}
 		return false;
@@ -187,7 +193,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect, Acti
 
 	@Override
 	public void setButtonState(int state) {
-		setButtonState(state);
+		setRecordBtnState(state);
 	}
 
 	@Override
