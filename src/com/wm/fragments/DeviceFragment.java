@@ -52,8 +52,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	ListView mDeviceListView;
 	@InjectView(R.id.device_toolbar)
 	RelativeLayout mToolbar;
-	@InjectView(R.id.empty)
-	TextView mEmptyView;
+//	@InjectView(R.id.empty)
+//	TextView mEmptyView;
 
 	private OnStateChangeListener mCallback;
 	private DeviceDataSet mDeviceDataSet;
@@ -101,7 +101,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mHandler = new Handler();
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
-		mDeviceListView.setEmptyView(mEmptyView);  //add empty view
+//		mDeviceListView.setEmptyView(mEmptyView);  //add empty view
 		return view;
 	}
 
