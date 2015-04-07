@@ -51,8 +51,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	ListView mDeviceListView;
 	@InjectView(R.id.device_toolbar)
 	RelativeLayout mToolbar;
-//	@InjectView(R.id.empty)
-//	TextView mEmptyView;
+	@InjectView(R.id.empty)
+	TextView mEmptyView;
 
 	private OnStateChangeListener mCallback;
 	private DeviceDataSet mDeviceDataSet;
@@ -102,7 +102,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mHandler = new Handler();
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPager.getInstance(mContext);
-//		mDeviceListView.setEmptyView(mEmptyView);  //add empty view
+		mDeviceListView.setEmptyView(mEmptyView);  //add empty view
 		return view;
 	}
 
@@ -237,7 +237,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			System.out.println(" position " + position);
 			ViewHolder mHolder;
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.device_item, null);
@@ -286,7 +285,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	}
 
 	public void update(final int i) {
-		System.out.println("update " +i);
 		String name = mDeviceDataSet.deviceInfos.get(i).name;
 		if (changeNameDialog == null) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -362,7 +360,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 				changeNameDialog.dismiss();
 				break;
 			case R.id.btn_change_name_yes:
-				System.out.println("mposition " +mPosition);
 				String deviceName = nameEdit.getText().toString();
 				mDeviceDataSet.deviceInfos.get(mPosition).name = deviceName;
 				new Thread(new Runnable() {

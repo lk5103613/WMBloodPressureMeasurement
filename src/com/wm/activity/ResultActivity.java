@@ -71,6 +71,8 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 		// °ó¶¨À¶ÑÀ·þÎñ
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+		
+		System.out.println("result oncreate" );
 	}
 
 	@Override

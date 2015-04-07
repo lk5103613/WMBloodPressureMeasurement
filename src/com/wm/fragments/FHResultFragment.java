@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -34,7 +33,7 @@ public class FHResultFragment extends BaseResultFragment {
 	private List<Integer> mFHValues;
 	private int recordIndex;
 	private ArrayList<String> xVals;
-	private Handler mHandler;
+	private Handler mHandler = new Handler();
 	private boolean mBeginRecord = false;
 	private Runnable mRunnable = new Runnable() {
 		@Override
@@ -44,6 +43,11 @@ public class FHResultFragment extends BaseResultFragment {
 		}
 	};
 	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		System.out.println("fhresult oncreate");
+	};
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -55,9 +59,10 @@ public class FHResultFragment extends BaseResultFragment {
 
 		initLineChart();
 		addEmptyData();
+		mHandler.removeCallbacks(mRunnable);
 		
-		mHandler = new Handler();
-
+		mBeginRecord = false;
+		System.out.println("fh result oncreate view" );
 		return view;
 	}
 
@@ -169,17 +174,13 @@ public class FHResultFragment extends BaseResultFragment {
 					FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
 					HistoryDBManager.getInstance(mContext).addFhResult(fhResult);
 				}
-				
 				return count;
 			}
 			
 			@Override
 			protected void onPostExecute(Integer result) {
 				super.onPostExecute(result);
-				if (result ==0) {
-					Toast.makeText(getActivity(), getResources().getString(R.string.no_data_available), 
-							Toast.LENGTH_LONG).show();
-				}
+				mBeginRecord = false;
 				mCallback.closeActivity();
 			}
 		}.execute();

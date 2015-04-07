@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -40,6 +41,7 @@ public class BaseActivity extends BLEBaseActivity implements NetChangeCallBack {
 		mAlertDialog = builder.create();
 		mAlertDialog.setView(mainView, 0, 0, 0, 0);
 		mAlertDialog.setCanceledOnTouchOutside(true);
+		mAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 	}
 	
 	@Override
