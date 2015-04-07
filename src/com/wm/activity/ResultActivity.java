@@ -42,6 +42,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 	private BluetoothLeService mBluetoothLeService;
 	private DeviceInfo mDevice;
 	private BroadcastReceiver mReceiver;
+	private String mLastType = "";
 
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -67,15 +68,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 		setContentView(R.layout.activity_result);
 		ButterKnife.inject(this);
 
-		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		mFragment = TypeFactory.getResultFragment(mType);
-
-		mTitle.setText(TypeFactory.getTitleByType(mContext, mType));
-		mDevice = getIntent()
-				.getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
-
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.result_container, mFragment).commit();
 		// °ó¶¨À¶ÑÀ·þÎñ
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -84,6 +76,18 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 	@Override
 	protected void onResume() {
 		super.onResume();
+		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
+		if(!mType.equals(mLastType)) {
+			mLastType = mType;
+			mFragment = TypeFactory.getResultFragment(mType);
+	
+			mTitle.setText(TypeFactory.getTitleByType(mContext, mType));
+			mDevice = getIntent()
+					.getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
+	
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.result_container, mFragment).commit();
+		}
 		mReceiver = BleBroadcastReceiver.getInstance(mBluetoothLeService, this);
 		registerReceiver(mReceiver, BleBroadcastReceiver.getIntentFilter());
 	}
