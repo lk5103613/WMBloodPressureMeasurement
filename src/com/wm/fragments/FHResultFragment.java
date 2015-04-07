@@ -180,7 +180,6 @@ public class FHResultFragment extends BaseResultFragment {
 					Toast.makeText(getActivity(), getResources().getString(R.string.no_data_available), 
 							Toast.LENGTH_LONG).show();
 				}
-				mBluetoothLeService.disconnect();
 				mCallback.closeActivity();
 			}
 		}.execute();
