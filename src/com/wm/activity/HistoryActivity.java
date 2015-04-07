@@ -100,6 +100,8 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		if(mBluetoothLeService != null)
+			mBluetoothLeService.disconnect();
 		if(mServiceConnection != null)
 			unbindService(mServiceConnection);
 	}
@@ -167,6 +169,8 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleConnect() {
+		if(!mBeginDetect) 
+			return true;
 		if(mFragment.handleConnect()) {
 			return true;
 		}
@@ -175,6 +179,8 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleDisconnect() {
+		if(!mBeginDetect)
+			return true;
 		if(mFragment.handleDisconnect()) {
 			return true;
 		}
@@ -184,8 +190,10 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleGetData(String data) {
-		if(!mBeginDetect)
+		if(!mBeginDetect) {
+			System.out.println("get data but mBeginDetect is false");
 			return true;
+		}
 		if(mFragment.handleGetData(data)) {
 			return true;
 		}

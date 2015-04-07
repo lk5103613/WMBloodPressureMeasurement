@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -175,17 +174,12 @@ public class FHResultFragment extends BaseResultFragment {
 					FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
 					HistoryDBManager.getInstance(mContext).addFhResult(fhResult);
 				}
-				
 				return count;
 			}
 			
 			@Override
 			protected void onPostExecute(Integer result) {
 				super.onPostExecute(result);
-				if (result ==0) {
-					Toast.makeText(getActivity(), getResources().getString(R.string.no_data_available), 
-							Toast.LENGTH_LONG).show();
-				}
 				mBeginRecord = false;
 				mCallback.closeActivity();
 			}
