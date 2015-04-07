@@ -73,6 +73,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	View changeNameView;
 	Button btnChangeNameYes, btnChangeNameNo;
 	EditText nameEdit;
+	Button btnDelYes = null;
+	Button btnDelNo = null;
 	
 	AlertDialog delDialog;
 
@@ -187,6 +189,12 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mDeviceDataSet.option = null;
 		mAdapter.notifyDataSetChanged();
 		mCallback.onStateChange(STATE_NORMAL);
+		actionCancelDel.setVisibility(View.GONE);
+		actionCancelUpd.setVisibility(View.GONE);
+		actionDel.setVisibility(View.VISIBLE);
+		actionUpd.setVisibility(View.VISIBLE);
+		mTabPager.savePosition(TabPager.PAGE_DEVICE);
+		
 	}
 
 	@OnItemClick(R.id.device_listview)
@@ -230,6 +238,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			System.out.println(" position " + position);
 			ViewHolder mHolder;
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.device_item, null);
@@ -278,6 +287,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	}
 
 	public void update(final int i) {
+		System.out.println("update " +i);
 		String name = mDeviceDataSet.deviceInfos.get(i).name;
 		if (changeNameDialog == null) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -288,23 +298,36 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			nameEdit = (EditText)mainView.findViewById(R.id.txt_device_name);
 			btnChangeNameYes = (Button) mainView.findViewById(R.id.btn_change_name_yes);
 			btnChangeNameNo = (Button)mainView.findViewById(R.id.btn_change_name_no);
-			btnChangeNameYes.setOnClickListener(new BtnClickListener(i));
-			btnChangeNameNo.setOnClickListener(new BtnClickListener(i));
 			changeNameDialog = builder.create();
 			changeNameDialog.setView(mainView, 0, 0, 0, 0);
 			changeNameDialog.setCanceledOnTouchOutside(true);
 		}
-		
+		btnChangeNameYes.setOnClickListener(new BtnClickListener(i));
+		btnChangeNameNo.setOnClickListener(new BtnClickListener(i));
 		changeNameDialog.show();
 		nameEdit.setText(name);
 		nameEdit.setSelection(name.length());
 	}
 	
 	public void delete(int position) {
+		
 		if(delDialog ==null) {
-			delDialog = DialogUtils.createDialog(getActivity(),
-					new BtnClickListener(position), new BtnClickListener(position));
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+			builder.setCancelable(true);
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			View mainView = inflater.inflate(R.layout.dialog_delete,
+					new LinearLayout(mContext), false);
+			TextView title = (TextView) mainView.findViewById(R.id.title);
+			btnDelYes = (Button) mainView.findViewById(R.id.btn_del_yes);
+			btnDelNo = (Button)mainView.findViewById(R.id.btn_del_no);
+			delDialog = builder.create();
+			delDialog.setView(mainView, 0, 0, 0, 0);
+			delDialog.setCanceledOnTouchOutside(true);
 		}
+
+		btnDelYes.setOnClickListener(new BtnClickListener(position));
+		btnDelNo.setOnClickListener(new BtnClickListener(position));
 		
 		delDialog.show();
 		Window dialogWindow = delDialog.getWindow();
@@ -340,6 +363,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 				changeNameDialog.dismiss();
 				break;
 			case R.id.btn_change_name_yes:
+				System.out.println("mposition " +mPosition);
 				String deviceName = nameEdit.getText().toString();
 				mDeviceDataSet.deviceInfos.get(mPosition).name = deviceName;
 				new Thread(new Runnable() {
