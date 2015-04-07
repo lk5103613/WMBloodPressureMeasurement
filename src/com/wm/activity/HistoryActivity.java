@@ -47,6 +47,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	private BluetoothLeService mBluetoothLeService;
 	private BleBroadcastReceiver mReceiver;
 	private int mFailedTime = 0;
+	private boolean mBeginDetect = false;
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
 		@Override
@@ -63,7 +64,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 			}
 		}
 	};
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +124,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(){
+		mBeginDetect = true;
 		beginCheckUI();
 		connect();
 	}
@@ -153,6 +154,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
 			mBluetoothLeService.disconnect();
 		}
+		mBeginDetect = false;
 		connectFailUI();
 		String rmdStr = getResources().getString(R.string.con_failed);
 		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
@@ -182,11 +184,13 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleGetData(String data) {
-		System.out.println(data);
+		if(!mBeginDetect)
+			return true;
 		if(mFragment.handleGetData(data)) {
 			return true;
 		}
 		resetUI();
+		mBeginDetect = false;
 		jumpToResult();
 		return true;
 	}
