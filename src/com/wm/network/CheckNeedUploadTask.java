@@ -99,6 +99,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			this.result = result;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {

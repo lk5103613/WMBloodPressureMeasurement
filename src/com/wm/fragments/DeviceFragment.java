@@ -38,7 +38,6 @@ import com.wm.db.DeviceDBManager;
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
-import com.wm.utils.DialogUtils;
 import com.wm.utils.TabPager;
 
 public class DeviceFragment extends Fragment implements View.OnClickListener {

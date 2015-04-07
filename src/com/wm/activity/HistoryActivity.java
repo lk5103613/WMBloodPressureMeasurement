@@ -175,6 +175,8 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleDisconnect() {
+		if(!mBeginDetect)
+			return true;
 		if(mFragment.handleDisconnect()) {
 			return true;
 		}
