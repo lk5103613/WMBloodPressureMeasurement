@@ -34,7 +34,7 @@ public class FHResultFragment extends BaseResultFragment {
 	private List<Integer> mFHValues;
 	private int recordIndex;
 	private ArrayList<String> xVals;
-	private Handler mHandler;
+	private Handler mHandler = new Handler();
 	private boolean mBeginRecord = false;
 	private Runnable mRunnable = new Runnable() {
 		@Override
@@ -44,6 +44,11 @@ public class FHResultFragment extends BaseResultFragment {
 		}
 	};
 	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		System.out.println("fhresult oncreate");
+	};
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -55,9 +60,10 @@ public class FHResultFragment extends BaseResultFragment {
 
 		initLineChart();
 		addEmptyData();
+		mHandler.removeCallbacks(mRunnable);
 		
-		mHandler = new Handler();
-
+		mBeginRecord = false;
+		System.out.println("fh result oncreate view" );
 		return view;
 	}
 
