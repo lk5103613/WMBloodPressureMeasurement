@@ -174,7 +174,10 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 
 	@OnClick(R.id.btn_next)
 	public void nextClick() {
-
+		if(mFHResults.isEmpty()){
+			Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_LONG).show();
+			return;
+		}
 		if (mIndex >= (mFHResults.size() - 1)) {
 			Toast.makeText(mContext, getString(R.string.msg_last_data),
 					Toast.LENGTH_LONG).show();
@@ -186,6 +189,10 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 
 	@OnClick(R.id.btn_previous)
 	public void previousClick() {
+		if(mFHResults.isEmpty()){
+			Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_LONG).show();
+			return;
+		}
 		if (mIndex <= 0) {
 			Toast.makeText(mContext, getString(R.string.msg_fist_data),
 					Toast.LENGTH_LONG).show();
