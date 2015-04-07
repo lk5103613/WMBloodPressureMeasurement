@@ -86,8 +86,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(mBluetoothLeService != null) 
-			mBluetoothLeService.disconnect();
 		mReceiver = BleBroadcastReceiver.getInstance(mBluetoothLeService, this);
 		registerReceiver(mReceiver, BleBroadcastReceiver.getIntentFilter());
 		resetUI();
@@ -186,12 +184,13 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleGetData(String data) {
-		if(!mBeginDetect) 
+		if(!mBeginDetect)
 			return true;
 		if(mFragment.handleGetData(data)) {
 			return true;
 		}
 		resetUI();
+		mBeginDetect = false;
 		jumpToResult();
 		return true;
 	}
