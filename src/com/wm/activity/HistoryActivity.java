@@ -156,6 +156,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
 			mBluetoothLeService.disconnect();
 		}
+		mBeginDetect = false;
 		connectFailUI();
 		String rmdStr = getResources().getString(R.string.con_failed);
 		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
