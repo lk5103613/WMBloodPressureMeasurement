@@ -21,6 +21,13 @@
             android:layout_centerInParent="true"/>
         
     </RelativeLayout>
+     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/triangle" />
+<!-- toolbar end -->
     
 	<ListView
         android:id="@+id/setting_list"
