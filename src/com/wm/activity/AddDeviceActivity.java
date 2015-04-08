@@ -216,7 +216,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 			if(deviceName.equals("bolutek") || deviceName.equals("abg-bxxx")) {
 				return false;
 			}
-			return true;
+				return true;
 //			}
 			
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BS)) {//я╙лг

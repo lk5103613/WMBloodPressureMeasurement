@@ -99,6 +99,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			this.result = result;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -106,8 +107,9 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 				mDialog.dismiss();
 				break;
 			case R.id.btn_upload_yes:
-				new UploadDataTask(mContext).execute(result);
 				mDialog.dismiss();
+				new UploadDataTask(mContext).execute(result);
+				
 				break;
 			default:
 				break;
