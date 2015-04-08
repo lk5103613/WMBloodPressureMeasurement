@@ -11,6 +11,9 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -29,7 +32,9 @@ public class FHResultFragment extends BaseResultFragment {
 
 	@InjectView(R.id.embryo_result_chart)
 	LineChart mChart;
-
+	@InjectView(R.id.fh_heart)
+	ImageView mFhHeart;
+	
 	private List<Integer> mFHValues;
 	private int recordIndex;
 	private ArrayList<String> xVals;
@@ -71,6 +76,9 @@ public class FHResultFragment extends BaseResultFragment {
 		mBeginRecord = true;
 		mCallback.setButtonState(BTN_STATE_UNAVAILABLE_WAITING);
 		mHandler.postDelayed(mRunnable, 35000);
+		
+		Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.fh_heart);
+		mFhHeart.startAnimation(animation);
 	}
 
 	private void initLineChart() {
@@ -154,6 +162,8 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 	
 	private void saveAndJump() {
+		mFhHeart.clearAnimation();
+		
 		if(mFHValues.size() < 60) {
 			float average = getAverage();
 			while(mFHValues.size() != 60 && average != 0) {

@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -30,8 +33,8 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 
 	@InjectView(R.id.btn_record)
 	Button mBtnRecord;
-	@InjectView(R.id.waiting_record)
-	ProgressBar mProgressBar;
+	@InjectView(R.id.record_img)
+	ImageView mRecordImg;
 	@InjectView(R.id.result_suggest)
 	TextView mResult;
 	@InjectView(R.id.title)
@@ -43,6 +46,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 	private DeviceInfo mDevice;
 	private BroadcastReceiver mReceiver;
 	private String mLastType = "";
+	private Animation mRecordAnim;
 
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -72,6 +76,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 		
+		mRecordAnim = AnimationUtils.loadAnimation(this, R.anim.record_img);
 		System.out.println("result oncreate" );
 	}
 
@@ -112,16 +117,18 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 
 	private void setRecordBtnState(int state) {
 		switch (state) {
-		case BaseResultFragment.BTN_STATE_AVAILABLE:
+		case BaseResultFragment.BTN_STATE_AVAILABLE://未点之前可用
 			mBtnRecord.setEnabled(true);
+			mRecordImg.clearAnimation();
 			break;
-		case BaseResultFragment.BTN_STATE_UNAVAILABLE:
+		case BaseResultFragment.BTN_STATE_UNAVAILABLE://获得结果之前，不可用
 			mBtnRecord.setEnabled(false);
-			mProgressBar.setVisibility(View.GONE);
+			mRecordImg.clearAnimation();
 			break;
-		case BaseResultFragment.BTN_STATE_UNAVAILABLE_WAITING:
+		case BaseResultFragment.BTN_STATE_UNAVAILABLE_WAITING://点击之后， 展示动画
 			mBtnRecord.setEnabled(false);
-			mProgressBar.setVisibility(View.VISIBLE);
+			mRecordImg.startAnimation(mRecordAnim);//点击之后设置动画
+			System.out.println("set animate");
 			break;
 		default:
 			break;
