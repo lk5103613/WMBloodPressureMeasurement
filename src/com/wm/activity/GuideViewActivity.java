@@ -115,5 +115,15 @@ public class GuideViewActivity extends ActionBarActivity implements View.OnClick
 	public void onPageSelected(int position) {
 		setCurDot(position);
 	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		if (isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in,
+					R.anim.slide_out_to_right);
+		}
+	}
 
 }
