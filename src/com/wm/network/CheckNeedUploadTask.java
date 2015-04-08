@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
@@ -117,6 +119,25 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			
 		}
 		
+	}
+	
+	public void hideProgress() {
+	    if(mDialog != null) {
+	        if(mDialog.isShowing()) { //check if dialog is showing.
+
+	            //get the Context object that was used to great the dialog
+	            Context context = ((ContextWrapper)mDialog.getContext()).getBaseContext();
+
+	            //if the Context used here was an activity AND it hasn't been finished or destroyed
+	            //then dismiss it
+	            if(context instanceof Activity) { 
+	                if(!((Activity)context).isFinishing() && !((Activity)context).isDestroyed()) 
+	                	mDialog.dismiss();
+	            } else //if the Context used wasnt an Activity, then dismiss it too
+	            	mDialog.dismiss();
+	        }
+//	        mDialog = null;
+	    }
 	}
 
 }
