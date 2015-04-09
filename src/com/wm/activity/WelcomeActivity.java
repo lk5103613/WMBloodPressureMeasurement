@@ -28,6 +28,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import com.testin.agent.TestinAgent;
 import com.wm.utils.SharedPfUtil;
 
 public class WelcomeActivity extends Activity implements
@@ -50,9 +51,10 @@ public class WelcomeActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		TestinAgent.init(this, "c4b338451aae8a2acce515ab0ccdc005", "wmbug");
 		setContentView(R.layout.activity_welcome);
 		ButterKnife.inject(this);
-
+		
 		mContext = this;
 
 		Animation logoAnimation = AnimationUtils.loadAnimation(mContext,
@@ -100,16 +102,16 @@ public class WelcomeActivity extends Activity implements
 		mAalertDialog.setCanceledOnTouchOutside(false);
 		mAalertDialog.setView(mDialogView, 0, 0, 0, 0);
 		mAalertDialog.show();
-		
-		
+
 		mAuthCheckBox.setOnCheckedChangeListener(this);
 		mBtnNo.setOnClickListener(this);
 		mBtnYes.setOnClickListener(this);
-		
-		String url = "<a href=\""+mLinkText.getText()+"\">"+mLinkText.getText()+"</a> ";
+
+		String url = "<a href=\"" + mLinkText.getText() + "\">"
+				+ mLinkText.getText() + "</a> ";
 		mLinkText.setText(Html.fromHtml(url));
 		mLinkText.setMovementMethod(LinkMovementMethod.getInstance());
-		
+
 		Window dialogWindow = mAalertDialog.getWindow();
 		WindowManager m = this.getWindowManager();
 		Display d = m.getDefaultDisplay(); // »ñÈ¡ÆÁÄ»¿í¡¢¸ßÓÃ
@@ -146,27 +148,27 @@ public class WelcomeActivity extends Activity implements
 			SharedPfUtil.setValue(this, AUTH, false);
 			break;
 		}
-		
+
 		mAalertDialog.dismiss();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		finish();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
-		
+
 		if (isFinishing()) {
 			overridePendingTransition(R.anim.scale_fade_in,
 					R.anim.slide_out_to_left);
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		return true;//½ûÖ¹back
+		return true;// ½ûÖ¹back
 	}
 
 }

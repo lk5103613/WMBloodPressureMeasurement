@@ -128,10 +128,11 @@ public class FHResultFragment extends BaseResultFragment {
 				set = createSet();
 				data.addDataSet(set);
 			}
-			set.setColor(getResources().getColor(R.color.red));
-			set.setCircleColor(getResources().getColor(R.color.red));
-			set.setLineWidth(1.5f);
-			set.setCircleSize(1.5f);
+			int color = getResources().getColor(R.color.colorPrimary);
+			set.setColor(color);
+			set.setCircleColor(color);
+			set.setLineWidth(2f);
+			set.setCircleSize(2f);
 
 			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random() * 50) +50f
 			System.out.println("xvals size " + xVals.size() +" " + mFHValues.size());

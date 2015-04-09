@@ -111,7 +111,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			case R.id.btn_upload_yes:
 				mDialog.dismiss();
 				new UploadDataTask(mContext).execute(result);
-				
+				System.out.println("afrter upload");
 				break;
 			default:
 				break;

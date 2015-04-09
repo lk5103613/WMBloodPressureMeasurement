@@ -11,30 +11,85 @@
         android:layout_weight="3"
         android:background="@color/chart_bg" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp" >
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/diastolic_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/blue_circle" />
+
+            <TextView
+                android:id="@+id/diastolic_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/diastolic_icon"
+                android:text="@string/diastolic_blood_pressure"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/systolic_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/green_circle" />
+
+            <TextView
+                android:id="@+id/systolic_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/systolic_icon"
+                android:text="@string/systolic_blood_pressure"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_weight="1" 
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/text_heart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
             android:text="0"
-            android:textSize="45sp" 
-            android:layout_marginEnd="20dp"/>
+            android:textSize="45sp" />
 
         <TextView
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/heart"
-            android:textSize="22sp"
             android:layout_toEndOf="@id/text_heart"
+            android:drawableTop="@drawable/heart"
             android:gravity="center"
-            android:text="BPM" />
+            android:text="BPM"
+            android:textSize="22sp" />
     </RelativeLayout>
 
 </LinearLayout>

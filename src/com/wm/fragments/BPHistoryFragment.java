@@ -77,7 +77,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setDrawBorder(false);
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		//mChart.setStartAtZero(false);
-	
+		mChart.setDrawLegend(false);
 		mChart.setScaleMinima(1, 1f);//mBPResults.size()/20
 		mChart.setDrawXLabels(true);//绘制X轴标签
 		LineMarkerView mv = new LineMarkerView(getActivity(), mChart,R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
@@ -129,15 +129,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 //				yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
 			}
 
-			LineDataSet szSet = new LineDataSet(yValsSz,
-					getString(R.string.diastolic));
-			szSet.setLineWidth(2f);
-			szSet.setCircleSize(3f);
-			int yellowGreen = getResources().getColor(R.color.yellow_green);
-			szSet.setColor(yellowGreen);
-			szSet.setCircleColor(yellowGreen);
-			szSet.setHighLightColor(yellowGreen);
-			data.addDataSet(szSet);
 
 			LineDataSet ssSet = new LineDataSet(yValsSs,
 					getString(R.string.systolic));
@@ -148,6 +139,16 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			ssSet.setCircleColor(blue);
 			ssSet.setHighLightColor(blue);
 			data.addDataSet(ssSet);
+			
+			LineDataSet szSet = new LineDataSet(yValsSz,
+					getString(R.string.diastolic));
+			szSet.setLineWidth(2f);
+			szSet.setCircleSize(3f);
+			int yellowGreen = getResources().getColor(R.color.yellow_green);
+			szSet.setColor(yellowGreen);
+			szSet.setCircleColor(yellowGreen);
+			szSet.setHighLightColor(yellowGreen);
+			data.addDataSet(szSet);
 
 //			LineDataSet hrSet = new LineDataSet(yValsHr,
 //					getString(R.string.heart_rate));
