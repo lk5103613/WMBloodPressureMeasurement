@@ -77,7 +77,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setStartAtZero(true);
 		mChart.setScaleMinima(2, 1);
-		mChart.setDrawLegend(true);//绘制颜色标记
+		mChart.setDrawLegend(false);//不绘制颜色标记
 		mChart.setDrawXLabels(true);//绘制X轴标签
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		LineMarkerView mv = new LineMarkerView(getActivity(),mChart, R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签

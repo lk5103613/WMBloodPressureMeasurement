@@ -92,6 +92,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	        BarMarkerView mv = new BarMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
 	        mv.setOffsets(-mv.getMeasuredWidth() / 2-20*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()+5);//调整 数据 标签的位置
 	        mChart.setMarkerView(mv);// 设置标签
+	        mChart.setDescription("月.日");
 	        
 	        XLabels xl = mChart.getXLabels();
 	        xl.setPosition(XLabelPosition.BOTTOM);//x 坐标位置

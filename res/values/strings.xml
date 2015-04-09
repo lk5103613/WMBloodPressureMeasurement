@@ -11,8 +11,10 @@
     <string name="btn_match">配&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;对</string>
     <string name="add_new_device">新增设备</string>
     <string name="use_help">使用帮助</string>
-    <string name="check_history">检测历史</string>
-    <string name="begin_check">开始检测</string>
+    <string name="check_history">检&#160;&#160;测&#160;&#160;历&#160;&#160;史</string>
+    <string name="begin_check">开&#160;&#160;始&#160;&#160;检&#160;&#160;测</string>
+    <string name="connecting">正&#160;&#160;在&#160;&#160;连&#160;&#160;接</string>
+    <string name="click_retry">点&#160;&#160;击&#160;&#160;重&#160;&#160;试</string>
     <string name="systolic_blood_pressure">收缩压</string>
     <string name="diastolic_blood_pressure">舒张压</string>
     <string name="current_pressure">压力值</string>

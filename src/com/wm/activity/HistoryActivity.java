@@ -108,18 +108,18 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	
 	private void beginCheckUI() {
 		mBtnBeginCheck.setEnabled(false);
-		mBtnBeginCheck.setText("正在连接");
+		mBtnBeginCheck.setText(getResources().getString(R.string.connecting));
 		mWaitingConnect.setVisibility(View.VISIBLE);
 	}
 	
 	private void resetUI() {
-		mBtnBeginCheck.setText("开始检测");
+		mBtnBeginCheck.setText(getResources().getString(R.string.begin_check));
 		mBtnBeginCheck.setEnabled(true);
 		mWaitingConnect.setVisibility(View.GONE);
 	}
 	
 	private void connectFailUI() {
-		mBtnBeginCheck.setText("点击重试");
+		mBtnBeginCheck.setText(getResources().getString(R.string.click_retry));
 		mBtnBeginCheck.setEnabled(true);
 		mWaitingConnect.setVisibility(View.GONE);
 	}
