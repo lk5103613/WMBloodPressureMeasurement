@@ -85,6 +85,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
         mChart.setMarkerView(mv);// …Ë÷√±Í«©
         mChart.setHighlightEnabled(true);
         mChart.centerViewPort(0, 200);
+        mChart.setScaleEnabled(false);
         mChart.getYLabels().setLabelCount(5);
 	}
 

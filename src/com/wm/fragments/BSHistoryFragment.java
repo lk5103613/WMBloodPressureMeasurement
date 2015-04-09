@@ -79,7 +79,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	        mChart.set3DEnabled(false);//关闭3D效果
 	        mChart.setDoubleTapToZoomEnabled(false);
 	        mChart.setPinchZoom(false);// x y 轴单独缩放
-	        mChart.setScaleEnabled(true);//设置可缩放
+	        mChart.setScaleEnabled(false);//设置不可缩放
 	        mChart.setDrawBarShadow(false);//柱状图阴影
 	        mChart.setDrawGridBackground(false);
 	        mChart.setDrawHorizontalGrid(false);//不绘制水平网格
