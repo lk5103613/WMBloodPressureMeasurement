@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ScrollView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 
 import com.wm.utils.TabPager;
 
@@ -19,14 +18,12 @@ import com.wm.utils.TabPager;
  * @author Like
  *
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends ActionBarActivity {
 
 	@InjectView(R.id.login_scroll)
 	ScrollView mScrollView;
 	@InjectView(R.id.scroll_inner)
 	View mInner;
-	@InjectView(R.id.login_toolbar)
-	Toolbar mToolbar;
 	private Context mContext;
 	private TabPager mTabPager;
 
@@ -35,11 +32,6 @@ public class LoginActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		ButterKnife.inject(this);
-
-		mToolbar.setTitle(getResources().getString(R.string.action_login));
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mToolbar.setNavigationIcon(R.drawable.ic_action_previous_item);
 		
 		mContext = LoginActivity.this;
 		mTabPager = TabPager.getInstance(mContext);
@@ -59,13 +51,19 @@ public class LoginActivity extends BaseActivity {
 			scrollToBottom();
 		}
 	}
-
-	@OnFocusChange({ R.id.txt_pwd, R.id.txt_username })
-	public void onFocusChange(View v, boolean hasFocus) {
-		if (hasFocus) {
-			scrollToBottom();
-		}
+	
+	@OnClick(R.id.register_txt)
+	public void clickRegister(View v){
+		Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+		startActivity(intent);
 	}
+
+//	@OnFocusChange({ R.id.txt_pwd, R.id.txt_username })
+//	public void onFocusChange(View v, boolean hasFocus) {
+//		if (hasFocus) {
+//			scrollToBottom();
+//		}
+//	}
 
 	private void scrollToBottom() {
 		Handler mHandler = new Handler();

@@ -48,5 +48,6 @@
     <color name="history_color">#5B5B5B</color>
     <color name="yellow_green">#ADCE24</color>
     <color name="date_color">#5D5D5D</color>
+    <color name="edit_bg_gray">#EEEEEE</color>
 	
 </resources>
