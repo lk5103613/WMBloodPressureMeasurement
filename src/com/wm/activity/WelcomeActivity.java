@@ -167,7 +167,6 @@ public class WelcomeActivity extends Activity implements
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		return true;// ½ûÖ¹back
 	}
 
