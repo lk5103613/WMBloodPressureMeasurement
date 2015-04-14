@@ -90,16 +90,16 @@
             android:name=".LoginActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
-             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".MainActivity" 
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             
         </activity>
         <activity
@@ -128,10 +128,6 @@
         <activity
             android:name=".RegistActivity"
             android:label="@string/title_activity_regist" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

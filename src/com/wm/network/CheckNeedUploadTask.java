@@ -19,9 +19,9 @@ import com.wm.entity.BPResult;
 import com.wm.entity.BSResult;
 import com.wm.entity.FHResult;
 import com.wm.entity.IUploadEntity;
-import com.wm.entity.UploadEntity;
-import com.wm.utils.NetUtils;
+import com.wm.entity.RequestEntity;
 import com.wm.utils.SharedPfUtil;
+import com.wm.utils.SystemUtils;
 
 public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUploadEntity>> {
 	
@@ -59,16 +59,16 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 		List<BSResult> bsResults = mDbManager.getBsResultsByStatus(0);
 		List<FHResult> fhResults = mDbManager.getFhResultsByStatus(0);
 		if(bpResults != null && bpResults.size() != 0) {
-			UploadEntity<BPResult> uploadBps = new UploadEntity<BPResult>("test", "test", bpResults);
-			uploadEntities.put(UploadEntity.TYPE_BP, uploadBps);
+			RequestEntity<BPResult> uploadBps = new RequestEntity<BPResult>("test", "test", bpResults);
+			uploadEntities.put(RequestEntity.TYPE_BP, uploadBps);
 		}
 		if(bsResults != null && bsResults.size() != 0) {
-			UploadEntity<BSResult> uploadBss = new UploadEntity<>("test", "test", bsResults);
-			uploadEntities.put(UploadEntity.TYPE_BS, uploadBss);
+			RequestEntity<BSResult> uploadBss = new RequestEntity<>("test", "test", bsResults);
+			uploadEntities.put(RequestEntity.TYPE_BS, uploadBss);
 		}
 		if(fhResults != null && fhResults.size() != 0) {
-			UploadEntity<FHResult> uploadFhs = new UploadEntity<>("test", "test", fhResults);
-			uploadEntities.put(UploadEntity.TYPE_FH, uploadFhs);
+			RequestEntity<FHResult> uploadFhs = new RequestEntity<>("test", "test", fhResults);
+			uploadEntities.put(RequestEntity.TYPE_FH, uploadFhs);
 		}
 		return uploadEntities;
 	}
@@ -80,7 +80,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			return;
 		}
 		switch (mConnectState) {
-			case NetUtils.TYPE_GPRS:
+			case SystemUtils.TYPE_GPRS:
 				
 				btnUpdYes.setOnClickListener(new BtnClickListener(result));
 				btnUdpNo.setOnClickListener(new BtnClickListener(result));
@@ -88,7 +88,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 					mDialog.show();
 				}
 				break;
-			case NetUtils.TYPE_WIFI:
+			case SystemUtils.TYPE_WIFI:
 				new UploadDataTask(mContext).execute(result);
 				break;
 		}
