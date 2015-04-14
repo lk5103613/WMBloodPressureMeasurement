@@ -89,6 +89,7 @@
     <string name="reg_now">立即注册</string>
     <string name="reg_psw_again">请再次输入密码</string>
     <string name="reg_psw_hint">请填写6-20位字符</string>
+    <string name="reg_auth_msg">我已阅读并同意以上条款</string>
     
     <string name="icon_description">this is logo</string>
 

@@ -20,7 +20,6 @@ import com.wm.activity.R;
 /**
  * 圆形ImageView，可设置最多两个宽度不同且颜色不同的圆形边框。
  * 
- * @author Alan
  */
 public class RoundImageView extends ImageView {
 	private int mBorderThickness = 0;
