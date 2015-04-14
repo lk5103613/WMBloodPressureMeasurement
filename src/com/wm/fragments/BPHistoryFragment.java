@@ -91,6 +91,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
         		-mv.getMeasuredHeight()+15*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
         mChart.getXLabels().setTextSize(12);
+        mChart.getXLabels().setSpaceBetweenLabels(1);
         
         YLabels y = mChart.getYLabels(); //y轴的标示
         y.setLabelCount(4); // y轴上的标签的显示的个数
@@ -179,7 +180,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			setMax.setCircleSize(2);
 			int maxColor = getResources().getColor(R.color.fragment_bg);
 			setMax.setCircleColor(maxColor);
-//			setMax.setHighLightColor(maxColor);
 			setMax.setColor(maxColor);
 			data.addDataSet(setMax);
 
@@ -210,8 +210,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		float hr =  mBPResults.get(e.getXIndex()-JUMPCOUMP).pulse;
 		textHeart.setText((int)hr+"");
 		mChart.getData().getXVals().set(lineLastIndex, "");
-		
-		System.out.println("history " + e.getXIndex() +"  "+ mBPResults.get(e.getXIndex()-JUMPCOUMP).measureTime);
 		mChart.getData().getXVals().set(e.getXIndex(), mBPResults.get(e.getXIndex()-JUMPCOUMP).measureTime);
 		
 		lineLastIndex = e.getXIndex();
