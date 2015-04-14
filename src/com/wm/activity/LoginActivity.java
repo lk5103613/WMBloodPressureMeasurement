@@ -2,16 +2,22 @@ package com.wm.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ScrollView;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import com.wm.utils.TabPager;
+import com.wm.customview.ClearEditText;
+import com.wm.entity.LoginEntity;
+import com.wm.entity.RequestEntity;
+import com.wm.entity.Response;
+import com.wm.network.NetworkFactory;
 
 /**
  * 
@@ -24,8 +30,11 @@ public class LoginActivity extends ActionBarActivity {
 	ScrollView mScrollView;
 	@InjectView(R.id.scroll_inner)
 	View mInner;
+	@InjectView(R.id.txt_username)
+	ClearEditText mUserName;
+	@InjectView(R.id.txt_pwd)
+	ClearEditText mPwd;
 	private Context mContext;
-	private TabPager mTabPager;
 	Handler mHandler;
 
 	@Override
@@ -35,15 +44,6 @@ public class LoginActivity extends ActionBarActivity {
 		ButterKnife.inject(this);
 		mHandler = new Handler();
 		mContext = LoginActivity.this;
-		mTabPager = TabPager.getInstance(mContext);
-	}
-
-	@OnClick(R.id.btn_login)
-	public void login(View v) {
-		mTabPager.clear();
-		Intent intent = new Intent(mContext, MainActivity.class);
-		startActivity(intent);
-		finish();
 	}
 
 	@OnClick({ R.id.txt_username, R.id.txt_pwd })
@@ -51,12 +51,6 @@ public class LoginActivity extends ActionBarActivity {
 		if (v.isFocused()) {
 			scrollToBottom();
 		}
-	}
-	
-	@OnClick(R.id.register_txt)
-	public void clickRegister(View v){
-		Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
-		startActivity(intent);
 	}
 
 //	@OnFocusChange({ R.id.txt_pwd, R.id.txt_username })
@@ -80,6 +74,44 @@ public class LoginActivity extends ActionBarActivity {
 				mScrollView.scrollTo(0, offset);
 			}
 		}, 100);
+	}
+	
+	@OnClick(R.id.register_txt)
+	public void clickRegister(View v){
+		Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+		startActivity(intent);
+	}
+	
+	@OnClick(R.id.btn_login)
+	public void login(View v) {
+		new LoginTask().execute();
+	}
+	
+	private class LoginTask extends AsyncTask<Void, Void, Response> {
+
+		@Override
+		protected Response doInBackground(Void... params) {
+			String userName = mUserName.getText().toString();
+			String pwd = mPwd.getText().toString();
+			LoginEntity loginEntity = new LoginEntity(userName, pwd);
+			RequestEntity<LoginEntity> request = new RequestEntity<LoginEntity>("test", "test", loginEntity);
+			return  NetworkFactory.getAuthService().login(request);
+		}
+		
+		@Override
+		protected void onPostExecute(Response result) {
+			if(result == null)
+				return;
+			if(result.code == 0) {
+				Toast.makeText(mContext, "µÇÂ½³É¹¦", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(mContext, MainActivity.class);
+				startActivity(intent);
+				finish();
+			} else {
+				Toast.makeText(mContext, result.info, Toast.LENGTH_LONG).show();
+			}
+		}
+		
 	}
 	
 }
