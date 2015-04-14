@@ -87,6 +87,13 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String phone = mRegPhone.getText().toString();
+				NetworkFactory.getAuthService().sendMessage(phone, null);
+			}
+		}).start();
 		mbtnSendCode.setEnabled(false);
 		if(mCountTimer == null) {
 			mCountTimer = new CountDownTimer(60000, 1000) {

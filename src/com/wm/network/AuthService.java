@@ -1,12 +1,15 @@
 package com.wm.network;
 
+import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 
 import com.wm.entity.LoginEntity;
 import com.wm.entity.RegisterEntity;
-import com.wm.entity.Response;
 import com.wm.entity.RequestEntity;
+import com.wm.entity.Response;
 
 public interface AuthService {
 	
@@ -15,5 +18,9 @@ public interface AuthService {
 	
 	@POST("/login/2J.do")
 	Response login(@Body RequestEntity<LoginEntity> registerEntity);
+	
+	@FormUrlEncoded
+	@POST("/getRegisterSc/2J.do")
+	void sendMessage(@Field("cellphone") String cellphone, Callback<String> callback);
 
 }
