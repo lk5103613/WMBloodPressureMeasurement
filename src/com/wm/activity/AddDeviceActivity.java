@@ -213,14 +213,14 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				return true;
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {//ÑªÑ¹
 			
-			/*if(deviceName.equals("bolutek") || deviceName.equals("abg-bxxx")) {
+			if(deviceName.equals("bolutek") || deviceName.equals("abg-bxxx")) {
 				return false;
 			}
-				return true;*/
-			//ÑªÑ¹ Ãû³Æ¼ì²é
-			if(deviceName.equals("lt-xy")){
 				return true;
-			}
+			//ÑªÑ¹ Ãû³Æ¼ì²é
+//			if(deviceName.equals("lt-xy")){
+//				return true;
+//			}
 			
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BS)) {//ÑªÌÇ
 			if(deviceName.equals("abg-bxxx"))
