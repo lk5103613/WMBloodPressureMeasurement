@@ -133,7 +133,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 			//用于提高Y轴坐标的值
 			ArrayList<Entry> yValsMax = new ArrayList<>();
 			int max = (int) set.getYMax();//获取最大值
-			yValsMax.add(new Entry(max+20, 0));
+			yValsMax.add(new Entry(300, 0));
 			LineDataSet setMax = new LineDataSet(yValsMax, "");
 			setMax.setLineWidth(2f);
 			setMax.setCircleSize(2);
