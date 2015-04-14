@@ -2,6 +2,8 @@ package com.wm.activity;
 
 import java.util.regex.Pattern;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -91,7 +93,12 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 			@Override
 			public void run() {
 				String phone = mRegPhone.getText().toString();
-				NetworkFactory.getAuthService().sendMessage(phone, null);
+				NetworkFactory.getAuthService().sendMessage(phone, new Callback<String>() {
+					@Override
+					public void success(String arg0, retrofit.client.Response arg1) { }
+					@Override
+					public void failure(RetrofitError arg0) { }
+				});
 			}
 		}).start();
 		mbtnSendCode.setEnabled(false);
