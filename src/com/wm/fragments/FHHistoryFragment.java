@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
+import com.testin.agent.a.e;
 import com.wm.activity.R;
 import com.wm.customview.LineMarkerView;
 import com.wm.db.HistoryDBManager;
@@ -36,6 +37,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 	private HistoryDBManager mDbManager;
 	private List<FHResult> mFHResults;
 	private int mIndex = 0;
+	LineMarkerView mv;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,7 +82,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setDrawLegend(false);//不绘制颜色标记
 		mChart.setDrawXLabels(true);//绘制X轴标签
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-		LineMarkerView mv = new LineMarkerView(getActivity(),mChart, R.layout.custom_marker_view);//自定义标签
+		mv = new LineMarkerView(getActivity(),mChart, R.layout.custom_marker_view);//自定义标签
         mv.setOffsets(-mv.getMeasuredWidth() / 2-10*SystemUtils.getDensity(getActivity()),
         		-mv.getMeasuredHeight()+5*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
@@ -88,6 +90,8 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
         mChart.centerViewPort(0, 200);
         mChart.setScaleEnabled(false);
         mChart.getYLabels().setLabelCount(5);
+        Entry entry;
+        
 	}
 
 	private void addEmptyData(int position) {

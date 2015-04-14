@@ -15,11 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -28,17 +31,15 @@ import butterknife.OnFocusChange;
 import com.wm.entity.RegisterEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
-import com.wm.message.AppKeys;
-import com.wm.message.MessageManager;
-import com.wm.message.MessageManager.MessageCallback;
-import com.wm.message.MessageManager.MessageReceiver;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.MD5Utils;
 
-public class RegisterActivity extends ActionBarActivity implements MessageCallback {
+public class RegisterActivity extends ActionBarActivity implements OnCheckedChangeListener{
 
 	@InjectView(R.id.btn_send_code)
 	Button mbtnSendCode;
+	@InjectView(R.id.btn_reg)
+	Button mBtnReg;
 	@InjectView(R.id.reg_code_hint)
 	TextView mAuthCode;
 	@InjectView(R.id.reg_name)
@@ -57,14 +58,12 @@ public class RegisterActivity extends ActionBarActivity implements MessageCallba
 	ScrollView mScrollView;
 	@InjectView(R.id.reg_content)
 	View mInner;
+	@InjectView(R.id.reg_checkbox)
+	CheckBox mRegCheckBox;
 	
 	private CountDownTimer mCountTimer;
-	private MessageManager mMsgManager;
-	private MessageReceiver mMsgReceiver;
-	private IntentFilter mMsgFilter;
 	private Context mContext;
 	private Handler mHandler;
-	private String countryZone = "86";
 	private final int SUCCESS = 1;
 	private final int ERROR = 0;
 
@@ -74,31 +73,22 @@ public class RegisterActivity extends ActionBarActivity implements MessageCallba
 		setContentView(R.layout.activity_register);
 		ButterKnife.inject(this);
 		
+		mRegCheckBox.setOnCheckedChangeListener(this);
 		mContext = this;
-		mMsgManager = MessageManager.getInstance(mContext, AppKeys.APP_KEY, AppKeys.APP_SECRET, this);
-		mMsgReceiver = mMsgManager.getReceiver();
+		
 		mHandler = new Handler();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		registerReceiver(mMsgReceiver, createSmsFilter());
 	}
 	
-	private IntentFilter createSmsFilter() {
-		if(mMsgFilter == null) {
-			mMsgFilter = new IntentFilter();
-			mMsgFilter.setPriority(999);
-			mMsgFilter.addAction(MessageReceiver.SMS_RECEIVED_ACTION);
-		}
-		return mMsgFilter;
-	}
+	
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
 		String phone = mRegPhone.getText().toString();
-		mMsgManager.sendMessage(countryZone, phone);
 		mbtnSendCode.setEnabled(false);
 		if(mCountTimer == null) {
 			mCountTimer = new CountDownTimer(60000, 1000) {
@@ -133,7 +123,6 @@ public class RegisterActivity extends ActionBarActivity implements MessageCallba
 		if(mCountTimer!=null) {
 			mCountTimer.cancel();
 		}
-		unregisterReceiver(mMsgReceiver);
 		super.onDestroy();
 	}
 	
@@ -231,28 +220,6 @@ public class RegisterActivity extends ActionBarActivity implements MessageCallba
 	    toast.show();
 	}
 
-	@Override
-	public void getSupportedCountriesSuccess(Object data) { }
-
-	@Override
-	public void submitVerificationCodeSuccess(Object data) {
-	}
-
-	@Override
-	public void getVerificationCodeSuccess(Object data) {
-	}
-
-	@Override
-	public void receiveMsg(String code) {
-		if(code == null)
-			return;
-		mRegCode.setText(code);
-	}
-
-	@Override
-	public void errorAppear() {
-		Toast.makeText(mContext, "验证码错误，请重新输入", Toast.LENGTH_LONG).show();
-	}
 	
 	@OnClick(R.id.btn_reg)
 	public void clickReg(View view) {
@@ -292,6 +259,11 @@ public class RegisterActivity extends ActionBarActivity implements MessageCallba
 				Toast.makeText(mContext, result.info, Toast.LENGTH_LONG).show();
 		}
 	
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		mBtnReg.setEnabled(isChecked);
 	}
 
 }
