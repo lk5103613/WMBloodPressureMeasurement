@@ -2,10 +2,10 @@ package com.wm.utils;
 
 import java.security.MessageDigest;
 
-public class MD5Util {
+public class MD5Utils {
 	
 	/***
-	 * MD5加码 生成32位md5码
+	 * MD5加码 生成32位md5�?
 	 */
 	public static String string2MD5(String inStr) {
 		MessageDigest md5 = null;

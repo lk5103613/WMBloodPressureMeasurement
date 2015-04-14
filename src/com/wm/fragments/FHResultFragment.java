@@ -25,7 +25,9 @@ import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
+import com.wm.network.CheckNeedUploadTask;
 import com.wm.utils.DataConvertUtils;
+import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
 public class FHResultFragment extends BaseResultFragment {
@@ -48,11 +50,6 @@ public class FHResultFragment extends BaseResultFragment {
 		}
 	};
 	
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		System.out.println("fhresult oncreate");
-	};
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -67,7 +64,6 @@ public class FHResultFragment extends BaseResultFragment {
 		mHandler.removeCallbacks(mRunnable);
 		
 		mBeginRecord = false;
-		System.out.println("fh result oncreate view" );
 		return view;
 	}
 
@@ -195,6 +191,8 @@ public class FHResultFragment extends BaseResultFragment {
 				mCallback.closeActivity();
 			}
 		}.execute();
+		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_WIFI)
+			new CheckNeedUploadTask(mContext, null, null, null, SystemUtils.TYPE_WIFI).execute();
 	}
 
 	@Override

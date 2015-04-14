@@ -26,13 +26,14 @@ public class LoginActivity extends ActionBarActivity {
 	View mInner;
 	private Context mContext;
 	private TabPager mTabPager;
+	Handler mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		ButterKnife.inject(this);
-		
+		mHandler = new Handler();
 		mContext = LoginActivity.this;
 		mTabPager = TabPager.getInstance(mContext);
 	}
@@ -66,8 +67,6 @@ public class LoginActivity extends ActionBarActivity {
 //	}
 
 	private void scrollToBottom() {
-		Handler mHandler = new Handler();
-
 		mHandler.postDelayed(new Runnable() {
 			public void run() {
 				if (mScrollView == null || mInner == null) {

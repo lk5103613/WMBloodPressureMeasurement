@@ -8,12 +8,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.wm.adapter.IndexPagerAdapter;
-import com.wm.customview.CustomTabView;
 import com.wm.customview.BarViewPager;
+import com.wm.customview.CustomTabView;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.DeviceFragment.OnStateChangeListener;
 import com.wm.network.CheckNeedUploadTask;
-import com.wm.utils.NetUtils;
+import com.wm.utils.SystemUtils;
 import com.wm.utils.TabPager;
 
 public class MainActivity extends BaseActivity implements
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity implements
 		mTabView.setViewPager(mPager);
 		mTabView.setOnPageChangeListener(this);
 		
-		int connectState = NetUtils.getConnectState(mContext);
+		int connectState = SystemUtils.getConnectState(mContext);
 		new CheckNeedUploadTask(mContext,mAlertDialog,btnUpdYes, btnUpdNo, connectState).execute();
 		
 	}

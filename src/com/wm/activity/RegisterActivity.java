@@ -2,6 +2,10 @@ package com.wm.activity;
 
 import java.util.regex.Pattern;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -11,9 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -24,12 +25,20 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
-public class RegisterActivity extends ActionBarActivity implements OnCheckedChangeListener{
+import com.wm.entity.RegisterEntity;
+import com.wm.entity.RequestEntity;
+import com.wm.entity.Response;
+import com.wm.message.AppKeys;
+import com.wm.message.MessageManager;
+import com.wm.message.MessageManager.MessageCallback;
+import com.wm.message.MessageManager.MessageReceiver;
+import com.wm.network.NetworkFactory;
+import com.wm.utils.MD5Utils;
+
+public class RegisterActivity extends ActionBarActivity implements MessageCallback {
 
 	@InjectView(R.id.btn_send_code)
 	Button mbtnSendCode;
-	@InjectView(R.id.btn_reg)
-	Button mBtnReg;
 	@InjectView(R.id.reg_code_hint)
 	TextView mAuthCode;
 	@InjectView(R.id.reg_name)
@@ -48,25 +57,48 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	ScrollView mScrollView;
 	@InjectView(R.id.reg_content)
 	View mInner;
-	@InjectView(R.id.reg_checkbox)
-	CheckBox mAuthCheckBox;
 	
 	private CountDownTimer mCountTimer;
+	private MessageManager mMsgManager;
+	private MessageReceiver mMsgReceiver;
+	private IntentFilter mMsgFilter;
+	private Context mContext;
+	private Handler mHandler;
+	private String countryZone = "86";
 	private final int SUCCESS = 1;
 	private final int ERROR = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 		ButterKnife.inject(this);
 		
-		mAuthCheckBox.setOnCheckedChangeListener(this);
+		mContext = this;
+		mMsgManager = MessageManager.getInstance(mContext, AppKeys.APP_KEY, AppKeys.APP_SECRET, this);
+		mMsgReceiver = mMsgManager.getReceiver();
+		mHandler = new Handler();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(mMsgReceiver, createSmsFilter());
+	}
+	
+	private IntentFilter createSmsFilter() {
+		if(mMsgFilter == null) {
+			mMsgFilter = new IntentFilter();
+			mMsgFilter.setPriority(999);
+			mMsgFilter.addAction(MessageReceiver.SMS_RECEIVED_ACTION);
+		}
+		return mMsgFilter;
 	}
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
+		String phone = mRegPhone.getText().toString();
+		mMsgManager.sendMessage(countryZone, phone);
 		mbtnSendCode.setEnabled(false);
 		if(mCountTimer == null) {
 			mCountTimer = new CountDownTimer(60000, 1000) {
@@ -75,20 +107,13 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 					mbtnSendCode.setEnabled(true);
 					mAuthCode.setText("(60秒后重发)");
 				}
-
 				@Override
-				public void onTick(long arg0) {
-					mAuthCode.setText("("+arg0/1000+"秒后重发)");
+				public void onTick(long millisUntilFinished) {
+					mAuthCode.setText("("+millisUntilFinished/1000+"秒后重发)");
 				}
-
 			};
 		}
 		mCountTimer.start();
-	}
-	
-	@OnClick(R.id.btn_reg)
-	public void clickReg(View view) {
-		boolean result = verify();
 	}
 	
 	@OnClick(R.id.add_back)
@@ -103,19 +128,16 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		}
 	}
 	
-	
 	@Override
 	protected void onDestroy() {
 		if(mCountTimer!=null) {
 			mCountTimer.cancel();
 		}
-		
+		unregisterReceiver(mMsgReceiver);
 		super.onDestroy();
 	}
 	
 	private void scrollToBottom() {
-		Handler mHandler = new Handler();
-
 		mHandler.postDelayed(new Runnable() {
 			public void run() {
 				if (mScrollView == null || mInner == null) {
@@ -210,9 +232,66 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		mBtnReg.setEnabled(isChecked);
+	public void getSupportedCountriesSuccess(Object data) { }
+
+	@Override
+	public void submitVerificationCodeSuccess(Object data) {
+	}
+
+	@Override
+	public void getVerificationCodeSuccess(Object data) {
+	}
+
+	@Override
+	public void receiveMsg(String code) {
+		if(code == null)
+			return;
+		mRegCode.setText(code);
+	}
+
+	@Override
+	public void errorAppear() {
+		Toast.makeText(mContext, "验证码错误，请重新输入", Toast.LENGTH_LONG).show();
+	}
+	
+	@OnClick(R.id.btn_reg)
+	public void clickReg(View view) {
+		boolean result = verify();
+		if(!result)
+			return;
+		String phone = mRegPhone.getText().toString();
+		String code = mRegCode.getText().toString();
+		String userName = mRegName.getText().toString();
+		String userCard = mRegIdentity.getText().toString();
+		String pwd = MD5Utils.string2MD5(mRegPsw.getText().toString());
+		RegisterEntity registerEntity = new RegisterEntity(userName, phone, userCard, pwd, code);
+		RequestEntity<RegisterEntity> request = new RequestEntity<>("test", "test", registerEntity);
+		new RegisterTask(request).execute();
+	}
+	
+	public class RegisterTask extends AsyncTask<Void, Void, Response> {
 		
+		private RequestEntity<RegisterEntity> mRequest;
+		
+		public RegisterTask(RequestEntity<RegisterEntity> request) {
+			this.mRequest = request;
+		}
+		
+		@Override
+		protected Response doInBackground(Void... params) {
+			return NetworkFactory.getAuthService().register(mRequest);
+		}
+		
+		@Override
+		protected void onPostExecute(Response result) {
+			if(result.info.equals("success")) {
+				Toast.makeText(mContext, "注册成功", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(mContext, LoginActivity.class);
+				startActivity(intent);
+			} else 
+				Toast.makeText(mContext, result.info, Toast.LENGTH_LONG).show();
+		}
+	
 	}
 
 }

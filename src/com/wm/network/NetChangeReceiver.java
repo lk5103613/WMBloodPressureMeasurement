@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.wm.utils.NetUtils;
+import com.wm.utils.SystemUtils;
 
 public class NetChangeReceiver extends BroadcastReceiver{
 	
@@ -34,7 +34,7 @@ public class NetChangeReceiver extends BroadcastReceiver{
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		int netType = NetUtils.getConnectState(context);
+		int netType = SystemUtils.getConnectState(context);
 		if(mLastType != -10 && mLastType != netType) {
 			mCallback.onChange(netType);
 		}

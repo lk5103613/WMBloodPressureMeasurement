@@ -14,6 +14,8 @@ import com.wm.blecore.BluetoothLeService;
 import com.wm.customview.ImageTextView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BSResult;
+import com.wm.network.CheckNeedUploadTask;
+import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
 public class BSResultFragment extends BaseResultFragment {
@@ -86,6 +88,8 @@ public class BSResultFragment extends BaseResultFragment {
 				mCallback.closeActivity();
 			}
 		}.execute();
+		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_WIFI)
+			new CheckNeedUploadTask(mContext, null, null, null, SystemUtils.TYPE_WIFI).execute();
 	}
 
 	@Override

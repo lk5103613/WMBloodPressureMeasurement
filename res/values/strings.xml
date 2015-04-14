@@ -63,7 +63,6 @@
     <string name="bp_result_lbp">低血压</string>
     <string name="bp_result_pre_hbp">高血压前期</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
-    
     <string name="title_activity_about">关&#160;于&#160;我&#160;们</string>
     <string name="title_activity_guide_view">使&#160;用&#160;帮&#160;助</string>
     <string name="title_fragment_device">设&#160;备&#160;列&#160;表</string>
@@ -92,5 +91,6 @@
     <string name="reg_auth_msg">我已阅读并同意以上条款</string>
     
     <string name="icon_description">this is logo</string>
+    <string name="title_activity_regist">RegistActivity</string>
 
 </resources>
