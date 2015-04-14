@@ -18,10 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 import com.wm.activity.AboutActivity;
 import com.wm.activity.GuideViewActivity;
+import com.wm.activity.LoginActivity;
 import com.wm.activity.R;
 import com.wm.entity.SettingData;
 import com.wm.utils.TabPager;
@@ -76,6 +78,11 @@ public class SettingFragment extends Fragment  {
 		mTabPager.savePosition(TabPager.PAGE_SETTING);
 	}
 	
+	@OnClick(R.id.action_login)
+	public void clickLogin(View view){
+		Intent intent = new Intent(mContext,LoginActivity.class);
+		startActivity(intent);
+	}
 	class SettingListAdapter extends BaseAdapter{
 		private List<SettingData> mItems;
 		private LayoutInflater mInflater;

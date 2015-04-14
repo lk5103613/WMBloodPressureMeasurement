@@ -35,6 +35,8 @@ public class WelcomeActivity extends Activity implements
 		OnCheckedChangeListener, OnClickListener {
 
 	public final static String AUTH = "auth";
+	public final static String NAME = "loginName";
+	public final static String  PASSWORD="loginPwd";
 
 	@InjectView(R.id.welcome_logo)
 	ImageView mLogo;
@@ -79,13 +81,22 @@ public class WelcomeActivity extends Activity implements
 		Animation companyNameAnimation = AnimationUtils.loadAnimation(mContext,
 				R.anim.welcome_company_name_anim);
 		mCompanyName.startAnimation(companyNameAnimation);
-
+		
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				showAuthDialog();
+				
+				//判断如果同意之后， 不在提示
+				if (!"true".equals(SharedPfUtil.getValue(WelcomeActivity.this, AUTH))) {
+					showAuthDialog();
+				} else {
+					jumpPage();
+				}
+				
 			}
 		}, 3000);
+		
+		
 	}
 
 	public void showAuthDialog() {
@@ -149,10 +160,9 @@ public class WelcomeActivity extends Activity implements
 			break;
 		}
 
+		
 		mAalertDialog.dismiss();
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
-		finish();
+		jumpPage();
 	}
 
 	@Override
@@ -169,6 +179,13 @@ public class WelcomeActivity extends Activity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		return true;// 禁止back
+	}
+	
+	private void jumpPage(){
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
+		
 	}
 
 }
