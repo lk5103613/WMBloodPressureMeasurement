@@ -14,7 +14,7 @@ import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.DeviceFragment.OnStateChangeListener;
 import com.wm.network.CheckNeedUploadTask;
 import com.wm.utils.SystemUtils;
-import com.wm.utils.TabPager;
+import com.wm.utils.TabPagerSharePrefs;
 
 public class MainActivity extends BaseActivity implements
 		OnStateChangeListener, OnPageChangeListener {
@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity implements
 	private int mBackClickTimes = 0;
 	private boolean mDeviceEdit = false;
 	private IndexPagerAdapter mIndexPagerAdapter;
-	private TabPager mTabPager;
+	private TabPagerSharePrefs mTabPager;
 
 	@SuppressLint("ResourceAsColor")
 	@Override
@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity implements
 		initTab();
 		// 初始化全局参数
 		mBackClickTimes = 0;
-		mTabPager = TabPager.getInstance(mContext);
+		mTabPager = TabPagerSharePrefs.getInstance(mContext);
 		mTabView.setViewPager(mPager);
 		mTabView.setOnPageChangeListener(this);
 		
