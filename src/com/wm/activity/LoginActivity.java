@@ -19,6 +19,7 @@ import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.MD5Utils;
+import com.wm.utils.StateSharePrefs;
 
 /**
  * 
@@ -35,16 +36,20 @@ public class LoginActivity extends ActionBarActivity {
 	ClearEditText mUserName;
 	@InjectView(R.id.txt_pwd)
 	ClearEditText mPwd;
+	
 	private Context mContext;
-	Handler mHandler;
+	private StateSharePrefs mState;
+	private Handler mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		ButterKnife.inject(this);
+		
 		mHandler = new Handler();
 		mContext = LoginActivity.this;
+		mState = StateSharePrefs.getInstance(mContext);
 	}
 
 	@OnClick({ R.id.txt_username, R.id.txt_pwd })
@@ -104,6 +109,7 @@ public class LoginActivity extends ActionBarActivity {
 			if(result == null)
 				return;
 			if(result.code == 0) {
+				mState.saveState(StateSharePrefs.TYPE_LOGIN, true);
 				Toast.makeText(mContext, "µÇÂ½³É¹¦", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(mContext, MainActivity.class);
 				startActivity(intent);

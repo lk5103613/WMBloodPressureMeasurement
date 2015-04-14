@@ -13,19 +13,19 @@ import android.view.View;
 import android.widget.Button;
 
 import com.wm.activity.R;
-import com.wm.activity.WelcomeActivity;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.entity.BSResult;
 import com.wm.entity.FHResult;
 import com.wm.entity.IUploadEntity;
 import com.wm.entity.RequestEntity;
-import com.wm.utils.SharedPfUtil;
+import com.wm.utils.StateSharePrefs;
 import com.wm.utils.SystemUtils;
 
 public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUploadEntity>> {
 	
 	private Context mContext;
+	private StateSharePrefs mState;
 	private int mConnectState;
 	private HistoryDBManager mDbManager;
 	private AlertDialog mDialog;
@@ -33,12 +33,12 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 	Button btnUpdYes;
 	
 	public CheckNeedUploadTask(Context context, AlertDialog mAlertDialog, Button btnUdpNo, Button btnUpdYes,int connectState){
-		System.out.println("check need upload");
 		this.mContext = context;
 		this.mConnectState = connectState;
 		this.mDialog = mAlertDialog;
 		this.btnUdpNo = btnUdpNo;
 		this.btnUpdYes = btnUpdYes;
+		mState = StateSharePrefs.getInstance(mContext);
 	}
 	
 	@Override
@@ -50,12 +50,15 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 	@Override
 	protected  Map<Integer, IUploadEntity> doInBackground(Void... params) {
 		Map<Integer, IUploadEntity> uploadEntities = new HashMap<>();
-		String auth = SharedPfUtil.getValue(mContext, WelcomeActivity.AUTH);
-		if(!auth.equals("true")) {
-			System.out.println("autho false");
-			return uploadEntities;
-		}
+//		boolean auth = mState.getState(StateSharePrefs.TYPE_AUTH);
+//		if(!auth) {
+//			System.out.println("autho false");
+//			return uploadEntities;
+//		}
 		
+		boolean isLogin = mState.getState(StateSharePrefs.TYPE_LOGIN);
+		if(!isLogin)
+			return uploadEntities;
 		List<BPResult> bpResults = mDbManager.getBpResultsByStatus(0);
 		List<BSResult> bsResults = mDbManager.getBsResultsByStatus(0);
 		List<FHResult> fhResults = mDbManager.getFhResultsByStatus(0);

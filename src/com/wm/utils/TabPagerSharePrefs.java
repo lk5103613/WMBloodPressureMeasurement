@@ -3,7 +3,7 @@ package com.wm.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class TabPager {
+public class TabPagerSharePrefs {
 	
 	public static String PREVIOUS_TAB_PAGE = "previous_page";
 	public static String SP_NAME = "prefs_page";
@@ -13,16 +13,16 @@ public class TabPager {
 	public static int PAGE_HOME = 0;
 	public static int PAGE_DEVICE = 1;
 	public static int PAGE_SETTING = 2;
-	private static TabPager mTabPager = null;
+	private static TabPagerSharePrefs mTabPager = null;
 	
-	private TabPager(Context context) {
+	private TabPagerSharePrefs(Context context) {
 		this.mContext = context;
 		this.mSharePreferences = mContext.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
 	}
 	
-	public static TabPager getInstance(Context context) {
+	public static TabPagerSharePrefs getInstance(Context context) {
 		if(mTabPager == null) {
-			mTabPager = new TabPager(context);
+			mTabPager = new TabPagerSharePrefs(context);
 		}
 		return mTabPager;
 	}

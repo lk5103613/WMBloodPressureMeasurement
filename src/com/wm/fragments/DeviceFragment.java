@@ -38,7 +38,7 @@ import com.wm.db.DeviceDBManager;
 import com.wm.entity.DeviceDataSet;
 import com.wm.entity.DeviceInfo;
 import com.wm.entity.OptionEnum;
-import com.wm.utils.TabPager;
+import com.wm.utils.TabPagerSharePrefs;
 
 public class DeviceFragment extends Fragment implements View.OnClickListener {
 
@@ -58,7 +58,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	private DeviceDataSet mDeviceDataSet;
 	private DeviceListAdapter mAdapter;
 	private Context mContext;
-	private TabPager mTabPager;
+	private TabPagerSharePrefs mTabPager;
 	private List<DeviceInfo> mDevices;
 	private DeviceDBManager mDeviceDBManager;
 	private Handler mHandler;
@@ -101,7 +101,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mContext = getActivity();
 		mHandler = new Handler();
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
-		mTabPager = TabPager.getInstance(mContext);
+		mTabPager = TabPagerSharePrefs.getInstance(mContext);
 		mDeviceListView.setEmptyView(mEmptyView);  //add empty view
 		return view;
 	}
@@ -192,13 +192,13 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		actionCancelUpd.setVisibility(View.GONE);
 		actionDel.setVisibility(View.VISIBLE);
 		actionUpd.setVisibility(View.VISIBLE);
-		mTabPager.savePosition(TabPager.PAGE_DEVICE);
+		mTabPager.savePosition(TabPagerSharePrefs.PAGE_DEVICE);
 		
 	}
 
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
-		mTabPager.savePosition(TabPager.PAGE_DEVICE);
+		mTabPager.savePosition(TabPagerSharePrefs.PAGE_DEVICE);
 		String type = mDeviceDataSet.deviceInfos.get(i).type;
 		Intent intent = new Intent(mContext, HistoryActivity.class);
 		intent.putExtra(DeviceInfo.INTENT_TYPE, type);
@@ -415,7 +415,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionCancelUpd.setVisibility(View.GONE);
 			actionDel.setVisibility(View.VISIBLE);
 			actionUpd.setVisibility(View.VISIBLE);
-			mTabPager.savePosition(TabPager.PAGE_DEVICE);
+			mTabPager.savePosition(TabPagerSharePrefs.PAGE_DEVICE);
 			mDeviceDataSet.option = OptionEnum.ITEM_ADD;
 			mAdapter.notifyDataSetChanged();
 			Intent intent = new Intent(mContext, AddDeviceActivity.class);

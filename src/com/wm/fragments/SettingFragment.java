@@ -26,7 +26,7 @@ import com.wm.activity.GuideViewActivity;
 import com.wm.activity.LoginActivity;
 import com.wm.activity.R;
 import com.wm.entity.SettingData;
-import com.wm.utils.TabPager;
+import com.wm.utils.TabPagerSharePrefs;
 
 public class SettingFragment extends Fragment  {
 	
@@ -35,7 +35,7 @@ public class SettingFragment extends Fragment  {
 	private SettingListAdapter adapter;
 	private List<SettingData> items = new ArrayList<SettingData>();
 	private Context mContext;
-	private TabPager mTabPager;
+	private TabPagerSharePrefs mTabPager;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +43,7 @@ public class SettingFragment extends Fragment  {
 		View view = inflater.inflate(R.layout.fragment_setting, container, false);
 		ButterKnife.inject(this, view);
 		mContext = getActivity();
-		mTabPager = TabPager.getInstance(mContext);
+		mTabPager = TabPagerSharePrefs.getInstance(mContext);
 		return view;
 	}
 	
@@ -75,7 +75,7 @@ public class SettingFragment extends Fragment  {
 			mContext.startActivity(data.targetIntent);
 			getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.scale_fade_out);
 		}
-		mTabPager.savePosition(TabPager.PAGE_SETTING);
+		mTabPager.savePosition(TabPagerSharePrefs.PAGE_SETTING);
 	}
 	
 	@OnClick(R.id.action_login)
