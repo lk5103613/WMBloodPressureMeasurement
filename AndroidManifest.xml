@@ -22,7 +22,6 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <supports-screens
@@ -119,12 +118,6 @@
             </intent-filter>
         </activity>
 
-        <!-- for message -->
-        <activity
-            android:name="cn.smssdk.SMSSDKUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".RegistActivity"
             android:label="@string/title_activity_regist" >
