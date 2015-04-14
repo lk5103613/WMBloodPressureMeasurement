@@ -80,8 +80,9 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setDrawLegend(false);//不绘制颜色标记
 		mChart.setDrawXLabels(true);//绘制X轴标签
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-		LineMarkerView mv = new LineMarkerView(getActivity(),mChart, R.layout.custom_marker_view,R.drawable.mark_blue);//自定义标签
-        mv.setOffsets(-mv.getMeasuredWidth() / 2-18*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
+		LineMarkerView mv = new LineMarkerView(getActivity(),mChart, R.layout.custom_marker_view);//自定义标签
+        mv.setOffsets(-mv.getMeasuredWidth() / 2-10*SystemUtils.getDensity(getActivity()),
+        		-mv.getMeasuredHeight()+5*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
         mChart.setHighlightEnabled(true);
         mChart.centerViewPort(0, 200);
@@ -131,6 +132,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 			
 			//用于提高Y轴坐标的值
 			ArrayList<Entry> yValsMax = new ArrayList<>();
+			int max = (int) set.getYMax();//获取最大值
 			yValsMax.add(new Entry(300, 0));
 			LineDataSet setMax = new LineDataSet(yValsMax, "");
 			setMax.setLineWidth(2f);

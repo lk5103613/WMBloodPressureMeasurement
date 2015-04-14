@@ -312,7 +312,8 @@
             android:background="@drawable/btn_bg"
             android:text="@string/reg_now"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp" 
+            android:enabled="false"/>
         
         <LinearLayout
             android:layout_width="match_parent"

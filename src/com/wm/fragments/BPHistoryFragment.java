@@ -34,6 +34,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	LineChart mChart;
 	@InjectView(R.id.text_heart)
 	TextView textHeart;
+	
+	private int lineLastIndex = 0;
 
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
@@ -49,7 +51,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		
 		// chart
 		initLineChart();
-		System.out.println("bp oncreate");
 		return view;
 	}
 
@@ -80,9 +81,11 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setDrawLegend(false);
 		mChart.setScaleMinima(1, 1f);//mBPResults.size()/20
 		mChart.setDrawXLabels(true);//绘制X轴标签
-		LineMarkerView mv = new LineMarkerView(getActivity(), mChart,R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
-        mv.setOffsets(-mv.getMeasuredWidth() / 2 - 20*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()-5);//调整 数据 标签的位置
+		LineMarkerView mv = new LineMarkerView(getActivity(), mChart,R.layout.custom_marker_view);//自定义标签
+        mv.setOffsets(-mv.getMeasuredWidth() / 2 - 10*SystemUtils.getDensity(getActivity()),
+        		-mv.getMeasuredHeight()+15*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
+        mChart.getXLabels().setTextSize(12);
         
         YLabels y = mChart.getYLabels(); //y轴的标示
         y.setLabelCount(4); // y轴上的标签的显示的个数
@@ -98,14 +101,14 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		for (int i = 0; i < mBPResults.size(); i++) {
 			Date date = DateUtil.longToDate(mBPResults.get(i).date);
 			String datestr = (date.getMonth()+1)+"." + (date.getDate());
-			xVals.add(datestr);
+			xVals.add("");
 		}
 
 		for (int i = mBPResults.size(); i < 15; i++) {
 			Calendar nowss = Calendar.getInstance();
 			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
 					+ (nowss.get(Calendar.DAY_OF_MONTH) + i);
-			xVals.add(datestr);
+			xVals.add("");
 		}
 
 		LineData data = new LineData(xVals);
@@ -176,7 +179,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 				mChart.centerViewPort(1, mChart.getAverage()+100);//设置视角中心
 			}
 			mChart.notifyDataSetChanged();
-			mChart.animateY(1500);// 设置Y轴动画 毫秒;
+			mChart.animateY(1000);// 设置Y轴动画 毫秒;
 		}
 	}
 
@@ -198,6 +201,10 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		
 		float hr =  mBPResults.get(e.getXIndex()).pulse;
 		textHeart.setText((int)hr+"");
+		mChart.getData().getXVals().set(lineLastIndex, "");
+		mChart.getData().getXVals().set(e.getXIndex(), 
+				DateUtil.getFormatDate(DateUtil.DATA_FORMAT, mBPResults.get(e.getXIndex()).date));
+		lineLastIndex = e.getXIndex();
 	}
 
 	@Override
