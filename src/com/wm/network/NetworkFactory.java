@@ -15,19 +15,14 @@ public class NetworkFactory {
 	private static AuthService mAuthService;
 	private static Gson mGson;
 	private static RequestInterceptor mInterceptor;
-    private	static RestAdapter mRestAdapter = new RestAdapter.Builder()
-			.setLogLevel(RestAdapter.LogLevel.FULL)
-			.setEndpoint("http://120.26.91.90:38050/V0100")
-			.setClient(new OkClient(new OkHttpClient()))
-			.setConverter(new GsonConverter(mGson))
-			.setRequestInterceptor(mInterceptor)
-			.build();
+	private static RestAdapter mRestAdapter;
 
 	public static UploadService getUploadService() {
-		if(mGson == null) {
-			mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		if (mGson == null) {
+			mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+					.create();
 		}
-		if(mInterceptor == null) {
+		if (mInterceptor == null) {
 			mInterceptor = new RequestInterceptor() {
 				@Override
 				public void intercept(RequestFacade request) {
@@ -35,17 +30,27 @@ public class NetworkFactory {
 				}
 			};
 		}
-		if(mUploadService == null) {
+		if (mUploadService == null) {
+			if (mRestAdapter == null) {
+				mRestAdapter = new RestAdapter.Builder()
+						.setLogLevel(RestAdapter.LogLevel.FULL)
+						.setEndpoint("http://120.26.91.90:38050/V0100")
+						.setClient(new OkClient(new OkHttpClient()))
+						.setConverter(new GsonConverter(mGson))
+						//.setRequestInterceptor(mInterceptor)
+						.build();
+			}
 			mUploadService = mRestAdapter.create(UploadService.class);
 		}
 		return mUploadService;
 	}
 
 	public static AuthService getAuthService() {
-		if(mGson == null) {
-			mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		if (mGson == null) {
+			mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+					.create();
 		}
-		if(mInterceptor == null) {
+		if (mInterceptor == null) {
 			mInterceptor = new RequestInterceptor() {
 				@Override
 				public void intercept(RequestFacade request) {
@@ -53,7 +58,16 @@ public class NetworkFactory {
 				}
 			};
 		}
-		if(mAuthService == null) {
+		if (mAuthService == null) {
+			if (mRestAdapter == null) {
+				mRestAdapter = new RestAdapter.Builder()
+						.setLogLevel(RestAdapter.LogLevel.FULL)
+						.setEndpoint("http://120.26.91.90:38050/V0100")
+						.setClient(new OkClient(new OkHttpClient()))
+						.setConverter(new GsonConverter(mGson))
+						//.setRequestInterceptor(mInterceptor)
+						.build();
+			}
 			mAuthService = mRestAdapter.create(AuthService.class);
 		}
 		return mAuthService;

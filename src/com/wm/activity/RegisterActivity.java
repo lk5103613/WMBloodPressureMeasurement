@@ -34,6 +34,7 @@ import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.MD5Utils;
+import com.wm.utils.SystemUtils;
 
 public class RegisterActivity extends ActionBarActivity implements OnCheckedChangeListener{
 
@@ -258,11 +259,24 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		
 		@Override
 		protected Response doInBackground(Void... params) {
-			return NetworkFactory.getAuthService().register(mRequest);
+			if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
+				return null;
+			}
+			Response response = null;
+			try {
+				response = NetworkFactory.getAuthService().register(mRequest);
+			} catch(Exception e) {
+				
+			}
+			return response;
 		}
 		
 		@Override
 		protected void onPostExecute(Response result) {
+			if(result == null) {
+				showToast("无网络或网络异常", ERROR);
+				return;
+			}
 			if(result.info.equals("success")) {
 				Toast.makeText(mContext, "注册成功", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(mContext, LoginActivity.class);
