@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.Highlight;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.github.mikephil.charting.utils.YLabels;
 import com.wm.activity.R;
@@ -34,6 +35,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	LineChart mChart;
 	@InjectView(R.id.text_heart)
 	TextView textHeart;
+	
+	LineMarkerView mv;
 	
 	private int lineLastIndex = 0;
 
@@ -72,7 +75,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setScaleEnabled(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
-		mChart.setDescription("月.日");
+		mChart.setDescription("");//单位
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setDrawBorder(false);
@@ -81,7 +84,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setDrawLegend(false);
 		mChart.setScaleMinima(1, 1f);//mBPResults.size()/20
 		mChart.setDrawXLabels(true);//绘制X轴标签
-		LineMarkerView mv = new LineMarkerView(getActivity(), mChart,R.layout.custom_marker_view);//自定义标签
+		mv = new LineMarkerView(getActivity(), mChart,R.layout.custom_marker_view);//自定义标签
         mv.setOffsets(-mv.getMeasuredWidth() / 2 - 10*SystemUtils.getDensity(getActivity()),
         		-mv.getMeasuredHeight()+15*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
@@ -171,7 +174,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			setMax.setCircleSize(2);
 			int maxColor = getResources().getColor(R.color.fragment_bg);
 			setMax.setCircleColor(maxColor);
-			setMax.setHighLightColor(maxColor);
+//			setMax.setHighLightColor(maxColor);
 			setMax.setColor(maxColor);
 			data.addDataSet(setMax);
 
@@ -205,6 +208,12 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.getData().getXVals().set(e.getXIndex(), 
 				DateUtil.getFormatDate(DateUtil.DATA_FORMAT, mBPResults.get(e.getXIndex()).date));
 		lineLastIndex = e.getXIndex();
+		
+		Highlight[] highs = new Highlight[2];
+		highs[0] = new Highlight(e.getXIndex(), 0);
+		highs[1] = new Highlight(e.getXIndex(), 1);
+		mChart.highlightValues(highs);
+		
 	}
 
 	@Override

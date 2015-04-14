@@ -34,14 +34,9 @@ public class LineMarkerView extends MarkerView {
     @Override
     public void refreshContent(Entry e, int dataSetIndex) {
     	
-    	int dataSetCount = mChart.getData().getDataSetCount();
-    	String values = "";
-    	for (int i = 0; i < dataSetCount-1; i++) {
-    		Entry tempE = mChart.getData().getDataSetByIndex(i).getEntryForXIndex(e.getXIndex());
-            values =values+ "," + Utils.formatNumber(tempE.getVal(), 0, true);
-    	}
+    	String value = Utils.formatNumber(e.getVal(), 0, true);
     	
-    	tvContent.setText(values.subSequence(1, values.length()));
+    	tvContent.setText(value);
     	
     	int color = mChart.getData().getDataSetByIndex(dataSetIndex).getColor();
     	if(color == getResources().getColor(R.color.fragment_bg)){
