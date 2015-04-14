@@ -88,6 +88,11 @@ public class LoginActivity extends ActionBarActivity {
 		new LoginTask().execute();
 	}
 	
+	@OnClick(R.id.add_back)
+	public void back(View v){
+		finish();
+	}
+	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
 
 		@Override
