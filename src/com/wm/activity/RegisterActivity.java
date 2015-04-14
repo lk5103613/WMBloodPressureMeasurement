@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -88,7 +87,6 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
-		String phone = mRegPhone.getText().toString();
 		mbtnSendCode.setEnabled(false);
 		if(mCountTimer == null) {
 			mCountTimer = new CountDownTimer(60000, 1000) {
