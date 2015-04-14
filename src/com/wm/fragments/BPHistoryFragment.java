@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	LineMarkerView mv;
 	
 	private int lineLastIndex = 0;
+	private final int JUMPCOUMP=2;
 
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
@@ -89,9 +91,11 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
         		-mv.getMeasuredHeight()+15*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
         mChart.setMarkerView(mv);// 设置标签
         mChart.getXLabels().setTextSize(12);
+        mChart.getXLabels().setSpaceBetweenLabels(1);
         
         YLabels y = mChart.getYLabels(); //y轴的标示
         y.setLabelCount(4); // y轴上的标签的显示的个数
+
 	}
 
 	/**
@@ -99,7 +103,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	 */
 	private void addEmptyData() {
 		ArrayList<String> xVals = new ArrayList<String>();
-
+		for (int i = 0; i < JUMPCOUMP; i++) {
+			xVals.add("");
+		}
 		// 创建 x值
 		for (int i = 0; i < mBPResults.size(); i++) {
 			Date date = DateUtil.longToDate(mBPResults.get(i).date);
@@ -130,8 +136,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 //			ArrayList<Entry> yValsHr = new ArrayList<>();//心率
 
 			for (int i = 0; i < mBPResults.size(); i++) {
-				yValsSz.add(new Entry(mBPResults.get(i).dbp, i));
-				yValsSs.add(new Entry(mBPResults.get(i).sbp, i));
+				yValsSz.add(new Entry(mBPResults.get(i).dbp, i+2));
+				yValsSs.add(new Entry(mBPResults.get(i).sbp, i+2));
 //				yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
 			}
 
@@ -174,7 +180,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			setMax.setCircleSize(2);
 			int maxColor = getResources().getColor(R.color.fragment_bg);
 			setMax.setCircleColor(maxColor);
-//			setMax.setHighLightColor(maxColor);
 			setMax.setColor(maxColor);
 			data.addDataSet(setMax);
 
@@ -202,11 +207,11 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
 		
-		float hr =  mBPResults.get(e.getXIndex()).pulse;
+		float hr =  mBPResults.get(e.getXIndex()-JUMPCOUMP).pulse;
 		textHeart.setText((int)hr+"");
 		mChart.getData().getXVals().set(lineLastIndex, "");
-		mChart.getData().getXVals().set(e.getXIndex(), 
-				DateUtil.getFormatDate(DateUtil.DATA_FORMAT, mBPResults.get(e.getXIndex()).date));
+		mChart.getData().getXVals().set(e.getXIndex(), mBPResults.get(e.getXIndex()-JUMPCOUMP).measureTime);
+		
 		lineLastIndex = e.getXIndex();
 		
 		Highlight[] highs = new Highlight[2];
@@ -215,6 +220,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.highlightValues(highs);
 		
 	}
+	
 
 	@Override
 	public void onNothingSelected() {

@@ -18,15 +18,13 @@ import com.wm.activity.R;
 public class BarMarkerView extends MarkerView {
 
     private TextView tvContent;
-    private RelativeLayout relativeLayout;
 
 
-    public BarMarkerView(Context context, int layoutResource, int marker) {
+    public BarMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
 
         tvContent = (TextView) findViewById(R.id.tvContent);
-        relativeLayout = (RelativeLayout)findViewById(R.id.marker_container);
-        relativeLayout.setBackgroundResource(marker);
+
     }
 
     
