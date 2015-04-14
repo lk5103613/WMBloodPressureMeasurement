@@ -1,10 +1,6 @@
 package com.wm.activity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
-
-import com.wm.activity.R.id;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -25,10 +24,12 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
-public class RegisterActivity extends ActionBarActivity {
+public class RegisterActivity extends ActionBarActivity implements OnCheckedChangeListener{
 
 	@InjectView(R.id.btn_send_code)
 	Button mbtnSendCode;
+	@InjectView(R.id.btn_reg)
+	Button mBtnReg;
 	@InjectView(R.id.reg_code_hint)
 	TextView mAuthCode;
 	@InjectView(R.id.reg_name)
@@ -47,6 +48,8 @@ public class RegisterActivity extends ActionBarActivity {
 	ScrollView mScrollView;
 	@InjectView(R.id.reg_content)
 	View mInner;
+	@InjectView(R.id.reg_checkbox)
+	CheckBox mAuthCheckBox;
 	
 	private CountDownTimer mCountTimer;
 	private final int SUCCESS = 1;
@@ -58,6 +61,8 @@ public class RegisterActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 		ButterKnife.inject(this);
+		
+		mAuthCheckBox.setOnCheckedChangeListener(this);
 	}
 
 	@OnClick(R.id.btn_send_code)
@@ -202,6 +207,12 @@ public class RegisterActivity extends ActionBarActivity {
 	    toast.setDuration(Toast.LENGTH_SHORT);
 	    toast.setView(layout);
 	    toast.show();
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		mBtnReg.setEnabled(isChecked);
+		
 	}
 
 }
