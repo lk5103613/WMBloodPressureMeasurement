@@ -18,6 +18,7 @@ import com.wm.entity.LoginEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
+import com.wm.utils.MD5Utils;
 
 /**
  * 
@@ -92,7 +93,7 @@ public class LoginActivity extends ActionBarActivity {
 		@Override
 		protected Response doInBackground(Void... params) {
 			String userName = mUserName.getText().toString();
-			String pwd = mPwd.getText().toString();
+			String pwd = MD5Utils.string2MD5(mPwd.getText().toString());
 			LoginEntity loginEntity = new LoginEntity(userName, pwd);
 			RequestEntity<LoginEntity> request = new RequestEntity<LoginEntity>("test", "test", loginEntity);
 			return  NetworkFactory.getAuthService().login(request);
