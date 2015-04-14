@@ -89,10 +89,11 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	        mChart.setGridColor(getResources().getColor(R.color.fragment_bg));//网格颜色
 			mChart.setBorderColor(getResources().getColor(R.color.dark_gray));//边框颜色
 	        mChart.setBorderPositions(new BorderPosition[]{BorderPosition.BOTTOM,BorderPosition.LEFT});//绘制边框位置， 左、下
-	        BarMarkerView mv = new BarMarkerView(getActivity(), R.layout.custom_marker_view,R.drawable.mark_yellow);//自定义标签
-	        mv.setOffsets(-mv.getMeasuredWidth() / 2-20*SystemUtils.getDensity(getActivity()), -mv.getMeasuredHeight()+5);//调整 数据 标签的位置
+	        BarMarkerView mv = new BarMarkerView(getActivity(), R.layout.custom_marker_view);//自定义标签
+	        mv.setOffsets(-mv.getMeasuredWidth() / 2-8*SystemUtils.getDensity(getActivity()),
+	        		-mv.getMeasuredHeight()+10*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
 	        mChart.setMarkerView(mv);// 设置标签
-	        mChart.setDescription("月.日");
+	        mChart.setDescription("");//设置单位
 	        
 	        XLabels xl = mChart.getXLabels();
 	        xl.setPosition(XLabelPosition.BOTTOM);//x 坐标位置
