@@ -33,6 +33,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 	Button btnUpdYes;
 	
 	public CheckNeedUploadTask(Context context, AlertDialog mAlertDialog, Button btnUdpNo, Button btnUpdYes,int connectState){
+		System.out.println("check need upload");
 		this.mContext = context;
 		this.mConnectState = connectState;
 		this.mDialog = mAlertDialog;
@@ -81,7 +82,8 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 		}
 		switch (mConnectState) {
 			case SystemUtils.TYPE_GPRS:
-				
+				if(mDialog == null)
+					return;
 				btnUpdYes.setOnClickListener(new BtnClickListener(result));
 				btnUdpNo.setOnClickListener(new BtnClickListener(result));
 				if(!mDialog.isShowing()){
@@ -111,7 +113,6 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 			case R.id.btn_upload_yes:
 				mDialog.dismiss();
 				new UploadDataTask(mContext).execute(result);
-				System.out.println("afrter upload");
 				break;
 			default:
 				break;

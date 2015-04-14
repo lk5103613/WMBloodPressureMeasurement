@@ -142,10 +142,12 @@ public class WelcomeActivity extends Activity implements
 			SharedPfUtil.setValue(this, AUTH, true);
 			break;
 		case R.id.btn_no:
-			SharedPfUtil.setValue(this, AUTH, false);
+//			SharedPfUtil.setValue(this, AUTH, false);
+			SharedPfUtil.setValue(this, AUTH, true);
 			break;
 		default:
-			SharedPfUtil.setValue(this, AUTH, false);
+			SharedPfUtil.setValue(this, AUTH, true);
+//			SharedPfUtil.setValue(this, AUTH, false);
 			break;
 		}
 

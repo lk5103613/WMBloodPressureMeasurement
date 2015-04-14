@@ -1,5 +1,6 @@
 package com.wm.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
@@ -16,6 +17,13 @@ public class RequestEntity<T> implements IUploadEntity {
 	
 	public RequestEntity() {
 		super();
+	}
+	public RequestEntity(String callerName, String password, T requestData) {
+		this.callerName = callerName;
+		this.password = password;
+		List<T> requestDatas = new ArrayList<>();
+		requestDatas.add(requestData);
+		this.requestDatas = requestDatas;
 	}
 	public RequestEntity(String callerName, String password, List<T> requestDatas) {
 		super();

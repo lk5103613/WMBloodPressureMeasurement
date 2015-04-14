@@ -1,13 +1,11 @@
 package com.wm.activity;
 
-import android.content.Context;
-import android.content.IntentFilter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
-import com.wm.activity.R.id;
-
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -27,10 +25,15 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
+import com.wm.entity.RegisterEntity;
+import com.wm.entity.RequestEntity;
+import com.wm.entity.Response;
 import com.wm.message.AppKeys;
 import com.wm.message.MessageManager;
 import com.wm.message.MessageManager.MessageCallback;
 import com.wm.message.MessageManager.MessageReceiver;
+import com.wm.network.NetworkFactory;
+import com.wm.utils.MD5Utils;
 
 public class RegisterActivity extends ActionBarActivity implements MessageCallback {
 
@@ -111,14 +114,6 @@ public class RegisterActivity extends ActionBarActivity implements MessageCallba
 			};
 		}
 		mCountTimer.start();
-	}
-	
-	@OnClick(R.id.btn_reg)
-	public void clickReg(View view) {
-		boolean result = verify();
-		String phone = mRegPhone.getText().toString();
-		String code = mRegCode.getText().toString();
-		mMsgManager.submitVerifyCode(countryZone, phone, code);
 	}
 	
 	@OnClick(R.id.add_back)
@@ -257,6 +252,46 @@ public class RegisterActivity extends ActionBarActivity implements MessageCallba
 	@Override
 	public void errorAppear() {
 		Toast.makeText(mContext, "验证码错误，请重新输入", Toast.LENGTH_LONG).show();
+	}
+	
+	@OnClick(R.id.btn_reg)
+	public void clickReg(View view) {
+		boolean result = verify();
+		if(!result)
+			return;
+		String phone = mRegPhone.getText().toString();
+		String code = mRegCode.getText().toString();
+		String userName = mRegName.getText().toString();
+		String userCard = mRegIdentity.getText().toString();
+		String pwd = MD5Utils.string2MD5(mRegPsw.getText().toString());
+		RegisterEntity registerEntity = new RegisterEntity(userName, phone, userCard, pwd, code);
+		RequestEntity<RegisterEntity> request = new RequestEntity<>("test", "test", registerEntity);
+		new RegisterTask(request).execute();
+	}
+	
+	public class RegisterTask extends AsyncTask<Void, Void, Response> {
+		
+		private RequestEntity<RegisterEntity> mRequest;
+		
+		public RegisterTask(RequestEntity<RegisterEntity> request) {
+			this.mRequest = request;
+		}
+		
+		@Override
+		protected Response doInBackground(Void... params) {
+			return NetworkFactory.getAuthService().register(mRequest);
+		}
+		
+		@Override
+		protected void onPostExecute(Response result) {
+			if(result.info.equals("success")) {
+				Toast.makeText(mContext, "注册成功", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(mContext, LoginActivity.class);
+				startActivity(intent);
+			} else 
+				Toast.makeText(mContext, result.info, Toast.LENGTH_LONG).show();
+		}
+	
 	}
 
 }

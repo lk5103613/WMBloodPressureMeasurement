@@ -15,7 +15,9 @@ import com.wm.customview.ImageTextView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.entity.BPResultException;
+import com.wm.network.CheckNeedUploadTask;
 import com.wm.utils.DataConvertUtils;
+import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
 public class BPResultFragment extends BaseResultFragment {
@@ -78,7 +80,6 @@ public class BPResultFragment extends BaseResultFragment {
 	@Override
 	public void record() {
 		new AsyncTask<Void, Void, Void>() {
-			
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
@@ -99,6 +100,8 @@ public class BPResultFragment extends BaseResultFragment {
 				super.onPostExecute(result);
 			}
 		}.execute();
+		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_WIFI)
+			new CheckNeedUploadTask(mContext, null, null, null, SystemUtils.TYPE_WIFI).execute();
 	}
 
 	// º∆À„Pressure÷µ
