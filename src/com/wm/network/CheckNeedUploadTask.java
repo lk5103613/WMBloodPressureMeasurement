@@ -51,10 +51,10 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 	protected  Map<Integer, IUploadEntity> doInBackground(Void... params) {
 		Map<Integer, IUploadEntity> uploadEntities = new HashMap<>();
 		String auth = SharedPfUtil.getValue(mContext, WelcomeActivity.AUTH);
-		if(!auth.equals("true")) {
-			System.out.println("autho false");
-			return uploadEntities;
-		}
+//		if(!auth.equals("true")) {
+//			System.out.println("autho false");
+//			return uploadEntities;
+//		}
 		
 		List<BPResult> bpResults = mDbManager.getBpResultsByStatus(0);
 		List<BSResult> bsResults = mDbManager.getBsResultsByStatus(0);
