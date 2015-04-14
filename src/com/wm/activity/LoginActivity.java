@@ -98,6 +98,7 @@ public class LoginActivity extends ActionBarActivity {
 		finish();
 	}
 	
+	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
 
 		@Override
