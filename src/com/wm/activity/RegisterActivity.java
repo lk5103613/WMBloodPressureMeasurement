@@ -2,8 +2,6 @@ package com.wm.activity;
 
 import java.util.regex.Pattern;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,24 +10,21 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
+import com.wm.entity.MessageEntity;
 import com.wm.entity.RegisterEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
@@ -68,6 +63,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	private CountDownTimer mCountTimer;
 	private Context mContext;
 	private Handler mHandler;
+	private String verifyCode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +86,29 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
+		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
+			Toast.makeText(mContext, "Õ¯¬Á“Ï≥££¨«ÎºÏ≤ÈÕ¯¬Á", Toast.LENGTH_LONG).show();
+			return;
+		}
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				String phone = mRegPhone.getText().toString();
-//				NetworkFactory.getAuthService().sendMessage();
+				MessageEntity msgEntity = new MessageEntity("test", "test", phone);
+				try {
+					verifyCode = NetworkFactory.getAuthService().sendMessage(msgEntity).datas.securityCode;
+				} catch (Exception e) { }
+				if(verifyCode == null) {
+					Toast.makeText(mContext, "∑¢ÀÕ∂Ã–≈“Ï≥££¨«Î÷ÿ ‘", Toast.LENGTH_LONG).show();
+					return;
+				}
+				mHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(mContext, verifyCode, Toast.LENGTH_LONG).show();
+					}
+				});
+				System.out.println(verifyCode);
 			}
 		}).start();
 		mbtnSendCode.setEnabled(false);

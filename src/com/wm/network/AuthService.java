@@ -4,6 +4,7 @@ import retrofit.http.Body;
 import retrofit.http.POST;
 
 import com.wm.entity.LoginEntity;
+import com.wm.entity.MessageEntity;
 import com.wm.entity.RegisterEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
@@ -17,6 +18,6 @@ public interface AuthService {
 	Response login(@Body RequestEntity<LoginEntity> registerEntity);
 	
 	@POST("/getRegisterSc/2J.do")
-	Response sendMessage(@Body RequestEntity<LoginEntity> registerEntity);
+	Response sendMessage(@Body MessageEntity messageEntity);
 
 }

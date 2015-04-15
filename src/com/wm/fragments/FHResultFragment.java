@@ -27,6 +27,7 @@ import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
 import com.wm.network.CheckNeedUploadTask;
 import com.wm.utils.DataConvertUtils;
+import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
@@ -43,6 +44,7 @@ public class FHResultFragment extends BaseResultFragment {
 	private ArrayList<String> xVals;
 	private Handler mHandler = new Handler();
 	private boolean mBeginRecord = false;
+	private PropertiesSharePrefs mProperties;
 	private Runnable mRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -60,6 +62,7 @@ public class FHResultFragment extends BaseResultFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		mFHValues = new ArrayList<Integer>();
 		mAllValues = new ArrayList<Integer>();
+		mProperties = PropertiesSharePrefs.getInstance(mContext);
 
 		initLineChart();
 		addEmptyData();
@@ -178,7 +181,9 @@ public class FHResultFragment extends BaseResultFragment {
 			protected Integer doInBackground(Void... params) {
 				int count = mFHValues.size();
 				if (!mFHValues.isEmpty()){
+					String card = mProperties.getState(PropertiesSharePrefs.TYPE_CARD, "");
 					FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
+					fhResult.userCard = card;
 					HistoryDBManager.getInstance(mContext).addFhResult(fhResult);
 				}
 				return count;

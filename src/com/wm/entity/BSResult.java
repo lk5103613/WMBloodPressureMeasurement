@@ -67,7 +67,7 @@ public class BSResult {
 		float value = DataConvertUtils.formatNoRound(mgPerDlValue * 1.0 / 18);
 		this.bg = value+"";
 		this.date = new Date().getTime();
-		this.userCard = "220502198611010011";
+		this.userCard = "";
 		this.remarks = "test";
 		this.measureTime = timeSb.toString();
 		this.bsResult = getAdvise(value) + "я╙лг";

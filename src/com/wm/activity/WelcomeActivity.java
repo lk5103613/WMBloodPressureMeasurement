@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.testin.agent.TestinAgent;
-import com.wm.utils.StateSharePrefs;
+import com.wm.utils.PropertiesSharePrefs;
 
 public class WelcomeActivity extends Activity implements
 		OnCheckedChangeListener, OnClickListener {
@@ -43,7 +43,7 @@ public class WelcomeActivity extends Activity implements
 	ImageView mCompanyName;
 
 	private Context mContext;
-	private StateSharePrefs mState;
+	private PropertiesSharePrefs mState;
 	private AlertDialog mAalertDialog;
 	private View mDialogView;
 	private CheckBox mAuthCheckBox;
@@ -58,7 +58,7 @@ public class WelcomeActivity extends Activity implements
 		ButterKnife.inject(this);
 		
 		mContext = this;
-		mState = StateSharePrefs.getInstance(mContext);
+		mState = PropertiesSharePrefs.getInstance(mContext);
 
 		Animation logoAnimation = AnimationUtils.loadAnimation(mContext,
 				R.anim.welcome_logo_anim);
@@ -88,7 +88,7 @@ public class WelcomeActivity extends Activity implements
 			public void run() {
 				
 				//判断如果同意之后， 不在提示
-				boolean auth = mState.getState(StateSharePrefs.TYPE_AUTH);
+				boolean auth = mState.getState(PropertiesSharePrefs.TYPE_AUTH, false);
 				if (!auth) {
 					showAuthDialog();
 				} else {
@@ -152,13 +152,13 @@ public class WelcomeActivity extends Activity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_yes:
-			mState.saveState(StateSharePrefs.TYPE_AUTH, true);
+			mState.saveState(PropertiesSharePrefs.TYPE_AUTH, true);
 			break;
 		case R.id.btn_no:
-			mState.saveState(StateSharePrefs.TYPE_AUTH, false);
+			mState.saveState(PropertiesSharePrefs.TYPE_AUTH, false);
 			break;
 		default:
-			mState.saveState(StateSharePrefs.TYPE_AUTH, false);
+			mState.saveState(PropertiesSharePrefs.TYPE_AUTH, false);
 			break;
 		}
 

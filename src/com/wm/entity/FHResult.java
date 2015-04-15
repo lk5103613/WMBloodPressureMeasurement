@@ -26,7 +26,7 @@ public class FHResult {
 	}
 	
 	public FHResult(List<Integer> fhValues, long date){
-		this.userCard = "220502198611010011";
+		this.userCard = "";
 		this.remarks = "test";
 		this.fhValues = fhValues;
 		this.date = date;

@@ -88,7 +88,6 @@ public class HistoryDBManager {
 		String orderBy = BPDataEntry.COLUMN_NAME_DATE + " DESC"; 
 		Cursor c = db.query(
 				BPDataEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, orderBy);
-		
 		while(c.moveToNext()) {
 			int id = c.getInt(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_ID));
 			float szValue = c.getFloat(c.getColumnIndexOrThrow(BPDataEntry.COLUMN_NAME_SZVALUE));

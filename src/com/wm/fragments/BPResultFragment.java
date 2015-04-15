@@ -17,6 +17,7 @@ import com.wm.entity.BPResult;
 import com.wm.entity.BPResultException;
 import com.wm.network.CheckNeedUploadTask;
 import com.wm.utils.DataConvertUtils;
+import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
@@ -52,6 +53,7 @@ public class BPResultFragment extends BaseResultFragment {
 	private BPResult mBPResult;
 	private BPResultException mBPException;
 	private BluetoothGattCharacteristic mInforCharacteristic;
+	private PropertiesSharePrefs mProperties;
 //	private Handler mHandler;
 
 	@Override
@@ -63,6 +65,7 @@ public class BPResultFragment extends BaseResultFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		mContext = getActivity();
 		mPressure.startRotate();
+		mProperties = PropertiesSharePrefs.getInstance(mContext);
 //		
 //		mHandler = new Handler(new Handler.Callback() {
 //			
@@ -89,8 +92,11 @@ public class BPResultFragment extends BaseResultFragment {
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				if(mBPResult != null) 
+				if(mBPResult != null) {
+					String card = mProperties.getState(PropertiesSharePrefs.TYPE_CARD, "");
+					mBPResult.userCard = card;
 					HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
+				}
 				return null;
 			}
 			
