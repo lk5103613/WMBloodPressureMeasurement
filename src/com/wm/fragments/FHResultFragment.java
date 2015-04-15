@@ -143,6 +143,10 @@ public class FHResultFragment extends BaseResultFragment {
 			if (recordIndex>10) {
 				mChart.centerViewPort(recordIndex+1, 200);
 			}
+			
+			if(xVals.size()>30 && xVals.size()%20 == 0 && xVals.size()<140) {
+				mChart.setScaleMinima(1+xVals.size()/20*0.1f, 1);
+			}
 
 			mChart.notifyDataSetChanged();
 

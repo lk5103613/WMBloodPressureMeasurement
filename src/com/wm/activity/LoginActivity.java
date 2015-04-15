@@ -57,6 +57,13 @@ public class LoginActivity extends ActionBarActivity {
 		mState = PropertiesSharePrefs.getInstance(mContext);
 		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		String phone = StateSharePrefs.getInstance(this).getStr(StateSharePrefs.TYPE_USER_PHONE);
+		mUserName.setText(phone);
+	}
 
 	@OnClick({ R.id.txt_username, R.id.txt_pwd })
 	public void clickUsername(View v) {
@@ -117,6 +124,15 @@ public class LoginActivity extends ActionBarActivity {
 		return true;
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in,
+					R.anim.slide_out_to_right);
+		}
+	}
+	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
 
 		private ProgressDialog mProgress;

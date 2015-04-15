@@ -31,6 +31,7 @@ import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.DialogUtils;
 import com.wm.utils.MD5Utils;
+import com.wm.utils.StateSharePrefs;
 import com.wm.utils.SystemUtils;
 
 public class RegisterActivity extends ActionBarActivity implements OnCheckedChangeListener{
@@ -59,6 +60,8 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	View mInner;
 	@InjectView(R.id.reg_checkbox)
 	CheckBox mRegCheckBox;
+	@InjectView(R.id.reg_service_item)
+	TextView mRegServiceItem;
 	
 	private CountDownTimer mCountTimer;
 	private Context mContext;
@@ -75,14 +78,17 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		mContext = this;
 		
 		mHandler = new Handler();
+		
+//		String url = "<a href=\"http://www.leadingtechmed.cn/dataUploadProtocol.html\">"
+//				+ mRegServiceItem.getText() + "</a> ";
+//		mRegServiceItem.setText(Html.fromHtml(url));
+//		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 	}
-	
-	
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
@@ -148,6 +154,9 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		super.onDestroy();
 	}
 	
+	/**
+	 * 滚动到底部
+	 */
 	private void scrollToBottom() {
 		mHandler.postDelayed(new Runnable() {
 			public void run() {
@@ -164,6 +173,11 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		}, 200);
 	}
 	
+	/**
+	 * 输入内容校验
+	 * 
+	 * @return
+	 */
 	private boolean verify(){
 		String name = mRegName.getText().toString().trim();
 		String phone = mRegPhone.getText().toString().trim();
@@ -173,24 +187,33 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		String conformPsw = mRegConformPsw.getText().toString().trim();
 		
 		String[] fields = new String[]{name, phone, code, identityCard, psw, conformPsw};
-		boolean result = isEmpty(fields)&&verifyPhone(phone)&&verifyCard(identityCard)&&verifyPsw(psw, conformPsw);
+		boolean result = isEmpty(fields)&&verifyName(name)&&verifyPhone(phone)
+				&&verifyCard(identityCard)&&verifyPsw(psw, conformPsw);
 		return result;
 	}
 	
 	private boolean isEmpty(String[] fields){
 		for (int i = 0, size = fields.length; i < size; i++) {
 			if ("".equals(fields[i])) {
-				DialogUtils.showToast(this,"请输入必填项", DialogUtils.ERROR);
+				DialogUtils.showToast(this,getString(R.string.required_msg), DialogUtils.ERROR);
 				return false;
 			}
 		}
-		
+		return true;
+	}
+	
+	
+	private boolean verifyName(String name){
+		if(!Pattern.matches("^[\u4e00-\u9fa5a-zA-Z]{2,20}$", name)){
+			DialogUtils.showToast(this,getString(R.string.name_fromat_error), DialogUtils.ERROR);
+			return false;
+		}
 		return true;
 	}
 	
 	private boolean verifyPhone(String phoneNum){
 		if(!Pattern.matches("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", phoneNum)){
-			DialogUtils.showToast(this,"请输入正确的手机号码", DialogUtils.ERROR);
+			DialogUtils.showToast(this,getString(R.string.phone_format_error), DialogUtils.ERROR);
 			return false;
 		}
 		return true;
@@ -200,7 +223,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		if (!Pattern.matches(
 				"^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([\\d|x|X]{1})$",
 				idcard)){
-			DialogUtils.showToast(this,"身份证格式不正切", DialogUtils.ERROR);
+			DialogUtils.showToast(this,getString(R.string.idcard_format_error), DialogUtils.ERROR);
 			return false;
 		}
 		return true;
@@ -208,12 +231,12 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	
 	private boolean verifyPsw(String psw, String conformPsw){
 		if(psw.length()<6 || psw.length()>20) {
-			DialogUtils.showToast(this,"密码为6-20个字符", DialogUtils.ERROR);
+			DialogUtils.showToast(this,getString(R.string.pwd_format_error), DialogUtils.ERROR);
 			return false;
 		}
 		
 		if(!psw.equals(conformPsw)) {
-			DialogUtils.showToast(this,"两次密码不匹配", DialogUtils.ERROR);
+			DialogUtils.showToast(this,getString(R.string.pwd_conform_error), DialogUtils.ERROR);
 			return false;
 		}
 		return true;
@@ -226,10 +249,10 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		boolean result = verify();
 		if(!result)
 			return;
-		String phone = mRegPhone.getText().toString();
-		String code = mRegCode.getText().toString();
-		String userName = mRegName.getText().toString();
-		String userCard = mRegIdentity.getText().toString();
+		String phone = mRegPhone.getText().toString().trim();
+		String code = mRegCode.getText().toString().trim();
+		String userName = mRegName.getText().toString().trim();
+		String userCard = mRegIdentity.getText().toString().trim();
 		String pwd = MD5Utils.string2MD5(mRegPsw.getText().toString());
 		RegisterEntity registerEntity = new RegisterEntity(userName, phone, userCard, pwd, code);
 		RequestEntity<RegisterEntity> request = new RequestEntity<>("test", "test", registerEntity);
@@ -269,11 +292,15 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		protected void onPostExecute(Response result) {
 			mProgress.dismiss();
 			if(result == null) {
-				DialogUtils.showToast(RegisterActivity.this,"无网络或网络异常", DialogUtils.ERROR);
+				DialogUtils.showToast(RegisterActivity.this,getString(R.string.network_error), DialogUtils.ERROR);
 				return;
 			}
 			if(result.info.equals("success")) {
-				DialogUtils.showToast(RegisterActivity.this,"注册成功", DialogUtils.SUCCESS);
+				DialogUtils.showToast(RegisterActivity.this,getString(R.string.register_success), DialogUtils.SUCCESS);
+				StateSharePrefs.getInstance(RegisterActivity.this).saveStr(StateSharePrefs.TYPE_USER_PHONE,
+						mRegPhone.getText().toString().trim());
+				mBtnReg.setEnabled(false);
+				
 				Intent intent = new Intent(mContext, LoginActivity.class);
 				startActivity(intent);
 			} else {
@@ -288,4 +315,12 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		mBtnReg.setEnabled(isChecked);
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in,
+					R.anim.slide_out_to_right);
+		}
+	}
 }
