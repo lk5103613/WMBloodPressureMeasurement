@@ -134,7 +134,7 @@ public class LoginActivity extends ActionBarActivity {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						mUserInfoDBManager.saveUser(result.datas.userinfo);
+						mUserInfoDBManager.saveUser(result.datas.userInfo);
 					}
 				}).start();
 				Intent intent = new Intent(mContext, MainActivity.class);
