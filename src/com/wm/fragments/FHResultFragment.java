@@ -38,6 +38,7 @@ public class FHResultFragment extends BaseResultFragment {
 	ImageView mFhHeart;
 	
 	private List<Integer> mFHValues;
+	private List<Integer> mAllValues;
 	private int recordIndex;
 	private ArrayList<String> xVals;
 	private Handler mHandler = new Handler();
@@ -58,6 +59,7 @@ public class FHResultFragment extends BaseResultFragment {
 		ButterKnife.inject(this, view);
 		super.onCreateView(inflater, container, savedInstanceState);
 		mFHValues = new ArrayList<Integer>();
+		mAllValues = new ArrayList<Integer>();
 
 		initLineChart();
 		addEmptyData();
@@ -131,7 +133,6 @@ public class FHResultFragment extends BaseResultFragment {
 			set.setCircleSize(2f);
 
 			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random() * 50) +50f
-			System.out.println("xvals size " + xVals.size() +" " + mFHValues.size());
 			
 			if ((xVals.size() - recordIndex) < 2) {
 				xVals.add((xVals.size() + 1) + "");
@@ -148,7 +149,6 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 
 	private LineDataSet createSet() {
-
 		LineDataSet set = new LineDataSet(null, getString(R.string.fh_value));
 		set.setLineWidth(1f);
 		set.setCircleSize(1.5f);
@@ -207,18 +207,19 @@ public class FHResultFragment extends BaseResultFragment {
 
 	@Override
 	public boolean handleGetData(String data) {
+		
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
-		if(!mBeginRecord) {
-			return true;
-		}
 		if (fhValue.trim().equals("0")) {//获取值为0
 			if(getAverage()!=0) {
 				addEntry(getAverage());
-				mFHValues.add(getAverage());
+				if(mBeginRecord)
+					mFHValues.add(getAverage());
 			}
 		} else {//获取值不为0
+			mAllValues.add(Integer.valueOf(fhValue));
 			addEntry(Integer.parseInt(fhValue));
-			mFHValues.add(Integer.parseInt(fhValue));
+			if(mBeginRecord)
+				mFHValues.add(Integer.parseInt(fhValue));
 		}
 		if(mFHValues.size() >= 60) {
 			mHandler.removeCallbacks(mRunnable);
@@ -238,13 +239,13 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 	
 	private int getAverage() {
-		if(mFHValues.size() == 0)
+		if(mAllValues.size() == 0)
 			return 0;
 		float sum = 0f;
-		for(int i=0; i<mFHValues.size(); i++) {
-			sum += mFHValues.get(i);
+		for(int i=0; i<mAllValues.size(); i++) {
+			sum += mAllValues.get(i);
 		}
-		return (int)sum/mFHValues.size();
+		return (int)sum/mAllValues.size();
 	}
 
 }

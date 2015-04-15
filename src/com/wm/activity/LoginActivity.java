@@ -1,5 +1,6 @@
 package com.wm.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -124,6 +125,16 @@ public class LoginActivity extends ActionBarActivity {
 	}
 	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
+		
+		private ProgressDialog mProgress;
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mProgress = DialogUtils.createProgressDialog(mContext, "", "");
+			mProgress.show();
+		}
+		
 		@Override
 		protected Response doInBackground(Void... params) {
 			String userName = mUserName.getText().toString();
@@ -143,6 +154,7 @@ public class LoginActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(final Response result) {
+			mProgress.dismiss();
 			if(result == null) {
 				DialogUtils.showToast(LoginActivity.this, getString(R.string.network_error), DialogUtils.ERROR);
 				return;
