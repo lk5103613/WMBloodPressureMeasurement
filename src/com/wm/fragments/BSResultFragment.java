@@ -15,6 +15,7 @@ import com.wm.customview.ImageTextView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BSResult;
 import com.wm.network.CheckNeedUploadTask;
+import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
@@ -38,6 +39,7 @@ public class BSResultFragment extends BaseResultFragment {
 	private BluetoothGattCharacteristic mCommandCharac;
 	private BSResult mBSResult;
 	private HistoryDBManager mDBManager;
+	private PropertiesSharePrefs mProperties;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +49,7 @@ public class BSResultFragment extends BaseResultFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
 		mDBManager = HistoryDBManager.getInstance(mContext);
+		mProperties = PropertiesSharePrefs.getInstance(mContext);
 		
 		return view;
 	}
@@ -77,8 +80,11 @@ public class BSResultFragment extends BaseResultFragment {
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				if(mBSResult != null)
+				if(mBSResult != null) {
+					String card = mProperties.getProperty(PropertiesSharePrefs.TYPE_CARD, "");
+					mBSResult.userCard = card;
 					mDBManager.addBsResult(mBSResult);
+				}
 				return null;
 			}
 			

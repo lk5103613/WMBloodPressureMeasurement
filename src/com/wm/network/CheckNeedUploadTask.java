@@ -19,13 +19,13 @@ import com.wm.entity.BSResult;
 import com.wm.entity.FHResult;
 import com.wm.entity.IUploadEntity;
 import com.wm.entity.RequestEntity;
-import com.wm.utils.StateSharePrefs;
+import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 
 public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUploadEntity>> {
 	
 	private Context mContext;
-	private StateSharePrefs mState;
+	private PropertiesSharePrefs mState;
 	private int mConnectState;
 	private HistoryDBManager mDbManager;
 	private AlertDialog mDialog;
@@ -38,7 +38,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 		this.mDialog = mAlertDialog;
 		this.btnUdpNo = btnUdpNo;
 		this.btnUpdYes = btnUpdYes;
-		mState = StateSharePrefs.getInstance(mContext);
+		mState = PropertiesSharePrefs.getInstance(mContext);
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 //			return uploadEntities;
 //		}
 		
-		boolean isLogin = mState.getState(StateSharePrefs.TYPE_LOGIN);
+		boolean isLogin = mState.getProperty(PropertiesSharePrefs.TYPE_LOGIN, false);
 		if(!isLogin)
 			return uploadEntities;
 		List<BPResult> bpResults = mDbManager.getBpResultsByStatus(0);

@@ -85,8 +85,8 @@ public class BPResult {
 			heartRateState = HEART_RATE_STATE_NOT_NORMAL;
 		}
 		this.date = new Date().getTime();
-		this.remarks = "v0.0.1";
-		this.userCard = "220502198611010011";
+		this.remarks = "";
+		this.userCard = "";
 		this.bpResult = getAdvise(dbp, sbp) +"Ѫѹ";
 	}
 	
