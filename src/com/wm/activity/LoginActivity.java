@@ -12,8 +12,10 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 
 import com.wm.customview.ClearEditText;
+import com.wm.db.UserInfoDBManager;
 import com.wm.entity.LoginEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
@@ -41,6 +43,7 @@ public class LoginActivity extends ActionBarActivity {
 	private Context mContext;
 	private StateSharePrefs mState;
 	private Handler mHandler;
+	private UserInfoDBManager mUserInfoDBManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class LoginActivity extends ActionBarActivity {
 		mHandler = new Handler();
 		mContext = LoginActivity.this;
 		mState = StateSharePrefs.getInstance(mContext);
+		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
 	}
 
 	@OnClick({ R.id.txt_username, R.id.txt_pwd })
@@ -60,12 +64,12 @@ public class LoginActivity extends ActionBarActivity {
 		}
 	}
 
-//	@OnFocusChange({ R.id.txt_pwd, R.id.txt_username })
-//	public void onFocusChange(View v, boolean hasFocus) {
-//		if (hasFocus) {
-//			scrollToBottom();
-//		}
-//	}
+	@OnFocusChange({ R.id.txt_pwd, R.id.txt_username })
+	public void onFocusChange(View v, boolean hasFocus) {
+		if (hasFocus) {
+			scrollToBottom();
+		}
+	}
 
 	private void scrollToBottom() {
 		mHandler.postDelayed(new Runnable() {
@@ -101,7 +105,6 @@ public class LoginActivity extends ActionBarActivity {
 	
 	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
-
 		@Override
 		protected Response doInBackground(Void... params) {
 			String userName = mUserName.getText().toString();
@@ -120,7 +123,7 @@ public class LoginActivity extends ActionBarActivity {
 		}
 		
 		@Override
-		protected void onPostExecute(Response result) {
+		protected void onPostExecute(final Response result) {
 			if(result == null) {
 				Toast.makeText(mContext, "无网络或网络异常", Toast.LENGTH_LONG).show();
 				return;
@@ -128,6 +131,12 @@ public class LoginActivity extends ActionBarActivity {
 			if(result.code == 0) {
 				mState.saveState(StateSharePrefs.TYPE_LOGIN, true);
 				Toast.makeText(mContext, "登陆成功", Toast.LENGTH_LONG).show();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						mUserInfoDBManager.saveUser(result.datas.userInfo);
+					}
+				}).start();
 				Intent intent = new Intent(mContext, MainActivity.class);
 				startActivity(intent);
 				finish();
@@ -135,7 +144,6 @@ public class LoginActivity extends ActionBarActivity {
 				Toast.makeText(mContext, result.info, Toast.LENGTH_LONG).show();
 			}
 		}
-		
 	}
 	
 }

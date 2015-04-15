@@ -52,4 +52,13 @@ public class DeviceDataContract {
 		public static final String COLUMN_NAME_REMARKS = "remarks";
 	}
 	
+	public static abstract class UserInfoEntry implements BaseColumns {
+		public static final String TABLE_NAME = "user_info";
+		public static final String COLUMN_NAME_LOGIN_ID = "login_id";
+		public static final String COLUMN_NAME_USERNAME = "username";
+		public static final String COLUMN_NAME_CELLPHONE = "cellphone";
+		public static final String COLUMN_NAME_USER_CARD = "user_card";
+		public static final String COLUMN_NAME_NULLABLE = "null";
+	}
+	
 }

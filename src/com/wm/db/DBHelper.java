@@ -8,6 +8,7 @@ import com.wm.db.DeviceDataContract.BPDataEntry;
 import com.wm.db.DeviceDataContract.BSDataEntry;
 import com.wm.db.DeviceDataContract.DeviceEntry;
 import com.wm.db.DeviceDataContract.FHDataEntry;
+import com.wm.db.DeviceDataContract.UserInfoEntry;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -51,6 +52,12 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ FHDataEntry.COLUMN_NAME_DATE + INTEGER_TYPE + COMMA_SEP
 			+ FHDataEntry.COLUMN_NAME_REMARKS + TEXT_TYPE + COMMA_SEP
 			+ FHDataEntry.COLUMN_NAME_STATUS + INTEGER_TYPE + " )";
+	private static final String SQL_CREATE_USER_INFO = "CREATE TABLE "
+			+ UserInfoEntry.TABLE_NAME + " (" + UserInfoEntry.COLUMN_NAME_LOGIN_ID
+			+ TEXT_TYPE + " PRIMARY KEY,"
+			+ UserInfoEntry.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA_SEP
+			+ UserInfoEntry.COLUMN_NAME_USER_CARD + TEXT_TYPE + COMMA_SEP
+			+ UserInfoEntry.COLUMN_NAME_CELLPHONE + TEXT_TYPE + ")";
 
 	private static final String SQL_DELETE_DEVICE = "DROP TABLE IF EXISTS "
 			+ DeviceEntry.TABLE_NAME;
@@ -60,6 +67,8 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ BSDataEntry.TABLE_NAME;
 	private static final String SQL_DELETE_FHDATE = "DROP TABLE IF EXISTS "
 			+ FHDataEntry.TABLE_NAME;
+	private static final String SQL_DELETE_USER_INFO = "DROP TABLE IF EXISTS "
+			+ UserInfoEntry.TABLE_NAME;
 
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -71,6 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.execSQL(SQL_CREATE_BPDATE);
 		db.execSQL(SQL_CREATE_BSDATE);
 		db.execSQL(SQL_CREATE_FHDATE);
+		db.execSQL(SQL_CREATE_USER_INFO);
 	}
 
 	@Override
@@ -79,6 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.execSQL(SQL_DELETE_BPDATA);
 		db.execSQL(SQL_DELETE_BSDATA);
 		db.execSQL(SQL_DELETE_FHDATE);
+		db.execSQL(SQL_DELETE_USER_INFO);
 		onCreate(db);
 	}
 
