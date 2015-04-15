@@ -22,6 +22,7 @@ import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.MD5Utils;
 import com.wm.utils.StateSharePrefs;
+import com.wm.utils.SystemUtils;
 
 /**
  * 
@@ -102,6 +103,7 @@ public class LoginActivity extends ActionBarActivity {
 		finish();
 	}
 	
+	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
 		@Override
 		protected Response doInBackground(Void... params) {
@@ -109,13 +111,23 @@ public class LoginActivity extends ActionBarActivity {
 			String pwd = MD5Utils.string2MD5(mPwd.getText().toString());
 			LoginEntity loginEntity = new LoginEntity(userName, pwd);
 			RequestEntity<LoginEntity> request = new RequestEntity<LoginEntity>("test", "test", loginEntity);
-			return  NetworkFactory.getAuthService().login(request);
+			if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) 
+				return null;
+			Response response = null;
+			try {
+				response = NetworkFactory.getAuthService().login(request);
+			} catch(Exception e) {
+				
+			}
+			return response;
 		}
 		
 		@Override
 		protected void onPostExecute(final Response result) {
-			if(result == null)
+			if(result == null) {
+				Toast.makeText(mContext, "无网络或网络异常", Toast.LENGTH_LONG).show();
 				return;
+			}
 			if(result.code == 0) {
 				mState.saveState(StateSharePrefs.TYPE_LOGIN, true);
 				Toast.makeText(mContext, "登陆成功", Toast.LENGTH_LONG).show();
