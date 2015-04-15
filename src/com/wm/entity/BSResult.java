@@ -68,7 +68,7 @@ public class BSResult {
 		this.bg = value+"";
 		this.date = new Date().getTime();
 		this.userCard = "";
-		this.remarks = "test";
+		this.remarks = "";
 		this.measureTime = timeSb.toString();
 		this.bsResult = getAdvise(value) + "я╙лг";
 	}
