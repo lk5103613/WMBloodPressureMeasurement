@@ -140,13 +140,13 @@ public class LoginActivity extends ActionBarActivity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mProgress = DialogUtils.createProgressDialog(mContext, "", "");
+			mProgress = DialogUtils.createProgressDialog(mContext, "", "ÕýÔÚµÇÂ¼...");
 			mProgress.show();
 		}
 
 		@Override
 		protected Response doInBackground(Void... params) {
-			String userName = mUserName.getText().toString();
+			String userName = mUserName.getText().toString().trim();
 			String pwd = MD5Utils.string2MD5(mPwd.getText().toString());
 			LoginEntity loginEntity = new LoginEntity(userName, pwd);
 			RequestEntity<LoginEntity> request = new RequestEntity<LoginEntity>(
