@@ -7,10 +7,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wm.activity.R;
 
@@ -160,5 +165,31 @@ public class DialogUtils {
 			alertDialog.setCanceledOnTouchOutside(true);
 	    	return alertDialog;
 	    }
+	    
+	    
+	    public static final int SUCCESS = 1;
+		public static final int ERROR = 0;
+		
+	    /**
+		 * @param msg
+		 * @param code 0 error,  1 success
+		 */
+		public static void showToast(Activity context, String msg, int code){
+			LayoutInflater inflater = context.getLayoutInflater();
+		    View layout = inflater.inflate(R.layout.submitsuccess_toast,
+		    (ViewGroup) context.findViewById(R.id.toast_layout_root));
+		    
+		    ImageView image = (ImageView) layout.findViewById(R.id.toastcheck);
+		    int imgId = code==SUCCESS?R.drawable.check32:R.drawable.error32;
+		    image.setImageResource(imgId);
+		    
+		    TextView text = (TextView) layout.findViewById(R.id.toasttext);
+		    text.setText(msg);
+		    Toast toast = new Toast(context.getApplicationContext());
+		    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		    toast.setDuration(Toast.LENGTH_SHORT);
+		    toast.setView(layout);
+		    toast.show();
+		}
 	
 }

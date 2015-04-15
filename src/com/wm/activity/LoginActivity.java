@@ -97,7 +97,9 @@ public class LoginActivity extends ActionBarActivity {
 	
 	@OnClick(R.id.btn_login)
 	public void login(View v) {
-		new LoginTask().execute();
+		if(verify()) {
+			new LoginTask().execute();
+		}
 	}
 	
 	@OnClick(R.id.add_back)
@@ -105,6 +107,16 @@ public class LoginActivity extends ActionBarActivity {
 		finish();
 	}
 	
+	
+	private boolean verify(){
+		String name = mUserName.getText().toString().trim();
+		String pwd =mPwd.getText().toString().trim();
+		if("".equals(name)|| "".equals(pwd)){
+			DialogUtils.showToast(this, getString(R.string.login_check), DialogUtils.ERROR);
+			return false;
+		}
+		return true;
+	}
 	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
 		
@@ -138,12 +150,12 @@ public class LoginActivity extends ActionBarActivity {
 		protected void onPostExecute(final Response result) {
 			mProgress.dismiss();
 			if(result == null) {
-				Toast.makeText(mContext, "无网络或网络异常", Toast.LENGTH_LONG).show();
+				DialogUtils.showToast(LoginActivity.this, getString(R.string.network_error), DialogUtils.ERROR);
 				return;
 			}
 			if(result.code == 0) {
 				mState.saveState(StateSharePrefs.TYPE_LOGIN, true);
-				Toast.makeText(mContext, "登陆成功", Toast.LENGTH_LONG).show();
+				DialogUtils.showToast(LoginActivity.this, getString(R.string.login_success), DialogUtils.SUCCESS);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -154,7 +166,8 @@ public class LoginActivity extends ActionBarActivity {
 				startActivity(intent);
 				finish();
 			} else {
-				Toast.makeText(mContext, result.info, Toast.LENGTH_LONG).show();
+				DialogUtils.showToast(LoginActivity.this, result.info, DialogUtils.ERROR);
+				
 			}
 		}
 	}
