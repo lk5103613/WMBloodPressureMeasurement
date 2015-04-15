@@ -296,4 +296,12 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		mBtnReg.setEnabled(isChecked);
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in,
+					R.anim.slide_out_to_right);
+		}
+	}
 }

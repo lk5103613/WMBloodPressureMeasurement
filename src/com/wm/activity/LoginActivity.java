@@ -124,6 +124,15 @@ public class LoginActivity extends ActionBarActivity {
 		return true;
 	}
 	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in,
+					R.anim.slide_out_to_right);
+		}
+	}
+	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
 		
 		private ProgressDialog mProgress;
