@@ -1,0 +1,96 @@
+package com.wm.db;
+
+import com.wm.db.DeviceDataContract.UserInfoEntry;
+import com.wm.entity.UserInfo;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+public class UserInfoDBManager {
+
+	private Context mContext;
+	private DBHelper mDBHelper;
+	private static UserInfoDBManager mManager;
+
+	private UserInfoDBManager(Context context) {
+		this.mContext = context;
+		mDBHelper = new DBHelper(mContext);
+	}
+
+	public static UserInfoDBManager getInstance(Context context) {
+		if (mManager == null) {
+			mManager = new UserInfoDBManager(context);
+		}
+		return mManager;
+	}
+
+	public long saveUser(UserInfo userInfo) {
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(UserInfoEntry.COLUMN_NAME_LOGIN_ID, userInfo.loginId);
+		values.put(UserInfoEntry.COLUMN_NAME_USERNAME, userInfo.userName);
+		values.put(UserInfoEntry.COLUMN_NAME_CELLPHONE, userInfo.cellphone);
+		values.put(UserInfoEntry.COLUMN_NAME_USER_CARD, userInfo.userCard);
+		return db.insert(UserInfoEntry.TABLE_NAME,
+				UserInfoEntry.COLUMN_NAME_NULLABLE, values);
+	}
+
+	public int updateUserInfo(UserInfo userInfo) {
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(UserInfoEntry.COLUMN_NAME_USERNAME, userInfo.userName);
+		values.put(UserInfoEntry.COLUMN_NAME_CELLPHONE, userInfo.cellphone);
+		values.put(UserInfoEntry.COLUMN_NAME_USER_CARD, userInfo.userCard);
+		String whereClause = UserInfoEntry.COLUMN_NAME_LOGIN_ID + " = ?";
+		return db.update(UserInfoEntry.TABLE_NAME, values, whereClause,
+				new String[] { userInfo.loginId });
+	}
+
+	public int deleteUserInfoById(String loginId) {
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		String whereClause = UserInfoEntry.COLUMN_NAME_LOGIN_ID + " = ?";
+		return db.delete(UserInfoEntry.TABLE_NAME, whereClause,
+				new String[] { loginId });
+	}
+
+	public int deleteUserInfoByCard(String userCard) {
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		String whereClause = UserInfoEntry.COLUMN_NAME_USER_CARD + " = ?";
+		return db.delete(UserInfoEntry.TABLE_NAME, whereClause,
+				new String[] { userCard });
+	}
+
+	public UserInfo getUserInfoById(String loginId) {
+		SQLiteDatabase db = mDBHelper.getReadableDatabase();
+		String[] columns = new String[]{UserInfoEntry.COLUMN_NAME_LOGIN_ID, UserInfoEntry.COLUMN_NAME_USERNAME, 
+				UserInfoEntry.COLUMN_NAME_CELLPHONE, UserInfoEntry.COLUMN_NAME_USER_CARD};
+		String selection = UserInfoEntry.COLUMN_NAME_LOGIN_ID + " = ?";
+		Cursor cursor = db.query(UserInfoEntry.TABLE_NAME, columns, selection, new String[]{loginId}, null, null, null);
+		UserInfo result = null;
+		if(cursor.moveToFirst()) {
+			String userName = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_USERNAME));
+			String cellphone = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_CELLPHONE));
+			String userCard = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_USER_CARD));
+			result = new UserInfo(loginId, userName, cellphone, userCard);
+		}
+		return result;
+	}
+	
+	public UserInfo getUserInfoByCard(String card) {
+		SQLiteDatabase db = mDBHelper.getReadableDatabase();
+		String[] columns = new String[]{UserInfoEntry.COLUMN_NAME_LOGIN_ID, UserInfoEntry.COLUMN_NAME_USERNAME, 
+				UserInfoEntry.COLUMN_NAME_CELLPHONE, UserInfoEntry.COLUMN_NAME_USER_CARD};
+		String selection = UserInfoEntry.COLUMN_NAME_USER_CARD + " = ?";
+		Cursor cursor = db.query(UserInfoEntry.TABLE_NAME, columns, selection, new String[]{card}, null, null, null);
+		UserInfo result = null;
+		if(cursor.moveToFirst()) {
+			String loginId = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_LOGIN_ID));
+			String userName = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_USERNAME));
+			String cellphone = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_CELLPHONE));
+			result = new UserInfo(loginId, userName, cellphone, card);
+		}
+		return result;
+	}
+}

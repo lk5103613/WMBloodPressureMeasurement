@@ -190,7 +190,6 @@ public class HistoryDBManager {
 			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
 			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));
-			String measureTime = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_MESURE_TIME));
 			bsResults.add(new BSResult(id, card, bsValue, date,remarks, 
 					DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date)));//measure time 先存放date值
 		}
@@ -235,7 +234,6 @@ public class HistoryDBManager {
 			long date = c.getLong(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_DATE));
 			String card = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_CARD));
 			String remarks = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_REMARKS));
-			String measureTime = c.getString(c.getColumnIndexOrThrow(BSDataEntry.COLUMN_NAME_MESURE_TIME));
 			bsResults.add(new BSResult(id, card, bsValue, date,remarks, 
 					DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date)));//measure time 先存放date值
 			System.out.println("measure time " + DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date));
