@@ -42,7 +42,7 @@ public class LoginActivity extends ActionBarActivity {
 	ClearEditText mPwd;
 
 	private Context mContext;
-	private PropertiesSharePrefs mState;
+	private PropertiesSharePrefs mProperties;
 	private Handler mHandler;
 	private UserInfoDBManager mUserInfoDBManager;
 
@@ -54,14 +54,14 @@ public class LoginActivity extends ActionBarActivity {
 
 		mHandler = new Handler();
 		mContext = LoginActivity.this;
-		mState = PropertiesSharePrefs.getInstance(mContext);
+		mProperties = PropertiesSharePrefs.getInstance(mContext);
 		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		String phone = StateSharePrefs.getInstance(this).getStr(StateSharePrefs.TYPE_USER_PHONE);
+		String phone = PropertiesSharePrefs.getInstance(this).getProperty(PropertiesSharePrefs.TYPE_USER_PHONE, "");
 		mUserName.setText(phone);
 	}
 
@@ -171,8 +171,8 @@ public class LoginActivity extends ActionBarActivity {
 				return;
 			}
 			if (result.code == 0) {
-				mState.saveState(PropertiesSharePrefs.TYPE_LOGIN, true);
-				mState.saveState(PropertiesSharePrefs.TYPE_CARD,
+				mProperties.saveProperty(PropertiesSharePrefs.TYPE_LOGIN, true);
+				mProperties.saveProperty(PropertiesSharePrefs.TYPE_CARD,
 						result.datas.userInfo.userCard);
 				DialogUtils.showToast(LoginActivity.this,
 						getString(R.string.login_success), DialogUtils.SUCCESS);

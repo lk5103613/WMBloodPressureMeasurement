@@ -81,7 +81,7 @@ public class BSResultFragment extends BaseResultFragment {
 			@Override
 			protected Void doInBackground(Void... params) {
 				if(mBSResult != null) {
-					String card = mProperties.getState(PropertiesSharePrefs.TYPE_CARD, "");
+					String card = mProperties.getProperty(PropertiesSharePrefs.TYPE_CARD, "");
 					mBSResult.userCard = card;
 					mDBManager.addBsResult(mBSResult);
 				}

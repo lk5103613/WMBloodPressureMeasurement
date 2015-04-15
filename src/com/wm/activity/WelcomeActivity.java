@@ -88,7 +88,7 @@ public class WelcomeActivity extends Activity implements
 			public void run() {
 				
 				//判断如果同意之后， 不在提示
-				boolean auth = mState.getState(PropertiesSharePrefs.TYPE_AUTH, false);
+				boolean auth = mState.getProperty(PropertiesSharePrefs.TYPE_AUTH, false);
 				if (!auth) {
 					showAuthDialog();
 				} else {
@@ -152,13 +152,13 @@ public class WelcomeActivity extends Activity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_yes:
-			mState.saveState(PropertiesSharePrefs.TYPE_AUTH, true);
+			mState.saveProperty(PropertiesSharePrefs.TYPE_AUTH, true);
 			break;
 		case R.id.btn_no:
-			mState.saveState(PropertiesSharePrefs.TYPE_AUTH, false);
+			mState.saveProperty(PropertiesSharePrefs.TYPE_AUTH, false);
 			break;
 		default:
-			mState.saveState(PropertiesSharePrefs.TYPE_AUTH, false);
+			mState.saveProperty(PropertiesSharePrefs.TYPE_AUTH, false);
 			break;
 		}
 

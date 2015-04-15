@@ -56,7 +56,7 @@ public class CheckNeedUploadTask extends AsyncTask<Void, Void, Map<Integer, IUpl
 //			return uploadEntities;
 //		}
 		
-		boolean isLogin = mState.getState(PropertiesSharePrefs.TYPE_LOGIN, false);
+		boolean isLogin = mState.getProperty(PropertiesSharePrefs.TYPE_LOGIN, false);
 		if(!isLogin)
 			return uploadEntities;
 		List<BPResult> bpResults = mDbManager.getBpResultsByStatus(0);

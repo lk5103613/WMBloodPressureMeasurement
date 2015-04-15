@@ -93,7 +93,7 @@ public class BPResultFragment extends BaseResultFragment {
 			@Override
 			protected Void doInBackground(Void... params) {
 				if(mBPResult != null) {
-					String card = mProperties.getState(PropertiesSharePrefs.TYPE_CARD, "");
+					String card = mProperties.getProperty(PropertiesSharePrefs.TYPE_CARD, "");
 					mBPResult.userCard = card;
 					HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
 				}

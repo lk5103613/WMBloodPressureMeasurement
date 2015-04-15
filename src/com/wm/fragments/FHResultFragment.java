@@ -185,7 +185,7 @@ public class FHResultFragment extends BaseResultFragment {
 			protected Integer doInBackground(Void... params) {
 				int count = mFHValues.size();
 				if (!mFHValues.isEmpty()){
-					String card = mProperties.getState(PropertiesSharePrefs.TYPE_CARD, "");
+					String card = mProperties.getProperty(PropertiesSharePrefs.TYPE_CARD, "");
 					FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
 					fhResult.userCard = card;
 					HistoryDBManager.getInstance(mContext).addFhResult(fhResult);

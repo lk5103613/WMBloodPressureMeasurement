@@ -14,11 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -31,7 +31,7 @@ import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.DialogUtils;
 import com.wm.utils.MD5Utils;
-import com.wm.utils.StateSharePrefs;
+import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 
 public class RegisterActivity extends ActionBarActivity implements OnCheckedChangeListener{
@@ -297,7 +297,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 			}
 			if(result.info.equals("success")) {
 				DialogUtils.showToast(RegisterActivity.this,getString(R.string.register_success), DialogUtils.SUCCESS);
-				StateSharePrefs.getInstance(RegisterActivity.this).saveStr(StateSharePrefs.TYPE_USER_PHONE,
+				PropertiesSharePrefs.getInstance(RegisterActivity.this).saveProperty(PropertiesSharePrefs.TYPE_USER_PHONE,
 						mRegPhone.getText().toString().trim());
 				mBtnReg.setEnabled(false);
 				
