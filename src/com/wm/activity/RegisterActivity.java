@@ -92,14 +92,20 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
+		
 		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
 			Toast.makeText(mContext, "ÍøÂçÒì³££¬Çë¼ì²éÍøÂç", Toast.LENGTH_LONG).show();
 			return;
 		}
+		final String phone = mRegPhone.getText().toString();
+		if(!verifyPhone(phone)) {
+			return;
+		}
+		
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				String phone = mRegPhone.getText().toString();
+				
 				MessageEntity msgEntity = new MessageEntity("test", "test", phone);
 				try {
 					verifyCode = NetworkFactory.getAuthService().sendMessage(msgEntity).datas.securityCode;
