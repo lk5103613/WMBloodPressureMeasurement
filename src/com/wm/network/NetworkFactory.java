@@ -26,6 +26,7 @@ public class NetworkFactory {
 			mInterceptor = new RequestInterceptor() {
 				@Override
 				public void intercept(RequestFacade request) {
+					request.addHeader("Content-Type", "application/json; charset=UTF-8");
 					request.addHeader("Accept-Charset", "UTF-8");
 				}
 			};
@@ -37,7 +38,7 @@ public class NetworkFactory {
 						.setEndpoint("http://120.26.91.90:38050/V0100")
 						.setClient(new OkClient(new OkHttpClient()))
 						.setConverter(new GsonConverter(mGson))
-						//.setRequestInterceptor(mInterceptor)
+						.setRequestInterceptor(mInterceptor)
 						.build();
 			}
 			mUploadService = mRestAdapter.create(UploadService.class);
@@ -54,6 +55,7 @@ public class NetworkFactory {
 			mInterceptor = new RequestInterceptor() {
 				@Override
 				public void intercept(RequestFacade request) {
+					request.addHeader("Content-Type", "application/json; charset=UTF-8");
 					request.addHeader("Accept-Charset", "UTF-8");
 				}
 			};
@@ -65,7 +67,7 @@ public class NetworkFactory {
 						.setEndpoint("http://120.26.91.90:38050/V0100")
 						.setClient(new OkClient(new OkHttpClient()))
 						.setConverter(new GsonConverter(mGson))
-						//.setRequestInterceptor(mInterceptor)
+						.setRequestInterceptor(mInterceptor)
 						.build();
 			}
 			mAuthService = mRestAdapter.create(AuthService.class);
