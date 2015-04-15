@@ -1,5 +1,6 @@
 package com.wm.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import com.wm.entity.LoginEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
+import com.wm.utils.DialogUtils;
 import com.wm.utils.MD5Utils;
 import com.wm.utils.StateSharePrefs;
 import com.wm.utils.SystemUtils;
@@ -105,6 +107,16 @@ public class LoginActivity extends ActionBarActivity {
 	
 	
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
+		
+		private ProgressDialog mProgress;
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mProgress = DialogUtils.createProgressDialog(mContext, "", "");
+			mProgress.show();
+		}
+		
 		@Override
 		protected Response doInBackground(Void... params) {
 			String userName = mUserName.getText().toString();
@@ -124,6 +136,7 @@ public class LoginActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(final Response result) {
+			mProgress.dismiss();
 			if(result == null) {
 				Toast.makeText(mContext, "ÎÞÍøÂç»òÍøÂçÒì³£", Toast.LENGTH_LONG).show();
 				return;

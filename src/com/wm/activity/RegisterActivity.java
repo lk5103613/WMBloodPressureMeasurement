@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ import com.wm.entity.RegisterEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
+import com.wm.utils.DialogUtils;
 import com.wm.utils.MD5Utils;
 import com.wm.utils.SystemUtils;
 
@@ -94,12 +96,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 			@Override
 			public void run() {
 				String phone = mRegPhone.getText().toString();
-				NetworkFactory.getAuthService().sendMessage(phone, new Callback<String>() {
-					@Override
-					public void success(String arg0, retrofit.client.Response arg1) { }
-					@Override
-					public void failure(RetrofitError arg0) { }
-				});
+//				NetworkFactory.getAuthService().sendMessage();
 			}
 		}).start();
 		mbtnSendCode.setEnabled(false);
@@ -252,9 +249,16 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	public class RegisterTask extends AsyncTask<Void, Void, Response> {
 		
 		private RequestEntity<RegisterEntity> mRequest;
+		private ProgressDialog mProgress;
 		
 		public RegisterTask(RequestEntity<RegisterEntity> request) {
 			this.mRequest = request;
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			mProgress = DialogUtils.createProgressDialog(mContext, "正在注册", "请等待...");
+			mProgress.show();
 		}
 		
 		@Override
@@ -273,6 +277,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		
 		@Override
 		protected void onPostExecute(Response result) {
+			mProgress.dismiss();
 			if(result == null) {
 				showToast("无网络或网络异常", ERROR);
 				return;
