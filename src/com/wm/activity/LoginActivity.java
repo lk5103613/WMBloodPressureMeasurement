@@ -57,6 +57,13 @@ public class LoginActivity extends ActionBarActivity {
 		mState = StateSharePrefs.getInstance(mContext);
 		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		String phone = StateSharePrefs.getInstance(this).getStr(StateSharePrefs.TYPE_USER_PHONE);
+		mUserName.setText(phone);
+	}
 
 	@OnClick({ R.id.txt_username, R.id.txt_pwd })
 	public void clickUsername(View v) {
@@ -106,7 +113,6 @@ public class LoginActivity extends ActionBarActivity {
 		finish();
 	}
 	
-	
 	private boolean verify(){
 		String name = mUserName.getText().toString().trim();
 		String pwd =mPwd.getText().toString().trim();
@@ -155,7 +161,6 @@ public class LoginActivity extends ActionBarActivity {
 				finish();
 			} else {
 				DialogUtils.showToast(LoginActivity.this, result.info, DialogUtils.ERROR);
-				
 			}
 		}
 	}

@@ -11,30 +11,30 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
+import com.wm.customview.URLSpanNoUnderline;
 import com.wm.entity.RegisterEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.DialogUtils;
 import com.wm.utils.MD5Utils;
+import com.wm.utils.StateSharePrefs;
 import com.wm.utils.SystemUtils;
 
 public class RegisterActivity extends ActionBarActivity implements OnCheckedChangeListener{
@@ -63,6 +63,8 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	View mInner;
 	@InjectView(R.id.reg_checkbox)
 	CheckBox mRegCheckBox;
+	@InjectView(R.id.reg_service_item)
+	TextView mRegServiceItem;
 	
 	private CountDownTimer mCountTimer;
 	private Context mContext;
@@ -78,14 +80,17 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		mContext = this;
 		
 		mHandler = new Handler();
+		
+//		String url = "<a href=\"http://www.leadingtechmed.cn/dataUploadProtocol.html\">"
+//				+ mRegServiceItem.getText() + "</a> ";
+//		mRegServiceItem.setText(Html.fromHtml(url));
+//		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 	}
-	
-	
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
@@ -163,7 +168,8 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		String conformPsw = mRegConformPsw.getText().toString().trim();
 		
 		String[] fields = new String[]{name, phone, code, identityCard, psw, conformPsw};
-		boolean result = isEmpty(fields)&&verifyPhone(phone)&&verifyCard(identityCard)&&verifyPsw(psw, conformPsw);
+		boolean result = isEmpty(fields)&&verifyName(name)&&verifyPhone(phone)
+				&&verifyCard(identityCard)&&verifyPwd(psw)&&verifyPsw(psw, conformPsw);
 		return result;
 	}
 	
@@ -175,6 +181,23 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 			}
 		}
 		
+		return true;
+	}
+	
+	
+	private boolean verifyName(String name){
+		if(!Pattern.matches("^[\u4e00-\u9fa5a-zA-Z]{2,20}$", name)){
+			DialogUtils.showToast(this,"姓名为中文和英文且 至少两位", DialogUtils.ERROR);
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean verifyPwd(String pwd){
+		if(!Pattern.matches("^.{6,20}$", pwd)){
+			DialogUtils.showToast(this,"密码为6-20个字符", DialogUtils.ERROR);
+			return false;
+		}
 		return true;
 	}
 	
@@ -251,11 +274,15 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		@Override
 		protected void onPostExecute(Response result) {
 			if(result == null) {
-				DialogUtils.showToast(RegisterActivity.this,"无网络或网络异常", DialogUtils.ERROR);
+				DialogUtils.showToast(RegisterActivity.this,getString(R.string.network_error), DialogUtils.ERROR);
 				return;
 			}
 			if(result.info.equals("success")) {
-				DialogUtils.showToast(RegisterActivity.this,"注册成功", DialogUtils.SUCCESS);
+				DialogUtils.showToast(RegisterActivity.this,getString(R.string.register_success), DialogUtils.SUCCESS);
+				StateSharePrefs.getInstance(RegisterActivity.this).saveStr(StateSharePrefs.TYPE_USER_PHONE,
+						mRegPhone.getText().toString().trim());
+				mBtnReg.setEnabled(false);
+				
 				Intent intent = new Intent(mContext, LoginActivity.class);
 				startActivity(intent);
 			} else {

@@ -93,6 +93,7 @@
     <string name="network_error">无网络或网络异常</string>
     <string name="login_success">登录成功</string>
     <string name="login_check">请输入用户名和密码</string>
+    <string name = "register_success">注册成功</string>
     
     <string name="icon_description">this is logo</string>
     <string name="title_activity_regist">RegistActivity</string>
