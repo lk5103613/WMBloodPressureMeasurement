@@ -90,6 +90,9 @@
     <string name="reg_psw_hint">请填写6-20位字符</string>
     <string name="reg_auth_msg">我已阅读并同意以上条款</string>
     <string name="reg_title">注册</string>
+    <string name="network_error">无网络或网络异常</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_check">请输入用户名和密码</string>
     
     <string name="icon_description">this is logo</string>
     <string name="title_activity_regist">RegistActivity</string>

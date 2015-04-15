@@ -33,6 +33,7 @@ import com.wm.entity.RegisterEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
+import com.wm.utils.DialogUtils;
 import com.wm.utils.MD5Utils;
 import com.wm.utils.SystemUtils;
 
@@ -66,8 +67,6 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	private CountDownTimer mCountTimer;
 	private Context mContext;
 	private Handler mHandler;
-	private final int SUCCESS = 1;
-	private final int ERROR = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +170,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	private boolean isEmpty(String[] fields){
 		for (int i = 0, size = fields.length; i < size; i++) {
 			if ("".equals(fields[i])) {
-				showToast("请输入必填项", ERROR);
+				DialogUtils.showToast(this,"请输入必填项", DialogUtils.ERROR);
 				return false;
 			}
 		}
@@ -181,7 +180,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	
 	private boolean verifyPhone(String phoneNum){
 		if(!Pattern.matches("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", phoneNum)){
-			showToast("请输入正确的手机号码", ERROR);
+			DialogUtils.showToast(this,"请输入正确的手机号码", DialogUtils.ERROR);
 			return false;
 		}
 		return true;
@@ -191,7 +190,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		if (!Pattern.matches(
 				"^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([\\d|x|X]{1})$",
 				idcard)){
-			showToast("身份证格式不正切", ERROR);
+			DialogUtils.showToast(this,"身份证格式不正切", DialogUtils.ERROR);
 			return false;
 		}
 		return true;
@@ -199,39 +198,17 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	
 	private boolean verifyPsw(String psw, String conformPsw){
 		if(psw.length()<6 || psw.length()>20) {
-			showToast("密码为6-20个字符", ERROR);
+			DialogUtils.showToast(this,"密码为6-20个字符", DialogUtils.ERROR);
 			return false;
 		}
 		
 		if(!psw.equals(conformPsw)) {
-			showToast("两次密码不匹配", ERROR);
+			DialogUtils.showToast(this,"两次密码不匹配", DialogUtils.ERROR);
 			return false;
 		}
 		return true;
 	}
 	
-	
-	/**
-	 * @param msg
-	 * @param code 0 error,  1 success
-	 */
-	private void showToast(String msg, int code){
-		LayoutInflater inflater = getLayoutInflater();
-	    View layout = inflater.inflate(R.layout.submitsuccess_toast,
-	    (ViewGroup) findViewById(R.id.toast_layout_root));
-	    
-	    ImageView image = (ImageView) layout.findViewById(R.id.toastcheck);
-	    int imgId = code==SUCCESS?R.drawable.check32:R.drawable.error32;
-	    image.setImageResource(imgId);
-	    
-	    TextView text = (TextView) layout.findViewById(R.id.toasttext);
-	    text.setText(msg);
-	    Toast toast = new Toast(getApplicationContext());
-	    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-	    toast.setDuration(Toast.LENGTH_SHORT);
-	    toast.setView(layout);
-	    toast.show();
-	}
 
 	
 	@OnClick(R.id.btn_reg)
@@ -274,15 +251,16 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		@Override
 		protected void onPostExecute(Response result) {
 			if(result == null) {
-				showToast("无网络或网络异常", ERROR);
+				DialogUtils.showToast(RegisterActivity.this,"无网络或网络异常", DialogUtils.ERROR);
 				return;
 			}
 			if(result.info.equals("success")) {
-				Toast.makeText(mContext, "注册成功", Toast.LENGTH_LONG).show();
+				DialogUtils.showToast(RegisterActivity.this,"注册成功", DialogUtils.SUCCESS);
 				Intent intent = new Intent(mContext, LoginActivity.class);
 				startActivity(intent);
-			} else 
-				Toast.makeText(mContext, result.info, Toast.LENGTH_LONG).show();
+			} else {
+				DialogUtils.showToast(RegisterActivity.this,result.info, DialogUtils.ERROR);
+			}
 		}
 	
 	}
