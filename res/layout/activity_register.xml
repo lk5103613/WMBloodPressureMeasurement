@@ -10,6 +10,8 @@
         android:id="@+id/reg_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -77,10 +79,10 @@
                 android:layout_marginStart="@dimen/reg_txt_margin"
                 android:layout_weight="1"
                 android:background="@drawable/txt_bg"
+                android:maxLength="30"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textSize="@dimen/reg_txt_size" 
-                android:maxLength="30"/>
+                android:textSize="@dimen/reg_txt_size" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -242,11 +244,11 @@
                 android:layout_weight="1"
                 android:background="@drawable/txt_bg"
                 android:hint="@string/reg_psw_hint"
+                android:inputType="textPassword"
+                android:maxLength="20"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textSize="@dimen/reg_txt_size" 
-                android:maxLength="20"
-                android:inputType="textPassword"/>
+                android:textSize="@dimen/reg_txt_size" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -284,11 +286,11 @@
                 android:layout_weight="1"
                 android:background="@drawable/txt_bg"
                 android:hint="@string/reg_psw_again"
+                android:inputType="textPassword"
+                android:maxLength="20"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textSize="@dimen/reg_txt_size"
-                android:maxLength="20" 
-                android:inputType="textPassword"/>
+                android:textSize="@dimen/reg_txt_size" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -299,8 +301,6 @@
                 android:textSize="@dimen/reg_hint_size" />
         </LinearLayout>
 
-        
-
         <Button
             android:id="@+id/btn_reg"
             android:layout_width="200dp"
@@ -309,34 +309,35 @@
             android:layout_marginEnd="5dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/btn_bg"
+            android:enabled="false"
             android:text="@string/reg_now"
             android:textColor="@color/white"
-            android:textSize="16sp" 
-            android:enabled="false"/>
-        
+            android:textSize="16sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" 
-            android:paddingStart="30dp"
+            android:orientation="horizontal"
             android:paddingBottom="@dimen/reg_tb_padding"
-            android:paddingTop="@dimen/reg_tb_padding">
+            android:paddingStart="30dp"
+            android:paddingTop="@dimen/reg_tb_padding" >
 
             <CheckBox
                 android:id="@+id/reg_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@null"
                 android:checked="false"
-                android:text="@string/reg_auth_msg"
-                android:textColor="@color/checkbox_color" 
                 android:drawableStart="@drawable/checkbox_bg"
-                android:button="@null"/>
-            <TextView 
+                android:text="@string/reg_auth_msg"
+                android:textColor="@color/checkbox_color" />
+
+            <TextView
                 android:id="@+id/reg_service_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="《服务条款》"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </LinearLayout>
 

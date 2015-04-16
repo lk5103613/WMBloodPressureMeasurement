@@ -96,9 +96,9 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		mChart.getYLabels().setLabelCount(5);
 	    mChart.setHighlightEnabled(false);
-		mChart.setScaleMinima(2, 1);// 设置缩放比例
+		mChart.setScaleMinima(4, 1);// 设置缩放比例
 		mChart.centerViewPort(0, 200);
-
+		mChart.getXLabels().setSpaceBetweenLabels(1);
 	}
 
 	private void addEmptyData() {
@@ -107,7 +107,7 @@ public class FHResultFragment extends BaseResultFragment {
 		// create 15 x-vals
 		xVals = new ArrayList<String>();
 
-		for (int i = 1; i <= 15; i++) {
+		for (int i = 1; i <= 100; i++) {
 			xVals.add("");
 		}
 
@@ -139,19 +139,21 @@ public class FHResultFragment extends BaseResultFragment {
 			String xvalue = mFHValues.isEmpty()?"":mFHValues.size()+"";
 			System.out.println("record index " + recordIndex +" " + xvalue);
 			
+			if ((xVals.size() - recordIndex) < 2) {
+				xVals.add("");
+			}
+			
 			if (recordIndex <xVals.size()){
 				mChart.getData().getXVals().set(recordIndex, xvalue);
 			}
 			
-			if ((xVals.size() - recordIndex) < 2) {
-				xVals.add((mFHValues.size()+1)+"");
-			}
-			if (recordIndex>8) {
-				mChart.centerViewPort(recordIndex-2, 200);
+			if (recordIndex>15) {
+				mChart.centerViewPort(recordIndex-5, 200);
 			}
 			
-			if(xVals.size()>30 && xVals.size()%20 == 0 && xVals.size()<140) {
-				mChart.setScaleMinima(1+xVals.size()/20*0.1f, 1);
+			if(recordIndex>100) {
+				System.out.println("scale " + (recordIndex/100)*4.0f);
+				mChart.setScaleMinima((recordIndex/100)*4, 1);
 			}
 
 			mChart.notifyDataSetChanged();

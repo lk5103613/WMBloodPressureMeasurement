@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -76,13 +78,12 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		
 		mRegCheckBox.setOnCheckedChangeListener(this);
 		mContext = this;
-		
 		mHandler = new Handler();
 		
-//		String url = "<a href=\"http://www.leadingtechmed.cn/dataUploadProtocol.html\">"
-//				+ mRegServiceItem.getText() + "</a> ";
-//		mRegServiceItem.setText(Html.fromHtml(url));
-//		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
+		String url = "<a href=\"http://www.leadingtechmed.cn/agreements/service.html\">"
+				+ mRegServiceItem.getText() + "</a> ";
+		mRegServiceItem.setText(Html.fromHtml(url));
+		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
 	@Override

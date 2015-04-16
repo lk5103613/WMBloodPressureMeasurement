@@ -4,12 +4,15 @@
     android:id="@+id/login_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fragment_bg" >
+    android:background="@color/fragment_bg"
+     >
 
     <LinearLayout
         android:id="@+id/scroll_inner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -56,11 +59,12 @@
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_portrait"
-            imagecontrol:border_inside_color="@color/colorPrimary"
-            imagecontrol:border_outside_color="#5500A2EA"
-            imagecontrol:border_thickness="2dp" />
+            android:src="@drawable/default_header"
+           />
 
+         <!-- imagecontrol:border_inside_color="@color/colorPrimary"
+            imagecontrol:border_outside_color="#5500A2EA"
+            imagecontrol:border_thickness="2dp"  -->
         <com.wm.customview.ClearEditText
             android:id="@+id/txt_username"
             style="@style/ClearEditText"
@@ -69,7 +73,7 @@
             android:drawableStart="@drawable/ic_action_person"
             android:hint="@string/hint_username"
             android:imeOptions="actionNext"
-            android:inputType="text" />
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/register_txt"
@@ -83,13 +87,13 @@
 
         <com.wm.customview.ClearEditText
             android:id="@+id/txt_pwd"
+            style="@style/ClearEditText"
             android:layout_width="match_parent"
             android:background="@drawable/txt_bg"
             android:drawablePadding="7dp"
             android:drawableStart="@drawable/ic_action_lock"
             android:hint="@string/hint_pwd"
-            android:inputType="textPassword"
-            style="@style/ClearEditText"/>
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btn_login"

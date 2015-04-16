@@ -89,11 +89,11 @@ public class WelcomeActivity extends Activity implements
 				
 				//判断如果同意之后， 不在提示
 				boolean auth = mState.getProperty(PropertiesSharePrefs.TYPE_AUTH, false);
-				if (!auth) {
+//				if (!auth) {
 					showAuthDialog();
-				} else {
-					jumpPage();
-				}
+//				} else {
+//					jumpPage();
+//				}
 				
 			}
 		}, 3000);
@@ -120,7 +120,7 @@ public class WelcomeActivity extends Activity implements
 		mBtnNo.setOnClickListener(this);
 		mBtnYes.setOnClickListener(this);
 
-		String url = "<a href=\"" + mLinkText.getText() + "\">"
+		String url = "<a href=\"http://www.leadingtechmed.cn/agreements/dataUpload.html\">"
 				+ mLinkText.getText() + "</a> ";
 		mLinkText.setText(Html.fromHtml(url));
 		mLinkText.setMovementMethod(LinkMovementMethod.getInstance());
