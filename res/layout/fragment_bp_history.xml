@@ -26,19 +26,19 @@
             android:gravity="center" >
 
             <ImageView
-                android:id="@+id/diastolic_icon"
+                android:id="@+id/systolic_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:src="@drawable/blue_circle" />
 
             <TextView
-                android:id="@+id/diastolic_txt"
+                android:id="@+id/systolic_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/diastolic_icon"
-                android:text="@string/diastolic_blood_pressure"
+                android:layout_toEndOf="@id/systolic_icon"
+                android:text="@string/systolic_blood_pressure"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -49,19 +49,19 @@
             android:gravity="center" >
 
             <ImageView
-                android:id="@+id/systolic_icon"
+                android:id="@+id/diastolic_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:src="@drawable/green_circle" />
 
             <TextView
-                android:id="@+id/systolic_txt"
+                android:id="@+id/diastolic_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/systolic_icon"
-                android:text="@string/systolic_blood_pressure"
+                android:layout_toEndOf="@id/diastolic_icon"
+                android:text="@string/diastolic_blood_pressure"
                 android:textSize="12sp" />
         </RelativeLayout>
     </LinearLayout>
