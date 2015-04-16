@@ -7,7 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MotionEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
@@ -59,6 +60,8 @@ public class LoginActivity extends ActionBarActivity {
 		mContext = LoginActivity.this;
 		mProperties = PropertiesSharePrefs.getInstance(mContext);
 		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
+		
+//		mUserName.addTextChangedListener(watcher);
 	}
 	
 	@Override
@@ -207,4 +210,28 @@ public class LoginActivity extends ActionBarActivity {
 		return false;
 	}
 
+	
+	class MTextWatcher implements TextWatcher{
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 }
