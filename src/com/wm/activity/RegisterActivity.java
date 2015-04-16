@@ -94,7 +94,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	public void sendCode(View view) {
 		
 		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
-			Toast.makeText(mContext, "ÍøÂçÒì³££¬Çë¼ì²éÍøÂç", Toast.LENGTH_LONG).show();
+			DialogUtils.showToast(this, getString(R.string.network_error), DialogUtils.ERROR);
 			return;
 		}
 		final String phone = mRegPhone.getText().toString();
@@ -276,7 +276,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		
 		@Override
 		protected void onPreExecute() {
-			mProgress = DialogUtils.createProgressDialog(mContext, "ÕýÔÚ×¢²á", "ÇëµÈ´ý...");
+			mProgress = DialogUtils.createProgressDialog(mContext, "", "ÇëÉÔºó...");
 			mProgress.show();
 		}
 		
