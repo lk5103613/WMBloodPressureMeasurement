@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
@@ -61,7 +62,6 @@ public class LoginActivity extends ActionBarActivity {
 		mProperties = PropertiesSharePrefs.getInstance(mContext);
 		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
 		
-//		mUserName.addTextChangedListener(watcher);
 	}
 	
 	@Override
@@ -82,6 +82,20 @@ public class LoginActivity extends ActionBarActivity {
 	public void onFocusChange(View v, boolean hasFocus) {
 		if (hasFocus) {
 			scrollToBottom();
+		}
+		
+		if(!hasFocus) {
+			switch (v.getId()) {
+			case R.id.txt_username:
+				String loginName = mUserName.getText().toString();
+				verifyName(loginName);
+				break;
+			case R.id.txt_pwd:
+				String loginPwd = mPwd.getText().toString();
+				verifyPwd(loginPwd); 
+			default:
+				break;
+			}
 		}
 	}
 
@@ -125,6 +139,44 @@ public class LoginActivity extends ActionBarActivity {
 		if ("".equals(name) || "".equals(pwd)) {
 			DialogUtils.showToast(this, getString(R.string.login_check),
 					DialogUtils.ERROR);
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 验证用户名格式
+	 * @param name
+	 * @return
+	 */
+	private boolean verifyName(String name){
+		if(name.length()<4) {
+			mHandler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					DialogUtils.showToast(LoginActivity.this, "登录名输入不正确", DialogUtils.ERROR);
+				}
+			},500);
+			
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 验证输入密码格式
+	 * 
+	 * @param pwd
+	 * @return
+	 */
+	private boolean verifyPwd(String pwd) {
+		if(pwd.length()<6) {
+			mHandler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					DialogUtils.showToast(LoginActivity.this, "输入密码格式不正确", DialogUtils.ERROR);
+				}
+			},500);
 			return false;
 		}
 		return true;
@@ -208,30 +260,5 @@ public class LoginActivity extends ActionBarActivity {
 		this.getSystemService(Context.INPUT_METHOD_SERVICE); 
 		imm.hideSoftInputFromWindow(mUserName.getWindowToken(), 0); 
 		return false;
-	}
-
-	
-	class MTextWatcher implements TextWatcher{
-
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void afterTextChanged(Editable s) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 }
