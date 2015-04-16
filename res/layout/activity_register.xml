@@ -206,6 +206,7 @@
                 android:background="@drawable/txt_bg"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
+                android:inputType="number"
                 android:textSize="@dimen/reg_txt_size" />
 
             <TextView
