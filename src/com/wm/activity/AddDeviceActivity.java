@@ -164,15 +164,11 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				DialogUtils.showToast(this, rmdStr, DialogUtils.SUCCESS);
 				finish();
 			} else {
-//				Toast.makeText(mContext, getResources().getString(R.string.device_exist),
-//						Toast.LENGTH_LONG).show();
-				
 				if(isContains) {
 					DialogUtils.showToast(this, getString(R.string.device_exist), DialogUtils.SUCCESS);
 				}else {
 					DialogUtils.showToast(this, "Œ¥…®√ËµΩ∆•≈‰…Ë±∏", DialogUtils.ERROR);
 				}
-				
 				this.finish();
 			}
 
