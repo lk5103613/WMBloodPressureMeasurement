@@ -157,6 +157,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 			mBluetoothLeService.disconnect();
 		}
 		mBeginDetect = false;
+		mFailedTime = 0;
 		connectFailUI();
 		String rmdStr = getResources().getString(R.string.con_failed);
 		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
@@ -191,7 +192,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	@Override
 	public boolean handleGetData(String data) {
 		if(!mBeginDetect) {
-			System.out.println("get data but mBeginDetect is false");
 			return true;
 		}
 		if(mFragment.handleGetData(data)) {
