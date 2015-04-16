@@ -7,12 +7,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
+import butterknife.OnTouch;
 
 import com.wm.customview.ClearEditText;
 import com.wm.db.UserInfoDBManager;
@@ -190,6 +193,19 @@ public class LoginActivity extends ActionBarActivity {
 						DialogUtils.ERROR);
 			}
 		}
+	}
+	
+	@OnTouch(R.id.scroll_inner)
+	public boolean mInnerTouch(View v) {
+		System.out.println("touch");
+		v.setFocusable(true);
+		v.setFocusableInTouchMode(true);
+		v.requestFocus();
+		//Òþ²Ø¼üÅÌ
+		InputMethodManager imm = (InputMethodManager)
+		this.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		imm.hideSoftInputFromWindow(mUserName.getWindowToken(), 0); 
+		return false;
 	}
 
 }
