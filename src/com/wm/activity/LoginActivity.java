@@ -7,12 +7,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
+import butterknife.OnTouch;
 
 import com.wm.customview.ClearEditText;
 import com.wm.db.UserInfoDBManager;
@@ -56,6 +60,8 @@ public class LoginActivity extends ActionBarActivity {
 		mContext = LoginActivity.this;
 		mProperties = PropertiesSharePrefs.getInstance(mContext);
 		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
+		
+//		mUserName.addTextChangedListener(watcher);
 	}
 	
 	@Override
@@ -191,5 +197,41 @@ public class LoginActivity extends ActionBarActivity {
 			}
 		}
 	}
+	
+	@OnTouch(R.id.scroll_inner)
+	public boolean mInnerTouch(View v) {
+		v.setFocusable(true);
+		v.setFocusableInTouchMode(true);
+		v.requestFocus();
+		//Òþ²Ø¼üÅÌ
+		InputMethodManager imm = (InputMethodManager)
+		this.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		imm.hideSoftInputFromWindow(mUserName.getWindowToken(), 0); 
+		return false;
+	}
 
+	
+	class MTextWatcher implements TextWatcher{
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 }

@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -23,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
+import butterknife.OnTouch;
 
 import com.wm.entity.MessageEntity;
 import com.wm.entity.RegisterEntity;
@@ -76,13 +80,12 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		
 		mRegCheckBox.setOnCheckedChangeListener(this);
 		mContext = this;
-		
 		mHandler = new Handler();
 		
-//		String url = "<a href=\"http://www.leadingtechmed.cn/dataUploadProtocol.html\">"
-//				+ mRegServiceItem.getText() + "</a> ";
-//		mRegServiceItem.setText(Html.fromHtml(url));
-//		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
+		String url = "<a href=\"http://www.leadingtechmed.cn/agreements/service.html\">"
+				+ mRegServiceItem.getText() + "</a> ";
+		mRegServiceItem.setText(Html.fromHtml(url));
+		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
 	@Override
@@ -158,6 +161,19 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 			mCountTimer.cancel();
 		}
 		super.onDestroy();
+	}
+	
+	@OnTouch(R.id.reg_content)
+	public boolean mInnerTouch(View v) {
+		System.out.println("touch");
+		v.setFocusable(true);
+		v.setFocusableInTouchMode(true);
+		v.requestFocus();
+		//Òþ²Ø¼üÅÌ
+		InputMethodManager imm = (InputMethodManager)
+		this.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		imm.hideSoftInputFromWindow(mRegName.getWindowToken(), 0); 
+		return false;
 	}
 	
 	/**

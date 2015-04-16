@@ -96,9 +96,9 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		mChart.getYLabels().setLabelCount(5);
 	    mChart.setHighlightEnabled(false);
-		mChart.setScaleMinima(2, 1);// 设置缩放比例
+		mChart.setScaleMinima(4, 1);// 设置缩放比例
 		mChart.centerViewPort(0, 200);
-
+		mChart.getXLabels().setSpaceBetweenLabels(1);
 	}
 
 	private void addEmptyData() {
@@ -107,8 +107,8 @@ public class FHResultFragment extends BaseResultFragment {
 		// create 15 x-vals
 		xVals = new ArrayList<String>();
 
-		for (int i = 1; i <= 15; i++) {
-			xVals.add(i + "");
+		for (int i = 1; i <= 100; i++) {
+			xVals.add("");
 		}
 
 		LineData data = new LineData(xVals);
@@ -136,16 +136,24 @@ public class FHResultFragment extends BaseResultFragment {
 			set.setCircleSize(2f);
 
 			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random() * 50) +50f
+			String xvalue = mFHValues.isEmpty()?"":mFHValues.size()+"";
+			System.out.println("record index " + recordIndex +" " + xvalue);
 			
 			if ((xVals.size() - recordIndex) < 2) {
-				xVals.add((xVals.size() + 1) + "");
-			}
-			if (recordIndex>10) {
-				mChart.centerViewPort(recordIndex+1, 200);
+				xVals.add("");
 			}
 			
-			if(xVals.size()>30 && xVals.size()%20 == 0 && xVals.size()<140) {
-				mChart.setScaleMinima(1+xVals.size()/20*0.1f, 1);
+			if (recordIndex <xVals.size()){
+				mChart.getData().getXVals().set(recordIndex, xvalue);
+			}
+			
+			if (recordIndex>15) {
+				mChart.centerViewPort(recordIndex-5, 200);
+			}
+			
+			if(recordIndex>100) {
+				System.out.println("scale " + (recordIndex/100)*4.0f);
+				mChart.setScaleMinima((recordIndex/100)*4, 1);
 			}
 
 			mChart.notifyDataSetChanged();
@@ -220,15 +228,18 @@ public class FHResultFragment extends BaseResultFragment {
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
 		if (fhValue.trim().equals("0")) {//获取值为0
 			if(getAverage()!=0) {
-				addEntry(getAverage());
-				if(mBeginRecord)
+				
+				if(mBeginRecord){
 					mFHValues.add(getAverage());
+				}
+				addEntry(getAverage());
 			}
 		} else {//获取值不为0
 			mAllValues.add(Integer.valueOf(fhValue));
-			addEntry(Integer.parseInt(fhValue));
-			if(mBeginRecord)
+			if(mBeginRecord){
 				mFHValues.add(Integer.parseInt(fhValue));
+			}
+			addEntry(Integer.parseInt(fhValue));
 		}
 		if(mFHValues.size() >= 60) {
 			mHandler.removeCallbacks(mRunnable);

@@ -2,7 +2,6 @@
 package com.wm.customview;
 
 import android.content.Context;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.data.CandleEntry;
