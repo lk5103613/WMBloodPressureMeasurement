@@ -18,7 +18,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
-import com.testin.agent.a.e;
 import com.wm.activity.R;
 import com.wm.customview.LineMarkerView;
 import com.wm.db.HistoryDBManager;
@@ -111,7 +110,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 	private void addDataSet(int position) {
 		addEmptyData(position);
 		long date = mFHResults.get(position).date;
-		mTxtDate.setText(DateUtil.getFormatDate(DateUtil.DATA_FORMAT_CHINESE, date));
+		mTxtDate.setText(DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date));
 
 		LineData data = mChart.getData();
 
