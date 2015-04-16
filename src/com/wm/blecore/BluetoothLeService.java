@@ -262,6 +262,7 @@ public class BluetoothLeService extends Service {
 	
 	private void removeDelayOperation() {
 		if(mDelayed) {
+			System.out.println("remove delayed");
 			mHandler.removeCallbacks(mDisconnectRunnable);
 			mDelayed = false;
 		}
@@ -269,6 +270,7 @@ public class BluetoothLeService extends Service {
 	
 	private void addDelayOperation(int delayMillis) {
 		if(!mDelayed) {
+			System.out.println("delayed");
 			mDelayed = mHandler.postDelayed(mDisconnectRunnable, delayMillis);
 		}
 	}

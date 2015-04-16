@@ -1,5 +1,6 @@
 package com.wm.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 import com.testin.agent.TestinAgent;
 import com.wm.utils.PropertiesSharePrefs;
 
@@ -101,6 +101,7 @@ public class WelcomeActivity extends Activity implements
 		
 	}
 
+	@SuppressLint("InflateParams")
 	public void showAuthDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
@@ -161,8 +162,6 @@ public class WelcomeActivity extends Activity implements
 			mState.saveProperty(PropertiesSharePrefs.TYPE_AUTH, false);
 			break;
 		}
-
-		
 		mAalertDialog.dismiss();
 		jumpPage();
 	}

@@ -106,6 +106,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		return view;
 	}
 
+	@SuppressLint("InflateParams")
 	public void showMenuDialog() {
 		if (alertDialog == null) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -198,6 +199,10 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
+		if(mDeviceDataSet.option != null) {
+			resetList();
+			return;
+		}
 		mTabPager.savePosition(TabPagerSharePrefs.PAGE_DEVICE);
 		String type = mDeviceDataSet.deviceInfos.get(i).type;
 		Intent intent = new Intent(mContext, HistoryActivity.class);
@@ -315,7 +320,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			LayoutInflater inflater = getActivity().getLayoutInflater();
 			View mainView = inflater.inflate(R.layout.dialog_delete,
 					new LinearLayout(mContext), false);
-			TextView title = (TextView) mainView.findViewById(R.id.title);
 			btnDelYes = (Button) mainView.findViewById(R.id.btn_del_yes);
 			btnDelNo = (Button)mainView.findViewById(R.id.btn_del_no);
 			delDialog = builder.create();
