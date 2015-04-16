@@ -197,7 +197,6 @@ public class LoginActivity extends ActionBarActivity {
 	
 	@OnTouch(R.id.scroll_inner)
 	public boolean mInnerTouch(View v) {
-		System.out.println("touch");
 		v.setFocusable(true);
 		v.setFocusableInTouchMode(true);
 		v.requestFocus();
