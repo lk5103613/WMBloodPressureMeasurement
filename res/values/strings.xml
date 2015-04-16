@@ -70,7 +70,7 @@
     <string name="bp_text">血&#160;压&#160;计</string>
     <string name="bs_text">血&#160;糖&#160;仪</string>
     <string name="fh_text">胎&#160;心&#160;仪</string>
-    <string name="not_found_device">未发现匹配的新设备</string>
+    <string name="not_found_device">该设备已经存在设备列表中</string>
     <string name="scaning">正在扫描设备</string>
     <string name="ask_del_device">是否删除设备？</string>
     <string name="ask_upload">上传将会耗费您一定的流量，是否确定上传？</string>
@@ -100,6 +100,7 @@
     <string name ="phone_format_error">请输入正确的手机号码</string>
     <string name="idcard_format_error">身份证格式不正切</string>
     <string name="pwd_conform_error">两次密码不匹配</string>
+    <string name="retry">重试</string>
     
     <string name="icon_description">this is logo</string>
     <string name="title_activity_regist">RegistActivity</string>

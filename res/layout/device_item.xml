@@ -5,6 +5,7 @@
     android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants"
     android:padding="10dp" >
 
     <com.wm.customview.DeviceIcon

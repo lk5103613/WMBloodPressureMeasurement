@@ -129,7 +129,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				return;
 			}
 			mCurrentScanTime = 0; // set scan number to 0
-			System.out.println("scan success");
 			
 			final List<DeviceInfo> needSaveDevices = new ArrayList<DeviceInfo>();
 			for (BluetoothDevice device : devices) {
@@ -158,9 +157,9 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
 				finish();
 			} else {
-				
-				Toast.makeText(mContext, getResources().getString(R.string.not_found_device), 
+				Toast.makeText(mContext, getResources().getString(R.string.not_found_device),
 						Toast.LENGTH_LONG).show();
+				this.finish();
 			}
 
 		}

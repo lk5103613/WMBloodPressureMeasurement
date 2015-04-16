@@ -1,11 +1,19 @@
 package com.wm.fragments;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,7 +29,7 @@ import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
-public class BPResultFragment extends BaseResultFragment {
+public class BPResultFragment extends BaseResultFragment implements View.OnClickListener {
 	
 	/**
 	 * 
@@ -54,7 +62,10 @@ public class BPResultFragment extends BaseResultFragment {
 	private BPResultException mBPException;
 	private BluetoothGattCharacteristic mInforCharacteristic;
 	private PropertiesSharePrefs mProperties;
-//	private Handler mHandler;
+	private View mDialogView;
+	private TextView mErrorMsg;
+	private Button mBtnRetry;
+	private AlertDialog mDialog;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +79,6 @@ public class BPResultFragment extends BaseResultFragment {
 		mProperties = PropertiesSharePrefs.getInstance(mContext);
 //		
 //		mHandler = new Handler(new Handler.Callback() {
-//			
 //			@Override
 //			public boolean handleMessage(Message msg) {
 //				return false;
@@ -76,7 +86,6 @@ public class BPResultFragment extends BaseResultFragment {
 //		});
 		
 		mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
-
 		return view;
 	}
 
@@ -154,6 +163,7 @@ public class BPResultFragment extends BaseResultFragment {
 			mNeedNewData = false;
 			mPressure.stopRotate();
 			mBPException = new BPResultException(data);
+			showDialog(mBPException.description);
 			Toast.makeText(mContext, mBPException.description,
 					Toast.LENGTH_LONG).show();
 		} else if (data.trim().length() == 8) {
@@ -178,6 +188,44 @@ public class BPResultFragment extends BaseResultFragment {
 		mBluetoothLeService.setCharacteristicNotification(mInforCharacteristic,
 				true);
 		return false;
+	}
+	
+	@SuppressLint("InflateParams")
+	public void showDialog(String msg) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		builder.setCancelable(false);
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		mDialogView = inflater.inflate(R.layout.dialog_bp_failed, null);
+
+		mErrorMsg = (TextView) mDialogView.findViewById(R.id.bp_error_message);
+		mBtnRetry = (Button) mDialogView.findViewById(R.id.btn_retry);
+		if(mErrorMsg == null)
+			System.out.println("textview is null");
+		if(msg == null)
+			System.out.println("msg is null");
+		mErrorMsg.setText(msg);
+		mBtnRetry.setOnClickListener(this);
+		mDialog = builder.create();
+		mDialog.setCanceledOnTouchOutside(false);
+		mDialog.setView(mDialogView, 0, 0, 0, 0);
+		mDialog.show();
+		Window dialogWindow = mDialog.getWindow();
+		WindowManager m = getActivity().getWindowManager();
+		Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+		Point p = new Point();
+		d.getSize(p);
+		params.width = (int) (p.x * 0.8); // 宽度设置为屏幕的0.65
+		params.height = (int) (p.y * 0.25);
+		dialogWindow.setAttributes(params);
+	}
+	
+	@Override
+	public void onClick(View v) {
+
+		if(v.getId() == R.id.btn_retry) {
+			mCallback.closeActivity();
+		}
 	}
 
 }

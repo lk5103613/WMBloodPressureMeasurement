@@ -76,7 +76,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 		
 		mRecordAnim = AnimationUtils.loadAnimation(this, R.anim.record_img);
-		System.out.println("result oncreate" );
 	}
 
 	@Override
@@ -127,7 +126,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 		case BaseResultFragment.BTN_STATE_UNAVAILABLE_WAITING://点击之后， 展示动画
 			mBtnRecord.setEnabled(false);
 			mRecordImg.startAnimation(mRecordAnim);//点击之后设置动画
-			System.out.println("set animate");
 			break;
 		default:
 			break;
@@ -183,7 +181,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 
 	@Override
 	public boolean handleGetData(String data) {
-		System.out.println(data);
 		if (mFragment.handleGetData(data)) {
 			return true;
 		}

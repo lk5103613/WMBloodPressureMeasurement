@@ -126,6 +126,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	
 	@OnClick(R.id.btn_begin_check)
 	public void beginCheck(){
+		mFailedTime = 0;
 		mBeginDetect = true;
 		beginCheckUI();
 		connect();
@@ -157,7 +158,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 			mBluetoothLeService.disconnect();
 		}
 		mBeginDetect = false;
-		mFailedTime = 0;
 		connectFailUI();
 		String rmdStr = getResources().getString(R.string.con_failed);
 		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
