@@ -75,14 +75,14 @@ public class BluetoothLeService extends Service {
 				int newState) {
 			removeDelayOperation();
 			String intentAction;
-			if (newState == BluetoothProfile.STATE_CONNECTED) {
+			if (newState == BluetoothProfile.STATE_CONNECTED && mConnectionState != STATE_CONNECTED) {
 				// 如果连接成功，通过广播方式告知MainAcivity
 				addDelayOperation(10000);
 				intentAction = ACTION_GATT_CONNECTED;
 				mConnectionState = STATE_CONNECTED;
 				broadcastUpdate(intentAction, "");
 				mBluetoothGatt.discoverServices();
-			} else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+			} else if (newState == BluetoothProfile.STATE_DISCONNECTED && mConnectionState != STATE_DISCONNECTED) {
 				// 如果连接断开，通过广播方式告知MainActivity
 				intentAction = ACTION_GATT_DISCONNECTED;
 				mConnectionState = STATE_DISCONNECTED;
