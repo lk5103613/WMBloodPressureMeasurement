@@ -1,6 +1,11 @@
 package com.wm.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.wm.db.DeviceDataContract.BPDataEntry;
 import com.wm.db.DeviceDataContract.UserInfoEntry;
+import com.wm.entity.BPResult;
 import com.wm.entity.UserInfo;
 
 import android.content.ContentValues;
@@ -28,6 +33,23 @@ public class UserInfoDBManager {
 
 	public long saveUser(UserInfo userInfo) {
 		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		
+		List<String> users = new ArrayList<>();
+		String[] projection = { UserInfoEntry.COLUMN_NAME_LOGIN_ID};
+		String selection = UserInfoEntry.COLUMN_NAME_LOGIN_ID + "=?";
+		String selectionArgs[] = new String[] { userInfo.loginId };
+		Cursor c = db.query(UserInfoEntry.TABLE_NAME, projection, selection,
+				selectionArgs, null, null, null);
+		
+		while (c.moveToNext()) {
+			String loginId = c.getString(c
+					.getColumnIndexOrThrow(UserInfoEntry.COLUMN_NAME_LOGIN_ID));
+			users.add(loginId);
+		}
+		if(!users.isEmpty()) {
+			return 0;
+		}
+			
 		ContentValues values = new ContentValues();
 		values.put(UserInfoEntry.COLUMN_NAME_LOGIN_ID, userInfo.loginId);
 		values.put(UserInfoEntry.COLUMN_NAME_USERNAME, userInfo.userName);

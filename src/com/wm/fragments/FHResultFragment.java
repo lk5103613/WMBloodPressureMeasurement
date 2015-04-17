@@ -274,5 +274,10 @@ public class FHResultFragment extends BaseResultFragment {
 		}
 		return (int) sum / mAllValues.size();
 	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
 
 }

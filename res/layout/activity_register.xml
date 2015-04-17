@@ -82,7 +82,8 @@
                 android:maxLength="30"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textSize="@dimen/reg_txt_size" />
+                android:textSize="@dimen/reg_txt_size" 
+                android:singleLine="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -208,7 +209,9 @@
                 android:background="@drawable/txt_bg"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textSize="@dimen/reg_txt_size" />
+                android:textSize="@dimen/reg_txt_size"
+                android:maxLength="18" 
+                android:singleLine="true"/>
 
             <TextView
                 android:layout_width="wrap_content"

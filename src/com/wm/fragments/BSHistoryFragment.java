@@ -103,6 +103,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 		mChart.setDescription("");// 设置单位
 
 		XLabels xl = mChart.getXLabels();
+		xl.setCenterXLabelText(true);
 		xl.setPosition(XLabelPosition.BOTTOM);// x 坐标位置
 
 	}
@@ -113,7 +114,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 
 		System.out.println("size " + bsResults.size());
 		for (int i = 0; i < bsResults.size(); i++) {
-			xVals.add(DateUtil.getFormatDate(DateUtil.DATA_FORMAT_ENGLISH,
+			xVals.add( DateUtil.getFormatDate(DateUtil.DATA_FORMAT_ENGLISH,
 					bsResults.get(i).date));
 			yVals1.add(new BarEntry(Float.parseFloat(bsResults.get(i).bg), i));
 		}

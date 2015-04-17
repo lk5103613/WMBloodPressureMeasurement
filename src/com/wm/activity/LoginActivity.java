@@ -23,6 +23,7 @@ import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 
 import com.wm.customview.ClearEditText;
+import com.wm.db.HistoryDBManager;
 import com.wm.db.UserInfoDBManager;
 import com.wm.entity.LoginEntity;
 import com.wm.entity.RequestEntity;
@@ -53,7 +54,7 @@ public class LoginActivity extends ActionBarActivity {
 	private PropertiesSharePrefs mProperties;
 	private Handler mHandler;
 	private UserInfoDBManager mUserInfoDBManager;
-
+	private HistoryDBManager mHistoryDBManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class LoginActivity extends ActionBarActivity {
 		mContext = LoginActivity.this;
 		mProperties = PropertiesSharePrefs.getInstance(mContext);
 		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
+		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
 
 	}
 
@@ -160,7 +162,7 @@ public class LoginActivity extends ActionBarActivity {
 		if ("".equals(name)) {
 			msg[0] = "登录名不能为空";
 			result = false;
-		} else if (!Pattern.matches("^[A-Za-z]{1}[0-9A-Za-z]{2,19}$",
+		} else if (!Pattern.matches("^1[3-8]{1}\\d{9}$",
 				name)) {
 			msg[0] = "登录名格式不正确";
 			result = false;
@@ -259,10 +261,17 @@ public class LoginActivity extends ActionBarActivity {
 						result.datas.userInfo.userCard);
 				DialogUtils.showToast(LoginActivity.this,
 						getString(R.string.login_success), DialogUtils.SUCCESS);
+				
+				
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
+						String userCard = result.datas.userInfo.userCard;
 						mUserInfoDBManager.saveUser(result.datas.userInfo);
+						
+						mHistoryDBManager.updateBpUserCard(userCard);
+						mHistoryDBManager.updateBsUserCard(userCard);
+						mHistoryDBManager.updateFhUserCard(userCard);
 					}
 				}).start();
 				Intent intent = new Intent(mContext, MainActivity.class);

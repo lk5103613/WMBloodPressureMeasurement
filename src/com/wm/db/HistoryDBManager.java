@@ -87,6 +87,15 @@ public class HistoryDBManager {
 		String[] whereArgs = new String[] { String.valueOf(bpResult.id) };
 		db.update(BPDataEntry.TABLE_NAME, values, where, whereArgs);
 	}
+	
+	public void updateBpUserCard(String userCard){
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(BPDataEntry.COLUMN_NAME_CARD, userCard);
+		String where = BPDataEntry.COLUMN_NAME_CARD + " = ?";
+		String[] whereArgs = new String[] { "" };
+		db.update(BPDataEntry.TABLE_NAME, values, where, whereArgs);
+	} 
 
 	public List<BPResult> getBpResultsByStatus(int status) {
 
@@ -349,6 +358,15 @@ public class HistoryDBManager {
 		String[] whereArgs = new String[] { String.valueOf(bsResult.id) };
 		db.update(BSDataEntry.TABLE_NAME, values, where, whereArgs);
 	}
+	
+	public void updateBsUserCard(String userCard){
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(BSDataEntry.COLUMN_NAME_CARD, userCard);
+		String where = BSDataEntry.COLUMN_NAME_CARD + " = ?";
+		String[] whereArgs = new String[] { "" };
+		db.update(BSDataEntry.TABLE_NAME, values, where, whereArgs);
+	} 
 
 	public void changeBsSate(List<BSResult> bsResults) {
 		for (BSResult bsResult : bsResults) {
@@ -476,6 +494,16 @@ public class HistoryDBManager {
 		String[] whereArgs = new String[] { String.valueOf(fhResult.id) };
 		db.update(FHDataEntry.TABLE_NAME, values, where, whereArgs);
 	}
+	
+	public void updateFhUserCard(String userCard){
+		SQLiteDatabase db = mDBHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(FHDataEntry.COLUMN_NAME_CARD, userCard);
+		String where = FHDataEntry.COLUMN_NAME_CARD + " = ?";
+		String[] whereArgs = new String[] { "" };
+		db.update(FHDataEntry.TABLE_NAME, values, where, whereArgs);
+	}
+	
 
 	public void changeFhState(List<FHResult> fhResults) {
 		for (FHResult fhResult : fhResults) {

@@ -14,7 +14,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.text.method.ReplacementTransformationMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.view.View;
@@ -121,14 +120,15 @@ public class RegisterActivity extends ActionBarActivity implements
 
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
+		
+		final String phone = mRegPhone.getText().toString();
+		if (!verifyPhone(phone)) {
+			return;
+		}
 
 		if (SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
 			DialogUtils.showToast(this, getString(R.string.network_error),
 					DialogUtils.ERROR);
-			return;
-		}
-		final String phone = mRegPhone.getText().toString();
-		if (!verifyPhone(phone)) {
 			return;
 		}
 
@@ -183,9 +183,11 @@ public class RegisterActivity extends ActionBarActivity implements
 	}
 
 	@OnFocusChange({ R.id.reg_name, R.id.reg_phone, R.id.reg_code,
-			R.id.reg_identity,R.id.reg_conform_psw })
+			R.id.reg_identity,R.id.reg_psw,R.id.reg_conform_psw })
 	public void clickFource(View view) {
-		if (view.isFocused()) {
+		if (view.isFocused() && (view.getId()==R.id.reg_psw
+				||view.getId()==R.id.reg_conform_psw
+				||view.getId() == R.id.reg_identity)) {
 			scrollToBottom();
 		}
 
@@ -207,10 +209,14 @@ public class RegisterActivity extends ActionBarActivity implements
 				String idcard = mRegIdentity.getText().toString();
 				verifyCard(idcard);
 				break;
-			case R.id.reg_conform_psw:
+			case R.id.reg_psw:
 				String pwd = mRegPsw.getText().toString();
+				verifyPwd(pwd);
+				break;
+			case R.id.reg_conform_psw:
+				String pwd2 = mRegPsw.getText().toString();
 				String conformPwd = mRegConformPsw.getText().toString();
-				verifyConformPwd(pwd, conformPwd);
+				verifyConformPwd(pwd2, conformPwd);
 				break;
 			default:
 				break;
@@ -275,6 +281,7 @@ public class RegisterActivity extends ActionBarActivity implements
 		boolean result = isEmpty(fields) && verifyName(name)
 				&& verifyPhone(phone) && verifyCode(code)
 				&& verifyCard(identityCard)
+				&& verifyPwd(psw)
 				&& verifyConformPwd(psw, conformPsw);
 		return result;
 	}
@@ -293,7 +300,10 @@ public class RegisterActivity extends ActionBarActivity implements
 	private boolean verifyCode(String code) {
 		final String[] msg = new String[1];
 		boolean result = true;
-		if (!Pattern.matches("^[0-9]{6}$", code)) {
+		if("".equals(code)) {
+			msg[0] = "请输入验证码";
+			result = false;
+		} else if (!Pattern.matches("^[0-9]{6}$", code)) {
 			msg[0] = "验证码格式不正确";
 			result = false;
 		}
@@ -368,7 +378,7 @@ public class RegisterActivity extends ActionBarActivity implements
 		boolean result = true;
 
 		if("".equals(idcard)) {
-			msg[0] = "请输入验证码";
+			msg[0] = "请输入身份证";
 			result = false;
 		}else if (!Pattern
 				.matches(
@@ -398,6 +408,9 @@ public class RegisterActivity extends ActionBarActivity implements
 		if ("".equals(pwd)) {
 			msg[0] = "请输入密码";
 			result = false;
+		} else if(pwd.length() <6) {
+			msg[0] = "密码太短";
+			result = false;
 		}
 
 		if (!result) {
@@ -422,6 +435,7 @@ public class RegisterActivity extends ActionBarActivity implements
 	 * @return
 	 */
 	private boolean verifyConformPwd(String psw, String conformPsw) {
+		System.out.println(" verify conform pwd");
 
 		final String[] msg = new String[1];
 		boolean result = true;
