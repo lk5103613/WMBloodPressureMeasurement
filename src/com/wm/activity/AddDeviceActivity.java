@@ -201,7 +201,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		System.out.println("scan failed");
 		if (mCurrentScanTime < 1) { // scan again
 			mCurrentScanTime++;
-			System.out.println("scan again");
 			mScanner.scanLeDevice(true);
 		} else {
 			hideProgress();
