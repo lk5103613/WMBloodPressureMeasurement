@@ -18,7 +18,7 @@
         android:id="@+id/link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="为了给您更好的服务，本应用将会上传您的检测数据进行分析，您是否同意无忧健康协议？"
+        android:text="为了给您更好的服务，本应用将会上传您的检测数据进行分析，您是否同意"
         android:textColor="@color/white"
         android:linksClickable="true"
         android:padding="5dp"/>

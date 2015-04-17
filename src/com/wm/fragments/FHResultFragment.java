@@ -96,7 +96,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		mChart.getYLabels().setLabelCount(5);
 	    mChart.setHighlightEnabled(false);
-		mChart.setScaleMinima(4, 1);// 设置缩放比例
+		mChart.setScaleMinima(40, 1);// 设置缩放比例
 		mChart.centerViewPort(0, 200);
 		mChart.getXLabels().setSpaceBetweenLabels(1);
 	}
@@ -107,7 +107,7 @@ public class FHResultFragment extends BaseResultFragment {
 		// create 15 x-vals
 		xVals = new ArrayList<String>();
 
-		for (int i = 1; i <= 100; i++) {
+		for (int i = 1; i <= 1000; i++) {
 			xVals.add("");
 		}
 
@@ -151,7 +151,7 @@ public class FHResultFragment extends BaseResultFragment {
 				mChart.centerViewPort(recordIndex-5, 200);
 			}
 			
-			if(recordIndex>100) {
+			if(recordIndex>1000) {
 				System.out.println("scale " + (recordIndex/100)*4.0f);
 				mChart.setScaleMinima((recordIndex/100)*4, 1);
 			}

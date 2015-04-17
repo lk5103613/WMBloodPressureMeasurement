@@ -73,7 +73,9 @@
             android:drawableStart="@drawable/ic_action_person"
             android:hint="@string/hint_username"
             android:imeOptions="actionNext"
-            android:inputType="number" />
+            android:inputType="number" 
+            android:maxLength="70"
+            android:digits="/[^a-zA-Z0-9]/g"/>
 
         <TextView
             android:id="@+id/register_txt"
@@ -94,7 +96,8 @@
             android:drawablePadding="7dp"
             android:drawableStart="@drawable/ic_action_lock"
             android:hint="@string/hint_pwd"
-            android:inputType="textPassword" />
+            android:inputType="textPassword" 
+            android:maxLength="20"/>
 
         <Button
             android:id="@+id/btn_login"

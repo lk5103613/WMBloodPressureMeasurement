@@ -36,6 +36,8 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	private List<String> mDBAddresses = new ArrayList<String>();
 	private int mCurrentScanState = DeviceScanner.STATE_END_SCAN;
 	private int mCurrentScanTime = 0; // scan number after failed
+	
+	private boolean isContains = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +136,12 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 			for (BluetoothDevice device : devices) {
 				final String address = device.getAddress()
 						.toUpperCase(Locale.getDefault()).trim();
-				if (mDBAddresses.contains(address) || !isMatchedDevice(device)) {
+				if(mDBAddresses.contains(address)) {
+					isContains = true;
+					continue;
+				}
+				
+				if (!isMatchedDevice(device)) {
 					continue;
 				}
 				needSaveDevices.add(new DeviceInfo(getDeviceType(), 
@@ -153,11 +160,14 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 			hideProgress();
 			if (needSaveDevices.size() != 0) {
 				String rmdStr = getResources().getString(R.string.scan_success);
-				Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+				DialogUtils.showToast(this, rmdStr, DialogUtils.SUCCESS);
 				finish();
 			} else {
-				Toast.makeText(mContext, getResources().getString(R.string.not_found_device),
-						Toast.LENGTH_LONG).show();
+				if(isContains) {
+					DialogUtils.showToast(this, getString(R.string.device_exist), DialogUtils.SUCCESS);
+				}else {
+					DialogUtils.showToast(this, "Œ¥…®√ËµΩ∆•≈‰…Ë±∏", DialogUtils.ERROR);
+				}
 				this.finish();
 			}
 
@@ -191,7 +201,8 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		} else {
 			hideProgress();
 			String rmdStr = getResources().getString(R.string.scan_failed);
-			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+//			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+			DialogUtils.showToast(this, rmdStr, DialogUtils.ERROR);
 		}
 	}
 
@@ -210,7 +221,8 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				return true;
 		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {//—™—π
 			
-			if(deviceName.equals("bolutek") || deviceName.equals("abg-bxxx")) {
+			if(deviceName.equals("bolutek") || deviceName.equals("abg-bxxx") || deviceName.equals("mi")) {
+				System.out.println("device name" + deviceName);
 				return false;
 			}
 				return true;

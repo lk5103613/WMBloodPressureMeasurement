@@ -1,15 +1,21 @@
 package com.wm.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
 import com.testin.agent.TestinAgent;
 import com.wm.utils.PropertiesSharePrefs;
 
@@ -35,7 +42,7 @@ public class WelcomeActivity extends Activity implements
 		OnCheckedChangeListener, OnClickListener {
 
 	public final static String NAME = "loginName";
-	public final static String  PASSWORD="loginPwd";
+	public final static String PASSWORD = "loginPwd";
 
 	@InjectView(R.id.welcome_logo)
 	ImageView mLogo;
@@ -56,7 +63,7 @@ public class WelcomeActivity extends Activity implements
 		TestinAgent.init(this, "c4b338451aae8a2acce515ab0ccdc005", "wmbug");
 		setContentView(R.layout.activity_welcome);
 		ButterKnife.inject(this);
-		
+
 		mContext = this;
 		mState = PropertiesSharePrefs.getInstance(mContext);
 
@@ -82,26 +89,25 @@ public class WelcomeActivity extends Activity implements
 		Animation companyNameAnimation = AnimationUtils.loadAnimation(mContext,
 				R.anim.welcome_company_name_anim);
 		mCompanyName.startAnimation(companyNameAnimation);
-		
+
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				
-				//判断如果同意之后， 不在提示
-				boolean auth = mState.getProperty(PropertiesSharePrefs.TYPE_AUTH, false);
-//				if (!auth) {
-					showAuthDialog();
-//				} else {
-//					jumpPage();
-//				}
-				
+
+				// 判断如果同意之后， 不在提示
+				boolean auth = mState.getProperty(
+						PropertiesSharePrefs.TYPE_AUTH, false);
+				// if (!auth) {
+				showAuthDialog();
+				// } else {
+				// jumpPage();
+				// }
+
 			}
 		}, 3000);
-		
-		
+
 	}
 
-	@SuppressLint("InflateParams")
 	public void showAuthDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
@@ -121,22 +127,36 @@ public class WelcomeActivity extends Activity implements
 		mBtnNo.setOnClickListener(this);
 		mBtnYes.setOnClickListener(this);
 
-		String url = "<a href=\"http://www.leadingtechmed.cn/agreements/dataUpload.html\">"
-				+ mLinkText.getText() + "</a> ";
-		mLinkText.setText(Html.fromHtml(url));
-		mLinkText.setMovementMethod(LinkMovementMethod.getInstance());
-
 		Window dialogWindow = mAalertDialog.getWindow();
 		WindowManager m = this.getWindowManager();
 		Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
-
 		WindowManager.LayoutParams params = dialogWindow.getAttributes();
-
 		Point p = new Point();
 		d.getSize(p);
 		params.width = (int) (p.x * 0.9); // 宽度设置为屏幕的0.65
-
 		dialogWindow.setAttributes(params);
+		
+		authLink();
+	}
+
+	private void authLink() {
+		// 创建一个 SpannableString对象
+		SpannableString sp = new SpannableString(
+				"为了给您更好的服务,本应用将会上传您的检测数据进行分析,您是否同意无忧健康协议？");
+		// 设置超链接
+		sp.setSpan(new URLSpan(
+				"http://www.leadingtechmed.cn/agreements/dataUpload.html"), 33,
+				39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		// 设置高亮样式二
+		sp.setSpan(new ForegroundColorSpan(Color.WHITE), 33, 39,
+				Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		// 设置斜体
+		sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD_ITALIC), 33,
+				39, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		// SpannableString对象设置给TextView
+		mLinkText.setText(sp);
+		// 设置TextView可点击
+		mLinkText.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override
@@ -162,6 +182,7 @@ public class WelcomeActivity extends Activity implements
 			mState.saveProperty(PropertiesSharePrefs.TYPE_AUTH, false);
 			break;
 		}
+
 		mAalertDialog.dismiss();
 		jumpPage();
 	}
@@ -180,12 +201,12 @@ public class WelcomeActivity extends Activity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		return true;// 禁止back
 	}
-	
-	private void jumpPage(){
+
+	private void jumpPage() {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		finish();
-		
+
 	}
 
 }

@@ -5,13 +5,20 @@ import java.util.regex.Pattern;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -82,9 +89,27 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		mContext = this;
 		mHandler = new Handler();
 		
-		String url = "<a href=\"http://www.leadingtechmed.cn/agreements/service.html\">"
-				+ mRegServiceItem.getText() + "</a> ";
-		mRegServiceItem.setText(Html.fromHtml(url));
+//		String url = "<a href=\"http://www.leadingtechmed.cn/agreements/service.html\">"
+//				+ mRegServiceItem.getText() + "</a> ";
+//		mRegServiceItem.setText(Html.fromHtml(url));
+//		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
+		serviceItemLink();
+	}
+	
+	private void serviceItemLink(){
+		// 创建一个 SpannableString对象
+		SpannableString sp = new SpannableString("《服务条款》");
+		// 设置超链接
+		sp.setSpan(new URLSpan(
+				"http://www.leadingtechmed.cn/agreements/service.html"), 0,
+				6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		// 设置高亮样式二
+		sp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary)), 0, 6,
+				Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		
+		// SpannableString对象设置给TextView
+		mRegServiceItem.setText(sp);
+		// 设置TextView可点击
 		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
