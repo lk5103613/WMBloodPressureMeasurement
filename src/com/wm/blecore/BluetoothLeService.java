@@ -39,6 +39,10 @@ public class BluetoothLeService extends Service {
 	public static final int STATE_DISCONNECTED = 0;
 	public static final int STATE_CONNECTING = 1;
 	public static final int STATE_CONNECTED = 2;
+	
+	public static final String DISCONNECT_REASON = "reason";
+	public static final String DISONNECT_FROM_STATE = "接收到onConnectionStateChange变为disconnect";
+	public static final String DISCONNECT_FROM_DELAY = "连接超时或连接成功后获取数据超时";
 
 	public final static String ACTION_GATT_CONNECTED = "com.wm.bluetooth.le.ACTION_GATT_CONNECTED";
 	public final static String ACTION_GATT_DISCONNECTED = "com.wm.bluetooth.le.ACTION_GATT_DISCONNECTED";
@@ -58,7 +62,7 @@ public class BluetoothLeService extends Service {
 					mDelayed = false;
 					removeDelayOperation();
 					disconnect();
-					broadcastUpdate(ACTION_GATT_DISCONNECTED);
+					broadcastUpdate(ACTION_GATT_DISCONNECTED, DISCONNECT_FROM_DELAY);
 				}
 			}
 		};
@@ -76,13 +80,13 @@ public class BluetoothLeService extends Service {
 				addDelayOperation(10000);
 				intentAction = ACTION_GATT_CONNECTED;
 				mConnectionState = STATE_CONNECTED;
-				broadcastUpdate(intentAction);
+				broadcastUpdate(intentAction, "");
 				mBluetoothGatt.discoverServices();
 			} else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
 				// 如果连接断开，通过广播方式告知MainActivity
 				intentAction = ACTION_GATT_DISCONNECTED;
 				mConnectionState = STATE_DISCONNECTED;
-				broadcastUpdate(intentAction);
+				broadcastUpdate(intentAction, DISONNECT_FROM_STATE);
 			}
 		};
 
@@ -96,7 +100,7 @@ public class BluetoothLeService extends Service {
 			// }
 			// }
 			if (status == BluetoothGatt.GATT_SUCCESS) {
-				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
+				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, "");
 			}
 		};
 
@@ -156,8 +160,9 @@ public class BluetoothLeService extends Service {
 	}
 
 	// 发送广播
-	private void broadcastUpdate(final String action) {
+	private void broadcastUpdate(final String action, String reason) {
 		final Intent intent = new Intent(action);
+		intent.putExtra(DISCONNECT_REASON, reason);
 		sendBroadcast(intent);
 	}
 

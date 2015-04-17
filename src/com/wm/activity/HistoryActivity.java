@@ -129,7 +129,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		mFailedTime = 0;
 		mBeginDetect = true;
 		beginCheckUI();
-		System.out.println(connect());
+		System.out.println("connect " + connect());
 	}
 	
 	@OnClick(R.id.history_back)
