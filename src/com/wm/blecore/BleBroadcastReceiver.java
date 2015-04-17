@@ -27,7 +27,6 @@ public class BleBroadcastReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		final String action = intent.getAction();
 		if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-			System.out.println("connect");
 			mHandleConnect.handleConnect();
 		} else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
 			String reason = intent.getStringExtra(BluetoothLeService.DISCONNECT_REASON);

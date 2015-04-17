@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 /**
  * 检测设备连接状态，发送广播
@@ -56,30 +57,30 @@ public class BluetoothLeService extends Service {
 		mDisconnectRunnable = new Runnable() {
 			@Override
 			public void run() {
-				if(mConnectionState == STATE_CONNECTING || mConnectionState == STATE_CONNECTED) {
+				if(mConnectionState != STATE_DISCONNECTED) {
 					mDelayed = false;
 					disconnect();
-					broadcastUpdate(ACTION_GATT_DISCONNECTED, DISCONNECT_FROM_DELAY);
 				} 
 			}
 		};
 	}
-
+	
 	// 连接的回调方法
 	private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
 		//连接状态发生改变
 		public void onConnectionStateChange(BluetoothGatt gatt, int status,
 				int newState) {
-			removeDelayOperation();
 			String intentAction;
 			if (newState == BluetoothProfile.STATE_CONNECTED && mConnectionState != STATE_CONNECTED) {
+				removeDelayOperation();
 				// 如果连接成功，通过广播方式告知MainAcivity
-				addDelayOperation(10000);
+				addDelayOperation(5000);
 				intentAction = ACTION_GATT_CONNECTED;
 				mConnectionState = STATE_CONNECTED;
 				broadcastUpdate(intentAction, "");
 				mBluetoothGatt.discoverServices();
 			} else if (newState == BluetoothProfile.STATE_DISCONNECTED && mConnectionState != STATE_DISCONNECTED) {
+				removeDelayOperation();
 				// 如果连接断开，通过广播方式告知MainActivity
 				intentAction = ACTION_GATT_DISCONNECTED;
 				mConnectionState = STATE_DISCONNECTED;
@@ -88,12 +89,6 @@ public class BluetoothLeService extends Service {
 		};
 		// 发现services
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-//			for(BluetoothGattService service : gatt.getServices()) {
-//				System.out.println("service: " + service.getUuid());
-//				for(BluetoothGattCharacteristic cha : service.getCharacteristics()) {
-//					System.out.println("characteristics: " + cha.getUuid());
-//				}
-//			}
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, "");
 			}
@@ -168,6 +163,7 @@ public class BluetoothLeService extends Service {
 			for (byte byteChar : data) {
 				stringBuilder.append(String.format("%02x ", byteChar));
 			}
+			Log.i("oriData", String.valueOf(data.length) + "     " + characteristic.getUuid().toString());
 			// 将数据放入intent中
 			intent.putExtra(EXTRA_DATA, stringBuilder.toString().trim());
 		}
@@ -250,7 +246,10 @@ public class BluetoothLeService extends Service {
 			return;
 		}
 		this.mBluetoothGatt.disconnect();
-		this.mConnectionState = STATE_DISCONNECTED;
+		if(mConnectionState != STATE_DISCONNECTED) {
+			this.mConnectionState = STATE_DISCONNECTED;
+			broadcastUpdate(ACTION_GATT_DISCONNECTED, "调用断开方法");
+		}
 	}
 
 	public int getConnectState() {
@@ -267,7 +266,6 @@ public class BluetoothLeService extends Service {
 	
 	private void removeDelayOperation() {
 		if(mDelayed) {
-			System.out.println("remove delayed");
 			mHandler.removeCallbacks(mDisconnectRunnable);
 			mDelayed = false;
 		}
@@ -275,7 +273,6 @@ public class BluetoothLeService extends Service {
 	
 	private void addDelayOperation(int delayMillis) {
 		if(!mDelayed) {
-			System.out.println("delayed");
 			mDelayed = mHandler.postDelayed(mDisconnectRunnable, delayMillis);
 		}
 	}
