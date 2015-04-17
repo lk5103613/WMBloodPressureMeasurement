@@ -35,7 +35,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	private List<String> mDBAddresses = new ArrayList<String>();
 	private int mCurrentScanState = DeviceScanner.STATE_END_SCAN;
 	private int mCurrentScanTime = 0; // scan number after failed
-	
+
 	private boolean isContains = false;
 
 	@Override
@@ -51,16 +51,16 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		mFHText = getResources().getString(R.string.fh_text);
 		mProgressDialog = DialogUtils.createProgressDialog(mContext, "",
 				getResources().getString(R.string.scaning));
-		
-		ArrayList<String> type= new ArrayList<>();
+
+		ArrayList<String> type = new ArrayList<>();
 		type.add(mBPText);
 		type.add(mBSText);
 		type.add(mFHText);
-		
-		ArrayAdapter<String> adapter = new SpinnerAdapter(mTypeSpinner, this, 
-				R.layout.simple_spinner_item,type);
+
+		ArrayAdapter<String> adapter = new SpinnerAdapter(mTypeSpinner, this,
+				R.layout.simple_spinner_item, type);
 		mTypeSpinner.setAdapter(adapter);
-				
+
 	}
 
 	@Override
@@ -80,9 +80,10 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	}
 
 	@OnClick(R.id.add_back)
-	public void back(){
+	public void back() {
 		finish();
 	}
+
 	private String getDeviceType() {
 		String type = null;
 		String selectedType = mTypeSpinner.getSelectedItem().toString();
@@ -130,22 +131,22 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				return;
 			}
 			mCurrentScanTime = 0; // set scan number to 0
-			
+
 			final List<DeviceInfo> needSaveDevices = new ArrayList<DeviceInfo>();
 			for (BluetoothDevice device : devices) {
 				final String address = device.getAddress()
 						.toUpperCase(Locale.getDefault()).trim();
-				if(mDBAddresses.contains(address)) {
+
+				if (mDBAddresses.contains(address)) {
 					isContains = true;
 					continue;
 				}
-				
+
 				if (!isMatchedDevice(device)) {
 					continue;
 				}
-				needSaveDevices.add(new DeviceInfo(getDeviceType(), 
-						getDeviceName(getDeviceType()),
-						address));
+				needSaveDevices.add(new DeviceInfo(getDeviceType(),
+						getDeviceName(getDeviceType()), address));
 			}
 			new Thread(new Runnable() {
 				@Override
@@ -162,9 +163,11 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 				DialogUtils.showToast(this, rmdStr, DialogUtils.SUCCESS);
 				finish();
 			} else {
-				if(isContains) {
-					DialogUtils.showToast(this, getString(R.string.device_exist), DialogUtils.SUCCESS);
-				}else {
+				if (isContains) {
+					DialogUtils.showToast(this,
+							getString(R.string.device_exist),
+							DialogUtils.SUCCESS);
+				} else {
 					DialogUtils.showToast(this, "Œ¥…®√ËµΩ∆•≈‰…Ë±∏", DialogUtils.ERROR);
 				}
 				this.finish();
@@ -174,14 +177,14 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		mCurrentScanState = scanState;
 	}
 
-	private String getDeviceName(String type){
+	private String getDeviceName(String type) {
 		String name = "";
 		switch (type) {
 		case DeviceInfo.TYPE_FH:
 			name = getResources().getString(R.string.fh_text);
 			break;
 		case DeviceInfo.TYPE_BS:
-			name =getResources().getString(R.string.bs_text);
+			name = getResources().getString(R.string.bs_text);
 			break;
 		case DeviceInfo.TYPE_BP:
 			name = getResources().getString(R.string.bp_text);
@@ -192,6 +195,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		}
 		return name;
 	}
+
 	private void handleConFailed() {
 		System.out.println("scan failed");
 		if (mCurrentScanTime < 1) { // scan again
@@ -200,7 +204,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		} else {
 			hideProgress();
 			String rmdStr = getResources().getString(R.string.scan_failed);
-//			Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
+			// Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
 			DialogUtils.showToast(this, rmdStr, DialogUtils.ERROR);
 		}
 	}
@@ -213,25 +217,27 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 	}
 
 	private boolean isMatchedDevice(BluetoothDevice device) {
-		String deviceName = device.getName().trim().toLowerCase(Locale.getDefault());
+		String deviceName = device.getName().trim()
+				.toLowerCase(Locale.getDefault());
 		System.out.println("device name " + deviceName);
 		if (getDeviceType().equals(DeviceInfo.TYPE_FH)) {
-			if(deviceName.equals("bolutek"))//≈–∂œ¿‡–Õ”Î√˚◊÷ «∑Ò∆•≈‰ Ã•–ƒ
+			if (deviceName.equals("bolutek"))// ≈–∂œ¿‡–Õ”Î√˚◊÷ «∑Ò∆•≈‰ Ã•–ƒ
 				return true;
-		} else if(getDeviceType().equals(DeviceInfo.TYPE_BP)) {//—™—π
-			
-			if(deviceName.equals("bolutek") || deviceName.equals("abg-bxxx") || deviceName.equals("mi")) {
+		} else if (getDeviceType().equals(DeviceInfo.TYPE_BP)) {// —™—π
+
+			if (deviceName.equals("bolutek") || deviceName.equals("abg-bxxx")
+					|| deviceName.equals("mi")) {
 				System.out.println("device name" + deviceName);
 				return false;
 			}
-				return true;
-			//—™—π √˚≥∆ºÏ≤È
-//			if(deviceName.equals("lt-xy")){
-//				return true;
-//			}
-			
-		} else if(getDeviceType().equals(DeviceInfo.TYPE_BS)) {//—™Ã«
-			if(deviceName.equals("abg-bxxx"))
+			return true;
+			// —™—π √˚≥∆ºÏ≤È
+			// if(deviceName.equals("lt-xy")){
+			// return true;
+			// }
+
+		} else if (getDeviceType().equals(DeviceInfo.TYPE_BS)) {// —™Ã«
+			if (deviceName.equals("abg-bxxx"))
 				return true;
 		}
 		return false;

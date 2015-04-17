@@ -1,5 +1,7 @@
 package com.wm.activity;
 
+import java.util.regex.Pattern;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +9,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.method.KeyListener;
+import android.text.method.NumberKeyListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
@@ -17,6 +23,7 @@ import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 
 import com.wm.customview.ClearEditText;
+import com.wm.db.HistoryDBManager;
 import com.wm.db.UserInfoDBManager;
 import com.wm.entity.LoginEntity;
 import com.wm.entity.RequestEntity;
@@ -47,7 +54,7 @@ public class LoginActivity extends ActionBarActivity {
 	private PropertiesSharePrefs mProperties;
 	private Handler mHandler;
 	private UserInfoDBManager mUserInfoDBManager;
-
+	private HistoryDBManager mHistoryDBManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,13 +65,15 @@ public class LoginActivity extends ActionBarActivity {
 		mContext = LoginActivity.this;
 		mProperties = PropertiesSharePrefs.getInstance(mContext);
 		mUserInfoDBManager = UserInfoDBManager.getInstance(mContext);
-		
+		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
+
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		String phone = PropertiesSharePrefs.getInstance(this).getProperty(PropertiesSharePrefs.TYPE_USER_PHONE, "");
+		String phone = PropertiesSharePrefs.getInstance(this).getProperty(
+				PropertiesSharePrefs.TYPE_USER_PHONE, "");
 		mUserName.setText(phone);
 	}
 
@@ -80,8 +89,8 @@ public class LoginActivity extends ActionBarActivity {
 		if (hasFocus) {
 			scrollToBottom();
 		}
-		
-		if(!hasFocus) {
+
+		if (!hasFocus) {
 			switch (v.getId()) {
 			case R.id.txt_username:
 				String loginName = mUserName.getText().toString();
@@ -89,7 +98,7 @@ public class LoginActivity extends ActionBarActivity {
 				break;
 			case R.id.txt_pwd:
 				String loginPwd = mPwd.getText().toString();
-				verifyPwd(loginPwd); 
+				verifyPwd(loginPwd);
 			default:
 				break;
 			}
@@ -140,26 +149,38 @@ public class LoginActivity extends ActionBarActivity {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * 验证用户名格式
+	 * 
 	 * @param name
 	 * @return
 	 */
-	private boolean verifyName(String name){
-		if(name.length()<4) {
+	private boolean verifyName(String name) {
+		final String[] msg = new String[1];
+		boolean result = true;
+		if ("".equals(name)) {
+			msg[0] = "登录名不能为空";
+			result = false;
+		} else if (!Pattern.matches("^1[3-8]{1}\\d{9}$",
+				name)) {
+			msg[0] = "登录名格式不正确";
+			result = false;
+		}
+
+		if (!result) {
 			mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					DialogUtils.showToast(LoginActivity.this, "登录名输入不正确", DialogUtils.ERROR);
+					DialogUtils.showToast(LoginActivity.this, msg[0],
+							DialogUtils.ERROR);
 				}
-			},500);
-			
-			return false;
+			}, 400);
 		}
-		return true;
+
+		return result;
 	}
-	
+
 	/**
 	 * 验证输入密码格式
 	 * 
@@ -167,27 +188,35 @@ public class LoginActivity extends ActionBarActivity {
 	 * @return
 	 */
 	private boolean verifyPwd(String pwd) {
-		if(pwd.length()<6) {
+		boolean result = true;
+		final String[] msg = new String[1];
+		if ("".equals(pwd)) {
+			msg[0] = "密码不能为空";
+			result = false;
+		} 
+
+		if (!result) {
 			mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					DialogUtils.showToast(LoginActivity.this, "输入密码格式不正确", DialogUtils.ERROR);
+					DialogUtils.showToast(LoginActivity.this, msg[0],
+							DialogUtils.ERROR);
 				}
-			},500);
-			return false;
+			}, 400);
 		}
-		return true;
+
+		return result;
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if(isFinishing()) {
+		if (isFinishing()) {
 			overridePendingTransition(R.anim.scale_fade_in,
 					R.anim.slide_out_to_right);
 		}
 	}
-	
+
 	private class LoginTask extends AsyncTask<Void, Void, Response> {
 
 		private ProgressDialog mProgress;
@@ -195,7 +224,8 @@ public class LoginActivity extends ActionBarActivity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mProgress = DialogUtils.createProgressDialog(mContext, "", "正在登录...");
+			mProgress = DialogUtils.createProgressDialog(mContext, "",
+					"正在登录...");
 			mProgress.show();
 		}
 
@@ -231,10 +261,17 @@ public class LoginActivity extends ActionBarActivity {
 						result.datas.userInfo.userCard);
 				DialogUtils.showToast(LoginActivity.this,
 						getString(R.string.login_success), DialogUtils.SUCCESS);
+				
+				
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
+						String userCard = result.datas.userInfo.userCard;
 						mUserInfoDBManager.saveUser(result.datas.userInfo);
+						
+						mHistoryDBManager.updateBpUserCard(userCard);
+						mHistoryDBManager.updateBsUserCard(userCard);
+						mHistoryDBManager.updateFhUserCard(userCard);
 					}
 				}).start();
 				Intent intent = new Intent(mContext, MainActivity.class);
@@ -246,16 +283,16 @@ public class LoginActivity extends ActionBarActivity {
 			}
 		}
 	}
-	
+
 	@OnTouch(R.id.scroll_inner)
 	public boolean mInnerTouch(View v) {
 		v.setFocusable(true);
 		v.setFocusableInTouchMode(true);
 		v.requestFocus();
-		//隐藏键盘
-		InputMethodManager imm = (InputMethodManager)
-		this.getSystemService(Context.INPUT_METHOD_SERVICE); 
-		imm.hideSoftInputFromWindow(mUserName.getWindowToken(), 0); 
+		// 隐藏键盘
+		InputMethodManager imm = (InputMethodManager) this
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(mUserName.getWindowToken(), 0);
 		return false;
 	}
 }

@@ -21,7 +21,7 @@ public class MainActivity extends BaseActivity implements
 
 	// request code to open bluetooth
 	public static int REQUEST_ENABLE_BT = 1;
-	
+
 	@InjectView(R.id.main_pager)
 	BarViewPager mPager;
 	@InjectView(R.id.main_tab)
@@ -45,10 +45,11 @@ public class MainActivity extends BaseActivity implements
 		mTabPager = TabPagerSharePrefs.getInstance(mContext);
 		mTabView.setViewPager(mPager);
 		mTabView.setOnPageChangeListener(this);
-		
+
 		int connectState = SystemUtils.getConnectState(mContext);
-		new CheckNeedUploadTask(mContext,mAlertDialog,btnUpdYes, btnUpdNo, connectState).execute();
-		
+		new CheckNeedUploadTask(mContext, mAlertDialog, btnUpdYes, btnUpdNo,
+				connectState).execute();
+
 	}
 
 	/**

@@ -10,11 +10,12 @@ import android.os.Handler;
 
 /**
  * 负责扫描的工具类
+ * 
  * @author Like
- *
+ * 
  */
 public class DeviceScanner {
-	
+
 	public final static int STATE_BEGIN_SCAN = 0;
 	public final static int STATE_END_SCAN = 1;
 
@@ -43,7 +44,7 @@ public class DeviceScanner {
 	}
 
 	public interface ScanCallback {
-		
+
 		void onScanStateChange(int scanState, List<BluetoothDevice> mDevices);
 
 	}
@@ -57,14 +58,14 @@ public class DeviceScanner {
 	@SuppressWarnings("deprecation")
 	public void scanLeDevice(final boolean enable) {
 		if (enable) {
-			if(mScanning)
+			if (mScanning)
 				return;
 			mDevices.clear();
 			// 在指定时间之后停止扫描
 			mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					if(mScanning)
+					if (mScanning)
 						scanLeDevice(false);
 				}
 			}, SCAN_PERIOD);
@@ -81,13 +82,14 @@ public class DeviceScanner {
 	private LeScanCallback mLeScanCallback = new LeScanCallback() {
 		@Override
 		public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-			if(!mDevices.contains(device))
+			if (!mDevices.contains(device))
 				mDevices.add(device);
 		}
 	};
 
 	/**
 	 * 用于判断是否处于正在扫描状态
+	 * 
 	 * @return 如果正在扫描返回true，否在返回false
 	 */
 	public boolean isScanning() {

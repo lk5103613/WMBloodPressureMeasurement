@@ -5,19 +5,16 @@ import java.util.regex.Pattern;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -41,11 +38,13 @@ import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.DialogUtils;
+import com.wm.utils.InputLowerToUpper;
 import com.wm.utils.MD5Utils;
 import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 
-public class RegisterActivity extends ActionBarActivity implements OnCheckedChangeListener{
+public class RegisterActivity extends ActionBarActivity implements
+		OnCheckedChangeListener {
 
 	@InjectView(R.id.btn_send_code)
 	Button mbtnSendCode;
@@ -73,7 +72,7 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	CheckBox mRegCheckBox;
 	@InjectView(R.id.reg_service_item)
 	TextView mRegServiceItem;
-	
+
 	private CountDownTimer mCountTimer;
 	private Context mContext;
 	private Handler mHandler;
@@ -84,35 +83,36 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 		ButterKnife.inject(this);
-		
+
 		mRegCheckBox.setOnCheckedChangeListener(this);
 		mContext = this;
 		mHandler = new Handler();
-		
-//		String url = "<a href=\"http://www.leadingtechmed.cn/agreements/service.html\">"
-//				+ mRegServiceItem.getText() + "</a> ";
-//		mRegServiceItem.setText(Html.fromHtml(url));
-//		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
 		serviceItemLink();
+		
+		mRegIdentity.setTransformationMethod(new InputLowerToUpper());//转换大小写
 	}
 	
-	private void serviceItemLink(){
+	
+
+	private void serviceItemLink() {
 		// 创建一个 SpannableString对象
 		SpannableString sp = new SpannableString("《服务条款》");
 		// 设置超链接
 		sp.setSpan(new URLSpan(
-				"http://www.leadingtechmed.cn/agreements/service.html"), 0,
-				6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+				"http://www.leadingtechmed.cn/agreements/service.html"), 0, 6,
+				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 		// 设置高亮样式二
-		sp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary)), 0, 6,
+		sp.setSpan(
+				new ForegroundColorSpan(getResources().getColor(
+						R.color.colorPrimary)), 0, 6,
 				Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-		
+
 		// SpannableString对象设置给TextView
 		mRegServiceItem.setText(sp);
 		// 设置TextView可点击
 		mRegServiceItem.setMovementMethod(LinkMovementMethod.getInstance());
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -121,86 +121,129 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	@OnClick(R.id.btn_send_code)
 	public void sendCode(View view) {
 		
-		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
-			DialogUtils.showToast(this, getString(R.string.network_error), DialogUtils.ERROR);
-			return;
-		}
 		final String phone = mRegPhone.getText().toString();
-		if(!verifyPhone(phone)) {
+		if (!verifyPhone(phone)) {
 			return;
 		}
-		
+
+		if (SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
+			DialogUtils.showToast(this, getString(R.string.network_error),
+					DialogUtils.ERROR);
+			return;
+		}
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				
-				MessageEntity msgEntity = new MessageEntity("test", "test", phone);
+
+				MessageEntity msgEntity = new MessageEntity("test", "test",
+						phone);
 				try {
-					verifyCode = NetworkFactory.getAuthService().sendMessage(msgEntity).datas.securityCode;
-				} catch (Exception e) { }
-				if(verifyCode == null) {
-					Toast.makeText(mContext, "发送短信异常，请重试", Toast.LENGTH_LONG).show();
+					verifyCode = NetworkFactory.getAuthService().sendMessage(
+							msgEntity).datas.securityCode;
+				} catch (Exception e) {
+				}
+				if (verifyCode == null) {
+					DialogUtils.showToast(RegisterActivity.this, "发送短信异常，请重试",
+							DialogUtils.ERROR);
 					return;
 				}
 				mHandler.post(new Runnable() {
 					@Override
 					public void run() {
-						Toast.makeText(mContext, verifyCode, Toast.LENGTH_LONG).show();
+						Toast.makeText(mContext, verifyCode, Toast.LENGTH_LONG)
+								.show();
 					}
 				});
 				System.out.println(verifyCode);
 			}
 		}).start();
 		mbtnSendCode.setEnabled(false);
-		if(mCountTimer == null) {
+		if (mCountTimer == null) {
 			mCountTimer = new CountDownTimer(60000, 1000) {
 				@Override
 				public void onFinish() {
 					mbtnSendCode.setEnabled(true);
 					mAuthCode.setText("(60秒后重发)");
 				}
+
 				@Override
 				public void onTick(long millisUntilFinished) {
-					mAuthCode.setText("("+millisUntilFinished/1000+"秒后重发)");
+					mAuthCode.setText("(" + millisUntilFinished / 1000
+							+ "秒后重发)");
 				}
 			};
 		}
 		mCountTimer.start();
 	}
-	
+
 	@OnClick(R.id.add_back)
 	public void clickBack(View view) {
 		finish();
 	}
-	
-	@OnFocusChange({R.id.reg_identity,R.id.reg_psw,R.id.reg_conform_psw})
+
+	@OnFocusChange({ R.id.reg_name, R.id.reg_phone, R.id.reg_code,
+			R.id.reg_identity,R.id.reg_psw,R.id.reg_conform_psw })
 	public void clickFource(View view) {
-		if(view.isFocused()) {
+		if (view.isFocused() && (view.getId()==R.id.reg_psw
+				||view.getId()==R.id.reg_conform_psw
+				||view.getId() == R.id.reg_identity)) {
 			scrollToBottom();
 		}
+
+		if (!view.isFocused()) {
+			switch (view.getId()) {
+			case R.id.reg_name:
+				String name = mRegName.getText().toString();
+				verifyName(name);
+				break;
+			case R.id.reg_phone:
+				String phone = mRegPhone.getText().toString();
+				verifyPhone(phone);
+				break;
+			case R.id.reg_code:
+				String code = mRegCode.getText().toString();
+				verifyCode(code);
+				break;
+			case R.id.reg_identity:
+				String idcard = mRegIdentity.getText().toString();
+				verifyCard(idcard);
+				break;
+			case R.id.reg_psw:
+				String pwd = mRegPsw.getText().toString();
+				verifyPwd(pwd);
+				break;
+			case R.id.reg_conform_psw:
+				String pwd2 = mRegPsw.getText().toString();
+				String conformPwd = mRegConformPsw.getText().toString();
+				verifyConformPwd(pwd2, conformPwd);
+				break;
+			default:
+				break;
+			}
+		}
 	}
-	
+
 	@Override
 	protected void onDestroy() {
-		if(mCountTimer!=null) {
+		if (mCountTimer != null) {
 			mCountTimer.cancel();
 		}
 		super.onDestroy();
 	}
-	
+
 	@OnTouch(R.id.reg_content)
 	public boolean mInnerTouch(View v) {
-		System.out.println("touch");
 		v.setFocusable(true);
 		v.setFocusableInTouchMode(true);
 		v.requestFocus();
-		//隐藏键盘
-		InputMethodManager imm = (InputMethodManager)
-		this.getSystemService(Context.INPUT_METHOD_SERVICE); 
-		imm.hideSoftInputFromWindow(mRegName.getWindowToken(), 0); 
+		// 隐藏键盘
+		InputMethodManager imm = (InputMethodManager) this
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(mRegName.getWindowToken(), 0);
 		return false;
 	}
-	
+
 	/**
 	 * 滚动到底部
 	 */
@@ -219,142 +262,274 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 			}
 		}, 200);
 	}
-	
+
 	/**
 	 * 输入内容校验
 	 * 
 	 * @return
 	 */
-	private boolean verify(){
+	private boolean verify() {
 		String name = mRegName.getText().toString().trim();
 		String phone = mRegPhone.getText().toString().trim();
 		String code = mRegCode.getText().toString().trim();
 		String identityCard = mRegIdentity.getText().toString().trim();
 		String psw = mRegPsw.getText().toString().trim();
 		String conformPsw = mRegConformPsw.getText().toString().trim();
-		
-		String[] fields = new String[]{name, phone, code, identityCard, psw, conformPsw};
-		boolean result = isEmpty(fields)&&verifyName(name)&&verifyPhone(phone)
-				&&verifyCard(identityCard)&&verifyPsw(psw, conformPsw);
+
+		String[] fields = new String[] { name, phone, code, identityCard, psw,
+				conformPsw };
+		boolean result = isEmpty(fields) && verifyName(name)
+				&& verifyPhone(phone) && verifyCode(code)
+				&& verifyCard(identityCard)
+				&& verifyPwd(psw)
+				&& verifyConformPwd(psw, conformPsw);
 		return result;
 	}
-	
-	private boolean isEmpty(String[] fields){
+
+	private boolean isEmpty(String[] fields) {
 		for (int i = 0, size = fields.length; i < size; i++) {
 			if ("".equals(fields[i])) {
-				DialogUtils.showToast(this,getString(R.string.required_msg), DialogUtils.ERROR);
+				DialogUtils.showToast(this, getString(R.string.required_msg),
+						DialogUtils.ERROR);
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	
-	private boolean verifyName(String name){
-		if(!Pattern.matches("^[\u4e00-\u9fa5a-zA-Z]{2,20}$", name)){
-			DialogUtils.showToast(this,getString(R.string.name_fromat_error), DialogUtils.ERROR);
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean verifyPhone(String phoneNum){
-		if(!Pattern.matches("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", phoneNum)){
-			DialogUtils.showToast(this,getString(R.string.phone_format_error), DialogUtils.ERROR);
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean verifyCard(String idcard){
-		if (!Pattern.matches(
-				"^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([\\d|x|X]{1})$",
-				idcard)){
-			DialogUtils.showToast(this,getString(R.string.idcard_format_error), DialogUtils.ERROR);
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean verifyPsw(String psw, String conformPsw){
-		if(psw.length()<6 || psw.length()>20) {
-			DialogUtils.showToast(this,getString(R.string.pwd_format_error), DialogUtils.ERROR);
-			return false;
-		}
-		
-		if(!psw.equals(conformPsw)) {
-			DialogUtils.showToast(this,getString(R.string.pwd_conform_error), DialogUtils.ERROR);
-			return false;
-		}
-		return true;
-	}
-	
 
-	
+	private boolean verifyCode(String code) {
+		final String[] msg = new String[1];
+		boolean result = true;
+		if("".equals(code)) {
+			msg[0] = "请输入验证码";
+			result = false;
+		} else if (!Pattern.matches("^[0-9]{6}$", code)) {
+			msg[0] = "验证码格式不正确";
+			result = false;
+		}
+		if (!result) {
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					DialogUtils.showToast(RegisterActivity.this, msg[0],
+							DialogUtils.ERROR);
+
+				}
+			}, 400);
+		}
+
+		return result;
+	}
+
+	private boolean verifyName(String name) {
+		final String[] msg = new String[1];
+		boolean result = true;
+		if("".equals(name)) {
+			msg[0] = "请输入姓名";
+			result = false;
+		}else if (!Pattern.matches("^([\u4E00-\u9FA5]{2,7})|([a-zA-Z]{2,30})$", name)) {
+			msg[0] = getString(R.string.name_fromat_error);
+			result = false;
+		}
+
+		if (!result) {
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					DialogUtils.showToast(RegisterActivity.this, msg[0],
+							DialogUtils.ERROR);
+				}
+			}, 400);
+		}
+		return result;
+	}
+
+	private boolean verifyPhone(String phoneNum) {
+
+		final String[] msg = new String[1];
+		boolean result = true;
+		
+		if("".equals(phoneNum)) {
+			msg[0] ="请输入手机号码";
+			result = false;
+		}else if (!Pattern.matches("^1[3-8]{1}\\d{9}$", phoneNum)) {
+			msg[0] = getString(R.string.phone_format_error);
+			result = false;
+		}
+
+		if (!result) {
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					DialogUtils.showToast(RegisterActivity.this, msg[0],
+							DialogUtils.ERROR);
+
+				}
+			}, 400);
+		}
+		return result;
+	}
+
+	private boolean verifyCard(String idcard) {
+		final String[] msg = new String[1];
+		boolean result = true;
+
+		if("".equals(idcard)) {
+			msg[0] = "请输入身份证";
+			result = false;
+		}else if (!Pattern
+				.matches(
+						"^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([\\d|x|X]{1})$",
+						idcard)) {
+			msg[0] = getString(R.string.idcard_format_error);
+			result = false;
+		}
+
+		if (!result) {
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					DialogUtils.showToast(RegisterActivity.this, msg[0],
+							DialogUtils.ERROR);
+				}
+			}, 400);
+		}
+		return result;
+	}
+
+	private boolean verifyPwd(String pwd) {
+		final String[] msg = new String[1];
+		boolean result = true;
+
+		if ("".equals(pwd)) {
+			msg[0] = "请输入密码";
+			result = false;
+		} else if(pwd.length() <6) {
+			msg[0] = "密码太短";
+			result = false;
+		}
+
+		if (!result) {
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					DialogUtils.showToast(RegisterActivity.this, msg[0],
+							DialogUtils.ERROR);
+				}
+			}, 400);
+		}
+
+		return result;
+	}
+
+	/**
+	 * 验证输入密码是否匹配
+	 * 
+	 * @param psw
+	 * @param conformPsw
+	 * @return
+	 */
+	private boolean verifyConformPwd(String psw, String conformPsw) {
+		System.out.println(" verify conform pwd");
+
+		final String[] msg = new String[1];
+		boolean result = true;
+
+		if (!psw.equals(conformPsw)) {
+			msg[0] = getString(R.string.pwd_conform_error);
+			result = false;
+		}
+		if (!result) {
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					DialogUtils.showToast(RegisterActivity.this, msg[0],
+							DialogUtils.ERROR);
+				}
+			}, 400);
+		}
+
+		return result;
+	}
+
 	@OnClick(R.id.btn_reg)
 	public void clickReg(View view) {
 		boolean result = verify();
-		if(!result)
+		if (!result)
 			return;
 		String phone = mRegPhone.getText().toString().trim();
 		String code = mRegCode.getText().toString().trim();
 		String userName = mRegName.getText().toString().trim();
 		String userCard = mRegIdentity.getText().toString().trim();
 		String pwd = MD5Utils.string2MD5(mRegPsw.getText().toString());
-		RegisterEntity registerEntity = new RegisterEntity(userName, phone, userCard, pwd, code);
-		RequestEntity<RegisterEntity> request = new RequestEntity<>("test", "test", registerEntity);
+		RegisterEntity registerEntity = new RegisterEntity(userName, phone,
+				userCard, pwd, code);
+		RequestEntity<RegisterEntity> request = new RequestEntity<>("test",
+				"test", registerEntity);
 		new RegisterTask(request).execute();
 	}
-	
+
 	public class RegisterTask extends AsyncTask<Void, Void, Response> {
-		
+
 		private RequestEntity<RegisterEntity> mRequest;
 		private ProgressDialog mProgress;
-		
+
 		public RegisterTask(RequestEntity<RegisterEntity> request) {
 			this.mRequest = request;
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
-			mProgress = DialogUtils.createProgressDialog(mContext, "", "请稍后...");
+			mProgress = DialogUtils
+					.createProgressDialog(mContext, "", "请稍后...");
 			mProgress.show();
 		}
-		
+
 		@Override
 		protected Response doInBackground(Void... params) {
-			if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
+			if (SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_NONE) {
 				return null;
 			}
 			Response response = null;
 			try {
 				response = NetworkFactory.getAuthService().register(mRequest);
-			} catch(Exception e) {
-				
+			} catch (Exception e) {
+
 			}
 			return response;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Response result) {
 			mProgress.dismiss();
-			if(result == null) {
-				DialogUtils.showToast(RegisterActivity.this,getString(R.string.network_error), DialogUtils.ERROR);
+			if (result == null) {
+				DialogUtils.showToast(RegisterActivity.this,
+						getString(R.string.network_error), DialogUtils.ERROR);
 				return;
 			}
-			if(result.info.equals("success")) {
-				DialogUtils.showToast(RegisterActivity.this,getString(R.string.register_success), DialogUtils.SUCCESS);
-				PropertiesSharePrefs.getInstance(RegisterActivity.this).saveProperty(PropertiesSharePrefs.TYPE_USER_PHONE,
-						mRegPhone.getText().toString().trim());
+			if (result.info.equals("success")) {
+				DialogUtils.showToast(RegisterActivity.this,
+						getString(R.string.register_success),
+						DialogUtils.SUCCESS);
+				PropertiesSharePrefs.getInstance(RegisterActivity.this)
+						.saveProperty(PropertiesSharePrefs.TYPE_USER_PHONE,
+								mRegPhone.getText().toString().trim());
 				mBtnReg.setEnabled(false);
-				
+
 				Intent intent = new Intent(mContext, LoginActivity.class);
 				startActivity(intent);
 			} else {
-				DialogUtils.showToast(RegisterActivity.this,result.info, DialogUtils.ERROR);
+				DialogUtils.showToast(RegisterActivity.this, result.info,
+						DialogUtils.ERROR);
 			}
 		}
-	
+
 	}
 
 	@Override
@@ -365,9 +540,11 @@ public class RegisterActivity extends ActionBarActivity implements OnCheckedChan
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if(isFinishing()) {
+		if (isFinishing()) {
 			overridePendingTransition(R.anim.scale_fade_in,
 					R.anim.slide_out_to_right);
 		}
 	}
+	
+	
 }

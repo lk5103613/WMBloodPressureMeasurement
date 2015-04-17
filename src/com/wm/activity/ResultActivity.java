@@ -74,7 +74,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 		// 绑定蓝牙服务
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-		
+
 		mRecordAnim = AnimationUtils.loadAnimation(this, R.anim.record_img);
 	}
 
@@ -82,14 +82,14 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 	protected void onResume() {
 		super.onResume();
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		if(!mType.equals(mLastType)) {
+		if (!mType.equals(mLastType)) {
 			mLastType = mType;
 			mFragment = TypeFactory.getResultFragment(mType);
-	
+
 			mTitle.setText(TypeFactory.getTitleByType(mContext, mType));
-			mDevice = getIntent()
-					.getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
-	
+			mDevice = getIntent().getParcelableExtra(
+					DeviceFragment.KEY_DEVICE_INFO);
+
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.result_container, mFragment).commit();
 		}
@@ -115,17 +115,17 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 
 	private void setRecordBtnState(int state) {
 		switch (state) {
-		case BaseResultFragment.BTN_STATE_AVAILABLE://未点之前可用
+		case BaseResultFragment.BTN_STATE_AVAILABLE:// 未点之前可用
 			mBtnRecord.setEnabled(true);
 			mRecordImg.clearAnimation();
 			break;
-		case BaseResultFragment.BTN_STATE_UNAVAILABLE://获得结果之前，不可用
+		case BaseResultFragment.BTN_STATE_UNAVAILABLE:// 获得结果之前，不可用
 			mBtnRecord.setEnabled(false);
 			mRecordImg.clearAnimation();
 			break;
-		case BaseResultFragment.BTN_STATE_UNAVAILABLE_WAITING://点击之后， 展示动画
+		case BaseResultFragment.BTN_STATE_UNAVAILABLE_WAITING:// 点击之后， 展示动画
 			mBtnRecord.setEnabled(false);
-			mRecordImg.startAnimation(mRecordAnim);//点击之后设置动画
+			mRecordImg.startAnimation(mRecordAnim);// 点击之后设置动画
 			break;
 		default:
 			break;

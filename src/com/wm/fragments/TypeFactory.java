@@ -6,49 +6,49 @@ import com.wm.activity.R;
 import com.wm.entity.DeviceInfo;
 
 public class TypeFactory {
-	
+
 	private static BaseResultFragment mBPResultFragment;
 	private static BaseResultFragment mBSResultFragment;
 	private static BaseResultFragment mFHResultFragment;
-	
+
 	private static BaseHistoryFragment mBPHistoryFragment;
 	private static BaseHistoryFragment mBSHistoryFragment;
 	private static BaseHistoryFragment mFHHistoryFragment;
-	
+
 	public static BaseResultFragment getResultFragment(String type) {
-		if(type.equals(DeviceInfo.TYPE_BS)) {
-			if(mBSResultFragment == null) 
+		if (type.equals(DeviceInfo.TYPE_BS)) {
+			if (mBSResultFragment == null)
 				mBSResultFragment = new BSResultFragment();
 			return mBSResultFragment;
-		} else if(type.equals(DeviceInfo.TYPE_BP)) {
-			if(mBPResultFragment == null)
+		} else if (type.equals(DeviceInfo.TYPE_BP)) {
+			if (mBPResultFragment == null)
 				mBPResultFragment = new BPResultFragment();
 			return mBPResultFragment;
 		} else if (DeviceInfo.TYPE_FH.equals(type)) {
-			if(mFHResultFragment == null)
+			if (mFHResultFragment == null)
 				mFHResultFragment = new FHResultFragment();
 			return mFHResultFragment;
 		}
 		return null;
 	}
-	
+
 	public static BaseHistoryFragment getHistoryFragment(String type) {
-		if(type.equals(DeviceInfo.TYPE_BS)) {
-			if(mBSHistoryFragment == null)
+		if (type.equals(DeviceInfo.TYPE_BS)) {
+			if (mBSHistoryFragment == null)
 				mBSHistoryFragment = new BSHistoryFragment();
 			return mBSHistoryFragment;
-		} else if(type.equals(DeviceInfo.TYPE_BP)) {
-			if(mBPHistoryFragment == null)
+		} else if (type.equals(DeviceInfo.TYPE_BP)) {
+			if (mBPHistoryFragment == null)
 				mBPHistoryFragment = new BPHistoryFragment();
 			return mBPHistoryFragment;
 		} else if (DeviceInfo.TYPE_FH.equals(type)) {
-			if(mFHHistoryFragment == null) 
+			if (mFHHistoryFragment == null)
 				mFHHistoryFragment = new FHHistoryFragment();
 			return mFHHistoryFragment;
 		}
 		return null;
 	}
-	
+
 	public static String getTitleByType(Context context, String type) {
 		String title = "";
 		switch (type) {

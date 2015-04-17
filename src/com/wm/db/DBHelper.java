@@ -53,8 +53,8 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ FHDataEntry.COLUMN_NAME_REMARKS + TEXT_TYPE + COMMA_SEP
 			+ FHDataEntry.COLUMN_NAME_STATUS + INTEGER_TYPE + " )";
 	private static final String SQL_CREATE_USER_INFO = "CREATE TABLE "
-			+ UserInfoEntry.TABLE_NAME + " (" + UserInfoEntry.COLUMN_NAME_LOGIN_ID
-			+ TEXT_TYPE + " PRIMARY KEY,"
+			+ UserInfoEntry.TABLE_NAME + " ("
+			+ UserInfoEntry.COLUMN_NAME_LOGIN_ID + TEXT_TYPE + " PRIMARY KEY,"
 			+ UserInfoEntry.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA_SEP
 			+ UserInfoEntry.COLUMN_NAME_USER_CARD + TEXT_TYPE + COMMA_SEP
 			+ UserInfoEntry.COLUMN_NAME_CELLPHONE + TEXT_TYPE + ")";

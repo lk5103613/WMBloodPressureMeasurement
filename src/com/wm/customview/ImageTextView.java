@@ -27,12 +27,12 @@ public class ImageTextView extends ImageView {
 	private Paint mTextPaint;
 	private Bitmap mDSBitmap;
 	private boolean mRotating = false;
-	
+
 	private Handler mHandler = new Handler(new Callback() {
 		@Override
 		public boolean handleMessage(Message msg) {
-			if(mRotating) {
-				if(mDegree == -360) {
+			if (mRotating) {
+				if (mDegree == -360) {
 					mDegree = 0;
 				}
 				mDegree -= 10;
@@ -97,7 +97,8 @@ public class ImageTextView extends ImageView {
 		if (mText == null)
 			return;
 		float textLength = mTextPaint.measureText(mText);
-		canvas.drawText(mText, centerX - textLength / 2, centerY + (int)(mTextSize / 2.5), mTextPaint);
+		canvas.drawText(mText, centerX - textLength / 2, centerY
+				+ (int) (mTextSize / 2.5), mTextPaint);
 	}
 
 	private void setDegree(int degree) {
@@ -109,16 +110,16 @@ public class ImageTextView extends ImageView {
 		mRotating = true;
 		mHandler.sendEmptyMessage(0);
 	}
-	
+
 	public void stopRotate() {
 		mRotating = false;
 		mHandler.removeMessages(0);
 	}
-	
+
 	public String getText() {
 		return mText;
 	}
-	
+
 	public void setText(String text) {
 		this.mText = text;
 		invalidate();

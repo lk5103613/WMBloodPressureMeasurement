@@ -10,8 +10,9 @@ import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.IndexFragment;
 import com.wm.fragments.SettingFragment;
 
-public class IndexPagerAdapter extends FragmentStatePagerAdapter implements TitleIconTabProvider  {
-	
+public class IndexPagerAdapter extends FragmentStatePagerAdapter implements
+		TitleIconTabProvider {
+
 	private IndexFragment mIndexFragment = new IndexFragment();
 	private DeviceFragment mDeviceFragment = new DeviceFragment();
 	private SettingFragment mSettingFragment = new SettingFragment();
@@ -19,21 +20,23 @@ public class IndexPagerAdapter extends FragmentStatePagerAdapter implements Titl
 	public IndexPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
-	
-	private Fragment[] mFragments = new Fragment[]{mIndexFragment, mDeviceFragment, mSettingFragment};
-	private String[] mTitles = new String[]{"首   页", "设   备", "设   置"};
-	private int[] mIcons = new int[]{R.drawable.home_tab_selector, R.drawable.device_tab_selector, R.drawable.setting_tab_selector};
+
+	private Fragment[] mFragments = new Fragment[] { mIndexFragment,
+			mDeviceFragment, mSettingFragment };
+	private String[] mTitles = new String[] { "首   页", "设   备", "设   置" };
+	private int[] mIcons = new int[] { R.drawable.home_tab_selector,
+			R.drawable.device_tab_selector, R.drawable.setting_tab_selector };
 
 	@Override
 	public Fragment getItem(int index) {
 		return mFragments[index];
 	}
-	
+
 	@Override
 	public CharSequence getPageTitle(int position) {
-		return  mTitles[position];
+		return mTitles[position];
 	}
-	
+
 	@Override
 	public int getCount() {
 		return 3;
@@ -43,15 +46,15 @@ public class IndexPagerAdapter extends FragmentStatePagerAdapter implements Titl
 	public int getPageIconResId(int position) {
 		return mIcons[position];
 	}
-	
+
 	public IndexFragment getIndexFragment() {
 		return mIndexFragment;
 	}
-	
+
 	public DeviceFragment getDeviceFragment() {
 		return mDeviceFragment;
 	}
-	
+
 	public SettingFragment getSettingFragment() {
 		return mSettingFragment;
 	}

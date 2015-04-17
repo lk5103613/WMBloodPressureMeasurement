@@ -98,7 +98,7 @@
     <string name="name_fromat_error">姓名为中文和英文且 至少两位</string>
     <string name="pwd_format_error">密码为6-20个字符</string>
     <string name ="phone_format_error">请输入正确的手机号码</string>
-    <string name="idcard_format_error">身份证格式不正切</string>
+    <string name="idcard_format_error">身份证格式不正确</string>
     <string name="pwd_conform_error">两次密码不匹配</string>
     <string name="retry">重试</string>
     

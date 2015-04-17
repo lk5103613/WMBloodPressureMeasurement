@@ -27,18 +27,23 @@ import com.wm.entity.BPResult;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
-public class BPHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener {
+public class BPHistoryFragment extends BaseHistoryFragment implements
+		OnChartValueSelectedListener {
 
 	@InjectView(R.id.bp_history_chart)
 	LineChart mChart;
 	@InjectView(R.id.text_heart)
 	TextView textHeart;
-	
+
 	LineMarkerView mv;
-	
+
 	private int lineLastIndex = 0;
+<<<<<<< HEAD
 	private final int JUMPCOUMP=2;
 	private HistoryCallback mCallback;
+=======
+	private final int JUMPCOUMP = 2;
+>>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
 
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
@@ -63,7 +68,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		ButterKnife.inject(this, view);
 		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
 		getBpHisory();
-		
+
 		// chart
 		initLineChart();
 		return view;
@@ -71,7 +76,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 
 	@Override
 	public void onResume() {
-		
+
 		getBpHisory();
 		addEmptyData();
 
@@ -80,6 +85,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		System.out.println("bp onresume");
 		super.onResume();
 	}
+
 	public void initLineChart() {
 		mChart.setOnChartValueSelectedListener(this);
 		mChart.setPinchZoom(false);
@@ -87,24 +93,28 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setScaleEnabled(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
-		mChart.setDescription("");//单位
+		mChart.setDescription("");// 单位
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setDrawBorder(false);
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-		//mChart.setStartAtZero(false);
+		// mChart.setStartAtZero(false);
 		mChart.setDrawLegend(false);
-		mChart.setScaleMinima(1, 1f);//mBPResults.size()/20
-		mChart.setDrawXLabels(true);//绘制X轴标签
-		mv = new LineMarkerView(getActivity(), mChart,R.layout.custom_marker_view);//自定义标签
-        mv.setOffsets(-mv.getMeasuredWidth() / 2 - 10*SystemUtils.getDensity(getActivity()),
-        		-mv.getMeasuredHeight()+15*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
-        mChart.setMarkerView(mv);// 设置标签
-        mChart.getXLabels().setTextSize(12);
-        mChart.getXLabels().setSpaceBetweenLabels(1);
-        
-        YLabels y = mChart.getYLabels(); //y轴的标示
-        y.setLabelCount(4); // y轴上的标签的显示的个数
+		mChart.setScaleMinima(1, 1f);// mBPResults.size()/20
+		mChart.setDrawXLabels(true);// 绘制X轴标签
+		mv = new LineMarkerView(getActivity(), mChart,
+				R.layout.custom_marker_view);// 自定义标签
+		mv.setOffsets(
+				-mv.getMeasuredWidth() / 2 - 10
+						* SystemUtils.getDensity(getActivity()),
+				-mv.getMeasuredHeight() + 15
+						* SystemUtils.getDensity(getActivity()));// 调整 数据 标签的位置
+		mChart.setMarkerView(mv);// 设置标签
+		mChart.getXLabels().setTextSize(12);
+		mChart.getXLabels().setSpaceBetweenLabels(1);
+
+		YLabels y = mChart.getYLabels(); // y轴的标示
+		y.setLabelCount(4); // y轴上的标签的显示的个数
 
 	}
 
@@ -118,6 +128,11 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		}
 		// 创建 x值
 		for (int i = 0; i < mBPResults.size(); i++) {
+<<<<<<< HEAD
+=======
+			Date date = DateUtil.longToDate(mBPResults.get(i).date);
+			String datestr = (date.getMonth() + 1) + "." + (date.getDate());
+>>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
 			xVals.add("");
 		}
 
@@ -138,14 +153,13 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 
 			ArrayList<Entry> yValsSz = new ArrayList<Entry>();// 舒张
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();// 收缩
-//			ArrayList<Entry> yValsHr = new ArrayList<>();//心率
+			// ArrayList<Entry> yValsHr = new ArrayList<>();//心率
 
 			for (int i = 0; i < mBPResults.size(); i++) {
-				yValsSz.add(new Entry(mBPResults.get(i).dbp, i+2));
-				yValsSs.add(new Entry(mBPResults.get(i).sbp, i+2));
-//				yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
+				yValsSz.add(new Entry(mBPResults.get(i).dbp, i + 2));
+				yValsSs.add(new Entry(mBPResults.get(i).sbp, i + 2));
+				// yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
 			}
-
 
 			LineDataSet ssSet = new LineDataSet(yValsSs,
 					getString(R.string.systolic));
@@ -156,7 +170,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			ssSet.setCircleColor(blue);
 			ssSet.setHighLightColor(blue);
 			data.addDataSet(ssSet);
-			
+
 			LineDataSet szSet = new LineDataSet(yValsSz,
 					getString(R.string.diastolic));
 			szSet.setLineWidth(2f);
@@ -167,17 +181,17 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			szSet.setHighLightColor(yellowGreen);
 			data.addDataSet(szSet);
 
-//			LineDataSet hrSet = new LineDataSet(yValsHr,
-//					getString(R.string.heart_rate));
-//			hrSet.setLineWidth(2.5f);
-//			hrSet.setCircleSize(3f);
-//
-//			hrSet.setColor(getResources().getColor(R.color.yellow));
-//			hrSet.setCircleColor(getResources().getColor(R.color.yellow));
-//			hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
-//			data.addDataSet(hrSet);
-			
-			//用于提高Y轴坐标的值
+			// LineDataSet hrSet = new LineDataSet(yValsHr,
+			// getString(R.string.heart_rate));
+			// hrSet.setLineWidth(2.5f);
+			// hrSet.setCircleSize(3f);
+			//
+			// hrSet.setColor(getResources().getColor(R.color.yellow));
+			// hrSet.setCircleColor(getResources().getColor(R.color.yellow));
+			// hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
+			// data.addDataSet(hrSet);
+
+			// 用于提高Y轴坐标的值
 			ArrayList<Entry> yValsMax = new ArrayList<>();
 			yValsMax.add(new Entry(180, 0));
 			LineDataSet setMax = new LineDataSet(yValsMax, "");
@@ -188,8 +202,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			setMax.setColor(maxColor);
 			data.addDataSet(setMax);
 
-			if(!mBPResults.isEmpty()){
-				mChart.centerViewPort(1, mChart.getAverage()+100);//设置视角中心
+			if (!mBPResults.isEmpty()) {
+				mChart.centerViewPort(1, mChart.getAverage() + 100);// 设置视角中心
 			}
 			mChart.notifyDataSetChanged();
 			mChart.animateY(1000);// 设置Y轴动画 毫秒;
@@ -200,32 +214,34 @@ public class BPHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mBPResults = mHistoryDBManager.getAllBpResults();
 	}
 
-//	public void initData() {
-//		mBPResults = new ArrayList<>();
-//		for (int i = 0; i < 10; i++) {
-//			float szValue = (float) Math.random() * 50f + 50f * 2;
-//			float ssValue = (float) Math.random() * 50f + 50f * 2;
-//			mBPResults.add(new BPResult(szValue, ssValue));
-//		}
-//	}
+	// public void initData() {
+	// mBPResults = new ArrayList<>();
+	// for (int i = 0; i < 10; i++) {
+	// float szValue = (float) Math.random() * 50f + 50f * 2;
+	// float ssValue = (float) Math.random() * 50f + 50f * 2;
+	// mBPResults.add(new BPResult(szValue, ssValue));
+	// }
+	// }
 
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
-		
-		float hr =  mBPResults.get(e.getXIndex()-JUMPCOUMP).pulse;
-		textHeart.setText((int)hr+"");
+
+		float hr = mBPResults.get(e.getXIndex() - JUMPCOUMP).pulse;
+		textHeart.setText((int) hr + "");
 		mChart.getData().getXVals().set(lineLastIndex, "");
-		mChart.getData().getXVals().set(e.getXIndex(), mBPResults.get(e.getXIndex()-JUMPCOUMP).measureTime);
-		
+		mChart.getData()
+				.getXVals()
+				.set(e.getXIndex(),
+						mBPResults.get(e.getXIndex() - JUMPCOUMP).measureTime);
+
 		lineLastIndex = e.getXIndex();
-		
+
 		Highlight[] highs = new Highlight[2];
 		highs[0] = new Highlight(e.getXIndex(), 0);
 		highs[1] = new Highlight(e.getXIndex(), 1);
 		mChart.highlightValues(highs);
-		
+
 	}
-	
 
 	@Override
 	public void onNothingSelected() {

@@ -4,19 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class DeviceInfo implements Parcelable {
-	
+
 	public static final String INTENT_TYPE = "type";
-	public static final String TYPE_BP = "BLOOD_PRESSURE";//ÑªÑ¹
-	public static final String TYPE_BS = "BLOOD_SUGAR";//ÑªÌÇ
-	public static final String TYPE_FH  = "FETAL_HEART";//Ì¥ÐÄÒÇ
-	
+	public static final String TYPE_BP = "BLOOD_PRESSURE";// ÑªÑ¹
+	public static final String TYPE_BS = "BLOOD_SUGAR";// ÑªÌÇ
+	public static final String TYPE_FH = "FETAL_HEART";// Ì¥ÐÄÒÇ
+
 	public int id;
 	public String type;
 	public String name;
 	public String address;
-	
-	public DeviceInfo(){}
-	
+
+	public DeviceInfo() {
+	}
+
 	public DeviceInfo(String type, String name) {
 		super();
 		this.type = type;
@@ -29,6 +30,7 @@ public class DeviceInfo implements Parcelable {
 		this.name = name;
 		this.address = address;
 	}
+
 	public DeviceInfo(int id, String type, String name, String address) {
 		super();
 		this.id = id;
@@ -49,8 +51,8 @@ public class DeviceInfo implements Parcelable {
 		dest.writeString(type);
 		dest.writeString(address);
 	}
-	
-	public static final Parcelable.Creator<DeviceInfo> CREATOR = new Creator<DeviceInfo>( ) {
+
+	public static final Parcelable.Creator<DeviceInfo> CREATOR = new Creator<DeviceInfo>() {
 
 		@Override
 		public DeviceInfo createFromParcel(Parcel source) {
@@ -67,5 +69,5 @@ public class DeviceInfo implements Parcelable {
 			return null;
 		}
 	};
-	
+
 }
