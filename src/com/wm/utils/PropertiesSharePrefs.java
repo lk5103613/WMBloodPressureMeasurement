@@ -9,8 +9,8 @@ public class PropertiesSharePrefs {
 	public static String TYPE_AUTH = "auth";
 	public static String TYPE_LOGIN = "login";
 	public static String TYPE_CARD = "card";
-	public static String TYPE_USER_PHONE="phone_number";
-	public static String TYLE_USER_PWD="pwd";
+	public static String TYPE_USER_PHONE = "phone_number";
+	public static String TYLE_USER_PWD = "pwd";
 
 	private SharedPreferences mSharePreferences;
 	private Context mContext;
@@ -34,7 +34,7 @@ public class PropertiesSharePrefs {
 		editor.putBoolean(type, value);
 		editor.commit();
 	}
-	
+
 	public void saveProperty(String type, String value) {
 		SharedPreferences.Editor editor = mSharePreferences.edit();
 		editor.putString(type, value);
@@ -44,7 +44,7 @@ public class PropertiesSharePrefs {
 	public boolean getProperty(String type, boolean defaultValue) {
 		return mSharePreferences.getBoolean(type, defaultValue);
 	}
-	
+
 	public String getProperty(String type, String defaultValue) {
 		return mSharePreferences.getString(type, defaultValue);
 	}

@@ -15,7 +15,7 @@ import android.widget.Toast;
 /**
  * 
  * @author Like
- *
+ * 
  */
 public class BLEBaseActivity extends ActionBarActivity {
 
@@ -42,7 +42,7 @@ public class BLEBaseActivity extends ActionBarActivity {
 			finish();
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -51,7 +51,7 @@ public class BLEBaseActivity extends ActionBarActivity {
 		// 注册接受者，监听蓝牙是否保持开启
 		registerReceiver(mBleStateReceiver, makeBleStateIntentFilter());
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();

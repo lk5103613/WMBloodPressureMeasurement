@@ -64,31 +64,43 @@ public class UserInfoDBManager {
 
 	public UserInfo getUserInfoById(String loginId) {
 		SQLiteDatabase db = mDBHelper.getReadableDatabase();
-		String[] columns = new String[]{UserInfoEntry.COLUMN_NAME_LOGIN_ID, UserInfoEntry.COLUMN_NAME_USERNAME, 
-				UserInfoEntry.COLUMN_NAME_CELLPHONE, UserInfoEntry.COLUMN_NAME_USER_CARD};
+		String[] columns = new String[] { UserInfoEntry.COLUMN_NAME_LOGIN_ID,
+				UserInfoEntry.COLUMN_NAME_USERNAME,
+				UserInfoEntry.COLUMN_NAME_CELLPHONE,
+				UserInfoEntry.COLUMN_NAME_USER_CARD };
 		String selection = UserInfoEntry.COLUMN_NAME_LOGIN_ID + " = ?";
-		Cursor cursor = db.query(UserInfoEntry.TABLE_NAME, columns, selection, new String[]{loginId}, null, null, null);
+		Cursor cursor = db.query(UserInfoEntry.TABLE_NAME, columns, selection,
+				new String[] { loginId }, null, null, null);
 		UserInfo result = null;
-		if(cursor.moveToFirst()) {
-			String userName = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_USERNAME));
-			String cellphone = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_CELLPHONE));
-			String userCard = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_USER_CARD));
+		if (cursor.moveToFirst()) {
+			String userName = cursor.getString(cursor
+					.getColumnIndex(UserInfoEntry.COLUMN_NAME_USERNAME));
+			String cellphone = cursor.getString(cursor
+					.getColumnIndex(UserInfoEntry.COLUMN_NAME_CELLPHONE));
+			String userCard = cursor.getString(cursor
+					.getColumnIndex(UserInfoEntry.COLUMN_NAME_USER_CARD));
 			result = new UserInfo(loginId, userName, cellphone, userCard);
 		}
 		return result;
 	}
-	
+
 	public UserInfo getUserInfoByCard(String card) {
 		SQLiteDatabase db = mDBHelper.getReadableDatabase();
-		String[] columns = new String[]{UserInfoEntry.COLUMN_NAME_LOGIN_ID, UserInfoEntry.COLUMN_NAME_USERNAME, 
-				UserInfoEntry.COLUMN_NAME_CELLPHONE, UserInfoEntry.COLUMN_NAME_USER_CARD};
+		String[] columns = new String[] { UserInfoEntry.COLUMN_NAME_LOGIN_ID,
+				UserInfoEntry.COLUMN_NAME_USERNAME,
+				UserInfoEntry.COLUMN_NAME_CELLPHONE,
+				UserInfoEntry.COLUMN_NAME_USER_CARD };
 		String selection = UserInfoEntry.COLUMN_NAME_USER_CARD + " = ?";
-		Cursor cursor = db.query(UserInfoEntry.TABLE_NAME, columns, selection, new String[]{card}, null, null, null);
+		Cursor cursor = db.query(UserInfoEntry.TABLE_NAME, columns, selection,
+				new String[] { card }, null, null, null);
 		UserInfo result = null;
-		if(cursor.moveToFirst()) {
-			String loginId = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_LOGIN_ID));
-			String userName = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_USERNAME));
-			String cellphone = cursor.getString(cursor.getColumnIndex(UserInfoEntry.COLUMN_NAME_CELLPHONE));
+		if (cursor.moveToFirst()) {
+			String loginId = cursor.getString(cursor
+					.getColumnIndex(UserInfoEntry.COLUMN_NAME_LOGIN_ID));
+			String userName = cursor.getString(cursor
+					.getColumnIndex(UserInfoEntry.COLUMN_NAME_USERNAME));
+			String cellphone = cursor.getString(cursor
+					.getColumnIndex(UserInfoEntry.COLUMN_NAME_CELLPHONE));
 			result = new UserInfo(loginId, userName, cellphone, card);
 		}
 		return result;

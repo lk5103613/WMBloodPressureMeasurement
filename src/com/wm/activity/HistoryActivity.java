@@ -26,21 +26,22 @@ import com.wm.fragments.TypeFactory;
 /**
  * 
  * 检测历史界面
+ * 
  * @author Like
- *
+ * 
  */
 public class HistoryActivity extends BaseActivity implements IHandleConnect {
-	
+
 	public final static int MAX_CON_TIME = 3;
 	public final static int OVER_TIME = 5000;
-	
+
 	@InjectView(R.id.btn_begin_check)
 	Button mBtnBeginCheck;
 	@InjectView(R.id.waiting_connect)
 	ProgressBar mWaitingConnect;
 	@InjectView(R.id.title)
 	TextView mTitle;
-	
+
 	private BaseHistoryFragment mFragment;
 	private String mType;
 	private DeviceInfo mDeviceInfo;
@@ -70,19 +71,21 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_history);
 		ButterKnife.inject(this);
-		
+
 		mType = getIntent().getStringExtra(DeviceInfo.INTENT_TYPE);
-		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
+		mDeviceInfo = getIntent().getParcelableExtra(
+				DeviceFragment.KEY_DEVICE_INFO);
 		mFragment = TypeFactory.getHistoryFragment(mType);
-		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
-		
+		getSupportFragmentManager().beginTransaction()
+				.add(R.id.history_container, mFragment).commit();
+
 		mTitle.setText(TypeFactory.getTitleByType(mContext, mType));
 		mFailedTime = 0;
 		// 绑定蓝牙服务
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -90,53 +93,55 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		registerReceiver(mReceiver, BleBroadcastReceiver.getIntentFilter());
 		resetUI();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
 		unregisterReceiver(mReceiver);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if(mBluetoothLeService != null)
+		System.out.println("history destory");
+
+		if (mBluetoothLeService != null)
 			mBluetoothLeService.disconnect();
-		if(mServiceConnection != null)
+		if (mServiceConnection != null)
 			unbindService(mServiceConnection);
 	}
-	
+
 	private void beginCheckUI() {
 		mBtnBeginCheck.setEnabled(false);
 		mBtnBeginCheck.setText(getResources().getString(R.string.connecting));
 		mWaitingConnect.setVisibility(View.VISIBLE);
 	}
-	
+
 	private void resetUI() {
 		mBtnBeginCheck.setText(getResources().getString(R.string.begin_check));
 		mBtnBeginCheck.setEnabled(true);
 		mWaitingConnect.setVisibility(View.GONE);
 	}
-	
+
 	private void connectFailUI() {
 		mBtnBeginCheck.setText(getResources().getString(R.string.click_retry));
 		mBtnBeginCheck.setEnabled(true);
 		mWaitingConnect.setVisibility(View.GONE);
 	}
-	
+
 	@OnClick(R.id.btn_begin_check)
-	public void beginCheck(){
+	public void beginCheck() {
 		mFailedTime = 0;
 		mBeginDetect = true;
 		beginCheckUI();
 		connect();
 	}
-	
+
 	@OnClick(R.id.history_back)
 	public void back(View v) {
 		finish();
 	}
-	
+
 	private void jumpToResult() {
 		mFailedTime = 0;
 		Intent intent = new Intent(this, ResultActivity.class);
@@ -146,15 +151,15 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		overridePendingTransition(R.anim.slide_in_from_right,
 				R.anim.scale_fade_out);
 	}
-	
+
 	private void handleConFail() {
-		if(mFailedTime <= MAX_CON_TIME) {
+		if (mFailedTime <= MAX_CON_TIME) {
 			System.out.println("failed ======" + mFailedTime);
 			mFailedTime++;
 			connect();
 			return;
 		}
-		if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
+		if (mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
 			mBluetoothLeService.disconnect();
 		}
 		mBeginDetect = false;
@@ -163,16 +168,16 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		Toast.makeText(mContext, rmdStr, Toast.LENGTH_LONG).show();
 		return;
 	}
-	
+
 	private void connect() {
 		mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
 	}
 
 	@Override
 	public boolean handleConnect() {
-		if(!mBeginDetect) 
+		if (!mBeginDetect)
 			return true;
-		if(mFragment.handleConnect()) {
+		if (mFragment.handleConnect()) {
 			return true;
 		}
 		return false;
@@ -180,9 +185,9 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleDisconnect() {
-		if(!mBeginDetect)
+		if (!mBeginDetect)
 			return true;
-		if(mFragment.handleDisconnect()) {
+		if (mFragment.handleDisconnect()) {
 			return true;
 		}
 		handleConFail();
@@ -191,10 +196,10 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleGetData(String data) {
-		if(!mBeginDetect) {
+		if (!mBeginDetect) {
 			return true;
 		}
-		if(mFragment.handleGetData(data)) {
+		if (mFragment.handleGetData(data)) {
 			return true;
 		}
 		resetUI();
@@ -205,7 +210,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleServiceDiscover() {
-		if(mFragment.handleServiceDiscover()) {
+		if (mFragment.handleServiceDiscover()) {
 			return true;
 		}
 		return false;

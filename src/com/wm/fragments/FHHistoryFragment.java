@@ -26,7 +26,8 @@ import com.wm.utils.DateUtil;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
-public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChartValueSelectedListener
+public class FHHistoryFragment extends BaseHistoryFragment {// implements
+															// OnChartValueSelectedListener
 
 	@InjectView(R.id.fh_history_chart)
 	LineChart mChart;
@@ -51,7 +52,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		initLineChart();
 		addEmptyData(-1);
 		mChart.invalidate();
-//		initData();
+		// initData();
 		return view;
 	}
 
@@ -60,16 +61,17 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mIndex = 0;
 		mDbManager = HistoryDBManager.getInstance(mContext);
 		mFHResults = mDbManager.getAllFhResults();
-		
+
 		if (!mFHResults.isEmpty()) {
 			mChart.getData().removeDataSet(0);
 			addDataSet(mIndex);
 		}
 		super.onResume();
 	}
+
 	private void initLineChart() {
 		// chart
-//		mChart.setOnChartValueSelectedListener(this);
+		// mChart.setOnChartValueSelectedListener(this);
 		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
@@ -78,27 +80,32 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setStartAtZero(true);
 		mChart.setScaleMinima(2, 1);
-		mChart.setDrawLegend(false);//不绘制颜色标记
-		mChart.setDrawXLabels(true);//绘制X轴标签
+		mChart.setDrawLegend(false);// 不绘制颜色标记
+		mChart.setDrawXLabels(true);// 绘制X轴标签
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-		mv = new LineMarkerView(getActivity(),mChart, R.layout.custom_marker_view);//自定义标签
-        mv.setOffsets(-mv.getMeasuredWidth() / 2-10*SystemUtils.getDensity(getActivity()),
-        		-mv.getMeasuredHeight()+5*SystemUtils.getDensity(getActivity()));//调整 数据 标签的位置
-        mChart.setMarkerView(mv);// 设置标签
-        mChart.setHighlightEnabled(true);
-        mChart.centerViewPort(0, 200);
-        mChart.setScaleEnabled(false);
-        mChart.getYLabels().setLabelCount(5);
-        Entry entry;
-        
+		mv = new LineMarkerView(getActivity(), mChart,
+				R.layout.custom_marker_view);// 自定义标签
+		mv.setOffsets(
+				-mv.getMeasuredWidth() / 2 - 10
+						* SystemUtils.getDensity(getActivity()),
+				-mv.getMeasuredHeight() + 5
+						* SystemUtils.getDensity(getActivity()));// 调整 数据 标签的位置
+		mChart.setMarkerView(mv);// 设置标签
+		mChart.setHighlightEnabled(true);
+		mChart.centerViewPort(0, 200);
+		mChart.setScaleEnabled(false);
+		mChart.getYLabels().setLabelCount(5);
+		Entry entry;
+
 	}
 
 	private void addEmptyData(int position) {
 
 		// create 30 x-vals
 		ArrayList<String> xVals = new ArrayList<>();
-		int size = position == -1? 60:mFHResults.get(position).fhValues.size();
-		
+		int size = position == -1 ? 60 : mFHResults.get(position).fhValues
+				.size();
+
 		for (int i = 1; i <= size; i++)
 			xVals.add(i + "");
 
@@ -132,10 +139,10 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 			set.setCircleColor(color);
 			set.setHighLightColor(color);
 			data.addDataSet(set);
-			
-			//用于提高Y轴坐标的值
+
+			// 用于提高Y轴坐标的值
 			ArrayList<Entry> yValsMax = new ArrayList<>();
-			int max = (int) set.getYMax();//获取最大值
+			int max = (int) set.getYMax();// 获取最大值
 			yValsMax.add(new Entry(300, 0));
 			LineDataSet setMax = new LineDataSet(yValsMax, "");
 			setMax.setLineWidth(2f);
@@ -145,42 +152,42 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 			setMax.setHighLightColor(maxColor);
 			setMax.setColor(maxColor);
 			data.addDataSet(setMax);
-			
+
 			mChart.notifyDataSetChanged();
-			mChart.centerViewPort(1, mChart.getAverage()+100);
+			mChart.centerViewPort(1, mChart.getAverage() + 100);
 			mChart.animateY(600);
 		}
 	}
 
-//	private void initData() {
-//		mFHResults = new ArrayList<>();
-//		for (int i = 0; i < 3; i++) {
-//			ArrayList<Float> fhValues = new ArrayList<>();
-//			for (int j = 0; j < 110; j++) {
-//				float fh = (float) (Math.random() * 50f + 50f * 2);
-//
-//				fhValues.add(fh);
-//			}
-//			FHResult fhResult = new FHResult(fhValues, new Date().getTime());
-//
-//			mFHResults.add(fhResult);
-//		}
-//	}
+	// private void initData() {
+	// mFHResults = new ArrayList<>();
+	// for (int i = 0; i < 3; i++) {
+	// ArrayList<Float> fhValues = new ArrayList<>();
+	// for (int j = 0; j < 110; j++) {
+	// float fh = (float) (Math.random() * 50f + 50f * 2);
+	//
+	// fhValues.add(fh);
+	// }
+	// FHResult fhResult = new FHResult(fhValues, new Date().getTime());
+	//
+	// mFHResults.add(fhResult);
+	// }
+	// }
 
-//	@Override
-//	public void onValueSelected(Entry e, int dataSetmIndex) {
-//		float fh = mFHResults.get(0).fhValues.get(e.getXIndex());
-//		Toast.makeText(mContext, "胎心值： " + (int) fh, Toast.LENGTH_SHORT).show();
-//	}
-//
-//	@Override
-//	public void onNothingSelected() {
-//
-//	}
+	// @Override
+	// public void onValueSelected(Entry e, int dataSetmIndex) {
+	// float fh = mFHResults.get(0).fhValues.get(e.getXIndex());
+	// Toast.makeText(mContext, "胎心值： " + (int) fh, Toast.LENGTH_SHORT).show();
+	// }
+	//
+	// @Override
+	// public void onNothingSelected() {
+	//
+	// }
 
 	@OnClick(R.id.btn_next)
 	public void nextClick() {
-		if(mFHResults.isEmpty()){
+		if (mFHResults.isEmpty()) {
 			Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_LONG).show();
 			return;
 		}
@@ -195,7 +202,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 
 	@OnClick(R.id.btn_previous)
 	public void previousClick() {
-		if(mFHResults.isEmpty()){
+		if (mFHResults.isEmpty()) {
 			Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_LONG).show();
 			return;
 		}
@@ -228,7 +235,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements OnChar
 		mBluetoothLeService.setCharacteristicNotification(
 				getInfoCharacteristic(UUIDS.FH_RESULT_SERVICE,
 						UUIDS.FH_RESULT_CHARAC), true);
-		return false; 
+		return false;
 	}
 
 }

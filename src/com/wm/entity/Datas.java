@@ -3,6 +3,8 @@ package com.wm.entity;
 import com.google.gson.annotations.Expose;
 
 public class Datas {
-	@Expose public UserInfo userInfo;
-	@Expose public String securityCode;
+	@Expose
+	public UserInfo userInfo;
+	@Expose
+	public String securityCode;
 }

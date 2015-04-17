@@ -73,9 +73,7 @@
             android:drawableStart="@drawable/ic_action_person"
             android:hint="@string/hint_username"
             android:imeOptions="actionNext"
-            android:inputType="number" 
-            android:maxLength="70"
-            android:digits="/[^a-zA-Z0-9]/g"/>
+            android:maxLength="70"/>
 
         <TextView
             android:id="@+id/register_txt"

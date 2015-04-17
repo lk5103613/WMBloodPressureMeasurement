@@ -135,7 +135,7 @@ public class WelcomeActivity extends Activity implements
 		d.getSize(p);
 		params.width = (int) (p.x * 0.9); // 宽度设置为屏幕的0.65
 		dialogWindow.setAttributes(params);
-		
+
 		authLink();
 	}
 

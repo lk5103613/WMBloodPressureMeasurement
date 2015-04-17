@@ -29,18 +29,17 @@ import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
-public class BPResultFragment extends BaseResultFragment implements View.OnClickListener {
-	
+public class BPResultFragment extends BaseResultFragment implements
+		View.OnClickListener {
+
 	/**
 	 * 
 	 * 
 	 * 
 	 * 
-	 * 1. 在onCreateView中设置记录按钮不可用
-	 * 2. 在获得正确数据或异常数据时设置按钮可点击
-	 * 3. 如果BPResult不为空，点击记录按钮后显示ProgressBar，然后finish
-	 * 4. 如果BPResult为空，直接finish
-	 * 5. 为减小线程的影响，在record中使用了asynctask
+	 * 1. 在onCreateView中设置记录按钮不可用 2. 在获得正确数据或异常数据时设置按钮可点击 3.
+	 * 如果BPResult不为空，点击记录按钮后显示ProgressBar，然后finish 4. 如果BPResult为空，直接finish 5.
+	 * 为减小线程的影响，在record中使用了asynctask
 	 * 
 	 * 阅后即焚
 	 * 
@@ -77,14 +76,14 @@ public class BPResultFragment extends BaseResultFragment implements View.OnClick
 		mContext = getActivity();
 		mPressure.startRotate();
 		mProperties = PropertiesSharePrefs.getInstance(mContext);
-//		
-//		mHandler = new Handler(new Handler.Callback() {
-//			@Override
-//			public boolean handleMessage(Message msg) {
-//				return false;
-//			}
-//		});
-		
+		//
+		// mHandler = new Handler(new Handler.Callback() {
+		// @Override
+		// public boolean handleMessage(Message msg) {
+		// return false;
+		// }
+		// });
+
 		mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
 		return view;
 	}
@@ -95,28 +94,31 @@ public class BPResultFragment extends BaseResultFragment implements View.OnClick
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
-				if(mBPResult != null) 
+				if (mBPResult != null)
 					mCallback.setButtonState(BTN_STATE_UNAVAILABLE_WAITING);
 			}
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				if(mBPResult != null) {
-					String card = mProperties.getProperty(PropertiesSharePrefs.TYPE_CARD, "");
+				if (mBPResult != null) {
+					String card = mProperties.getProperty(
+							PropertiesSharePrefs.TYPE_CARD, "");
 					mBPResult.userCard = card;
-					HistoryDBManager.getInstance(getActivity()).addBpResult(mBPResult);
+					HistoryDBManager.getInstance(getActivity()).addBpResult(
+							mBPResult);
 				}
 				return null;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Void result) {
 				mCallback.closeActivity();
 				super.onPostExecute(result);
 			}
 		}.execute();
-		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_WIFI)
-			new CheckNeedUploadTask(mContext, null, null, null, SystemUtils.TYPE_WIFI).execute();
+		if (SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_WIFI)
+			new CheckNeedUploadTask(mContext, null, null, null,
+					SystemUtils.TYPE_WIFI).execute();
 	}
 
 	// 计算Pressure值
@@ -153,19 +155,19 @@ public class BPResultFragment extends BaseResultFragment implements View.OnClick
 			mBPResult = new BPResult(data);
 			mLblSS.setText(String.valueOf((int) mBPResult.sbp));
 			mLblSZ.setText(String.valueOf((int) mBPResult.dbp));
-			mLblPlues.setText(String.valueOf((int)mBPResult.pulse));
+			mLblPlues.setText(String.valueOf((int) mBPResult.pulse));
 			mCallback.showResult(mBPResult.bpResult);
 			// 将数据存入数据库
 		} else if (data.trim().length() == 29) {
-			
+
 			// 获得异常信息
 			mCallback.setButtonState(BTN_STATE_UNAVAILABLE);
 			mNeedNewData = false;
 			mPressure.stopRotate();
 			mBPException = new BPResultException(data);
 			showDialog(mBPException.description);
-			Toast.makeText(mContext, mBPException.description,
-					Toast.LENGTH_LONG).show();
+			// Toast.makeText(mContext, mBPException.description,
+			// Toast.LENGTH_LONG).show();
 		} else if (data.trim().length() == 8) {
 			// 获得Pressure值
 			mNeedNewData = true;
@@ -189,7 +191,7 @@ public class BPResultFragment extends BaseResultFragment implements View.OnClick
 				true);
 		return false;
 	}
-	
+
 	@SuppressLint("InflateParams")
 	public void showDialog(String msg) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -199,9 +201,9 @@ public class BPResultFragment extends BaseResultFragment implements View.OnClick
 
 		mErrorMsg = (TextView) mDialogView.findViewById(R.id.bp_error_message);
 		mBtnRetry = (Button) mDialogView.findViewById(R.id.btn_retry);
-		if(mErrorMsg == null)
+		if (mErrorMsg == null)
 			System.out.println("textview is null");
-		if(msg == null)
+		if (msg == null)
 			System.out.println("msg is null");
 		mErrorMsg.setText(msg);
 		mBtnRetry.setOnClickListener(this);
@@ -219,11 +221,12 @@ public class BPResultFragment extends BaseResultFragment implements View.OnClick
 		params.height = (int) (p.y * 0.25);
 		dialogWindow.setAttributes(params);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 
-		if(v.getId() == R.id.btn_retry) {
+		if (v.getId() == R.id.btn_retry) {
+			mDialog.dismiss();
 			mCallback.closeActivity();
 		}
 	}

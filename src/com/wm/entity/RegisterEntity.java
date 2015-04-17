@@ -14,9 +14,11 @@ public class RegisterEntity {
 	public String pwd;
 	@Expose
 	public String securityCode;
+
 	public RegisterEntity() {
 		super();
 	}
+
 	public RegisterEntity(String userName, String cellPhone, String userCard,
 			String pwd, String securityCode) {
 		super();
@@ -26,7 +28,5 @@ public class RegisterEntity {
 		this.pwd = pwd;
 		this.securityCode = securityCode;
 	}
-	
-	
 
 }

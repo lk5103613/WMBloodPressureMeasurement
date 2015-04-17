@@ -12,17 +12,18 @@ public class AboutActivity extends BaseActivity {
 		setContentView(R.layout.activity_about);
 		ButterKnife.inject(this);
 	}
-	
+
 	@OnClick(R.id.about_back)
 	public void back() {
 		finish();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if(isFinishing()) {
-			overridePendingTransition(R.anim.scale_fade_in, R.anim.slide_out_to_right);
+		if (isFinishing()) {
+			overridePendingTransition(R.anim.scale_fade_in,
+					R.anim.slide_out_to_right);
 		}
 	}
 

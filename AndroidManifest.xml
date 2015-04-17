@@ -55,28 +55,15 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".BPHistoryActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".BSHistoryActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".ResultActivity"
             android:launchMode="singleInstance"
             android:parentActivityName=".BPHistoryActivity"
             android:screenOrientation="portrait" >
+
+            <!-- android:launchMode="singleInstance" 导致按Home键在回来，点击back键z -->
         </activity>
         <activity
             android:name=".GuideViewActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".FHHistoryActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -90,12 +77,10 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
         </activity>
-        
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName=".MainActivity" 
-            android:screenOrientation="portrait">
-            
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".HistoryActivity"
@@ -114,10 +99,10 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

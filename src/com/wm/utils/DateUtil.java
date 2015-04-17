@@ -39,9 +39,10 @@ public class DateUtil {
 
 		return sdf2.format(date);
 	}
-	
+
 	@SuppressLint("SimpleDateFormat")
-	public static String formateDate(String dateStr, String format) throws ParseException{
+	public static String formateDate(String dateStr, String format)
+			throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
 		Date date = sdf.parse(dateStr);
 		SimpleDateFormat sdf2 = new SimpleDateFormat(format);

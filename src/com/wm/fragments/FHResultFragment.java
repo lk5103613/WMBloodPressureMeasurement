@@ -37,7 +37,7 @@ public class FHResultFragment extends BaseResultFragment {
 	LineChart mChart;
 	@InjectView(R.id.fh_heart)
 	ImageView mFhHeart;
-	
+
 	private List<Integer> mFHValues;
 	private List<Integer> mAllValues;
 	private int recordIndex;
@@ -52,7 +52,7 @@ public class FHResultFragment extends BaseResultFragment {
 			saveAndJump();
 		}
 	};
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class FHResultFragment extends BaseResultFragment {
 		initLineChart();
 		addEmptyData();
 		mHandler.removeCallbacks(mRunnable);
-		
+
 		mBeginRecord = false;
 		return view;
 	}
@@ -77,8 +77,9 @@ public class FHResultFragment extends BaseResultFragment {
 		mBeginRecord = true;
 		mCallback.setButtonState(BTN_STATE_UNAVAILABLE_WAITING);
 		mHandler.postDelayed(mRunnable, 35000);
-		
-		Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.fh_heart);
+
+		Animation animation = AnimationUtils.loadAnimation(getActivity(),
+				R.anim.fh_heart);
 		mFhHeart.startAnimation(animation);
 	}
 
@@ -91,11 +92,11 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
 		mChart.setStartAtZero(true);
-		mChart.setDrawLegend(false);//不绘制颜色标记
-		mChart.setDrawXLabels(true);//绘制X轴标签
+		mChart.setDrawLegend(false);// 不绘制颜色标记
+		mChart.setDrawXLabels(true);// 绘制X轴标签
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		mChart.getYLabels().setLabelCount(5);
-	    mChart.setHighlightEnabled(false);
+		mChart.setHighlightEnabled(false);
 		mChart.setScaleMinima(40, 1);// 设置缩放比例
 		mChart.centerViewPort(0, 200);
 		mChart.getXLabels().setSpaceBetweenLabels(1);
@@ -117,7 +118,7 @@ public class FHResultFragment extends BaseResultFragment {
 	}
 
 	private void addEntry(float value) {
-		recordIndex ++;
+		recordIndex++;
 
 		LineData data = mChart.getData();
 
@@ -135,25 +136,27 @@ public class FHResultFragment extends BaseResultFragment {
 			set.setLineWidth(2f);
 			set.setCircleSize(2f);
 
-			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random() * 50) +50f
-			String xvalue = mFHValues.isEmpty()?"":mFHValues.size()+"";
-			System.out.println("record index " + recordIndex +" " + xvalue);
-			
+			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random()
+																	// * 50)
+																	// +50f
+			String xvalue = mFHValues.isEmpty() ? "" : mFHValues.size() + "";
+			System.out.println("record index " + recordIndex + " " + xvalue);
+
 			if ((xVals.size() - recordIndex) < 2) {
 				xVals.add("");
 			}
-			
-			if (recordIndex <xVals.size()){
+
+			if (recordIndex < xVals.size()) {
 				mChart.getData().getXVals().set(recordIndex, xvalue);
 			}
-			
-			if (recordIndex>15) {
-				mChart.centerViewPort(recordIndex-5, 200);
+
+			if (recordIndex > 15) {
+				mChart.centerViewPort(recordIndex - 5, 200);
 			}
-			
-			if(recordIndex>1000) {
-				System.out.println("scale " + (recordIndex/100)*4.0f);
-				mChart.setScaleMinima((recordIndex/100)*4, 1);
+
+			if (recordIndex > 1000) {
+				System.out.println("scale " + (recordIndex / 100) * 4.0f);
+				mChart.setScaleMinima((recordIndex / 100) * 4, 1);
 			}
 
 			mChart.notifyDataSetChanged();
@@ -172,14 +175,14 @@ public class FHResultFragment extends BaseResultFragment {
 		set.setHighLightColor(Color.rgb(190, 190, 190));
 		return set;
 	}
-	
+
 	private void saveAndJump() {
 		mFhHeart.clearAnimation();
-		
-		if(mFHValues.size() < 60) {
+
+		if (mFHValues.size() < 60) {
 			float average = getAverage();
-			while(mFHValues.size() != 60 && average != 0) {
-				mFHValues.add((int)average);
+			while (mFHValues.size() != 60 && average != 0) {
+				mFHValues.add((int) average);
 			}
 		}
 		new AsyncTask<Void, Void, Integer>() {
@@ -188,19 +191,22 @@ public class FHResultFragment extends BaseResultFragment {
 				super.onPreExecute();
 				mCallback.setButtonState(BTN_STATE_AVAILABLE);
 			}
-			
+
 			@Override
 			protected Integer doInBackground(Void... params) {
 				int count = mFHValues.size();
-				if (!mFHValues.isEmpty()){
-					String card = mProperties.getProperty(PropertiesSharePrefs.TYPE_CARD, "");
-					FHResult fhResult = new FHResult(mFHValues, new Date().getTime());
+				if (!mFHValues.isEmpty()) {
+					String card = mProperties.getProperty(
+							PropertiesSharePrefs.TYPE_CARD, "");
+					FHResult fhResult = new FHResult(mFHValues,
+							new Date().getTime());
 					fhResult.userCard = card;
-					HistoryDBManager.getInstance(mContext).addFhResult(fhResult);
+					HistoryDBManager.getInstance(mContext)
+							.addFhResult(fhResult);
 				}
 				return count;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Integer result) {
 				super.onPostExecute(result);
@@ -208,8 +214,9 @@ public class FHResultFragment extends BaseResultFragment {
 				mCallback.closeActivity();
 			}
 		}.execute();
-		if(SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_WIFI)
-			new CheckNeedUploadTask(mContext, null, null, null, SystemUtils.TYPE_WIFI).execute();
+		if (SystemUtils.getConnectState(mContext) == SystemUtils.TYPE_WIFI)
+			new CheckNeedUploadTask(mContext, null, null, null,
+					SystemUtils.TYPE_WIFI).execute();
 	}
 
 	@Override
@@ -224,24 +231,24 @@ public class FHResultFragment extends BaseResultFragment {
 
 	@Override
 	public boolean handleGetData(String data) {
-		
+
 		String fhValue = DataConvertUtils.hexToDecimal(data.split(" ")[1]);
-		if (fhValue.trim().equals("0")) {//获取值为0
-			if(getAverage()!=0) {
-				
-				if(mBeginRecord){
+		if (fhValue.trim().equals("0")) {// 获取值为0
+			if (getAverage() != 0) {
+
+				if (mBeginRecord) {
 					mFHValues.add(getAverage());
 				}
 				addEntry(getAverage());
 			}
-		} else {//获取值不为0
+		} else {// 获取值不为0
 			mAllValues.add(Integer.valueOf(fhValue));
-			if(mBeginRecord){
+			if (mBeginRecord) {
 				mFHValues.add(Integer.parseInt(fhValue));
 			}
 			addEntry(Integer.parseInt(fhValue));
 		}
-		if(mFHValues.size() >= 60) {
+		if (mFHValues.size() >= 60) {
 			mHandler.removeCallbacks(mRunnable);
 			saveAndJump();
 		}
@@ -250,22 +257,22 @@ public class FHResultFragment extends BaseResultFragment {
 
 	@Override
 	public boolean handleServiceDiscover() {
-		if(mBluetoothLeService != null) {
+		if (mBluetoothLeService != null) {
 			mBluetoothLeService.setCharacteristicNotification(
 					getInfoCharacteristic(UUIDS.FH_RESULT_SERVICE,
 							UUIDS.FH_RESULT_CHARAC), true);
 		}
 		return false;
 	}
-	
+
 	private int getAverage() {
-		if(mAllValues.size() == 0)
+		if (mAllValues.size() == 0)
 			return 0;
 		float sum = 0f;
-		for(int i=0; i<mAllValues.size(); i++) {
+		for (int i = 0; i < mAllValues.size(); i++) {
 			sum += mAllValues.get(i);
 		}
-		return (int)sum/mAllValues.size();
+		return (int) sum / mAllValues.size();
 	}
 
 }

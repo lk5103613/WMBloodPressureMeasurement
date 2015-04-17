@@ -3,7 +3,7 @@ package com.wm.utils;
 import java.security.MessageDigest;
 
 public class MD5Utils {
-	
+
 	/***
 	 * MD5加码 生成32位md5�?
 	 */
@@ -32,6 +32,5 @@ public class MD5Utils {
 		return hexValue.toString();
 
 	}
-
 
 }

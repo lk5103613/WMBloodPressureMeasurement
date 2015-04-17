@@ -67,14 +67,14 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionCancelUpd;
 	AlertDialog alertDialog;
 	View dialogView;
-	
+
 	AlertDialog changeNameDialog;
 	View changeNameView;
 	Button btnChangeNameYes, btnChangeNameNo;
 	EditText nameEdit;
 	Button btnDelYes = null;
 	Button btnDelNo = null;
-	
+
 	AlertDialog delDialog;
 
 	public interface OnStateChangeListener {
@@ -102,7 +102,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		mHandler = new Handler();
 		mDeviceDBManager = DeviceDBManager.getInstance(mContext);
 		mTabPager = TabPagerSharePrefs.getInstance(mContext);
-		mDeviceListView.setEmptyView(mEmptyView);  //add empty view
+		mDeviceListView.setEmptyView(mEmptyView); // add empty view
 		return view;
 	}
 
@@ -117,14 +117,16 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			alertDialog = builder.create();
 			alertDialog.setCanceledOnTouchOutside(true);
 		}
-		
+
 		alertDialog.show();
-		
+
 		actionAdd = ButterKnife.findById(dialogView, R.id.action_add);
 		actionDel = ButterKnife.findById(dialogView, R.id.action_delete_device);
-		actionCancelDel = ButterKnife.findById(dialogView, R.id.action_cancel_delete);
+		actionCancelDel = ButterKnife.findById(dialogView,
+				R.id.action_cancel_delete);
 		actionUpd = ButterKnife.findById(dialogView, R.id.action_change_name);
-		actionCancelUpd = ButterKnife.findById(dialogView, R.id.action_cancel_change);
+		actionCancelUpd = ButterKnife.findById(dialogView,
+				R.id.action_cancel_change);
 
 		actionAdd.setOnClickListener(this);
 		actionDel.setOnClickListener(this);
@@ -167,7 +169,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 				mDevices = mDeviceDBManager.getAllDevices();
 				if (mDeviceDataSet == null)
 					mDeviceDataSet = new DeviceDataSet();
-				//mDeviceDataSet.option = OptionEnum.ITEM_ADD;
+				// mDeviceDataSet.option = OptionEnum.ITEM_ADD;
 				mDeviceDataSet.deviceInfos = mDevices;
 				if (mAdapter == null) {
 					mAdapter = new DeviceListAdapter(mContext, mDeviceDataSet);
@@ -194,12 +196,12 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		actionDel.setVisibility(View.VISIBLE);
 		actionUpd.setVisibility(View.VISIBLE);
 		mTabPager.savePosition(TabPagerSharePrefs.PAGE_DEVICE);
-		
+
 	}
 
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
-		if(mDeviceDataSet.option != null) {
+		if (mDeviceDataSet.option != null) {
 			resetList();
 			return;
 		}
@@ -297,9 +299,11 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			LayoutInflater inflater = getActivity().getLayoutInflater();
 			View mainView = inflater.inflate(R.layout.dialog_change_name,
 					new LinearLayout(mContext), false);
-			nameEdit = (EditText)mainView.findViewById(R.id.txt_device_name);
-			btnChangeNameYes = (Button) mainView.findViewById(R.id.btn_change_name_yes);
-			btnChangeNameNo = (Button)mainView.findViewById(R.id.btn_change_name_no);
+			nameEdit = (EditText) mainView.findViewById(R.id.txt_device_name);
+			btnChangeNameYes = (Button) mainView
+					.findViewById(R.id.btn_change_name_yes);
+			btnChangeNameNo = (Button) mainView
+					.findViewById(R.id.btn_change_name_no);
 			changeNameDialog = builder.create();
 			changeNameDialog.setView(mainView, 0, 0, 0, 0);
 			changeNameDialog.setCanceledOnTouchOutside(true);
@@ -310,18 +314,18 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		nameEdit.setText(name);
 		nameEdit.setSelection(name.length());
 	}
-	
+
 	public void delete(int position) {
-		
-		if(delDialog ==null) {
-			
+
+		if (delDialog == null) {
+
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 			builder.setCancelable(true);
 			LayoutInflater inflater = getActivity().getLayoutInflater();
 			View mainView = inflater.inflate(R.layout.dialog_delete,
 					new LinearLayout(mContext), false);
 			btnDelYes = (Button) mainView.findViewById(R.id.btn_del_yes);
-			btnDelNo = (Button)mainView.findViewById(R.id.btn_del_no);
+			btnDelNo = (Button) mainView.findViewById(R.id.btn_del_no);
 			delDialog = builder.create();
 			delDialog.setView(mainView, 0, 0, 0, 0);
 			delDialog.setCanceledOnTouchOutside(true);
@@ -329,7 +333,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 
 		btnDelYes.setOnClickListener(new BtnClickListener(position));
 		btnDelNo.setOnClickListener(new BtnClickListener(position));
-		
+
 		delDialog.show();
 		Window dialogWindow = delDialog.getWindow();
 		WindowManager m = getActivity().getWindowManager();
@@ -369,7 +373,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						mDeviceDBManager.updateDevice(mDeviceDataSet.deviceInfos
+						mDeviceDBManager
+								.updateDevice(mDeviceDataSet.deviceInfos
 										.get(mPosition));
 					}
 				}).start();
@@ -463,7 +468,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		default:
 			break;
 		}
-		
+
 		alertDialog.dismiss();
 
 	}

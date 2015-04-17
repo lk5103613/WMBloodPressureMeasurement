@@ -15,7 +15,7 @@ import com.wm.activity.LoginActivity;
 import com.wm.activity.R;
 
 public class IndexFragment extends Fragment {
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -25,20 +25,21 @@ public class IndexFragment extends Fragment {
 		System.out.println("index oncreate view");
 		return view;
 	}
-	
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		System.out.println("index onresume view");
 	}
-	
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		
-		 super.onCreateOptionsMenu(menu, inflater);
-         //menu.add("µÇÂ¼").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);//µÇÂ¼menu
+
+		super.onCreateOptionsMenu(menu, inflater);
+		// menu.add("µÇÂ¼").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);//µÇÂ¼menu
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -46,5 +47,5 @@ public class IndexFragment extends Fragment {
 		startActivity(intent);
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 }

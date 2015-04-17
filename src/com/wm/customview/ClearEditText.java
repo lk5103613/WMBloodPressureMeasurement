@@ -14,7 +14,7 @@ import com.wm.activity.R;
 
 /**
  * @说明： 自定义带删除按钮的EditText
- *
+ * 
  */
 public class ClearEditText extends EditText implements OnFocusChangeListener,
 		TextWatcher {
@@ -47,10 +47,12 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 		if (mClearDrawable == null) {
 			// throw new
 			// NullPointerException("You can add drawableRight attribute in XML");
-			mClearDrawable = getResources().getDrawable(R.drawable.action_delete);
+			mClearDrawable = getResources().getDrawable(
+					R.drawable.action_delete);
 		}
 
-		mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(), mClearDrawable.getIntrinsicHeight());
+		mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(),
+				mClearDrawable.getIntrinsicHeight());
 		// 默认设置隐藏图标
 		setClearIconVisible(false);
 		// 设置焦点改变的监听
@@ -69,7 +71,8 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			if (getCompoundDrawables()[2] != null) {
 
-				boolean touchable = event.getX() > (getWidth() - getTotalPaddingRight()) && (event.getX() < ((getWidth() - getPaddingRight())));
+				boolean touchable = event.getX() > (getWidth() - getTotalPaddingRight())
+						&& (event.getX() < ((getWidth() - getPaddingRight())));
 
 				if (touchable) {
 					this.setText("");
@@ -100,7 +103,8 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 	 */
 	protected void setClearIconVisible(boolean visible) {
 		Drawable right = visible ? mClearDrawable : null;
-		setCompoundDrawables(getCompoundDrawables()[0], getCompoundDrawables()[1], right, getCompoundDrawables()[3]);
+		setCompoundDrawables(getCompoundDrawables()[0],
+				getCompoundDrawables()[1], right, getCompoundDrawables()[3]);
 	}
 
 	/**
@@ -112,7 +116,8 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 	}
 
 	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
 
 	}
 
@@ -120,6 +125,5 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 	public void afterTextChanged(Editable s) {
 
 	}
-
 
 }
