@@ -134,7 +134,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 			for (BluetoothDevice device : devices) {
 				final String address = device.getAddress()
 						.toUpperCase(Locale.getDefault()).trim();
-				
 				if (mDBAddresses.contains(address) || !isMatchedDevice(device)) {
 					continue;
 				}
@@ -188,7 +187,6 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		System.out.println("scan failed");
 		if (mCurrentScanTime < 1) { // scan again
 			mCurrentScanTime++;
-			System.out.println("scan again");
 			mScanner.scanLeDevice(true);
 		} else {
 			hideProgress();

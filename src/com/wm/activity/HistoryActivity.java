@@ -129,7 +129,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		mFailedTime = 0;
 		mBeginDetect = true;
 		beginCheckUI();
-		connect();
+		System.out.println(connect());
 	}
 	
 	@OnClick(R.id.history_back)
@@ -151,7 +151,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		if(mFailedTime <= MAX_CON_TIME) {
 			System.out.println("failed ======" + mFailedTime);
 			mFailedTime++;
-			connect();
+			System.out.println(connect());
 			return;
 		}
 		if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
@@ -164,8 +164,8 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		return;
 	}
 	
-	private void connect() {
-		mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
+	private boolean connect() {
+		return mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
 	}
 
 	@Override
