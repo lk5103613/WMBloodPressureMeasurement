@@ -78,7 +78,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 		// initData();
 		addDataSet();
-		System.out.println("bp onresume");
 		super.onResume();
 	}
 

@@ -77,7 +77,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, His
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
-		
 		mTitle.setText(TypeFactory.getTitleByType(mContext, mType));
 		mFailedTime = 0;
 		// 绑定蓝牙服务
@@ -151,13 +150,10 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, His
 	
 	private void handleConFail() {
 		if(mFailedTime <= MAX_CON_TIME) {
-			System.out.println("failed ======" + mFailedTime);
+			System.out.println("failed ======" + mFailedTime + "    " + mDeviceInfo.address);
 			mFailedTime++;
 			connect();
 			return;
-		}
-		if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
-			mBluetoothLeService.disconnect();
 		}
 		mBeginDetect = false;
 		connectFailUI();
@@ -167,15 +163,18 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, His
 	}
 	
 	private void connect() {
-		System.out.println("history connect");
+		System.out.println("连击之前的连接状态  " + mBluetoothLeService.getConnectState() + "   0:disconnect 1:connecting 2:connected");
 		if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTED) {
 			try {
 				mFragment.handleServiceDiscover();
 			} catch(Exception e) {
+				System.out.println("handle service discover failed");
 				mBluetoothLeService.disconnect();
 				mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
 			}
-		} else 
+		} else if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTING) {
+			return;
+		} else if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_DISCONNECTED)
 			mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
 	}
 	
@@ -183,6 +182,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, His
 	public boolean handleConnect() {
 		if(!mBeginDetect) 
 			return true;
+		System.out.println("connect");
 		if(mFragment.handleConnect()) {
 			return true;
 		}
@@ -191,7 +191,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, His
 
 	@Override
 	public boolean handleDisconnect() {
-		System.out.println("disconnect");
 		mDataError = false;
 		if(!mBeginDetect)
 			return true;

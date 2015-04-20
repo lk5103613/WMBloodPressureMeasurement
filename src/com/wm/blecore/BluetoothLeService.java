@@ -251,10 +251,10 @@ public class BluetoothLeService extends Service {
 			return;
 		}
 		this.mBluetoothGatt.disconnect();
-		//if(mConnectionState != STATE_DISCONNECTED) {
+		if(mConnectionState != STATE_DISCONNECTED) {
 			this.mConnectionState = STATE_DISCONNECTED;
 			broadcastUpdate(ACTION_GATT_DISCONNECTED, "调用断开方法");
-		//}
+		}
 	}
 
 	public int getConnectState() {
