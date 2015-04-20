@@ -37,63 +37,63 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.lichkin.activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".AboutActivity"
-            android:parentActivityName=".MainActivity"
+            android:name="com.lichkin.activity.AboutActivity"
+            android:parentActivityName="com.lichkin.activity.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".AddDeviceActivity"
+            android:name="com.lichkin.activity.AddDeviceActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.lichkin.activity.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ResultActivity"
+            android:name="com.lichkin.activity.ResultActivity"
             android:launchMode="singleInstance"
-            android:parentActivityName=".BPHistoryActivity"
+            android:parentActivityName="com.lichkin.activity.BPHistoryActivity"
             android:screenOrientation="portrait" >
 
             <!-- android:launchMode="singleInstance" 导致按Home键在回来，点击back键z -->
         </activity>
         <activity
-            android:name=".GuideViewActivity"
-            android:parentActivityName=".MainActivity"
+            android:name="com.lichkin.activity.GuideViewActivity"
+            android:parentActivityName="com.lichkin.activity.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".BloodSugarCheckActivity"
+            android:name="com.lichkin.activity.BloodSugarCheckActivity"
             android:label="@string/title_activity_blood_sugar_check"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".MainActivity"
+            android:name="com.lichkin.activity.LoginActivity"
+            android:parentActivityName="com.lichkin.activity.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".RegisterActivity"
-            android:parentActivityName=".MainActivity"
+            android:name="com.lichkin.activity.RegisterActivity"
+            android:parentActivityName="com.lichkin.activity.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".HistoryActivity"
-            android:parentActivityName=".MainActivity"
+            android:name="com.lichkin.activity.HistoryActivity"
+            android:parentActivityName="com.lichkin.activity.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
 
         <service
-            android:name="com.wm.blecore.BluetoothLeService"
+            android:name="com.lichkin.blecore.BluetoothLeService"
             android:enabled="true" />
 
         <activity
-            android:name=".WelcomeActivity"
+            android:name="com.lichkin.activity.WelcomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >

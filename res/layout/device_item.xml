@@ -8,7 +8,7 @@
     android:descendantFocusability="blocksDescendants"
     android:padding="10dp" >
 
-    <com.wm.customview.DeviceIcon
+    <com.lichkin.customview.DeviceIcon
         android:id="@+id/device_icon"
         android:layout_width="@dimen/device_item_icon"
         android:layout_height="@dimen/device_item_icon"
