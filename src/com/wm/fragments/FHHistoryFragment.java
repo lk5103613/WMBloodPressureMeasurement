@@ -23,6 +23,7 @@ import com.wm.customview.LineMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.FHResult;
 import com.wm.utils.DateUtil;
+import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
@@ -38,6 +39,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 	private List<FHResult> mFHResults;
 	private int mIndex = 0;
 	LineMarkerView mv;
+	String idCard = "";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +50,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		ButterKnife.inject(this, view);
 
 		mDbManager = HistoryDBManager.getInstance(mContext);
-		mFHResults = mDbManager.getAllFhResults();
+		getFhResults();
 		initLineChart();
 		addEmptyData(-1);
 		mChart.invalidate();
@@ -59,8 +61,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 	@Override
 	public void onResume() {
 		mIndex = 0;
-		mDbManager = HistoryDBManager.getInstance(mContext);
-		mFHResults = mDbManager.getAllFhResults();
+		getFhResults();
 
 		if (!mFHResults.isEmpty()) {
 			mChart.getData().removeDataSet(0);
@@ -68,6 +69,12 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		}
 		super.onResume();
 	}
+	
+	private void getFhResults(){
+		idCard = PropertiesSharePrefs.getInstance(mContext).getProperty(PropertiesSharePrefs.TYPE_CARD, "");
+		mFHResults = mDbManager.getFhResultsByUser(idCard);
+	}
+	
 
 	private void initLineChart() {
 		// chart

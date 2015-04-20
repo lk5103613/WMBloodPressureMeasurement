@@ -18,6 +18,8 @@ import com.github.mikephil.charting.charts.BarLineChartBase.BorderPosition;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.wm.activity.R;
@@ -25,10 +27,11 @@ import com.wm.customview.BarMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BSResult;
 import com.wm.utils.DateUtil;
+import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
-public class BSHistoryFragment extends BaseHistoryFragment {
+public class BSHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener{
 
 	public final static String BS_DATA = "bs_data";
 
@@ -39,6 +42,8 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	private HistoryDBManager historyDBManager;
 	private List<BSResult> bsResults;
 	private int[] colors;
+	private int mBarLastIndex = 0;
+	String idCard = "";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +54,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 
 		mHandler = new Handler();
 		historyDBManager = HistoryDBManager.getInstance(getActivity());
-		bsResults = historyDBManager.getAllBsResults();
+		getBsResult();
 		mChart.setScaleMinima(bsResults.size() / 7, 1);
 		initBarChart();
 		// setData(20, 50);
@@ -60,9 +65,14 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		bsResults = historyDBManager.getAllBsResults();
+		getBsResult();
 		setData();
 		mChart.animateY(1000);// Y轴动画
+	}
+	
+	private void getBsResult(){
+		idCard = PropertiesSharePrefs.getInstance(mContext).getProperty(PropertiesSharePrefs.TYPE_CARD, "");
+		bsResults = historyDBManager.getBsResultsByUser(idCard);
 	}
 
 	private void initBarChart() {
@@ -92,6 +102,7 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 		mChart.setBorderColor(getResources().getColor(R.color.dark_gray));// 边框颜色
 		mChart.setBorderPositions(new BorderPosition[] { BorderPosition.BOTTOM,
 				BorderPosition.LEFT });// 绘制边框位置， 左、下
+		mChart.setOnChartValueSelectedListener(this);
 		BarMarkerView mv = new BarMarkerView(getActivity(),
 				R.layout.custom_marker_view);// 自定义标签
 		mv.setOffsets(
@@ -195,6 +206,24 @@ public class BSHistoryFragment extends BaseHistoryFragment {
 			}
 		}, 100);
 		return false;
+	}
+
+	@Override
+	public void onValueSelected(Entry e, int dataSetIndex) {
+		if(null == e||e.getXIndex() >bsResults.size()-1) {
+			mChart.getData().getXVals().set(mBarLastIndex, " ");
+			return;
+		}
+		String date = DateUtil.getFormatDate(DateUtil.DATA_FORMAT,bsResults.get(e.getXIndex()).date);
+		mChart.getData().getXVals().set(mBarLastIndex, " ");
+		mChart.getData().getXVals().set(e.getXIndex(), date);
+		mBarLastIndex = e.getXIndex();
+	}
+
+	@Override
+	public void onNothingSelected() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
