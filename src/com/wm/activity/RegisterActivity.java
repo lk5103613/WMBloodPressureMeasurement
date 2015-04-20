@@ -1,6 +1,9 @@
 package com.wm.activity;
 
+import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
+
+import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,6 +19,7 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
+import android.util.JsonReader;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,12 +36,15 @@ import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wm.entity.MessageEntity;
 import com.wm.entity.RegisterEntity;
 import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 import com.wm.network.NetworkFactory;
 import com.wm.utils.DialogUtils;
+import com.wm.utils.HttpUtils;
 import com.wm.utils.InputLowerToUpper;
 import com.wm.utils.MD5Utils;
 import com.wm.utils.PropertiesSharePrefs;
@@ -466,6 +473,7 @@ public class RegisterActivity extends ActionBarActivity implements
 		String phone = mRegPhone.getText().toString().trim();
 		String code = mRegCode.getText().toString().trim();
 		String userName = mRegName.getText().toString().trim();
+		
 		String userCard = mRegIdentity.getText().toString().trim();
 		String pwd = MD5Utils.string2MD5(mRegPsw.getText().toString());
 		RegisterEntity registerEntity = new RegisterEntity(userName, phone,
@@ -498,7 +506,17 @@ public class RegisterActivity extends ActionBarActivity implements
 			}
 			Response response = null;
 			try {
-				response = NetworkFactory.getAuthService().register(mRequest);
+//				response = NetworkFactory.getAuthService().register(mRequest);
+//				
+				Gson gson = new Gson();
+				String jsonStr = gson.toJson(mRequest);
+				System.out.println("gson " + jsonStr);
+				JSONObject jsonObject = new JSONObject(jsonStr);
+				String result = HttpUtils.post(jsonObject, HttpUtils.base_url+HttpUtils.reg_url);
+				System.out.println("register result " + result);
+				
+				Gson gsonResult = new Gson();
+				response = gsonResult.fromJson(result, Response.class);
 			} catch (Exception e) {
 
 			}
@@ -529,7 +547,6 @@ public class RegisterActivity extends ActionBarActivity implements
 						DialogUtils.ERROR);
 			}
 		}
-
 	}
 
 	@Override

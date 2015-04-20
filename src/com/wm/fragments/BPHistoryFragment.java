@@ -26,6 +26,7 @@ import com.wm.customview.LineMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
 import com.wm.utils.DateUtil;
+import com.wm.utils.PropertiesSharePrefs;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
@@ -44,6 +45,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
+	String idCard = "";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -196,7 +198,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	}
 
 	public void getBpHisory() {
-		mBPResults = mHistoryDBManager.getAllBpResults();
+		idCard = PropertiesSharePrefs.getInstance(mContext).getProperty(PropertiesSharePrefs.TYPE_CARD, "");
+		mBPResults = mHistoryDBManager.getBpResultsByUser(idCard);
 	}
 
 	// public void initData() {
