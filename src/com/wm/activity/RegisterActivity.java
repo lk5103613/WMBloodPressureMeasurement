@@ -1,6 +1,5 @@
 package com.wm.activity;
 
-import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
 
 import org.json.JSONObject;
@@ -19,7 +18,6 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
-import android.util.JsonReader;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -37,7 +35,6 @@ import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.wm.entity.MessageEntity;
 import com.wm.entity.RegisterEntity;
 import com.wm.entity.RequestEntity;

@@ -58,13 +58,9 @@ public class BluetoothLeService extends Service {
 		mDisconnectRunnable = new Runnable() {
 			@Override
 			public void run() {
-
 				if(mConnectionState != STATE_DISCONNECTED) {
-
 					mDelayed = false;
 					disconnect();
-
-
 				}
 			}
 		};
@@ -283,9 +279,7 @@ public class BluetoothLeService extends Service {
 	}
 
 	private void addDelayOperation(int delayMillis) {
-
 		if (!mDelayed) {
-
 			mDelayed = mHandler.postDelayed(mDisconnectRunnable, delayMillis);
 		}
 	}
