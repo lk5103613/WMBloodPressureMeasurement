@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -142,6 +143,7 @@ public class BPResultFragment extends BaseResultFragment implements
 
 	@Override
 	public boolean handleGetData(String data) {
+		Log.i("data", data);
 		if (mInforCharacteristic == null && mBluetoothLeService != null) {
 			mInforCharacteristic = getInfoCharacteristic(
 					UUIDS.BP_RESULT_SERVICE, UUIDS.BP_RESULT_CHARAC);

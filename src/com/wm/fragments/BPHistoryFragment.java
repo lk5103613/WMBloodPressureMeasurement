@@ -1,10 +1,9 @@
 package com.wm.fragments;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.wm.activity.R;
 import com.wm.customview.LineMarkerView;
 import com.wm.db.HistoryDBManager;
 import com.wm.entity.BPResult;
-import com.wm.utils.DateUtil;
 import com.wm.utils.SystemUtils;
 import com.wm.utils.UUIDS;
 
@@ -40,10 +38,27 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	LineMarkerView mv;
 
 	private int lineLastIndex = 0;
+<<<<<<< HEAD
+	private final int JUMPCOUMP=2;
+	private HistoryCallback mCallback;
+=======
 	private final int JUMPCOUMP = 2;
+>>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
 
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
+	
+	public interface HistoryCallback {
+		
+		void dataError();
+		
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mCallback = (HistoryCallback) activity;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,15 +128,15 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		}
 		// 创建 x值
 		for (int i = 0; i < mBPResults.size(); i++) {
+<<<<<<< HEAD
+=======
 			Date date = DateUtil.longToDate(mBPResults.get(i).date);
 			String datestr = (date.getMonth() + 1) + "." + (date.getDate());
+>>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
 			xVals.add("");
 		}
 
 		for (int i = mBPResults.size(); i < 15; i++) {
-			Calendar nowss = Calendar.getInstance();
-			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
-					+ (nowss.get(Calendar.DAY_OF_MONTH) + i);
 			xVals.add("");
 		}
 
@@ -245,6 +260,11 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public boolean handleGetData(String data) {
+		if(data.length() == 53) {
+			System.out.println("数据异常");
+			mCallback.dataError();
+			return true;
+		}
 		return false;
 	}
 
