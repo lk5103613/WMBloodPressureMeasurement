@@ -60,7 +60,9 @@
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
             android:src="@drawable/default_header"
-           />
+            imagecontrol:border_inside_color="@color/colorPrimary"
+            imagecontrol:border_outside_color="#5500A2EA"
+            imagecontrol:border_thickness="1dp"/>
 
          <!-- imagecontrol:border_inside_color="@color/colorPrimary"
             imagecontrol:border_outside_color="#5500A2EA"
