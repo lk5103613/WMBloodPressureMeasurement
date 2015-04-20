@@ -99,7 +99,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setHighlightEnabled(false);
 		mChart.setScaleMinima(40, 1);// ÉèÖÃËõ·Å±ÈÀý
 		mChart.centerViewPort(0, 200);
-		mChart.getXLabels().setSpaceBetweenLabels(1);
+//		mChart.getXLabels().setSpaceBetweenLabels(2);
 	}
 
 	private void addEmptyData() {
@@ -151,7 +151,7 @@ public class FHResultFragment extends BaseResultFragment {
 			}
 
 			if (recordIndex > 15) {
-				mChart.centerViewPort(recordIndex - 5, 200);
+				mChart.centerViewPort(recordIndex - 9, 200);
 			}
 
 			if (recordIndex > 1000) {

@@ -28,7 +28,6 @@ public class NetworkFactory {
 				public void intercept(RequestFacade request) {
 					request.addHeader("Content-Type",
 							"application/json; charset=UTF-8");
-					request.addHeader("Accept-Charset", "UTF-8");
 				}
 			};
 		}

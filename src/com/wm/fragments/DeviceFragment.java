@@ -258,8 +258,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 						R.id.btn_delete);
 				mHolder.mBtnUpdate = ButterKnife.findById(convertView,
 						R.id.btn_update);
-				mHolder.mBtnContainer = ButterKnife.findById(convertView,
-						R.id.btn_container);
 				convertView.setTag(mHolder);
 			} else {
 				mHolder = (ViewHolder) convertView.getTag();// 取出viewholder对象
@@ -268,15 +266,12 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			if (OptionEnum.ITEM_DELETE.equals(mDeviceDataSet.option)) {
 				mHolder.mBtnDelete.setVisibility(View.VISIBLE);
 				mHolder.mBtnUpdate.setVisibility(View.GONE);
-				mHolder.mBtnContainer.setVisibility(View.VISIBLE);
 			} else if (OptionEnum.ITEM_UPDATE.equals(mDeviceDataSet.option)) {
 				mHolder.mBtnDelete.setVisibility(View.GONE);
 				mHolder.mBtnUpdate.setVisibility(View.VISIBLE);
-				mHolder.mBtnContainer.setVisibility(View.VISIBLE);
 			} else {
 				mHolder.mBtnDelete.setVisibility(View.GONE);
 				mHolder.mBtnUpdate.setVisibility(View.GONE);
-				mHolder.mBtnContainer.setVisibility(View.GONE);
 			}
 
 			mHolder.mDeviceIcon.setType(mDeviceDataSet.deviceInfos
@@ -413,7 +408,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 		public TextView mDeviceName;
 		public Button mBtnDelete;
 		public Button mBtnUpdate;
-		public RelativeLayout mBtnContainer;
 	}
 
 	@Override

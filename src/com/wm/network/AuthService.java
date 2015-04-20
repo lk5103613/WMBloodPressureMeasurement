@@ -1,6 +1,7 @@
 package com.wm.network;
 
 import retrofit.http.Body;
+import retrofit.http.Headers;
 import retrofit.http.POST;
 
 import com.wm.entity.LoginEntity;
@@ -10,7 +11,6 @@ import com.wm.entity.RequestEntity;
 import com.wm.entity.Response;
 
 public interface AuthService {
-
 	@POST("/register/2J.do")
 	Response register(@Body RequestEntity<RegisterEntity> registerEntity);
 

@@ -58,9 +58,13 @@ public class BluetoothLeService extends Service {
 		mDisconnectRunnable = new Runnable() {
 			@Override
 			public void run() {
+
 				if(mConnectionState != STATE_DISCONNECTED) {
+
 					mDelayed = false;
 					disconnect();
+
+
 				}
 			}
 		};
@@ -91,6 +95,7 @@ public class BluetoothLeService extends Service {
 
 		// ∑¢œ÷services
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, "");
 			}
@@ -270,6 +275,7 @@ public class BluetoothLeService extends Service {
 	}
 
 	private void removeDelayOperation() {
+
 		if (mDelayed) {
 			mHandler.removeCallbacks(mDisconnectRunnable);
 			mDelayed = false;
@@ -277,7 +283,9 @@ public class BluetoothLeService extends Service {
 	}
 
 	private void addDelayOperation(int delayMillis) {
+
 		if (!mDelayed) {
+
 			mDelayed = mHandler.postDelayed(mDisconnectRunnable, delayMillis);
 		}
 	}
