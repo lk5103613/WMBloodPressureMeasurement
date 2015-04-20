@@ -58,21 +58,12 @@ public class BluetoothLeService extends Service {
 		mDisconnectRunnable = new Runnable() {
 			@Override
 			public void run() {
-<<<<<<< HEAD
 				if(mConnectionState != STATE_DISCONNECTED) {
-=======
-				if (mConnectionState == STATE_CONNECTING
-						|| mConnectionState == STATE_CONNECTED) {
->>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
+				
 					mDelayed = false;
 					removeDelayOperation();
 					disconnect();
-<<<<<<< HEAD
 				} 
-=======
-					broadcastUpdate(ACTION_GATT_DISCONNECTED, DISCONNECT_FROM_DELAY);
-				}
->>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
 			}
 		};
 	}
@@ -102,16 +93,7 @@ public class BluetoothLeService extends Service {
 
 		// ∑¢œ÷services
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-<<<<<<< HEAD
-=======
-			// for(BluetoothGattService service : gatt.getServices()) {
-			// System.out.println("service: " + service.getUuid());
-			// for(BluetoothGattCharacteristic cha :
-			// service.getCharacteristics()) {
-			// System.out.println("characteristics: " + cha.getUuid());
-			// }
-			// }
->>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
+
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, "");
 			}
@@ -291,24 +273,16 @@ public class BluetoothLeService extends Service {
 	}
 
 	private void removeDelayOperation() {
-<<<<<<< HEAD
 		if(mDelayed) {
-=======
-		if (mDelayed) {
-			System.out.println("remove delayed");
->>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
 			mHandler.removeCallbacks(mDisconnectRunnable);
 			mDelayed = false;
 		}
 	}
 
 	private void addDelayOperation(int delayMillis) {
-<<<<<<< HEAD
-		if(!mDelayed) {
-=======
+
 		if (!mDelayed) {
 			System.out.println("delayed");
->>>>>>> 1b986eac796dd6745cab1da81e4b047eeed20aa4
 			mDelayed = mHandler.postDelayed(mDisconnectRunnable, delayMillis);
 		}
 	}
