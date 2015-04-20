@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
         
-    <com.wm.customview.ImageTextView 
+    <com.lichkin.customview.ImageTextView 
         android:id="@+id/bp_pressure"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -38,7 +38,7 @@
             android:layout_height="48dp"
             android:layout_weight="1">
             
-             <com.wm.customview.ImageTextView  
+             <com.lichkin.customview.ImageTextView  
 	            android:id="@+id/lbl_ss"
                 android:layout_width="100dp"
                 android:layout_height="44dp"
@@ -71,7 +71,7 @@
             android:layout_height="48dp"
             android:layout_weight="1">
             
-             <com.wm.customview.ImageTextView  
+             <com.lichkin.customview.ImageTextView  
 	            android:id="@+id/lbl_sz"
                 android:layout_width="100dp"
                 android:layout_height="44dp"
@@ -101,7 +101,7 @@
         <RelativeLayout android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1">
-             <com.wm.customview.ImageTextView  
+             <com.lichkin.customview.ImageTextView  
 	            android:id="@+id/lbl_pulse"
                 android:layout_width="100dp"
                 android:layout_height="44dp"

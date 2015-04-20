@@ -5,13 +5,13 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <com.wm.customview.BarViewPager
+    <com.lichkin.customview.BarViewPager
 	   android:id="@+id/main_pager"
 	   android:layout_width="match_parent"
 	   android:layout_height="0dp"
 	   android:layout_weight="6" />
 
-   <com.wm.customview.CustomTabView
+   <com.lichkin.customview.CustomTabView
        android:id="@+id/main_tab"
        android:layout_width="match_parent"
        android:background="@drawable/tab_bg"

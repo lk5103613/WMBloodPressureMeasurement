@@ -53,7 +53,7 @@
             android:src="@drawable/triangle" />
         <!-- toolbar end -->
 
-        <com.wm.customview.RoundImageView
+        <com.lichkin.customview.RoundImageView
             android:id="@+id/roundImage_two_border"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -67,7 +67,7 @@
          <!-- imagecontrol:border_inside_color="@color/colorPrimary"
             imagecontrol:border_outside_color="#5500A2EA"
             imagecontrol:border_thickness="2dp"  -->
-        <com.wm.customview.ClearEditText
+        <com.lichkin.customview.ClearEditText
             android:id="@+id/txt_username"
             style="@style/ClearEditText"
             android:layout_width="match_parent"
@@ -88,7 +88,7 @@
             android:text="注册账号"
             android:textColor="@color/colorPrimary" />
 
-        <com.wm.customview.ClearEditText
+        <com.lichkin.customview.ClearEditText
             android:id="@+id/txt_pwd"
             style="@style/ClearEditText"
             android:layout_width="match_parent"
