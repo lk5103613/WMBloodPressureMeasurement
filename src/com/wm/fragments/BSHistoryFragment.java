@@ -102,6 +102,7 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		mChart.setBorderColor(getResources().getColor(R.color.dark_gray));// 边框颜色
 		mChart.setBorderPositions(new BorderPosition[] { BorderPosition.BOTTOM,
 				BorderPosition.LEFT });// 绘制边框位置， 左、下
+		mChart.setOnChartValueSelectedListener(this);
 		BarMarkerView mv = new BarMarkerView(getActivity(),
 				R.layout.custom_marker_view);// 自定义标签
 		mv.setOffsets(

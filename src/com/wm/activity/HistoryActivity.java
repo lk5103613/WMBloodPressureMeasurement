@@ -170,7 +170,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, His
 			} catch(Exception e) {
 				System.out.println("handle service discover failed");
 				mBluetoothLeService.disconnect();
-				mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
 			}
 		} else if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTING) {
 			return;
