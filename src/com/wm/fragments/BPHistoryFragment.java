@@ -218,6 +218,10 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
+		if(e == null || e.getXIndex()-JUMPCOUMP > mBPResults.size()-1) {
+			mChart.getData().getXVals().set(lineLastIndex, "");
+			return;
+		}
 
 		float hr = mBPResults.get(e.getXIndex() - JUMPCOUMP).pulse;
 		textHeart.setText((int) hr + "");
@@ -233,12 +237,11 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		highs[0] = new Highlight(e.getXIndex(), 0);
 		highs[1] = new Highlight(e.getXIndex(), 1);
 		mChart.highlightValues(highs);
-
 	}
 
 	@Override
 	public void onNothingSelected() {
-
+		mChart.getData().getXVals().set(lineLastIndex, "");
 	}
 
 	@Override
