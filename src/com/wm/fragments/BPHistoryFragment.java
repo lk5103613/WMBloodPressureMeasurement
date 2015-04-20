@@ -256,7 +256,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public boolean handleGetData(String data) {
-		if(data.length() == 53) {
+		System.out.println(data + "    " + data.length());
+		if(data.length() != 38 && data.length() != 29 && data.length() != 8) {
 			System.out.println("Êý¾ÝÒì³£");
 			mCallback.dataError();
 			return true;

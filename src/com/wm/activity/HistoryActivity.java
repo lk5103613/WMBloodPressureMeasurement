@@ -173,8 +173,10 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect, His
 			}
 		} else if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTING) {
 			return;
-		} else if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_DISCONNECTED)
+		} else if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_DISCONNECTED) {
+			mBluetoothLeService.close();
 			mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
+		}
 	}
 	
 	@Override

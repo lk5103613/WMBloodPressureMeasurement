@@ -146,7 +146,6 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		mBluetoothLeService.close();
 		overridePendingTransition(0, R.anim.slide_out_to_right);
 	}
 
@@ -175,6 +174,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 			return true;
 		}
 		System.out.println("disconnect in result activity");
+		mBluetoothLeService.close();
 		mBluetoothLeService.connect(mDevice.address, 5000);
 		return true;
 	}
