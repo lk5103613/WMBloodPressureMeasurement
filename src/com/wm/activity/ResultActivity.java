@@ -195,6 +195,7 @@ public class ResultActivity extends BaseActivity implements IHandleConnect,
 		return false;
 	}
 
+	
 	@Override
 	public void showResult(String data) {
 		this.mResult.setText(data);

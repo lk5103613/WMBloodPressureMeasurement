@@ -22,6 +22,7 @@ import com.wm.entity.DeviceInfo;
 import com.wm.fragments.BaseHistoryFragment;
 import com.wm.fragments.DeviceFragment;
 import com.wm.fragments.TypeFactory;
+import com.wm.fragments.BPHistoryFragment.HistoryCallback;
 
 /**
  * 
@@ -29,7 +30,7 @@ import com.wm.fragments.TypeFactory;
  * @author Like
  *
  */
-public class HistoryActivity extends BaseActivity implements IHandleConnect {
+public class HistoryActivity extends BaseActivity implements IHandleConnect, HistoryCallback {
 	
 	public final static int MAX_CON_TIME = 3;
 	public final static int OVER_TIME = 5000;
@@ -48,6 +49,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	private BleBroadcastReceiver mReceiver;
 	private int mFailedTime = 0;
 	private boolean mBeginDetect = false;
+	private boolean mDataError = false;
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 
 		@Override
@@ -75,7 +77,6 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		mDeviceInfo = getIntent().getParcelableExtra(DeviceFragment.KEY_DEVICE_INFO);
 		mFragment = TypeFactory.getHistoryFragment(mType);
 		getSupportFragmentManager().beginTransaction().add(R.id.history_container, mFragment).commit();
-		
 		mTitle.setText(TypeFactory.getTitleByType(mContext, mType));
 		mFailedTime = 0;
 		// 绑定蓝牙服务
@@ -129,7 +130,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		mFailedTime = 0;
 		mBeginDetect = true;
 		beginCheckUI();
-		System.out.println("connect " + connect());
+		connect();
 	}
 	
 	@OnClick(R.id.history_back)
@@ -149,13 +150,10 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 	
 	private void handleConFail() {
 		if(mFailedTime <= MAX_CON_TIME) {
-			System.out.println("failed ======" + mFailedTime);
+			System.out.println("failed ======" + mFailedTime + "    " + mDeviceInfo.address);
 			mFailedTime++;
-			System.out.println(connect());
+			connect();
 			return;
-		}
-		if(mBluetoothLeService.getConnectState() != BluetoothLeService.STATE_DISCONNECTED) {
-			mBluetoothLeService.disconnect();
 		}
 		mBeginDetect = false;
 		connectFailUI();
@@ -164,14 +162,27 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 		return;
 	}
 	
-	private boolean connect() {
-		return mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
+	private void connect() {
+		System.out.println("连击之前的连接状态  " + mBluetoothLeService.getConnectState() + "   0:disconnect 1:connecting 2:connected");
+		if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTED) {
+			try {
+				mFragment.handleServiceDiscover();
+			} catch(Exception e) {
+				System.out.println("handle service discover failed");
+				mBluetoothLeService.disconnect();
+				mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
+			}
+		} else if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_CONNECTING) {
+			return;
+		} else if(mBluetoothLeService.getConnectState() == BluetoothLeService.STATE_DISCONNECTED)
+			mBluetoothLeService.connect(mDeviceInfo.address, OVER_TIME);
 	}
-
+	
 	@Override
 	public boolean handleConnect() {
 		if(!mBeginDetect) 
 			return true;
+		System.out.println("connect");
 		if(mFragment.handleConnect()) {
 			return true;
 		}
@@ -180,6 +191,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleDisconnect() {
+		mDataError = false;
 		if(!mBeginDetect)
 			return true;
 		if(mFragment.handleDisconnect()) {
@@ -191,7 +203,7 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 
 	@Override
 	public boolean handleGetData(String data) {
-		if(!mBeginDetect) {
+		if(!mBeginDetect || mDataError) {
 			return true;
 		}
 		if(mFragment.handleGetData(data)) {
@@ -209,6 +221,12 @@ public class HistoryActivity extends BaseActivity implements IHandleConnect {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void dataError() {
+		mDataError = true;
+		mBluetoothLeService.disconnect();
 	}
 
 }

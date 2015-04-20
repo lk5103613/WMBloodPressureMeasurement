@@ -32,6 +32,7 @@ public class NetworkFactory {
 			};
 		}
 		if (mUploadService == null) {
+			
 			if (mRestAdapter == null) {
 				mRestAdapter = new RestAdapter.Builder()
 						.setLogLevel(RestAdapter.LogLevel.FULL)
