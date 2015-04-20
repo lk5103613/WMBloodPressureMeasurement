@@ -164,7 +164,10 @@ public class BPResultFragment extends BaseResultFragment implements
 			mNeedNewData = false;
 			mPressure.stopRotate();
 			mBPException = new BPResultException(data);
-			showDialog(mBPException.description);
+			String description = mBPException.description;
+			if(description == null)
+				description = "δ֪�쳣";
+			showDialog(description);
 			// Toast.makeText(mContext, mBPException.description,
 			// Toast.LENGTH_LONG).show();
 		} else if (data.trim().length() == 8) {
