@@ -12,7 +12,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -37,7 +36,6 @@ import butterknife.InjectView;
 
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.testin.agent.TestinAgent;
-import com.wm.activity.R;
 
 public class WelcomeActivity extends Activity implements
 		OnCheckedChangeListener, OnClickListener {

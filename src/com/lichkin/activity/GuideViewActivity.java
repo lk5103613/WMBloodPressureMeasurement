@@ -15,7 +15,6 @@ import butterknife.OnClick;
 
 import com.lichkin.adapter.GuideViewPagerAdapter;
 import com.lichkin.customview.BarViewPager;
-import com.wm.activity.R;
 
 public class GuideViewActivity extends ActionBarActivity implements
 		View.OnClickListener, OnPageChangeListener {

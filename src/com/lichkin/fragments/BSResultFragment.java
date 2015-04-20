@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import com.lichkin.activity.R;
 import com.lichkin.blecore.BluetoothLeService;
 import com.lichkin.customview.ImageTextView;
 import com.lichkin.db.HistoryDBManager;
@@ -17,7 +18,6 @@ import com.lichkin.network.CheckNeedUploadTask;
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.lichkin.utils.SystemUtils;
 import com.lichkin.utils.UUIDS;
-import com.wm.activity.R;
 
 public class BSResultFragment extends BaseResultFragment {
 

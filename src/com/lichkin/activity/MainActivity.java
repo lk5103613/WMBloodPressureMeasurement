@@ -15,7 +15,6 @@ import com.lichkin.fragments.DeviceFragment.OnStateChangeListener;
 import com.lichkin.network.CheckNeedUploadTask;
 import com.lichkin.utils.SystemUtils;
 import com.lichkin.utils.TabPagerSharePrefs;
-import com.wm.activity.R;
 
 public class MainActivity extends BaseActivity implements
 		OnStateChangeListener, OnPageChangeListener {

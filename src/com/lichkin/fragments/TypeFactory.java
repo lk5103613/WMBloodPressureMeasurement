@@ -2,8 +2,8 @@ package com.lichkin.fragments;
 
 import android.content.Context;
 
+import com.lichkin.activity.R;
 import com.lichkin.entity.DeviceInfo;
-import com.wm.activity.R;
 
 public class TypeFactory {
 

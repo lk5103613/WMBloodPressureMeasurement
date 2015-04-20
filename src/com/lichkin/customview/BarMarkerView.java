@@ -7,7 +7,7 @@ import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.utils.MarkerView;
 import com.github.mikephil.charting.utils.Utils;
-import com.wm.activity.R;
+import com.lichkin.activity.R;
 
 /**
  * ×Ô¶¨ÒåMarkerView

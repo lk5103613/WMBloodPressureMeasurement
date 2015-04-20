@@ -20,13 +20,13 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Highlight;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.github.mikephil.charting.utils.YLabels;
+import com.lichkin.activity.R;
 import com.lichkin.customview.LineMarkerView;
 import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.BPResult;
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.lichkin.utils.SystemUtils;
 import com.lichkin.utils.UUIDS;
-import com.wm.activity.R;
 
 public class BPHistoryFragment extends BaseHistoryFragment implements
 		OnChartValueSelectedListener {

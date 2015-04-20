@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wm.activity.R;
+import com.lichkin.activity.R;
 
 public class DialogUtils {
 

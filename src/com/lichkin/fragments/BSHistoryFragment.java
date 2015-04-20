@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
+import com.lichkin.activity.R;
 import com.lichkin.customview.BarMarkerView;
 import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.BSResult;
@@ -29,7 +30,6 @@ import com.lichkin.utils.DateUtil;
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.lichkin.utils.SystemUtils;
 import com.lichkin.utils.UUIDS;
-import com.wm.activity.R;
 
 public class BSHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener{
 

@@ -46,7 +46,6 @@ import com.lichkin.utils.InputLowerToUpper;
 import com.lichkin.utils.MD5Utils;
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.lichkin.utils.SystemUtils;
-import com.wm.activity.R;
 
 public class RegisterActivity extends ActionBarActivity implements
 		OnCheckedChangeListener {

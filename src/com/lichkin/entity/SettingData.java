@@ -2,7 +2,7 @@ package com.lichkin.entity;
 
 import android.content.Intent;
 
-import com.wm.activity.R;
+import com.lichkin.activity.R;
 
 public class SettingData {
 	public String settingName;

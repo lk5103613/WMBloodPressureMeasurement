@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
+import com.lichkin.activity.R;
 import com.lichkin.customview.LineMarkerView;
 import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.FHResult;
@@ -25,7 +26,6 @@ import com.lichkin.utils.DateUtil;
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.lichkin.utils.SystemUtils;
 import com.lichkin.utils.UUIDS;
-import com.wm.activity.R;
 
 public class FHHistoryFragment extends BaseHistoryFragment {// implements
 															// OnChartValueSelectedListener

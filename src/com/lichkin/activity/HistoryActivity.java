@@ -16,14 +16,13 @@ import butterknife.OnClick;
 
 import com.lichkin.blecore.BleBroadcastReceiver;
 import com.lichkin.blecore.BluetoothLeService;
-import com.lichkin.blecore.IHandleConnect;
 import com.lichkin.blecore.BluetoothLeService.LocalBinder;
+import com.lichkin.blecore.IHandleConnect;
 import com.lichkin.entity.DeviceInfo;
+import com.lichkin.fragments.BPHistoryFragment.HistoryCallback;
 import com.lichkin.fragments.BaseHistoryFragment;
 import com.lichkin.fragments.DeviceFragment;
 import com.lichkin.fragments.TypeFactory;
-import com.lichkin.fragments.BPHistoryFragment.HistoryCallback;
-import com.wm.activity.R;
 
 /**
  * 

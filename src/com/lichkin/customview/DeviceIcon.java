@@ -5,8 +5,8 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.lichkin.activity.R;
 import com.lichkin.entity.DeviceInfo;
-import com.wm.activity.R;
 
 public class DeviceIcon extends ImageView {
 

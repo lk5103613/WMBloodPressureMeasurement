@@ -1,8 +1,5 @@
 package com.lichkin.activity;
 
-import com.lichkin.blecore.BluetoothPrepare;
-import com.wm.activity.R;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
@@ -12,6 +9,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
+
+import com.lichkin.blecore.BluetoothPrepare;
 
 /**
  * 

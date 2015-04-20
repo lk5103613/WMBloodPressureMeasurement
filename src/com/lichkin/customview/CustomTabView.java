@@ -11,7 +11,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.wm.activity.R;
+import com.lichkin.activity.R;
 
 public class CustomTabView extends HorizontalScrollView {
 

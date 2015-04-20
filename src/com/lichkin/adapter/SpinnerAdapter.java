@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.wm.activity.R;
+import com.lichkin.activity.R;
 
 public class SpinnerAdapter extends ArrayAdapter<String> {
 	private Context mContext;

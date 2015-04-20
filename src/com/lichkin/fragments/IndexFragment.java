@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 
 import com.lichkin.activity.LoginActivity;
-import com.wm.activity.R;
+import com.lichkin.activity.R;
 
 public class IndexFragment extends Fragment {
 

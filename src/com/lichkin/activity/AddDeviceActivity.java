@@ -20,7 +20,6 @@ import com.lichkin.blecore.DeviceScanner.ScanCallback;
 import com.lichkin.db.DeviceDBManager;
 import com.lichkin.entity.DeviceInfo;
 import com.lichkin.utils.DialogUtils;
-import com.wm.activity.R;
 
 public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 

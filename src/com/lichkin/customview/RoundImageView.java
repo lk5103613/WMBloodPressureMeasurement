@@ -15,7 +15,7 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.wm.activity.R;
+import com.lichkin.activity.R;
 
 /**
  * 圆形ImageView，可设置�?��两个宽度不同且颜色不同的圆形边框�?

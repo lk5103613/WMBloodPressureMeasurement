@@ -10,7 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
-import com.wm.activity.R;
+
+import com.lichkin.activity.R;
 
 /**
  * @说明： 自定义带删除按钮的EditText

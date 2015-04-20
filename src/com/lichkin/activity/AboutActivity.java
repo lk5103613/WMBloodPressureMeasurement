@@ -1,6 +1,6 @@
 package com.lichkin.activity;
 
-import com.wm.activity.R;
+
 
 import android.os.Bundle;
 import butterknife.ButterKnife;

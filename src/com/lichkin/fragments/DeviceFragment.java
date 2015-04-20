@@ -32,13 +32,13 @@ import butterknife.OnItemClick;
 
 import com.lichkin.activity.AddDeviceActivity;
 import com.lichkin.activity.HistoryActivity;
+import com.lichkin.activity.R;
 import com.lichkin.customview.DeviceIcon;
 import com.lichkin.db.DeviceDBManager;
 import com.lichkin.entity.DeviceDataSet;
 import com.lichkin.entity.DeviceInfo;
 import com.lichkin.entity.OptionEnum;
 import com.lichkin.utils.TabPagerSharePrefs;
-import com.wm.activity.R;
 
 public class DeviceFragment extends Fragment implements View.OnClickListener {
 

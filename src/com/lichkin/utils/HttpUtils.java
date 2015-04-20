@@ -9,8 +9,6 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import com.wm.activity.R.string;
-
 public class HttpUtils {
 	
 	public static final String base_url = "http://120.26.91.90:38050/V0100";

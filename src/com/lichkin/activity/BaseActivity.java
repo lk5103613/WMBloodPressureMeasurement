@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import com.lichkin.network.CheckNeedUploadTask;
 import com.lichkin.network.NetChangeReceiver;
 import com.lichkin.network.NetChangeReceiver.NetChangeCallBack;
-import com.wm.activity.R;
 
 public class BaseActivity extends BLEBaseActivity implements NetChangeCallBack {
 

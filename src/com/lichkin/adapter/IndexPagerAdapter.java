@@ -4,11 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.lichkin.activity.R;
 import com.lichkin.customview.PagerSlidingTitleIconTabStrip.TitleIconTabProvider;
 import com.lichkin.fragments.DeviceFragment;
 import com.lichkin.fragments.IndexFragment;
 import com.lichkin.fragments.SettingFragment;
-import com.wm.activity.R;
 
 public class IndexPagerAdapter extends FragmentStatePagerAdapter implements
 		TitleIconTabProvider {

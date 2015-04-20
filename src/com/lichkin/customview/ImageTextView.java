@@ -15,7 +15,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.wm.activity.R;
+import com.lichkin.activity.R;
 
 public class ImageTextView extends ImageView {
 

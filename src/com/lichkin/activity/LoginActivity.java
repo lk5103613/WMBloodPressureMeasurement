@@ -9,10 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.method.KeyListener;
-import android.text.method.NumberKeyListener;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
@@ -33,7 +29,6 @@ import com.lichkin.utils.DialogUtils;
 import com.lichkin.utils.MD5Utils;
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.lichkin.utils.SystemUtils;
-import com.wm.activity.R;
 
 /**
  * 

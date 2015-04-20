@@ -24,9 +24,9 @@ import butterknife.OnItemClick;
 import com.lichkin.activity.AboutActivity;
 import com.lichkin.activity.GuideViewActivity;
 import com.lichkin.activity.LoginActivity;
+import com.lichkin.activity.R;
 import com.lichkin.entity.SettingData;
 import com.lichkin.utils.TabPagerSharePrefs;
-import com.wm.activity.R;
 
 public class SettingFragment extends Fragment {
 

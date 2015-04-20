@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
 
+import com.lichkin.activity.R;
 import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.BPResult;
 import com.lichkin.entity.BSResult;
@@ -20,7 +21,6 @@ import com.lichkin.entity.IUploadEntity;
 import com.lichkin.entity.RequestEntity;
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.lichkin.utils.SystemUtils;
-import com.wm.activity.R;
 
 public class CheckNeedUploadTask extends
 		AsyncTask<Void, Void, Map<Integer, IUploadEntity>> {
