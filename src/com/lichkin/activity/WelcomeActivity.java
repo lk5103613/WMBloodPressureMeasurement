@@ -1,5 +1,6 @@
 package com.lichkin.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -33,7 +34,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 import com.lichkin.utils.PropertiesSharePrefs;
 import com.testin.agent.TestinAgent;
 
@@ -94,8 +94,8 @@ public class WelcomeActivity extends Activity implements
 			public void run() {
 
 				// 判断如果同意之后， 不在提示
-				boolean auth = mState.getProperty(
-						PropertiesSharePrefs.TYPE_AUTH, false);
+//				boolean auth = mState.getProperty(
+//						PropertiesSharePrefs.TYPE_AUTH, false);
 				// if (!auth) {
 				showAuthDialog();
 				// } else {
@@ -107,6 +107,7 @@ public class WelcomeActivity extends Activity implements
 
 	}
 
+	@SuppressLint("InflateParams")
 	public void showAuthDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);

@@ -26,7 +26,6 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 	/**
 	 * 控件是否有焦点
 	 */
-	private boolean hasFoucs;
 
 	public ClearEditText(Context context) {
 		this(context, null);
@@ -89,7 +88,6 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 	 */
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
-		this.hasFoucs = hasFocus;
 		if (hasFocus) {
 			setClearIconVisible(getText().length() > 0);
 		} else {
