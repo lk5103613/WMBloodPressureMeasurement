@@ -7,8 +7,9 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.widget.Toast;
+
+import com.lichkin.activity.R;
 
 public class CustomToast {
 	private WindowManager wdm;
@@ -18,6 +19,7 @@ public class CustomToast {
 	private Handler mHandler;
 	private Runnable mRun;
 	private boolean isAttach = false;
+	private int animStyleId = R.style.CustomToast;
 
 	@SuppressLint("ShowToast")
 	private CustomToast(Handler mHandler,Context context, String text, double time) {
@@ -32,8 +34,7 @@ public class CustomToast {
 		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.width = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.format = PixelFormat.TRANSLUCENT;
-//		toast.getView().getAnimation();
-//		params.windowAnimations = Animation.INFINITE;
+		params.windowAnimations = animStyleId;//显示和退出动画
 		params.type = WindowManager.LayoutParams.TYPE_TOAST;
 		params.setTitle("Toast");
 		params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
