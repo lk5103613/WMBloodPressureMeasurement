@@ -125,8 +125,7 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 
 		System.out.println("size " + bsResults.size());
 		for (int i = 0; i < bsResults.size(); i++) {
-			xVals.add( DateUtil.getFormatDate(DateUtil.DATA_FORMAT_ENGLISH,
-					bsResults.get(i).date));
+			xVals.add( " ");
 			yVals1.add(new BarEntry(Float.parseFloat(bsResults.get(i).bg), i));
 		}
 
@@ -134,7 +133,7 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 			Calendar nowss = Calendar.getInstance();
 			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
 					+ (nowss.get(Calendar.DAY_OF_MONTH) + j);
-			xVals.add(datestr);
+			xVals.add(" ");
 		}
 		BarDataSet set1 = new BarDataSet(yVals1, "");
 		set1.setBarSpacePercent(35f);

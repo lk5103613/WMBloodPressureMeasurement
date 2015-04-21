@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
     </style>
+
     <style name="ClearEditText">
         <item name="android:textColor">@color/black</item>
         <item name="android:layout_height">45dp</item>
@@ -15,7 +16,11 @@
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">10dp</item>
-        
+    </style>
+
+    <style name="CustomToast">
+        <item name="@android:windowEnterAnimation">@anim/toast_enter</item>
+        <item name="@android:windowExitAnimation">@anim/toast_exit</item>
     </style>
 
 </resources>
