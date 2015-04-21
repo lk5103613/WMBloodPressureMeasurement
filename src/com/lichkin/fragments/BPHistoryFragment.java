@@ -198,7 +198,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 				mChart.centerViewPort(1, mChart.getAverage() + 100);// 设置视角中心
 			}
 			mChart.notifyDataSetChanged();
-			mChart.animateY(1000);// 设置Y轴动画 毫秒;
+			mChart.animateY(600);// 设置Y轴动画 毫秒;
 		}
 	}
 
