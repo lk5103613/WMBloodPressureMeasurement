@@ -33,7 +33,7 @@ import com.lichkin.fragments.TypeFactory;
 public class HistoryActivity extends BaseActivity implements IHandleConnect, HistoryCallback {
 	
 	public final static int MAX_CON_TIME = 3;
-	public final static int OVER_TIME = 5000;
+	public final static int OVER_TIME = 10000;
 	
 	@InjectView(R.id.btn_begin_check)
 	Button mBtnBeginCheck;

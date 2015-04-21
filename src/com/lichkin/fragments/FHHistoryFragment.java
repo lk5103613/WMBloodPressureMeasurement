@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.lichkin.activity.R;
+import com.lichkin.customview.CustomToast;
 import com.lichkin.customview.LineMarkerView;
 import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.FHResult;
@@ -34,12 +36,14 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 	LineChart mChart;
 	@InjectView(R.id.text_date)
 	TextView mTxtDate;
+	private CustomToast mToast;
 
 	private HistoryDBManager mDbManager;
 	private List<FHResult> mFHResults;
 	private int mIndex = 0;
 	LineMarkerView mv;
 	String idCard = "";
+	private Handler mHandler;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +58,8 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		initLineChart();
 		addEmptyData(-1);
 		mChart.invalidate();
+		
+		mHandler = new Handler();
 		// initData();
 		return view;
 	}
@@ -102,7 +108,6 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		mChart.centerViewPort(0, 200);
 		mChart.setScaleEnabled(false);
 		mChart.getYLabels().setLabelCount(5);
-		Entry entry;
 
 	}
 
@@ -195,33 +200,42 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 	@OnClick(R.id.btn_next)
 	public void nextClick() {
 		if (mFHResults.isEmpty()) {
-			Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_LONG).show();
+			showToast("暂无数据");
 			return;
 		}
 		if (mIndex >= (mFHResults.size() - 1)) {
-			Toast.makeText(mContext, getString(R.string.msg_last_data),
-					Toast.LENGTH_LONG).show();
+			showToast(getString(R.string.msg_last_data));
 			return;
 		}
 		mChart.getData().removeDataSet(0);
 		addDataSet(++mIndex);
 	}
 
+	
 	@OnClick(R.id.btn_previous)
 	public void previousClick() {
 		if (mFHResults.isEmpty()) {
-			Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_LONG).show();
+			showToast("暂无数据");
 			return;
 		}
 		if (mIndex <= 0) {
-			Toast.makeText(mContext, getString(R.string.msg_fist_data),
-					Toast.LENGTH_LONG).show();
+			showToast(getString(R.string.msg_fist_data));
 			return;
 		}
 		mChart.getData().removeDataSet(0);
 		addDataSet(--mIndex);
 	}
 
+	
+	private void showToast(String msg) {
+		if(mToast!= null) {
+			mToast.cancel();
+			mToast = null;
+		}
+		mToast = CustomToast.makeText(mHandler,mContext, msg, 1.5);
+		mToast.show();
+	}
+	
 	@Override
 	public boolean handleConnect() {
 		return false;
@@ -245,4 +259,14 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		return false;
 	}
 
+	
+	@Override
+	public void onDetach() {
+		// TODO Auto-generated method stub
+		super.onDetach();
+		if(mToast != null) {
+			mToast.cancel();
+			mToast = null;
+		}
+	}
 }
