@@ -193,6 +193,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			setMax.setCircleColor(maxColor);
 			setMax.setColor(maxColor);
 			data.addDataSet(setMax);
+			setMax.setHighLightColor(maxColor);
 
 			if (!mBPResults.isEmpty()) {
 				mChart.centerViewPort(1, mChart.getAverage() + 100);// 设置视角中心
@@ -222,7 +223,10 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			mChart.getData().getXVals().set(lineLastIndex, "");
 			return;
 		}
-
+		System.out.println("dataset index " + dataSetIndex);
+		if(dataSetIndex == 2) {
+			return;
+		}
 		float hr = mBPResults.get(e.getXIndex() - JUMPCOUMP).pulse;
 		textHeart.setText((int) hr + "");
 		mChart.getData().getXVals().set(lineLastIndex, "");
