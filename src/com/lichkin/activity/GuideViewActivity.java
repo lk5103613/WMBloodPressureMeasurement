@@ -1,9 +1,12 @@
 package com.lichkin.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -13,20 +16,19 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import com.lichkin.adapter.GuideViewPagerAdapter;
-import com.lichkin.customview.BarViewPager;
+import com.lichkin.fragments.ImageDetailFragment;
 
 public class GuideViewActivity extends ActionBarActivity implements
 		View.OnClickListener, OnPageChangeListener {
 
 	@InjectView(R.id.guide_pager)
-	BarViewPager mViewPager;
+	ViewPager mViewPager;
 	@InjectView(R.id.dots_container)
 	LinearLayout dotsContainer;
 
-	private GuideViewPagerAdapter mAdapter;
+	private ImagePagerAdapter mAdapter;
 	List<View> mViews;
-	private static final int[] pics = { R.drawable.change_name_img,
+	public static final int[] pics = { R.drawable.change_name_img,
 			R.drawable.add_device_img, R.drawable.bp_history_img,
 			R.drawable.bs_result_img };
 	private ImageView[] dots;
@@ -37,18 +39,8 @@ public class GuideViewActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_guide_view);
 		ButterKnife.inject(this);
-
-		mViews = new ArrayList<View>();
-		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-		for (int i = 0; i < pics.length; i++) {
-			ImageView iv = new ImageView(this);
-			iv.setLayoutParams(mParams);
-			iv.setImageResource(pics[i]);
-			mViews.add(iv);
-		}
-		mAdapter = new GuideViewPagerAdapter(mViews);
+		
+		mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), pics.length);
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(this);
 		initDots();
@@ -126,6 +118,28 @@ public class GuideViewActivity extends ActionBarActivity implements
 			overridePendingTransition(R.anim.scale_fade_in,
 					R.anim.slide_out_to_right);
 		}
+	}
+	
+	public static class ImagePagerAdapter extends FragmentPagerAdapter{
+		private final int mSize;
+
+		public ImagePagerAdapter(FragmentManager fm, int size) {
+			super(fm);
+			mSize = size;
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			// TODO Auto-generated method stub
+			return ImageDetailFragment.newInstance(position);
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return mSize;
+		}
+		
 	}
 
 }
