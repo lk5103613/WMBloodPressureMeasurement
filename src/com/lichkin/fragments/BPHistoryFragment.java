@@ -57,6 +57,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mCallback = (HistoryCallback) activity;
+		System.out.println("on attach");
 	}
 
 	@Override
@@ -70,6 +71,9 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 		// chart
 		initLineChart();
+		lastScale = mBPResults.size()/15f;
+		mChart.setScaleMinima(lastScale, 1f);
+		System.out.println("on create view" + lastScale);
 		return view;
 	}
 
@@ -82,7 +86,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		System.out.println("new scale " + newScale);
 		System.out.println("last scale " + lastScale);
 
-		mChart.setScaleMinima(1f+ newScale - lastScale, 1f);
+		//mChart.setScaleMinima(1f+ newScale - lastScale, 1f);
 		lastScale = newScale;
 		
 		System.out.println("mChart scale " + mChart.getScaleX());

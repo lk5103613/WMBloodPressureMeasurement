@@ -226,7 +226,7 @@ public class AddDeviceActivity extends BaseActivity implements ScanCallback {
 		} else if (getDeviceType().equals(DeviceInfo.TYPE_BP)) {// Ѫѹ
 
 			 if (deviceName.equals("bolutek") || deviceName.equals("abg-bxxx")
-			 || deviceName.equals("mi")) {
+			 || deviceName.equals("mi") ||deviceName.startsWith("coolpad")) {
 			 System.out.println("device name" + deviceName);
 			 return false;
 			 }
