@@ -4,10 +4,11 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.utils.MarkerView;
 import com.github.mikephil.charting.utils.Utils;
 import com.lichkin.activity.R;
+import com.lichkin.utils.SystemUtils;
 
 /**
  * 自定义MarkerView
@@ -17,10 +18,12 @@ public class LineMarkerView extends MarkerView {
 
 	private TextView tvContent;
 	private LineChart mChart;
+	private Context mContext;
 
 	public LineMarkerView(Context context, LineChart chart, int layoutResource) {
 		super(context, layoutResource);
 		tvContent = (TextView) findViewById(R.id.tvContent);
+		this.mContext = context;
 		this.mChart = chart;
 	}
 
@@ -47,12 +50,13 @@ public class LineMarkerView extends MarkerView {
 	}
 
 	@Override
-	public float getXOffset() {
+	public int getXOffset() {
 		return -(getWidth() / 2);// 水平居中
 	}
 
 	@Override
-	public float getYOffset() {
-		return -getHeight(); // 让markerView居于被选择的数据之上
+	public int getYOffset() {
+		return (int) (-this.getMeasuredHeight() + 10
+				* SystemUtils.getDensity(mContext)); // 让markerView居于被选择的数据之上
 	}
 }

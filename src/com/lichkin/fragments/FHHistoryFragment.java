@@ -14,10 +14,13 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.XAxis.XAxisPosition;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
+import com.github.mikephil.charting.utils.ValueFormatter;
 import com.lichkin.activity.R;
 import com.lichkin.customview.CustomToast;
 import com.lichkin.customview.LineMarkerView;
@@ -25,7 +28,6 @@ import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.FHResult;
 import com.lichkin.utils.DateUtil;
 import com.lichkin.utils.PropertiesSharePrefs;
-import com.lichkin.utils.SystemUtils;
 import com.lichkin.utils.UUIDS;
 
 public class FHHistoryFragment extends BaseHistoryFragment {// implements
@@ -83,30 +85,40 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 
 	private void initLineChart() {
 		// chart
-		// mChart.setOnChartValueSelectedListener(this);
-		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDescription("");
-		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setStartAtZero(true);
+		mChart.setDrawBorders(false);
+		
 		mChart.setScaleMinima(2, 1);
-		mChart.setDrawLegend(false);// 不绘制颜色标记
-		mChart.setDrawXLabels(true);// 绘制X轴标签
-		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
+		XAxis xAxis = mChart.getXAxis();
+		xAxis.setPosition(XAxisPosition.BOTTOM);//x轴位置
+		xAxis.setDrawAxisLine(false);
+		xAxis.setDrawGridLines(false);
+		xAxis.setSpaceBetweenLabels(1);
+		
+		YAxis leftAxis = mChart.getAxisLeft();
+		leftAxis.setDrawAxisLine(false);
+		leftAxis.setDrawGridLines(false);
+		leftAxis.setLabelCount(5);
+		leftAxis.setValueFormatter(new ValueFormatter() {
+			
+			@Override
+			public String getFormattedValue(float value) {
+				return String.valueOf((int)value);
+			}
+		});;
+		
+		YAxis rightAxis = mChart.getAxisRight();
+		rightAxis.setDrawLabels(false);
+		rightAxis.setDrawGridLines(false);
+		rightAxis.setDrawAxisLine(false);
+		mChart.getLegend().setEnabled(false);
 		mv = new LineMarkerView(getActivity(), mChart,
 				R.layout.custom_marker_view);// 自定义标签
-		mv.setOffsets(
-				-mv.getMeasuredWidth() / 2 - 10
-						* SystemUtils.getDensity(getActivity()),
-				-mv.getMeasuredHeight() + 5
-						* SystemUtils.getDensity(getActivity()));// 调整 数据 标签的位置
 		mChart.setMarkerView(mv);// 设置标签
 		mChart.setHighlightEnabled(true);
-		mChart.centerViewPort(0, 200);
 		mChart.setScaleEnabled(false);
-		mChart.getYLabels().setLabelCount(5);
 
 	}
 
@@ -153,7 +165,6 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 
 			// 用于提高Y轴坐标的值
 			ArrayList<Entry> yValsMax = new ArrayList<>();
-//			int max = (int) set.getYMax();// 获取最大值
 			yValsMax.add(new Entry(300, 0));
 			LineDataSet setMax = new LineDataSet(yValsMax, "");
 			setMax.setLineWidth(2f);
@@ -163,9 +174,10 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 			setMax.setHighLightColor(maxColor);
 			setMax.setColor(maxColor);
 			data.addDataSet(setMax);
+			data.setDrawValues(false);
 
 			mChart.notifyDataSetChanged();
-			mChart.centerViewPort(1, mChart.getAverage() + 100);
+			
 			mChart.animateY(600);
 		}
 	}

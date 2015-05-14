@@ -13,24 +13,27 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.BarLineChartBase.BorderPosition;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.XAxis.XAxisPosition;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.XLabels;
-import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.Highlight;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ValueFormatter;
 import com.lichkin.activity.R;
 import com.lichkin.customview.BarMarkerView;
 import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.BSResult;
 import com.lichkin.utils.DateUtil;
 import com.lichkin.utils.PropertiesSharePrefs;
-import com.lichkin.utils.SystemUtils;
 import com.lichkin.utils.UUIDS;
 
-public class BSHistoryFragment extends BaseHistoryFragment implements OnChartValueSelectedListener{
+public class BSHistoryFragment extends BaseHistoryFragment implements
+		OnChartValueSelectedListener {
 
 	public final static String BS_DATA = "bs_data";
 
@@ -68,9 +71,10 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		setData();
 		mChart.animateY(1000);// Y轴动画
 	}
-	
-	private void getBsResult(){
-		idCard = PropertiesSharePrefs.getInstance(mContext).getProperty(PropertiesSharePrefs.TYPE_CARD, "");
+
+	private void getBsResult() {
+		idCard = PropertiesSharePrefs.getInstance(mContext).getProperty(
+				PropertiesSharePrefs.TYPE_CARD, "");
 		bsResults = historyDBManager.getBsResultsByUser(idCard);
 	}
 
@@ -79,7 +83,6 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 				getResources().getColor(R.color.colorPrimary) };
 
 		// enable the drawing of values
-		mChart.setDrawYValues(false);
 		mChart.setDrawValueAboveBar(true);
 		mChart.setDescription("");
 
@@ -87,34 +90,41 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		// be
 		// drawn
 		mChart.setMaxVisibleValueCount(400);
-		mChart.set3DEnabled(false);// 关闭3D效果
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setPinchZoom(false);// x y 轴单独缩放
 		mChart.setScaleEnabled(false);// 设置不可缩放
 		mChart.setDrawBarShadow(false);// 柱状图阴影
 		mChart.setDrawGridBackground(false);
-		mChart.setDrawHorizontalGrid(false);// 不绘制水平网格
-		mChart.setDrawVerticalGrid(false);
-		mChart.setValueTextSize(10f);
-		mChart.setDrawLegend(false);// 不绘制颜色标记
-		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));// 网格颜色
-		mChart.setBorderColor(getResources().getColor(R.color.dark_gray));// 边框颜色
-		mChart.setBorderPositions(new BorderPosition[] { BorderPosition.BOTTOM,
-				BorderPosition.LEFT });// 绘制边框位置， 左、下
 		mChart.setOnChartValueSelectedListener(this);
+
+		XAxis xAxis = mChart.getXAxis();
+		xAxis.setPosition(XAxisPosition.BOTTOM);// x轴位置
+		xAxis.setDrawAxisLine(false);
+		xAxis.setDrawGridLines(false);
+		xAxis.setSpaceBetweenLabels(1);
+
+		YAxis leftAxis = mChart.getAxisLeft();
+		leftAxis.setDrawAxisLine(false);
+		leftAxis.setDrawGridLines(false);
+		leftAxis.setValueFormatter(new ValueFormatter() {
+
+			@Override
+			public String getFormattedValue(float value) {
+				return String.valueOf( Utils.formatNumber(value, 1, true));
+			}
+		});
+
+		YAxis rightAxis = mChart.getAxisRight();
+		rightAxis.setDrawLabels(false);
+		rightAxis.setDrawGridLines(false);
+		rightAxis.setDrawAxisLine(false);
+		
+		mChart.getLegend().setEnabled(false);
+		
 		BarMarkerView mv = new BarMarkerView(getActivity(),
 				R.layout.custom_marker_view);// 自定义标签
-		mv.setOffsets(
-				-mv.getMeasuredWidth() / 2 - 8
-						* SystemUtils.getDensity(getActivity()),
-				-mv.getMeasuredHeight() + 10
-						* SystemUtils.getDensity(getActivity()));// 调整 数据 标签的位置
 		mChart.setMarkerView(mv);// 设置标签
 		mChart.setDescription("");// 设置单位
-
-		XLabels xl = mChart.getXLabels();
-		xl.setCenterXLabelText(true);
-		xl.setPosition(XLabelPosition.BOTTOM);// x 坐标位置
 
 	}
 
@@ -122,9 +132,8 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		ArrayList<String> xVals = new ArrayList<String>();
 		ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-		System.out.println("size " + bsResults.size());
 		for (int i = 0; i < bsResults.size(); i++) {
-			xVals.add( " ");
+			xVals.add(" ");
 			yVals1.add(new BarEntry(Float.parseFloat(bsResults.get(i).bg), i));
 		}
 
@@ -139,6 +148,7 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		dataSets.add(set1);
 
 		BarData data = new BarData(xVals, dataSets);
+		data.setDrawValues(false);
 		mChart.setData(data);
 
 	}
@@ -204,21 +214,23 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 	}
 
 	@Override
-	public void onValueSelected(Entry e, int dataSetIndex) {
-		if(null == e||e.getXIndex() >bsResults.size()-1) {
-			mChart.getData().getXVals().set(mBarLastIndex, " ");
-			return;
-		}
-		String date = DateUtil.getFormatDate(DateUtil.DATA_FORMAT,bsResults.get(e.getXIndex()).date);
-		mChart.getData().getXVals().set(mBarLastIndex, " ");
-		mChart.getData().getXVals().set(e.getXIndex(), date);
-		mBarLastIndex = e.getXIndex();
+	public void onNothingSelected() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void onNothingSelected() {
-		// TODO Auto-generated method stub
-		
+	public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+		if (null == e || e.getXIndex() > bsResults.size() - 1) {
+			mChart.getData().getXVals().set(mBarLastIndex, " ");
+			return;
+		}
+		String date = DateUtil.getFormatDate(DateUtil.DATA_FORMAT,
+				bsResults.get(e.getXIndex()).date);
+		mChart.getData().getXVals().set(mBarLastIndex, " ");
+		mChart.getData().getXVals().set(e.getXIndex(), date);
+		mBarLastIndex = e.getXIndex();
+
 	}
 
 }

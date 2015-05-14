@@ -13,19 +13,20 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Highlight;
-import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
-import com.github.mikephil.charting.utils.YLabels;
+import com.github.mikephil.charting.utils.ValueFormatter;
 import com.lichkin.activity.R;
 import com.lichkin.customview.LineMarkerView;
 import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.BPResult;
 import com.lichkin.utils.PropertiesSharePrefs;
-import com.lichkin.utils.SystemUtils;
 import com.lichkin.utils.UUIDS;
 
 public class BPHistoryFragment extends BaseHistoryFragment implements
@@ -67,13 +68,10 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 				false);
 		ButterKnife.inject(this, view);
 		mHistoryDBManager = HistoryDBManager.getInstance(mContext);
-		getBpHisory();
 
-		// chart
+		// init chart
 		initLineChart();
-		lastScale = mBPResults.size()/15f;
-		mChart.setScaleMinima(lastScale, 1f);
-		System.out.println("on create view" + lastScale);
+		
 		return view;
 	}
 
@@ -81,16 +79,8 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	public void onResume() {
 		getBpHisory();
 		addEmptyData();
+		mChart.setScaleMinima(mBPResults.size()/15f, 1f);
 		
-		float newScale = mBPResults.size()/15f;
-		System.out.println("new scale " + newScale);
-		System.out.println("last scale " + lastScale);
-
-		//mChart.setScaleMinima(1f+ newScale - lastScale, 1f);
-		lastScale = newScale;
-		
-		System.out.println("mChart scale " + mChart.getScaleX());
-
 		// initData();
 		addDataSet();
 		super.onResume();
@@ -99,33 +89,40 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	public void initLineChart() {
 		mChart.setOnChartValueSelectedListener(this);
 		mChart.setPinchZoom(false);
-		mChart.setDrawYValues(false);
 		mChart.setScaleEnabled(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDescription("");// 单位
-		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setDrawBorder(false);
-		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-		// mChart.setStartAtZero(false);
-		mChart.setDrawLegend(false);
-//		mChart.setScaleMinima(mBPResults.size()/15, 1f);// 
-		mChart.setDrawXLabels(true);// 绘制X轴标签
+		
+		XAxis xAxis = mChart.getXAxis();
+		xAxis.setPosition(XAxisPosition.BOTTOM);//x轴位置
+		xAxis.setDrawAxisLine(false);
+		xAxis.setDrawGridLines(false);
+		xAxis.setSpaceBetweenLabels(1);
+		
+		YAxis leftAxis = mChart.getAxisLeft();
+		leftAxis.setDrawAxisLine(false);
+		leftAxis.setDrawGridLines(false);
+		leftAxis.setLabelCount(5);
+		leftAxis.setValueFormatter(new ValueFormatter() {
+			
+			@Override
+			public String getFormattedValue(float value) {
+				return String.valueOf((int)value);
+			}
+		});
+		
+		YAxis rightAxis = mChart.getAxisRight();
+		rightAxis.setDrawLabels(false);
+		rightAxis.setDrawGridLines(false);
+		rightAxis.setDrawAxisLine(false);
+		mChart.getLegend().setEnabled(false);
+		
 		mv = new LineMarkerView(getActivity(), mChart,
 				R.layout.custom_marker_view);// 自定义标签
-		mv.setOffsets(
-				-mv.getMeasuredWidth() / 2 - 10
-						* SystemUtils.getDensity(getActivity()),
-				-mv.getMeasuredHeight() + 15
-						* SystemUtils.getDensity(getActivity()));// 调整 数据 标签的位置
 		mChart.setMarkerView(mv);// 设置标签
-		mChart.getXLabels().setTextSize(12);
-		mChart.getXLabels().setSpaceBetweenLabels(1);
 		mChart.setPaddingRelative(0, 0, 100, 0);
 
-		YLabels y = mChart.getYLabels(); // y轴的标示
-		y.setLabelCount(4); // y轴上的标签的显示的个数
 
 	}
 
@@ -159,12 +156,10 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 			ArrayList<Entry> yValsSz = new ArrayList<Entry>();// 舒张
 			ArrayList<Entry> yValsSs = new ArrayList<Entry>();// 收缩
-			// ArrayList<Entry> yValsHr = new ArrayList<>();//心率
 
 			for (int i = 0; i < mBPResults.size(); i++) {
 				yValsSz.add(new Entry(mBPResults.get(i).dbp, i + 2));
 				yValsSs.add(new Entry(mBPResults.get(i).sbp, i + 2));
-				// yValsHr.add(new Entry(mBPResults.get(i).pulse, i));
 			}
 
 			LineDataSet ssSet = new LineDataSet(yValsSs,
@@ -187,16 +182,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			szSet.setHighLightColor(yellowGreen);
 			data.addDataSet(szSet);
 
-			// LineDataSet hrSet = new LineDataSet(yValsHr,
-			// getString(R.string.heart_rate));
-			// hrSet.setLineWidth(2.5f);
-			// hrSet.setCircleSize(3f);
-			//
-			// hrSet.setColor(getResources().getColor(R.color.yellow));
-			// hrSet.setCircleColor(getResources().getColor(R.color.yellow));
-			// hrSet.setHighLightColor(getResources().getColor(R.color.yellow));
-			// data.addDataSet(hrSet);
-
 			// 用于提高Y轴坐标的值
 			ArrayList<Entry> yValsMax = new ArrayList<>();
 			yValsMax.add(new Entry(180, 0));
@@ -209,9 +194,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 			data.addDataSet(setMax);
 			setMax.setHighLightColor(maxColor);
 
-			if (!mBPResults.isEmpty()) {
-				mChart.centerViewPort(1, mChart.getAverage() + 100);// 设置视角中心
-			}
+			data.setDrawValues(false);
 			mChart.notifyDataSetChanged();
 			mChart.animateY(600);// 设置Y轴动画 毫秒;
 		}
@@ -231,31 +214,6 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	// }
 	// }
 
-	@Override
-	public void onValueSelected(Entry e, int dataSetIndex) {
-		if(e == null || e.getXIndex()-JUMPCOUMP > mBPResults.size()-1) {
-			mChart.getData().getXVals().set(lineLastIndex, "");
-			return;
-		}
-		System.out.println("dataset index " + dataSetIndex);
-		if(dataSetIndex == 2) {
-			return;
-		}
-		float hr = mBPResults.get(e.getXIndex() - JUMPCOUMP).pulse;
-		textHeart.setText((int) hr + "");
-		mChart.getData().getXVals().set(lineLastIndex, "");
-		mChart.getData()
-				.getXVals()
-				.set(e.getXIndex(),
-						mBPResults.get(e.getXIndex() - JUMPCOUMP).measureTime);
-
-		lineLastIndex = e.getXIndex();
-
-		Highlight[] highs = new Highlight[2];
-		highs[0] = new Highlight(e.getXIndex(), 0);
-		highs[1] = new Highlight(e.getXIndex(), 1);
-		mChart.highlightValues(highs);
-	}
 
 	@Override
 	public void onNothingSelected() {
@@ -289,6 +247,33 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 				getInfoCharacteristic(UUIDS.BP_RESULT_SERVICE,
 						UUIDS.BP_RESULT_CHARAC), true);
 		return false;
+	}
+
+	@Override
+	public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+		if(e == null || e.getXIndex()-JUMPCOUMP > mBPResults.size()-1) {
+			mChart.getData().getXVals().set(lineLastIndex, "");
+			return;
+		}
+		System.out.println("dataset index " + dataSetIndex);
+		if(dataSetIndex == 2) {
+			return;
+		}
+		float hr = mBPResults.get(e.getXIndex() - JUMPCOUMP).pulse;
+		textHeart.setText((int) hr + "");
+		mChart.getData().getXVals().set(lineLastIndex, "");
+		mChart.getData()
+				.getXVals()
+				.set(e.getXIndex(),
+						mBPResults.get(e.getXIndex() - JUMPCOUMP).measureTime);
+
+		lineLastIndex = e.getXIndex();
+
+		Highlight[] highs = new Highlight[2];
+		highs[0] = new Highlight(e.getXIndex(), 0);
+		highs[1] = new Highlight(e.getXIndex(), 1);
+		mChart.highlightValues(highs);
+		
 	}
 
 }

@@ -12,9 +12,9 @@ public class SystemUtils {
 	public static final int TYPE_GPRS = 0;
 	public static final int TYPE_WIFI = 1;
 
-	public static float getDensity(Activity activity) {
+	public static float getDensity(Context mContext) {
 		DisplayMetrics metric = new DisplayMetrics();
-		activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+		((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(metric);
 		return metric.density;
 	}
 

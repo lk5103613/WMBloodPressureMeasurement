@@ -18,10 +18,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
+import com.github.mikephil.charting.utils.ValueFormatter;
 import com.lichkin.activity.R;
 import com.lichkin.db.HistoryDBManager;
 import com.lichkin.entity.FHResult;
@@ -85,21 +88,37 @@ public class FHResultFragment extends BaseResultFragment {
 
 	private void initLineChart() {
 		// chart
-		mChart.setDrawYValues(false);
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
-		mChart.setDescription("");
-		mChart.setGridColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setBorderColor(getResources().getColor(R.color.fragment_bg));
-		mChart.setStartAtZero(true);
-		mChart.setDrawLegend(false);// 不绘制颜色标记
-		mChart.setDrawXLabels(true);// 绘制X轴标签
-		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
-		mChart.getYLabels().setLabelCount(5);
+		mChart.setDescription("hahhaha");
+		mChart.setDrawBorders(false);
+		
+		XAxis xAxis = mChart.getXAxis();
+		xAxis.setPosition(XAxisPosition.BOTTOM);//x轴位置
+		xAxis.setDrawAxisLine(false);
+		xAxis.setDrawGridLines(false);
+		xAxis.setSpaceBetweenLabels(2);
+		
+		YAxis leftAxis = mChart.getAxisLeft();
+		leftAxis.setDrawAxisLine(false);
+		leftAxis.setDrawGridLines(false);
+		leftAxis.setLabelCount(5);
+		leftAxis.setValueFormatter(new ValueFormatter() {
+			
+			@Override
+			public String getFormattedValue(float value) {
+				return String.valueOf((int)value);
+			}
+		});
+		
+		YAxis rightAxis = mChart.getAxisRight();
+		rightAxis.setDrawLabels(false);
+		rightAxis.setDrawGridLines(false);
+		rightAxis.setDrawAxisLine(false);
+
 		mChart.setHighlightEnabled(false);
 		mChart.setScaleMinima(40, 1);// 设置缩放比例
-		mChart.centerViewPort(0, 200);
-//		mChart.getXLabels().setSpaceBetweenLabels(2);
+		mChart.getLegend().setEnabled(false);
 	}
 
 	private void addEmptyData() {
@@ -113,6 +132,7 @@ public class FHResultFragment extends BaseResultFragment {
 		}
 
 		LineData data = new LineData(xVals);
+		data.setDrawValues(false);
 		mChart.setData(data);
 		mChart.invalidate();
 	}
@@ -123,7 +143,7 @@ public class FHResultFragment extends BaseResultFragment {
 		LineData data = mChart.getData();
 
 		if (data != null) {
-
+			data.setDrawValues(false);
 			LineDataSet set = data.getDataSetByIndex(0);
 
 			if (set == null) {
@@ -151,7 +171,7 @@ public class FHResultFragment extends BaseResultFragment {
 			}
 
 			if (recordIndex > 15) {
-				mChart.centerViewPort(recordIndex - 9, 200);
+//				mChart.centerViewPort(recordIndex - 9, 200);
 			}
 
 			if (recordIndex > 1000) {
