@@ -196,14 +196,14 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 	//
 	// }
 
-	@OnClick(R.id.btn_next)
-	public void nextClick() {
+	@OnClick(R.id.btn_previous)
+	public void previousClick() {
 		if (mFHResults.isEmpty()) {
 			showToast("暂无数据");
 			return;
 		}
 		if (mIndex >= (mFHResults.size() - 1)) {
-			showToast(getString(R.string.msg_last_data));
+			showToast(getString(R.string.msg_fist_data));
 			return;
 		}
 		mChart.getData().removeDataSet(0);
@@ -211,14 +211,14 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 	}
 
 	
-	@OnClick(R.id.btn_previous)
-	public void previousClick() {
+	@OnClick(R.id.btn_next)
+	public void nextClick() {
 		if (mFHResults.isEmpty()) {
 			showToast("暂无数据");
 			return;
 		}
 		if (mIndex <= 0) {
-			showToast(getString(R.string.msg_fist_data));
+			showToast(getString(R.string.msg_last_data));
 			return;
 		}
 		mChart.getData().removeDataSet(0);

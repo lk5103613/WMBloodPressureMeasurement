@@ -45,6 +45,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 	private HistoryDBManager mHistoryDBManager;
 	private List<BPResult> mBPResults = new ArrayList<>();
 	String idCard = "";
+	float lastScale = 1f;
 	
 	public interface HistoryCallback {
 		
@@ -74,9 +75,17 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 
 	@Override
 	public void onResume() {
-
 		getBpHisory();
 		addEmptyData();
+		
+		float newScale = mBPResults.size()/15f;
+		System.out.println("new scale " + newScale);
+		System.out.println("last scale " + lastScale);
+
+		mChart.setScaleMinima(1f+ newScale - lastScale, 1f);
+		lastScale = newScale;
+		
+		System.out.println("mChart scale " + mChart.getScaleX());
 
 		// initData();
 		addDataSet();
@@ -97,7 +106,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		mChart.getXLabels().setPosition(XLabelPosition.BOTTOM);
 		// mChart.setStartAtZero(false);
 		mChart.setDrawLegend(false);
-		mChart.setScaleMinima(1, 1f);// mBPResults.size()/20
+//		mChart.setScaleMinima(mBPResults.size()/15, 1f);// 
 		mChart.setDrawXLabels(true);// 绘制X轴标签
 		mv = new LineMarkerView(getActivity(), mChart,
 				R.layout.custom_marker_view);// 自定义标签
@@ -109,6 +118,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 		mChart.setMarkerView(mv);// 设置标签
 		mChart.getXLabels().setTextSize(12);
 		mChart.getXLabels().setSpaceBetweenLabels(1);
+		mChart.setPaddingRelative(0, 0, 100, 0);
 
 		YLabels y = mChart.getYLabels(); // y轴的标示
 		y.setLabelCount(4); // y轴上的标签的显示的个数

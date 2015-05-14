@@ -27,7 +27,7 @@
     <string name="img_dot">指示点</string>
     <string name="action_add_device">新增设备</string>
     <string name="action_change_name">修改名称</string>
-    <string name="action_cancel_change">取消修改</string>
+    <string name="action_cancel_change">完成修改</string>
     <string name="action_delete_deivce">删除设备</string>
     <string name="action_cancel_delete">取消删除</string>
     <string name="action_login">登录</string>
