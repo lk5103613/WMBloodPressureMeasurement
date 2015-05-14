@@ -59,7 +59,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		initLineChart();
 		addEmptyData(-1);
 		mChart.invalidate();
-		
+
 		mHandler = new Handler();
 		// initData();
 		return view;
@@ -76,12 +76,12 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		}
 		super.onResume();
 	}
-	
-	private void getFhResults(){
-		idCard = PropertiesSharePrefs.getInstance(mContext).getProperty(PropertiesSharePrefs.TYPE_CARD, "");
+
+	private void getFhResults() {
+		idCard = PropertiesSharePrefs.getInstance(mContext).getProperty(
+				PropertiesSharePrefs.TYPE_CARD, "");
 		mFHResults = mDbManager.getFhResultsByUser(idCard);
 	}
-	
 
 	private void initLineChart() {
 		// chart
@@ -89,26 +89,28 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDescription("");
 		mChart.setDrawBorders(false);
-		
+
 		mChart.setScaleMinima(2, 1);
 		XAxis xAxis = mChart.getXAxis();
-		xAxis.setPosition(XAxisPosition.BOTTOM);//x轴位置
+		xAxis.setPosition(XAxisPosition.BOTTOM);// x轴位置
 		xAxis.setDrawAxisLine(false);
 		xAxis.setDrawGridLines(false);
 		xAxis.setSpaceBetweenLabels(1);
-		
+
 		YAxis leftAxis = mChart.getAxisLeft();
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawGridLines(false);
 		leftAxis.setLabelCount(5);
+
 		leftAxis.setValueFormatter(new ValueFormatter() {
-			
+
 			@Override
 			public String getFormattedValue(float value) {
-				return String.valueOf((int)value);
+				return String.valueOf((int) value);
 			}
-		});;
-		
+		});
+		;
+
 		YAxis rightAxis = mChart.getAxisRight();
 		rightAxis.setDrawLabels(false);
 		rightAxis.setDrawGridLines(false);
@@ -135,6 +137,20 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 
 		LineData data = new LineData(xVals);
 		mChart.setData(data);
+
+		// 用于提高Y轴坐标的值
+		ArrayList<Entry> yValsMax = new ArrayList<>();
+		yValsMax.add(new Entry(300, 0));
+		LineDataSet setMax = new LineDataSet(yValsMax, "");
+		setMax.setLineWidth(2f);
+		setMax.setCircleSize(2);
+		int maxColor = getResources().getColor(R.color.fragment_bg);
+		setMax.setCircleColor(maxColor);
+		setMax.setHighLightColor(maxColor);
+		setMax.setColor(maxColor);
+		data.addDataSet(setMax);
+		data.setDrawValues(false);
+
 		mChart.invalidate();
 	}
 
@@ -144,7 +160,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		mTxtDate.setText(DateUtil.getFormatDate(DateUtil.DATA_FORMAT, date));
 
 		LineData data = mChart.getData();
-
+		System.out.println("data " + data);
 		if (data != null) {
 			// create 10 y-vals
 			ArrayList<Entry> yValsFh = new ArrayList<Entry>();
@@ -163,22 +179,9 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 			set.setCircleColor(color);
 			set.setHighLightColor(color);
 			data.addDataSet(set);
-
-			// 用于提高Y轴坐标的值
-			ArrayList<Entry> yValsMax = new ArrayList<>();
-			yValsMax.add(new Entry(300, 0));
-			LineDataSet setMax = new LineDataSet(yValsMax, "");
-			setMax.setLineWidth(2f);
-			setMax.setCircleSize(2);
-			int maxColor = getResources().getColor(R.color.fragment_bg);
-			setMax.setCircleColor(maxColor);
-			setMax.setHighLightColor(maxColor);
-			setMax.setColor(maxColor);
-			data.addDataSet(setMax);
 			data.setDrawValues(false);
 
 			mChart.notifyDataSetChanged();
-			
 			mChart.animateY(600);
 		}
 	}
@@ -223,7 +226,6 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		addDataSet(++mIndex);
 	}
 
-	
 	@OnClick(R.id.btn_next)
 	public void nextClick() {
 		if (mFHResults.isEmpty()) {
@@ -238,16 +240,15 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		addDataSet(--mIndex);
 	}
 
-	
 	private void showToast(String msg) {
-		if(mToast!= null) {
+		if (mToast != null) {
 			mToast.cancel();
 			mToast = null;
 		}
-		mToast = CustomToast.makeText(mHandler,mContext, msg, 1.5);
+		mToast = CustomToast.makeText(mHandler, mContext, msg, 1.5);
 		mToast.show();
 	}
-	
+
 	@Override
 	public boolean handleConnect() {
 		return false;
@@ -271,12 +272,11 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		return false;
 	}
 
-	
 	@Override
 	public void onDetach() {
 		// TODO Auto-generated method stub
 		super.onDetach();
-		if(mToast != null) {
+		if (mToast != null) {
 			mToast.cancel();
 			mToast = null;
 		}

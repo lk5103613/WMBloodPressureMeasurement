@@ -92,25 +92,25 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDrawBorders(false);
 		mChart.setDescription("");
-		
+
 		XAxis xAxis = mChart.getXAxis();
-		xAxis.setPosition(XAxisPosition.BOTTOM);//x轴位置
+		xAxis.setPosition(XAxisPosition.BOTTOM);// x轴位置
 		xAxis.setDrawAxisLine(false);
 		xAxis.setDrawGridLines(false);
 		xAxis.setSpaceBetweenLabels(2);
-		
+
 		YAxis leftAxis = mChart.getAxisLeft();
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawGridLines(false);
 		leftAxis.setLabelCount(5);
 		leftAxis.setValueFormatter(new ValueFormatter() {
-			
+
 			@Override
 			public String getFormattedValue(float value) {
-				return String.valueOf((int)value);
+				return String.valueOf((int) value);
 			}
 		});
-		
+
 		YAxis rightAxis = mChart.getAxisRight();
 		rightAxis.setDrawLabels(false);
 		rightAxis.setDrawGridLines(false);
@@ -133,6 +133,17 @@ public class FHResultFragment extends BaseResultFragment {
 		}
 
 		LineData data = new LineData(xVals);
+		// 用于提高Y轴坐标的值
+		ArrayList<Entry> yValsMax = new ArrayList<>();
+		yValsMax.add(new Entry(200, 0));
+		LineDataSet setMax = new LineDataSet(yValsMax, "");
+		setMax.setLineWidth(2f);
+		setMax.setCircleSize(2);
+		int maxColor = getResources().getColor(R.color.fragment_bg);
+		setMax.setCircleColor(maxColor);
+		setMax.setHighLightColor(maxColor);
+		setMax.setColor(maxColor);
+		data.addDataSet(setMax);
 		data.setDrawValues(false);
 		mChart.setData(data);
 		mChart.invalidate();
@@ -144,7 +155,7 @@ public class FHResultFragment extends BaseResultFragment {
 		LineData data = mChart.getData();
 
 		if (data != null) {
-			data.setDrawValues(false);
+
 			LineDataSet set = data.getDataSetByIndex(0);
 
 			if (set == null) {
@@ -160,7 +171,7 @@ public class FHResultFragment extends BaseResultFragment {
 			data.addEntry(new Entry(value, set.getEntryCount()), 0);// Math.random()
 																	// * 50)
 																	// +50f
-			String xvalue = mFHValues.isEmpty() ? "" : mFHValues.size() + "";
+			String xvalue = mFHValues.isEmpty() ? "0" : mFHValues.size() + "";
 			System.out.println("record index " + recordIndex + " " + xvalue);
 
 			if ((xVals.size() - recordIndex) < 2) {
@@ -168,17 +179,22 @@ public class FHResultFragment extends BaseResultFragment {
 			}
 
 			if (recordIndex < xVals.size()) {
-				mChart.getData().getXVals().set(recordIndex, xvalue%2==1?xvalue:"");
+				mChart.getData()
+						.getXVals()
+						.set(recordIndex,
+								Integer.parseInt(xvalue) % 2 == 1 ? xvalue : "");
 			}
 
 			if (recordIndex > 15) {
-				mChart.centerViewTo(recordIndex-9, 1f, mChart.getAxisLeft().getAxisDependency());
+				mChart.centerViewTo(recordIndex - 9, 1f, mChart.getAxisLeft()
+						.getAxisDependency());
 			}
 
 			if (recordIndex > 1000) {
 				mChart.setScaleMinima((recordIndex / 100) * 4, 1);
 			}
 
+			data.setDrawValues(false);
 			mChart.notifyDataSetChanged();
 
 			// redraw the chart
@@ -192,7 +208,7 @@ public class FHResultFragment extends BaseResultFragment {
 		set.setCircleSize(1.5f);
 		set.setColor(Color.rgb(240, 99, 99));
 		set.setCircleColor(Color.rgb(240, 99, 99));
-//		set.setHighLightColor(Color.rgb(190, 190, 190));
+		// set.setHighLightColor(Color.rgb(190, 190, 190));
 		return set;
 	}
 
@@ -294,7 +310,7 @@ public class FHResultFragment extends BaseResultFragment {
 		}
 		return (int) sum / mAllValues.size();
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();

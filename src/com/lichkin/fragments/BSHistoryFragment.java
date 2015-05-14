@@ -56,8 +56,8 @@ public class BSHistoryFragment extends BaseHistoryFragment implements
 
 		mHandler = new Handler();
 		historyDBManager = HistoryDBManager.getInstance(getActivity());
-		getBsResult();
-		mChart.setScaleMinima(bsResults.size() / 7, 1);
+//		getBsResult();
+//		mChart.setScaleMinima(bsResults.size() / 7, 1);
 		initBarChart();
 		// setData(20, 50);
 
@@ -68,6 +68,7 @@ public class BSHistoryFragment extends BaseHistoryFragment implements
 	public void onResume() {
 		super.onResume();
 		getBsResult();
+		mChart.setScaleMinima(bsResults.size() / 7f, 1);
 		setData();
 		mChart.animateY(1000);// Y÷·∂Øª≠
 	}
@@ -87,8 +88,7 @@ public class BSHistoryFragment extends BaseHistoryFragment implements
 		mChart.setDescription("");
 
 		// if more than 400 entries are displayed in the chart, no values will
-		// be
-		// drawn
+		// be  drawn
 		mChart.setMaxVisibleValueCount(400);
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setPinchZoom(false);// x y ÷·µ•∂¿Àı∑≈
