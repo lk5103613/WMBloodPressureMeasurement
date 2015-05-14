@@ -90,7 +90,6 @@ public class FHResultFragment extends BaseResultFragment {
 		// chart
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
-		mChart.setDescription("hahhaha");
 		mChart.setDrawBorders(false);
 		
 		XAxis xAxis = mChart.getXAxis();
