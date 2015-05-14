@@ -34,7 +34,7 @@ public class CustomToast {
 		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.width = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.format = PixelFormat.TRANSLUCENT;
-		params.windowAnimations = animStyleId;//显示和退出动画
+		params.windowAnimations = animStyleId;//显示和�?出动�?
 		params.type = WindowManager.LayoutParams.TYPE_TOAST;
 		params.setTitle("Toast");
 		params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON

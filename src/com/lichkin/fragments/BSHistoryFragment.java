@@ -1,7 +1,6 @@
 package com.lichkin.fragments;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -130,9 +129,6 @@ public class BSHistoryFragment extends BaseHistoryFragment implements OnChartVal
 		}
 
 		for (int j = xVals.size(); j < 7; j++) {
-			Calendar nowss = Calendar.getInstance();
-			String datestr = nowss.get(Calendar.MONTH) + 1 + "."
-					+ (nowss.get(Calendar.DAY_OF_MONTH) + j);
 			xVals.add(" ");
 		}
 		BarDataSet set1 = new BarDataSet(yVals1, "");

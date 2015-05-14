@@ -23,9 +23,6 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 	 * 删除按钮的引用
 	 */
 	private Drawable mClearDrawable;
-	/**
-	 * 控件是否有焦点
-	 */
 
 	public ClearEditText(Context context) {
 		this(context, null);

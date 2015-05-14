@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -154,7 +153,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 
 			// 用于提高Y轴坐标的值
 			ArrayList<Entry> yValsMax = new ArrayList<>();
-			int max = (int) set.getYMax();// 获取最大值
+//			int max = (int) set.getYMax();// 获取最大值
 			yValsMax.add(new Entry(300, 0));
 			LineDataSet setMax = new LineDataSet(yValsMax, "");
 			setMax.setLineWidth(2f);
@@ -197,14 +196,14 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 	//
 	// }
 
-	@OnClick(R.id.btn_next)
-	public void nextClick() {
+	@OnClick(R.id.btn_previous)
+	public void previousClick() {
 		if (mFHResults.isEmpty()) {
 			showToast("暂无数据");
 			return;
 		}
 		if (mIndex >= (mFHResults.size() - 1)) {
-			showToast(getString(R.string.msg_last_data));
+			showToast(getString(R.string.msg_fist_data));
 			return;
 		}
 		mChart.getData().removeDataSet(0);
@@ -212,14 +211,14 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 	}
 
 	
-	@OnClick(R.id.btn_previous)
-	public void previousClick() {
+	@OnClick(R.id.btn_next)
+	public void nextClick() {
 		if (mFHResults.isEmpty()) {
 			showToast("暂无数据");
 			return;
 		}
 		if (mIndex <= 0) {
-			showToast(getString(R.string.msg_fist_data));
+			showToast(getString(R.string.msg_last_data));
 			return;
 		}
 		mChart.getData().removeDataSet(0);
