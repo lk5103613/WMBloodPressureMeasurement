@@ -119,6 +119,7 @@ public class FHHistoryFragment extends BaseHistoryFragment {// implements
 		mChart.setMarkerView(mv);// …Ë÷√±Í«©
 		mChart.setHighlightEnabled(true);
 		mChart.setScaleEnabled(false);
+		mChart.setNoDataText("");
 
 	}
 

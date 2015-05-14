@@ -91,6 +91,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setDrawGridBackground(false);
 		mChart.setDoubleTapToZoomEnabled(false);
 		mChart.setDrawBorders(false);
+		mChart.setDescription("");
 		
 		XAxis xAxis = mChart.getXAxis();
 		xAxis.setPosition(XAxisPosition.BOTTOM);//x轴位置
@@ -118,6 +119,7 @@ public class FHResultFragment extends BaseResultFragment {
 		mChart.setHighlightEnabled(false);
 		mChart.setScaleMinima(40, 1);// 设置缩放比例
 		mChart.getLegend().setEnabled(false);
+		mChart.setNoDataText("");
 	}
 
 	private void addEmptyData() {
@@ -166,15 +168,14 @@ public class FHResultFragment extends BaseResultFragment {
 			}
 
 			if (recordIndex < xVals.size()) {
-				mChart.getData().getXVals().set(recordIndex, xvalue);
+				mChart.getData().getXVals().set(recordIndex, xvalue%2==1?xvalue:"");
 			}
 
 			if (recordIndex > 15) {
-//				mChart.centerViewPort(recordIndex - 9, 200);
+				mChart.centerViewTo(recordIndex-9, 1f, mChart.getAxisLeft().getAxisDependency());
 			}
 
 			if (recordIndex > 1000) {
-				System.out.println("scale " + (recordIndex / 100) * 4.0f);
 				mChart.setScaleMinima((recordIndex / 100) * 4, 1);
 			}
 
@@ -191,7 +192,7 @@ public class FHResultFragment extends BaseResultFragment {
 		set.setCircleSize(1.5f);
 		set.setColor(Color.rgb(240, 99, 99));
 		set.setCircleColor(Color.rgb(240, 99, 99));
-		set.setHighLightColor(Color.rgb(190, 190, 190));
+//		set.setHighLightColor(Color.rgb(190, 190, 190));
 		return set;
 	}
 

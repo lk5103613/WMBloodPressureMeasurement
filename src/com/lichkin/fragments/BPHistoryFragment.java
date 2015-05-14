@@ -122,6 +122,7 @@ public class BPHistoryFragment extends BaseHistoryFragment implements
 				R.layout.custom_marker_view);// 自定义标签
 		mChart.setMarkerView(mv);// 设置标签
 		mChart.setPaddingRelative(0, 0, 100, 0);
+		mChart.setNoDataText("");
 
 
 	}
