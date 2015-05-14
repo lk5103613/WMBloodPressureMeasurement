@@ -19,7 +19,7 @@ public class AboutActivity extends BaseActivity {
 	public void back() {
 		finish();
 	}
-
+	
 	@Override
 	protected void onPause() {
 		super.onPause();
