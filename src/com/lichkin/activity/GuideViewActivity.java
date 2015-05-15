@@ -2,6 +2,7 @@ package com.lichkin.activity;
 
 import java.util.List;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,9 +41,10 @@ public class GuideViewActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_guide_view);
 		ButterKnife.inject(this);
 		
-		mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), pics.length);
+		mAdapter = new ImagePagerAdapter(getResources(),getSupportFragmentManager(), pics.length);
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(this);
+		
 		initDots();
 	}
 
@@ -112,7 +114,6 @@ public class GuideViewActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		if (isFinishing()) {
 			overridePendingTransition(R.anim.scale_fade_in,
@@ -122,16 +123,18 @@ public class GuideViewActivity extends ActionBarActivity implements
 	
 	public static class ImagePagerAdapter extends FragmentPagerAdapter{
 		private final int mSize;
+		private Resources resources;
 
-		public ImagePagerAdapter(FragmentManager fm, int size) {
+		public ImagePagerAdapter(Resources resources, FragmentManager fm, int size) {
 			super(fm);
-			mSize = size;
+			this.mSize = size;
+			this.resources = resources;
 		}
 
 		@Override
 		public Fragment getItem(int position) {
 			// TODO Auto-generated method stub
-			return ImageDetailFragment.newInstance(position);
+			return ImageDetailFragment.newInstance(resources,position);
 		}
 
 		@Override

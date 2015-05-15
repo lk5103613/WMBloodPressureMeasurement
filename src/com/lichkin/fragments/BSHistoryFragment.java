@@ -56,8 +56,7 @@ public class BSHistoryFragment extends BaseHistoryFragment implements
 
 		mHandler = new Handler();
 		historyDBManager = HistoryDBManager.getInstance(getActivity());
-//		getBsResult();
-//		mChart.setScaleMinima(bsResults.size() / 7, 1);
+
 		initBarChart();
 		// setData(20, 50);
 

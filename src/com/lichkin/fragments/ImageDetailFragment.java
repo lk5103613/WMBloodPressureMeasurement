@@ -1,5 +1,9 @@
 package com.lichkin.fragments;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,15 +13,18 @@ import android.widget.ImageView;
 
 import com.lichkin.activity.GuideViewActivity;
 import com.lichkin.activity.R;
+import com.lichkin.utils.ImgUtil;
 
 public class ImageDetailFragment extends Fragment{
 	
 	private static final String IMAGE_DATA_EXTRA = "resid";
 	private int mImageNum;
 	private ImageView mImageView;
+	private Resources resources;
 	
-	public static ImageDetailFragment newInstance(int imageNum) {
-		final ImageDetailFragment fragment = new ImageDetailFragment();
+	public static ImageDetailFragment newInstance(Resources resources, int imageNum) {
+		
+		final ImageDetailFragment fragment = new ImageDetailFragment(resources);
 		final Bundle args = new Bundle();
 		args.putInt(IMAGE_DATA_EXTRA,imageNum);
 		
@@ -26,6 +33,10 @@ public class ImageDetailFragment extends Fragment{
 	}
 
 	public ImageDetailFragment(){}
+	public ImageDetailFragment(Resources resources) {
+		super();
+		this.resources = resources;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +54,24 @@ public class ImageDetailFragment extends Fragment{
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		final int resId = GuideViewActivity.pics[mImageNum];
-		mImageView.setImageResource(resId);
+		
+		System.out.println("create " + mImageNum);
+		
+		mImageView.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				System.out.println("mImageView  "+ mImageView.getWidth() + "  " + mImageView.getHeight());
+				
+				Bitmap bitmap = ImgUtil.decodeSampleBitmapFromResource(resources, resId, 
+						mImageView.getWidth(), mImageView.getHeight());
+				System.out.println("bitmap after " + bitmap.getWidth() +"  " + bitmap.getHeight());
+				
+				mImageView.setImageBitmap(bitmap);
+			}
+		});
 	}
+	
 }
