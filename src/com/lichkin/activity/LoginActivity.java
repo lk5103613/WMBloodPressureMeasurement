@@ -255,6 +255,7 @@ public class LoginActivity extends ActionBarActivity {
 				mProperties.saveProperty(PropertiesSharePrefs.TYPE_LOGIN, true);
 				mProperties.saveProperty(PropertiesSharePrefs.TYPE_CARD,
 						result.datas.userInfo.userCard);
+				mProperties.saveProperty(PropertiesSharePrefs.TYPE_USER_PHONE, result.datas.userInfo.cellphone);
 				DialogUtils.showToast(LoginActivity.this,
 						getString(R.string.login_success), DialogUtils.SUCCESS);
 				
