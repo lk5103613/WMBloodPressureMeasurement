@@ -67,6 +67,7 @@
     <string name="title_activity_guide_view">使&#160;用&#160;帮&#160;助</string>
     <string name="title_fragment_device">设&#160;备&#160;列&#160;表</string>
     <string name="title_fragment_settings">设&#160;&#160;&#160;&#160;置</string>
+    <string name="title_activity_find_pwd">通过手机号找回</string>
     <string name="bp_text">血&#160;压&#160;计</string>
     <string name="bs_text">血&#160;糖&#160;仪</string>
     <string name="fh_text">胎&#160;心&#160;仪</string>
@@ -93,16 +94,21 @@
     <string name="network_error">无网络或网络异常</string>
     <string name="login_success">登录成功</string>
     <string name="login_check">请输入用户名和密码</string>
-    <string name = "register_success">注册成功</string>
+    <string name="register_success">注册成功</string>
     <string name="required_msg">请输入必填项</string>
     <string name="name_fromat_error">姓名为中文和英文且 至少两位</string>
     <string name="pwd_format_error">密码为6-20个字符</string>
-    <string name ="phone_format_error">请输入正确的手机号码</string>
+    <string name="phone_format_error">请输入正确的手机号码</string>
     <string name="idcard_format_error">身份证格式不正确</string>
     <string name="pwd_conform_error">两次密码不匹配</string>
     <string name="retry">重试</string>
-    
     <string name="icon_description">this is logo</string>
     <string name="title_activity_regist">RegistActivity</string>
+    <string name="hint_phone">请输入手机号</string>
+    <string name="hint_verify_code">验证码</string>
+    <string name="hint_input_new_pwd">请输入新密码</string>
+    <string name="hint_conform_new_pwd">请再次确认新密码</string>
+    <string name="send_verify_code">发送验证码</string>
+    <string name="confirm">确认</string>
 
 </resources>

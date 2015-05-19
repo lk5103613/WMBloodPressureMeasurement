@@ -50,5 +50,6 @@
     <color name="date_color">#5D5D5D</color>
     <color name="edit_bg_gray">#EEEEEE</color>
     <color name="checkbox_color">#6E6E6E</color>
+    <color name="light_light_gray">#EFF0F1</color>
 	
 </resources>
