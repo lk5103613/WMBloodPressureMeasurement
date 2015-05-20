@@ -58,7 +58,7 @@ public class FHResult {
 		List<Integer> fhList = new ArrayList<>();
 		if (!"".equals(fhList)) {
 			String[] fhArray = valueStr.split(",");
-			for (int i = 0; i < fhArray.length; i++) {
+			for (int i = 0, length = fhArray.length; i < length; i++) {
 				fhList.add(Integer.parseInt(fhArray[i]));
 			}
 		}

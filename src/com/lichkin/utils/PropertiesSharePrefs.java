@@ -5,12 +5,12 @@ import android.content.SharedPreferences;
 
 public class PropertiesSharePrefs {
 
-	public static String SP_NAME = "prefs_properties";
-	public static String TYPE_AUTH = "auth";
-	public static String TYPE_LOGIN = "login";
-	public static String TYPE_CARD = "card";
-	public static String TYPE_USER_PHONE = "phone_number";
-	public static String TYLE_USER_PWD = "pwd";
+	public static final String SP_NAME = "prefs_properties";
+	public static final String TYPE_AUTH = "auth";
+	public static final String TYPE_LOGIN = "login";
+	public static final String TYPE_CARD = "card";
+	public static final String TYPE_USER_PHONE = "phone_number";
+	public static final String TYLE_USER_PWD = "pwd";
 
 	private SharedPreferences mSharePreferences;
 	private Context mContext;

@@ -3,15 +3,13 @@ package com.lichkin.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lichkin.db.DeviceDataContract.BPDataEntry;
-import com.lichkin.db.DeviceDataContract.UserInfoEntry;
-import com.lichkin.entity.BPResult;
-import com.lichkin.entity.UserInfo;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.lichkin.db.DeviceDataContract.UserInfoEntry;
+import com.lichkin.entity.UserInfo;
 
 public class UserInfoDBManager {
 

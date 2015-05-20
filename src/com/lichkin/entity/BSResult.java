@@ -70,7 +70,6 @@ public class BSResult {
 					.getDefault())));
 		}
 		int mgPerDlValue = Integer.valueOf(sb.toString());
-		System.out.println(" bs " + mgPerDlValue * 1.0 / 18);
 
 		float value = DataConvertUtils.formatNoRound(mgPerDlValue * 1.0 / 18);
 		this.bg = value + "";
@@ -96,7 +95,7 @@ public class BSResult {
 	public static final String[] ADVISES = { "ตอ", "ีýณฃ", "ธ฿" };
 
 	public static String getAdvise(float bs) {
-		for (int i = 0; i < DBSS.length; i++) {
+		for (int i = 0, length =  DBSS.length; i < length; i++) {
 			if (bs < DBSS[i]) {
 				return ADVISES[i];
 			}

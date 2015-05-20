@@ -2,8 +2,6 @@ package com.lichkin.fragments;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -56,22 +54,22 @@ public class ImageDetailFragment extends Fragment{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		final int resId = GuideViewActivity.pics[mImageNum];
+		mImageView.setImageResource(resId);
 		
-		System.out.println("create " + mImageNum);
-		
-		mImageView.post(new Runnable() {
-			
-			@Override
-			public void run() {
-				System.out.println("mImageView  "+ mImageView.getWidth() + "  " + mImageView.getHeight());
-				
-				Bitmap bitmap = ImgUtil.decodeSampleBitmapFromResource(resources, resId, 
-						mImageView.getWidth(), mImageView.getHeight());
-				System.out.println("bitmap after " + bitmap.getWidth() +"  " + bitmap.getHeight());
-				
-				mImageView.setImageBitmap(bitmap);
-			}
-		});
+//		mImageView.post(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				System.out.println("mImageView  "+ mImageView.getWidth() + "  " + mImageView.getHeight());
+//				
+//				Bitmap bitmap = ImgUtil.decodeSampleBitmapFromResource(resources, resId, 
+//						mImageView.getWidth(), mImageView.getHeight());
+//				System.out.println("bitmap after " + bitmap.getWidth() +"  " + bitmap.getHeight());
+//				System.out.println("size " + bitmap.getByteCount());
+//				
+//				mImageView.setImageBitmap(bitmap);
+//			}
+//		});
 	}
 	
 }

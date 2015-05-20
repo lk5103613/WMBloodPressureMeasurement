@@ -35,7 +35,7 @@ public class ImgUtil {
 		BitmapFactory.decodeResource(resources, resId,options);
 		options.inSampleSize = calcuteInSampleSize(options, reqWidth, reqHeight);
 		options.inJustDecodeBounds = false;
-
+		System.out.println("sample size " + options.inSampleSize);
 		Bitmap bitmap = BitmapFactory.decodeResource(resources, resId,options);
 		return bitmap;
 	}

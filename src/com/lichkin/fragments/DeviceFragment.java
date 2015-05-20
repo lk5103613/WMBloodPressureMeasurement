@@ -37,7 +37,7 @@ import com.lichkin.customview.DeviceIcon;
 import com.lichkin.db.DeviceDBManager;
 import com.lichkin.entity.DeviceDataSet;
 import com.lichkin.entity.DeviceInfo;
-import com.lichkin.entity.OptionEnum;
+import com.lichkin.entity.OptionType;
 import com.lichkin.utils.TabPagerSharePrefs;
 
 public class DeviceFragment extends Fragment implements View.OnClickListener {
@@ -188,7 +188,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 	}
 
 	public void resetList() {
-		mDeviceDataSet.option = null;
+		mDeviceDataSet.option = OptionType.ITEM_NOMAL;
 		mAdapter.notifyDataSetChanged();
 		mCallback.onStateChange(STATE_NORMAL);
 		actionCancelDel.setVisibility(View.GONE);
@@ -201,7 +201,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 
 	@OnItemClick(R.id.device_listview)
 	public void checkHistory(int i) {
-		if (mDeviceDataSet.option != null) {
+		if (mDeviceDataSet.option != OptionType.ITEM_NOMAL) {
 			resetList();
 			return;
 		}
@@ -263,10 +263,10 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 				mHolder = (ViewHolder) convertView.getTag();// 取出viewholder对象
 			}
 
-			if (OptionEnum.ITEM_DELETE.equals(mDeviceDataSet.option)) {
+			if (OptionType.ITEM_DELETE == mDeviceDataSet.option) {
 				mHolder.mBtnDelete.setVisibility(View.VISIBLE);
 				mHolder.mBtnUpdate.setVisibility(View.GONE);
-			} else if (OptionEnum.ITEM_UPDATE.equals(mDeviceDataSet.option)) {
+			} else if (OptionType.ITEM_UPDATE == mDeviceDataSet.option) {
 				mHolder.mBtnDelete.setVisibility(View.GONE);
 				mHolder.mBtnUpdate.setVisibility(View.VISIBLE);
 			} else {
@@ -419,7 +419,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			actionDel.setVisibility(View.VISIBLE);
 			actionUpd.setVisibility(View.VISIBLE);
 			mTabPager.savePosition(TabPagerSharePrefs.PAGE_DEVICE);
-			mDeviceDataSet.option = OptionEnum.ITEM_ADD;
+			mDeviceDataSet.option = OptionType.ITEM_ADD;
 			mAdapter.notifyDataSetChanged();
 			Intent intent = new Intent(mContext, AddDeviceActivity.class);
 			startActivity(intent);
@@ -428,7 +428,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			break;
 		case R.id.action_delete_device:
 			mCallback.onStateChange(STATE_DELETE);
-			mDeviceDataSet.option = OptionEnum.ITEM_DELETE;
+			mDeviceDataSet.option = OptionType.ITEM_DELETE;
 			mAdapter.notifyDataSetChanged();
 			v.setVisibility(View.GONE);
 			actionCancelDel.setVisibility(View.VISIBLE);
@@ -437,14 +437,14 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			break;
 		case R.id.action_cancel_delete:
 			mCallback.onStateChange(STATE_NORMAL);
-			mDeviceDataSet.option = null;
+			mDeviceDataSet.option = OptionType.ITEM_NOMAL;
 			mAdapter.notifyDataSetChanged();
 			v.setVisibility(View.GONE);
 			actionDel.setVisibility(View.VISIBLE);
 			break;
 		case R.id.action_change_name:
 			mCallback.onStateChange(STATE_EDIT);
-			mDeviceDataSet.option = OptionEnum.ITEM_UPDATE;
+			mDeviceDataSet.option = OptionType.ITEM_UPDATE;
 			mAdapter.notifyDataSetChanged();
 			v.setVisibility(View.GONE);
 			actionCancelUpd.setVisibility(View.VISIBLE);
@@ -453,7 +453,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 			break;
 		case R.id.action_cancel_change:
 			mCallback.onStateChange(STATE_NORMAL);
-			mDeviceDataSet.option = null;
+			mDeviceDataSet.option = OptionType.ITEM_NOMAL;
 			mAdapter.notifyDataSetChanged();
 			v.setVisibility(View.GONE);
 			actionUpd.setVisibility(View.VISIBLE);

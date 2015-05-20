@@ -116,8 +116,7 @@ public class BPResult {
 	 * @return Ω®“È
 	 */
 	public static String getAdvise(float sbp, float dbp) {
-		System.out.println("result " + sbp + "  " + dbp);
-		for (int i = 0; i < SBPS.length; i++) {
+		for (int i = 0, length = SBPS.length; i < length; i++) {
 			if ((sbp <= SBPS[i]) || (dbp <= DBPS[i])) {
 				return ADVISES[i];
 			}
