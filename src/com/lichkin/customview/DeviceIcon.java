@@ -1,6 +1,9 @@
 package com.lichkin.customview;
 
+import android.R.integer;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -28,13 +31,16 @@ public class DeviceIcon extends ImageView {
 	}
 
 	public void setType(String type) {
+		
+		int resId = R.drawable.bs_icon;
 		if (type.equals(DeviceInfo.TYPE_BS)) {
-			setImageResource(R.drawable.bs_icon);
+			resId = R.drawable.bs_icon;
 		} else if (type.equals(DeviceInfo.TYPE_BP)) {
-			setImageResource(R.drawable.bp_icon);
+			resId = R.drawable.bp_icon;
 		} else {
-			setImageResource(R.drawable.fh_icon);
+			resId = R.drawable.fh_icon;
 		}
+		setImageResource(resId);
 	}
 
 }
