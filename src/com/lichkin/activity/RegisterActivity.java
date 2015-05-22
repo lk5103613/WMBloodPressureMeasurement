@@ -87,6 +87,7 @@ public class RegisterActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 		ButterKnife.inject(this);
+		getWindow().setBackgroundDrawable(null);//remove window bg
 
 		mRegCheckBox.setOnCheckedChangeListener(this);
 		mContext = this;

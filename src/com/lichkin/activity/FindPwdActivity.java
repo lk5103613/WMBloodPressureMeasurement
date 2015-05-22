@@ -24,6 +24,7 @@ public class FindPwdActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_find_pwd);
 		ButterKnife.inject(this);
+		getWindow().setBackgroundDrawable(null);//remove window bg
 	}
 
 	@Override

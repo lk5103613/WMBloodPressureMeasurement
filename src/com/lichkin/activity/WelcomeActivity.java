@@ -62,6 +62,7 @@ public class WelcomeActivity extends Activity implements
 		TestinAgent.init(this, "c4b338451aae8a2acce515ab0ccdc005", "wmbug");
 		setContentView(R.layout.activity_welcome);
 		ButterKnife.inject(this);
+		getWindow().setBackgroundDrawable(null);//remove window bg
 
 		mContext = this;
 		mState = PropertiesSharePrefs.getInstance(mContext);

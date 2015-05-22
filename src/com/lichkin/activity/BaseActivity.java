@@ -21,6 +21,9 @@ public class BaseActivity extends BLEBaseActivity implements NetChangeCallBack {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		getWindow().setBackgroundDrawable(null);//remove window bg
+		
 		if (mAlertDialog == null) {
 			createUploadDialog();
 		}

@@ -38,8 +38,10 @@ public class GuideViewActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_guide_view);
 		ButterKnife.inject(this);
+		getWindow().setBackgroundDrawable(null);//remove window bg
 		
 		mAdapter = new ImagePagerAdapter(getResources(),getSupportFragmentManager(), pics.length);
 		mViewPager.setAdapter(mAdapter);

@@ -56,6 +56,7 @@ public class LoginActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		ButterKnife.inject(this);
+		getWindow().setBackgroundDrawable(null);//remove window bg
 
 		mHandler = new Handler();
 		mContext = LoginActivity.this;
